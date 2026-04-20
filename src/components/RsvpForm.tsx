@@ -5,8 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 export function RsvpForm() {
+  const { t } = useI18n();
   const [name, setName] = useState("");
   const [attending, setAttending] = useState<"yes" | "no" | null>(null);
   const [allergies, setAllergies] = useState("");
@@ -17,7 +19,7 @@ export function RsvpForm() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!name.trim() || attending === null) {
-      toast.error("Please enter your name and let us know if you'll attend.");
+      toast.error(t("rsvp.errMissing"));
       return;
     }
     setLoading(true);
@@ -29,20 +31,18 @@ export function RsvpForm() {
     });
     setLoading(false);
     if (error) {
-      toast.error("Could not submit. Please try again.");
+      toast.error(t("rsvp.errSubmit"));
       return;
     }
     setDone(true);
-    toast.success("Thank you! Your reply has been received.");
+    toast.success(t("rsvp.success"));
   }
 
   if (done) {
     return (
       <div className="text-center py-12">
-        <div className="font-script text-4xl text-primary mb-3">Thank you!</div>
-        <p className="text-muted-foreground max-w-md mx-auto">
-          Your reply has been received. We can't wait to celebrate this day with you.
-        </p>
+        <div className="font-script text-4xl text-primary mb-3">{t("rsvp.thanks")}</div>
+        <p className="text-muted-foreground max-w-md mx-auto">{t("rsvp.thanksDesc")}</p>
       </div>
     );
   }
@@ -51,7 +51,7 @@ export function RsvpForm() {
     <form onSubmit={onSubmit} className="space-y-6 max-w-xl mx-auto">
       <div>
         <Label htmlFor="name" className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-          Name *
+          {t("rsvp.name")}
         </Label>
         <Input
           id="name"
@@ -64,7 +64,7 @@ export function RsvpForm() {
 
       <div>
         <Label className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-          Will you attend? *
+          {t("rsvp.attend")}
         </Label>
         <div className="mt-3 grid grid-cols-2 gap-3">
           {(["yes", "no"] as const).map((v) => (
@@ -78,7 +78,7 @@ export function RsvpForm() {
                   : "border-border bg-transparent hover:border-primary/50"
               }`}
             >
-              {v === "yes" ? "Joyfully accept" : "Regretfully decline"}
+              {v === "yes" ? t("rsvp.yes") : t("rsvp.no")}
             </button>
           ))}
         </div>
@@ -86,25 +86,27 @@ export function RsvpForm() {
 
       <div>
         <Label htmlFor="allergies" className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-          Allergies / dietary restrictions
+          {t("rsvp.allergies")}
         </Label>
         <Input
           id="allergies"
           value={allergies}
           onChange={(e) => setAllergies(e.target.value)}
+          placeholder={t("rsvp.allergiesPh")}
           className="mt-2 bg-transparent border-0 border-b border-border rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary"
         />
       </div>
 
       <div>
         <Label htmlFor="song" className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-          Song suggestion
+          {t("rsvp.song")}
         </Label>
         <Textarea
           id="song"
           value={song}
           onChange={(e) => setSong(e.target.value)}
           rows={2}
+          placeholder={t("rsvp.songPh")}
           className="mt-2 bg-transparent border-0 border-b border-border rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary resize-none"
         />
       </div>
@@ -114,7 +116,7 @@ export function RsvpForm() {
         disabled={loading}
         className="w-full py-6 font-display text-lg tracking-wide rounded-none"
       >
-        {loading ? "Sending..." : "RSVP"}
+        {loading ? t("rsvp.sending") : t("rsvp.send")}
       </Button>
     </form>
   );
