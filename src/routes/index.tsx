@@ -217,9 +217,9 @@ function Index() {
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
             <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
-              Por favor responda até 1 de Agosto
+              Please reply by August 1st
             </p>
-            <h2 className="font-display text-5xl sm:text-6xl text-primary">Confirme Presença</h2>
+            <h2 className="font-display text-5xl sm:text-6xl text-primary">RSVP</h2>
             <div className="divider-ornament mt-6 max-w-xs mx-auto">
               <Heart className="w-3 h-3" strokeWidth={1} />
             </div>
@@ -241,7 +241,7 @@ function Index() {
         href="#rsvp"
         className="fixed bottom-6 right-6 z-50 px-6 py-3 bg-primary text-primary-foreground font-display text-sm tracking-wider shadow-lg hover:bg-primary/90 transition-all hover:-translate-y-0.5"
       >
-        Confirmar Presença
+        RSVP
       </a>
     </div>
   );
