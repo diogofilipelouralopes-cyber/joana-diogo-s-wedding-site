@@ -39,29 +39,29 @@
 :root {
   --radius: 0.5rem;
 
-  /* Wedding palette — ivory, blush, sage, deep wine */
-  --background: oklch(0.985 0.008 75);            /* ivory */
-  --foreground: oklch(0.28 0.025 30);             /* warm charcoal */
-  --card: oklch(0.985 0.008 75);
-  --card-foreground: oklch(0.28 0.025 30);
-  --popover: oklch(0.985 0.008 75);
-  --popover-foreground: oklch(0.28 0.025 30);
+  /* Wedding palette — light sage green, ivory, warm accents */
+  --background: oklch(0.97 0.018 145);
+  --foreground: oklch(0.28 0.03 150);
+  --card: oklch(0.98 0.012 140);
+  --card-foreground: oklch(0.28 0.03 150);
+  --popover: oklch(0.98 0.012 140);
+  --popover-foreground: oklch(0.28 0.03 150);
 
-  --primary: oklch(0.38 0.06 25);                 /* deep wine/bordeaux */
-  --primary-foreground: oklch(0.985 0.008 75);
-  --secondary: oklch(0.94 0.018 60);              /* champagne */
-  --secondary-foreground: oklch(0.28 0.025 30);
-  --muted: oklch(0.94 0.012 70);
-  --muted-foreground: oklch(0.5 0.02 40);
-  --accent: oklch(0.88 0.04 25);                  /* blush */
-  --accent-foreground: oklch(0.28 0.025 30);
+  --primary: oklch(0.45 0.06 150);
+  --primary-foreground: oklch(0.98 0.012 140);
+  --secondary: oklch(0.93 0.025 145);
+  --secondary-foreground: oklch(0.28 0.03 150);
+  --muted: oklch(0.93 0.018 140);
+  --muted-foreground: oklch(0.5 0.025 150);
+  --accent: oklch(0.85 0.05 145);
+  --accent-foreground: oklch(0.28 0.03 150);
 
   --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0.008 75);
+  --destructive-foreground: oklch(0.98 0.012 140);
 
-  --border: oklch(0.88 0.018 50);
-  --input: oklch(0.92 0.014 60);
-  --ring: oklch(0.5 0.04 30);
+  --border: oklch(0.86 0.025 145);
+  --input: oklch(0.92 0.02 145);
+  --ring: oklch(0.55 0.05 150);
 
   --blush: oklch(0.88 0.04 25);
   --champagne: oklch(0.92 0.025 75);

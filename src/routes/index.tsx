@@ -9,28 +9,21 @@ import { MapPin, Clock, Hotel, Heart } from "lucide-react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Joana & Diogo · 19 Setembro 2026" },
+      { title: "Joana & Diogo · September 19, 2026" },
       {
         name: "description",
         content:
-          "Casamento de Joana & Diogo a 19 de Setembro de 2026, na Glicínia Wedding House. Confirme a sua presença.",
+          "Joana & Diogo are getting married on September 19, 2026 at Glicínia Wedding House. RSVP today.",
       },
-      { property: "og:title", content: "Joana & Diogo · 19 Setembro 2026" },
+      { property: "og:title", content: "Joana & Diogo · September 19, 2026" },
       {
         property: "og:description",
-        content: "Junte-se a nós na Glicínia Wedding House para celebrar o nosso dia.",
+        content: "Join us at Glicínia Wedding House to celebrate our day.",
       },
     ],
     links: [
-      {
-        rel: "preconnect",
-        href: "https://fonts.googleapis.com",
-      },
-      {
-        rel: "preconnect",
-        href: "https://fonts.gstatic.com",
-        crossOrigin: "anonymous",
-      },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500&family=Pinyon+Script&display=swap",
@@ -41,9 +34,8 @@ export const Route = createFileRoute("/")({
 });
 
 const VENUE_ADDRESS = "Glicínia Wedding House, Portugal";
-const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-  "Glicínia Wedding House"
-)}`;
+const MAPS_URL =
+  "https://www.google.com/maps/search/?api=1&query=Glic%C3%ADnia+Wedding+House";
 
 function Index() {
   return (
