@@ -70,7 +70,7 @@ function Index() {
           </div>
 
           <p className="text-sm sm:text-base uppercase tracking-[0.3em] text-foreground/80 mb-10">
-            19 · Setembro · 2026
+            September · 19 · 2026
           </p>
 
           <div className="mb-10 max-w-md">
@@ -81,7 +81,7 @@ function Index() {
             href="#rsvp"
             className="inline-block px-10 py-4 bg-primary text-primary-foreground font-display text-lg tracking-wider hover:bg-primary/90 transition-colors"
           >
-            Confirmar Presença
+            RSVP
           </a>
         </div>
       </section>
@@ -91,9 +91,9 @@ function Index() {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
             <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
-              A cerimónia
+              The Ceremony
             </p>
-            <h2 className="font-display text-5xl sm:text-6xl text-primary">O Lugar</h2>
+            <h2 className="font-display text-5xl sm:text-6xl text-primary">The Venue</h2>
             <div className="divider-ornament mt-6 max-w-xs mx-auto">
               <Heart className="w-3 h-3" strokeWidth={1} />
             </div>
@@ -119,7 +119,7 @@ function Index() {
             <div className="space-y-6 md:pl-6">
               <div>
                 <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">
-                  Espaço
+                  Venue
                 </p>
                 <h3 className="font-display text-3xl sm:text-4xl text-primary">
                   Glicínia Wedding House
@@ -131,9 +131,9 @@ function Index() {
                   <Clock className="w-5 h-5 mt-1 text-primary/70 shrink-0" strokeWidth={1.5} />
                   <div>
                     <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                      Hora
+                      Time
                     </p>
-                    <p className="font-display text-xl">14:00</p>
+                    <p className="font-display text-xl">2:00 PM</p>
                   </div>
                 </div>
 
@@ -146,13 +146,13 @@ function Index() {
                   <MapPin className="w-5 h-5 mt-1 text-primary/70 shrink-0" strokeWidth={1.5} />
                   <div>
                     <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                      Morada
+                      Address
                     </p>
                     <p className="font-display text-xl group-hover:text-primary transition-colors">
                       {VENUE_ADDRESS}
                     </p>
                     <p className="text-xs text-muted-foreground mt-1 underline underline-offset-4">
-                      Abrir no Google Maps →
+                      Open in Google Maps →
                     </p>
                   </div>
                 </a>
@@ -167,9 +167,9 @@ function Index() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
             <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
-              Para si
+              For our guests
             </p>
-            <h2 className="font-display text-5xl sm:text-6xl text-primary">Informações</h2>
+            <h2 className="font-display text-5xl sm:text-6xl text-primary">Information</h2>
             <div className="divider-ornament mt-6 max-w-xs mx-auto">
               <Heart className="w-3 h-3" strokeWidth={1} />
             </div>
@@ -178,33 +178,33 @@ function Index() {
           <div className="grid md:grid-cols-2 gap-10">
             <div className="bg-background p-8 sm:p-10 border border-border">
               <Hotel className="w-6 h-6 text-primary mb-4" strokeWidth={1.5} />
-              <h3 className="font-display text-2xl mb-4 text-primary">Alojamento</h3>
+              <h3 className="font-display text-2xl mb-4 text-primary">Accommodation</h3>
               <ul className="space-y-3 text-sm leading-relaxed text-foreground/80">
-                <li>· Hotel disponível no local</li>
-                <li>· Check-in a partir das 15:00, após a cerimónia</li>
-                <li>· Reservas feitas diretamente com os noivos</li>
+                <li>· On-site hotel available</li>
+                <li>· Check-in from 3:00 PM, after the ceremony</li>
+                <li>· Reservations made directly with the couple</li>
               </ul>
             </div>
 
             <div className="bg-background p-8 sm:p-10 border border-border">
               <Clock className="w-6 h-6 text-primary mb-4" strokeWidth={1.5} />
-              <h3 className="font-display text-2xl mb-4 text-primary">O Dia</h3>
+              <h3 className="font-display text-2xl mb-4 text-primary">The Day</h3>
               <ul className="space-y-3 text-sm leading-relaxed text-foreground/80">
                 <li className="flex justify-between gap-4">
-                  <span>Cerimónia</span>
-                  <span className="font-display text-base text-primary">14:00</span>
+                  <span>Ceremony</span>
+                  <span className="font-display text-base text-primary">2:00 PM</span>
                 </li>
                 <li className="flex justify-between gap-4">
                   <span>Cocktail</span>
-                  <span className="font-display text-base text-primary">15:30</span>
+                  <span className="font-display text-base text-primary">3:30 PM</span>
                 </li>
                 <li className="flex justify-between gap-4">
-                  <span>Jantar</span>
-                  <span className="font-display text-base text-primary">19:30</span>
+                  <span>Dinner</span>
+                  <span className="font-display text-base text-primary">7:30 PM</span>
                 </li>
                 <li className="flex justify-between gap-4">
-                  <span>Festa</span>
-                  <span className="font-display text-base text-primary">22:00</span>
+                  <span>Party</span>
+                  <span className="font-display text-base text-primary">10:00 PM</span>
                 </li>
               </ul>
             </div>
