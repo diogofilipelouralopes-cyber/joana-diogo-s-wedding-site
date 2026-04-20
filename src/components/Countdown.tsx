@@ -13,19 +13,26 @@ function calc() {
 }
 
 export function Countdown() {
-  const [t, setT] = useState(calc);
+  const [t, setT] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    setT(calc());
     const id = setInterval(() => setT(calc()), 1000);
     return () => clearInterval(id);
   }, []);
 
   const items = [
-    { label: "Dias", value: t.days },
-    { label: "Horas", value: t.hours },
+    { label: "Days", value: t.days },
+    { label: "Hours", value: t.hours },
     { label: "Min", value: t.minutes },
-    { label: "Seg", value: t.seconds },
+    { label: "Sec", value: t.seconds },
   ];
+
+  if (!mounted) {
+    return <div className="h-[88px] sm:h-[112px]" aria-hidden />;
+  }
 
   return (
     <div className="grid grid-cols-4 gap-3 sm:gap-6">

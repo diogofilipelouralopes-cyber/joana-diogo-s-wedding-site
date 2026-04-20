@@ -17,7 +17,7 @@ export function RsvpForm() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!name.trim() || attending === null) {
-      toast.error("Por favor preencha o nome e indique a sua presença.");
+      toast.error("Please enter your name and let us know if you'll attend.");
       return;
     }
     setLoading(true);
@@ -29,19 +29,19 @@ export function RsvpForm() {
     });
     setLoading(false);
     if (error) {
-      toast.error("Não foi possível enviar. Tente novamente.");
+      toast.error("Could not submit. Please try again.");
       return;
     }
     setDone(true);
-    toast.success("Obrigado! Resposta recebida.");
+    toast.success("Thank you! Your reply has been received.");
   }
 
   if (done) {
     return (
       <div className="text-center py-12">
-        <div className="font-script text-4xl text-primary mb-3">Obrigado!</div>
+        <div className="font-script text-4xl text-primary mb-3">Thank you!</div>
         <p className="text-muted-foreground max-w-md mx-auto">
-          A sua resposta foi recebida. Estamos ansiosos por celebrar este dia consigo.
+          Your reply has been received. We can't wait to celebrate this day with you.
         </p>
       </div>
     );
@@ -51,7 +51,7 @@ export function RsvpForm() {
     <form onSubmit={onSubmit} className="space-y-6 max-w-xl mx-auto">
       <div>
         <Label htmlFor="name" className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-          Nome *
+          Name *
         </Label>
         <Input
           id="name"
@@ -64,7 +64,7 @@ export function RsvpForm() {
 
       <div>
         <Label className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-          Estarei presente *
+          Will you attend? *
         </Label>
         <div className="mt-3 grid grid-cols-2 gap-3">
           {(["yes", "no"] as const).map((v) => (
@@ -78,7 +78,7 @@ export function RsvpForm() {
                   : "border-border bg-transparent hover:border-primary/50"
               }`}
             >
-              {v === "yes" ? "Com alegria, sim" : "Infelizmente, não"}
+              {v === "yes" ? "Joyfully accept" : "Regretfully decline"}
             </button>
           ))}
         </div>
@@ -86,7 +86,7 @@ export function RsvpForm() {
 
       <div>
         <Label htmlFor="allergies" className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-          Alergias / restrições alimentares
+          Allergies / dietary restrictions
         </Label>
         <Input
           id="allergies"
@@ -98,7 +98,7 @@ export function RsvpForm() {
 
       <div>
         <Label htmlFor="song" className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-          Sugestão de música
+          Song suggestion
         </Label>
         <Textarea
           id="song"
@@ -114,7 +114,7 @@ export function RsvpForm() {
         disabled={loading}
         className="w-full py-6 font-display text-lg tracking-wide rounded-none"
       >
-        {loading ? "A enviar..." : "Confirmar Presença"}
+        {loading ? "Sending..." : "RSVP"}
       </Button>
     </form>
   );
