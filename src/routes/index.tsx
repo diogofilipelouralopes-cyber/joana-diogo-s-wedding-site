@@ -3,6 +3,7 @@ import { Countdown } from "@/components/Countdown";
 import { RsvpForm } from "@/components/RsvpForm";
 import { Header } from "@/components/Header";
 import { StorySection } from "@/components/StorySection";
+import { GallerySection } from "@/components/GallerySection";
 import { GiftsSection } from "@/components/GiftsSection";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
 import { Toaster } from "@/components/ui/sonner";
@@ -142,6 +143,9 @@ function Index() {
       {/* STORY */}
       <StorySection />
 
+      {/* GALLERY */}
+      <GallerySection />
+
       {/* EVENT */}
       <section id="event" className="py-24 sm:py-32 px-6 bg-secondary/40 scroll-mt-20">
         <div className="max-w-5xl mx-auto">
@@ -155,21 +159,7 @@ function Index() {
             </div>
           </div>
 
-          <a
-            href={MAPS_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block group overflow-hidden mb-10"
-          >
-            <img
-              src={venueImg}
-              alt="Glicínia Wedding House"
-              loading="lazy"
-              className="w-full aspect-[16/9] object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-          </a>
-
-          <div className="bg-background border border-border p-8 sm:p-10 text-center">
+          <div className="bg-background border border-border p-8 sm:p-10 text-center mb-8">
             <h3 className="font-display text-2xl sm:text-3xl text-primary tracking-[0.08em]">
               {t("event.venue")}
             </h3>
@@ -189,6 +179,19 @@ function Index() {
               <MapPin className="w-3.5 h-3.5" />
               {t("event.maps")}
             </a>
+          </div>
+
+          {/* Embedded map */}
+          <div className="overflow-hidden border border-border bg-background">
+            <iframe
+              title="Glicínia Wedding House — mapa"
+              src="https://www.google.com/maps?q=Glic%C3%ADnia+Wedding+House+Freamunde&output=embed"
+              width="100%"
+              height="420"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="block w-full border-0"
+            />
           </div>
         </div>
       </section>
