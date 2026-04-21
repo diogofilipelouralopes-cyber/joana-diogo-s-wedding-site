@@ -5,6 +5,7 @@ import logo from "@/assets/logo.png";
 
 const links = [
   { id: "story", key: "nav.story" as const },
+  { id: "gallery", key: "nav.gallery" as const },
   { id: "event", key: "nav.event" as const },
   { id: "info", key: "nav.info" as const },
   { id: "rsvp", key: "nav.rsvp" as const },

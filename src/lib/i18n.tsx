@@ -5,6 +5,7 @@ export type Lang = "pt" | "en";
 const dict = {
   pt: {
     "nav.story": "História",
+    "nav.gallery": "Galeria",
     "nav.event": "Evento",
     "nav.info": "Informações",
     "nav.rsvp": "Confirmar",
@@ -30,6 +31,11 @@ const dict = {
     "story.3.desc": "Cada descoberta, cada sorriso e cada pôr do sol juntos fortaleceu a nossa união.",
     "story.4.title": "O Pedido",
     "story.4.desc": "O momento em que o \"Sim\" mudou as nossas vidas para sempre. O início da nossa maior aventura!",
+
+    "gallery.kicker": "Momentos",
+    "gallery.title": "Galeria",
+    "gallery.photo": "Foto",
+    "gallery.open": "Abrir foto",
 
     "event.title": "O Evento",
     "event.venue": "GLICÍNIA WEDDING HOUSE",
@@ -78,6 +84,7 @@ const dict = {
   },
   en: {
     "nav.story": "Story",
+    "nav.gallery": "Gallery",
     "nav.event": "Event",
     "nav.info": "Information",
     "nav.rsvp": "RSVP",
@@ -103,6 +110,11 @@ const dict = {
     "story.3.desc": "Every discovery, every smile, and every sunset together strengthened our bond.",
     "story.4.title": "The Proposal",
     "story.4.desc": "The moment a single \"Yes\" changed our lives forever. The beginning of our greatest adventure!",
+
+    "gallery.kicker": "Moments",
+    "gallery.title": "Gallery",
+    "gallery.photo": "Photo",
+    "gallery.open": "Open photo",
 
     "event.title": "The Event",
     "event.venue": "GLICÍNIA WEDDING HOUSE",
