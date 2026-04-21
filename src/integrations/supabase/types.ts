@@ -19,24 +19,30 @@ export type Database = {
           allergies: string | null
           attending: boolean
           created_at: string
+          guests: number
           id: string
           name: string
+          phone: string | null
           song_suggestion: string | null
         }
         Insert: {
           allergies?: string | null
           attending: boolean
           created_at?: string
+          guests?: number
           id?: string
           name: string
+          phone?: string | null
           song_suggestion?: string | null
         }
         Update: {
           allergies?: string | null
           attending?: boolean
           created_at?: string
+          guests?: number
           id?: string
           name?: string
+          phone?: string | null
           song_suggestion?: string | null
         }
         Relationships: []
