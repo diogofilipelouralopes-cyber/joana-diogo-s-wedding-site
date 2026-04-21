@@ -10,6 +10,8 @@ import { useI18n } from "@/lib/i18n";
 export function RsvpForm() {
   const { t } = useI18n();
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [guests, setGuests] = useState(1);
   const [attending, setAttending] = useState<"yes" | "no" | null>(null);
   const [allergies, setAllergies] = useState("");
   const [song, setSong] = useState("");
@@ -18,13 +20,15 @@ export function RsvpForm() {
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!name.trim() || attending === null) {
+    if (!name.trim() || !phone.trim() || attending === null) {
       toast.error(t("rsvp.errMissing"));
       return;
     }
     setLoading(true);
     const { error } = await supabase.from("rsvps").insert({
       name: name.trim(),
+      phone: phone.trim(),
+      guests,
       attending: attending === "yes",
       allergies: allergies.trim() || null,
       song_suggestion: song.trim() || null,
@@ -60,6 +64,39 @@ export function RsvpForm() {
           required
           className="mt-2 bg-transparent border-0 border-b border-border rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary"
         />
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="phone" className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            {t("rsvp.phone")}
+          </Label>
+          <Input
+            id="phone"
+            type="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder={t("rsvp.phonePh")}
+            required
+            className="mt-2 bg-transparent border-0 border-b border-border rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="guests" className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            {t("rsvp.guests")}
+          </Label>
+          <Input
+            id="guests"
+            type="number"
+            min={1}
+            max={10}
+            value={guests}
+            onChange={(e) => setGuests(Math.max(1, Number(e.target.value) || 1))}
+            required
+            className="mt-2 bg-transparent border-0 border-b border-border rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary"
+          />
+        </div>
       </div>
 
       <div>
