@@ -1,5 +1,4 @@
-import { Heart, Copy } from "lucide-react";
-import mbwayLogo from "@/assets/mbway-logo.png";
+import { Heart, Copy, Smartphone } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 
@@ -44,15 +43,9 @@ export function GiftsSection() {
             copyLabel={t("gifts.copy")}
           />
           <div className="bg-background border border-border p-7 sm:p-8">
-            <div className="flex items-center gap-3 mb-3">
-              <img
-                src={mbwayLogo}
-                alt="MB WAY"
-                width={120}
-                height={36}
-                loading="lazy"
-                className="h-8 w-auto object-contain"
-              />
+            <div className="flex items-center gap-2 mb-3">
+              <Smartphone className="w-4 h-4 text-primary" strokeWidth={1.5} />
+              <h3 className="font-display text-xl text-primary">{t("gifts.mbway")}</h3>
             </div>
             <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-1">
               Joana Nora
