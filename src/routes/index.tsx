@@ -9,7 +9,6 @@ import { WhatsAppFab } from "@/components/WhatsAppFab";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import heroImg from "@/assets/hero-florals.jpg";
-import venueImg from "@/assets/venue-hall.jpg";
 import { MapPin, Clock, Hotel, Heart, CalendarPlus, Shirt, Car } from "lucide-react";
 
 export const Route = createFileRoute("/")({
