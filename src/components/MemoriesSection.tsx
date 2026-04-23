@@ -1,4 +1,4 @@
-import QRCode from "react-qr-code";
+import { QRCode } from "react-qr-code";
 import { Camera, Smartphone, Heart, Sparkles, ExternalLink } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
