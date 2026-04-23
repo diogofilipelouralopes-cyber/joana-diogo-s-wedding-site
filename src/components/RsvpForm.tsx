@@ -179,11 +179,14 @@ export function RsvpForm() {
     };
 
     try {
-      // Send to Google Sheets via Apps Script webhook (no-cors: response is opaque)
+      // Send to Google Sheets via Apps Script webhook.
+      // CRITICAL: mode 'no-cors' + Content-Type 'text/plain;charset=utf-8'
+      // are required — Apps Script rejects CORS preflight with application/json.
+      // Response is opaque; assume success if no exception is thrown.
       await fetch(SHEETS_WEBHOOK_URL, {
         method: "POST",
         mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify(payload),
       });
 
