@@ -1,4 +1,5 @@
-import { QRCode } from "react-qr-code";
+import * as QRCodeModule from "react-qr-code";
+const QRCode = (QRCodeModule as unknown as { default: typeof QRCodeModule }).default ?? QRCodeModule;
 import { Camera, Smartphone, Heart, Sparkles, ExternalLink } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
