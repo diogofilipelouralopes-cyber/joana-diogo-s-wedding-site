@@ -18,10 +18,8 @@ function diff(now: number) {
 export function CountdownSection() {
   const { t } = useI18n();
   const [time, setTime] = useState({ days: 0, hours: 0, mins: 0, secs: 0, over: false });
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     setTime(diff(Date.now()));
     const id = setInterval(() => setTime(diff(Date.now())), 1000);
     return () => clearInterval(id);
