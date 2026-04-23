@@ -256,3 +256,21 @@
   animation: decor-plane-shift 3.5s ease-in-out infinite;
 }
 
+/* === QuickNav === */
+@keyframes quick-bounce {
+  0%, 100% { transform: scale(1.1) translateY(0); }
+  50%      { transform: scale(1.1) translateY(-4px); }
+}
+.quick-nav-item .quick-nav-icon {
+  color: var(--olive);
+  transform: scale(1);
+}
+.quick-nav-item:hover .quick-nav-icon,
+.quick-nav-item:focus-visible .quick-nav-icon {
+  color: var(--gold);
+  animation: quick-bounce 0.9s ease-in-out infinite;
+}
+.quick-nav-item:hover span:last-child {
+  color: var(--gold);
+}
+
