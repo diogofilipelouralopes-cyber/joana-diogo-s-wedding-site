@@ -500,8 +500,9 @@ body { padding-top: 0; }
 @media (max-width: 767px) {
   .hero-bg {
     background-attachment: scroll;
-    background-position: center center;
+    background-position: 50% 30%;
     background-size: cover;
+    min-height: 100vh;
     min-height: 100svh;
   }
 }
@@ -510,10 +511,22 @@ body { padding-top: 0; }
   inset: 0;
   background: linear-gradient(
     180deg,
-    color-mix(in oklab, var(--ivory) 70%, transparent) 0%,
-    color-mix(in oklab, var(--cream) 60%, transparent) 100%
+    color-mix(in oklab, var(--ivory) 55%, transparent) 0%,
+    color-mix(in oklab, var(--cream) 50%, transparent) 100%
   );
   pointer-events: none;
+}
+@media (max-width: 767px) {
+  .hero-overlay {
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--ivory) 65%, transparent) 0%,
+      color-mix(in oklab, var(--cream) 60%, transparent) 100%
+    );
+  }
+}
+.hero-text-shadow {
+  text-shadow: 0 2px 8px rgba(245, 239, 228, 0.6);
 }
 
 /* === Travel cards hover === */
