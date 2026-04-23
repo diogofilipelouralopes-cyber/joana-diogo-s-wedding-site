@@ -17,7 +17,7 @@ function diff(now: number) {
 
 export function CountdownSection() {
   const { t } = useI18n();
-  const [time, setTime] = useState({ days: 0, hours: 0, mins: 0, secs: 0, over: false });
+  const [time, setTime] = useState(() => diff(Date.now()));
 
   useEffect(() => {
     setTime(diff(Date.now()));

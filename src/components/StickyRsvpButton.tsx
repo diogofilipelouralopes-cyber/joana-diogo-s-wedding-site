@@ -10,7 +10,7 @@ export function StickyRsvpButton() {
       const scrolled = window.scrollY;
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const pct = max > 0 ? scrolled / max : 0;
-      setShow(pct >= 0.5);
+      setShow(pct >= 0.3);
     }
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });

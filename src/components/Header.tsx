@@ -49,8 +49,12 @@ export function Header() {
           aria-label="Joana & Diogo"
           className="header-logo shrink-0 inline-flex"
         >
-          <Monogram size={60} className="sm:hidden" />
-          <Monogram size={75} className="hidden sm:inline-block" />
+          <span className="inline-flex sm:hidden" aria-hidden="true">
+            <Monogram size={52} />
+          </span>
+          <span className="hidden sm:inline-flex" aria-hidden="true">
+            <Monogram size={75} />
+          </span>
         </a>
 
         {/* CENTER: Nav (desktop) */}

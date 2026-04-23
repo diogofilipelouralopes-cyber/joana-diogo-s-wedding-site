@@ -78,19 +78,21 @@ function Index() {
       >
         <div className="hero-overlay" aria-hidden="true" />
         <div className="relative z-10 flex flex-col items-center text-center max-w-2xl mx-auto">
-          <div className="hero-mono-anim">
-            <Monogram
-              size={300}
-              className="hidden sm:inline-block"
-              topText="JOANA  ✦  DIOGO"
-              bottomText="19  SETEMBRO  2026"
-            />
-            <Monogram
-              size={220}
-              className="sm:hidden"
-              topText="JOANA  ✦  DIOGO"
-              bottomText="19  SETEMBRO  2026"
-            />
+          <div className="hero-mono-anim" aria-hidden="true">
+            <span className="inline-flex sm:hidden">
+              <Monogram
+                size={210}
+                topText="JOANA  ✦  DIOGO"
+                bottomText="19  SETEMBRO  2026"
+              />
+            </span>
+            <span className="hidden sm:inline-flex">
+              <Monogram
+                size={300}
+                topText="JOANA  ✦  DIOGO"
+                bottomText="19  SETEMBRO  2026"
+              />
+            </span>
           </div>
 
           <div className="mt-10 sm:mt-[60px] flex flex-col items-center">
