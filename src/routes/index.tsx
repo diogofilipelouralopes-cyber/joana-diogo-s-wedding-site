@@ -168,6 +168,9 @@ function Index() {
       {/* STORY */}
       <StorySection />
 
+      {/* JOURNEY QUOTE */}
+      <JourneyQuoteSection />
+
       {/* GALLERY */}
       <GallerySection />
 
