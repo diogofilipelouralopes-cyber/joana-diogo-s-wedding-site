@@ -7,7 +7,7 @@ import { SaveTheDateSection } from "@/components/SaveTheDateSection";
 import { CountdownSection } from "@/components/CountdownSection";
 import { Header } from "@/components/Header";
 import { StorySection } from "@/components/StorySection";
-import { Monogram } from "@/components/Monogram";
+
 import { GiftsSection } from "@/components/GiftsSection";
 import { MemoriesSection } from "@/components/MemoriesSection";
 import { PlaylistSection } from "@/components/PlaylistSection";
@@ -73,83 +73,80 @@ function Index() {
 
       {/* HERO */}
       <section
-        className="hero-bg relative min-h-screen flex items-center justify-center overflow-hidden px-5 sm:px-6 py-32 sm:py-32"
-        style={{ backgroundImage: `url(${heroBg})` }}
+        className="hero-bg relative flex flex-col items-center justify-center text-center overflow-hidden px-5 sm:px-6"
+        style={{
+          backgroundImage: `url(${heroBg})`,
+          minHeight: "100vh",
+          paddingTop: 100,
+          paddingBottom: 80,
+        }}
       >
         <div className="hero-overlay" aria-hidden="true" />
-        <div className="relative z-10 flex flex-col items-center text-center max-w-2xl mx-auto">
-          <div className="hero-mono-anim" aria-hidden="true">
-            <span className="inline-flex sm:hidden">
-              <Monogram
-                size={210}
-                topText="JOANA  ✦  DIOGO"
-                bottomText="19  SETEMBRO  2026"
-              />
-            </span>
-            <span className="hidden sm:inline-flex">
-              <Monogram
-                size={300}
-                topText="JOANA  ✦  DIOGO"
-                bottomText="19  SETEMBRO  2026"
-              />
-            </span>
-          </div>
+        <div className="relative z-10 flex flex-col items-center text-center max-w-2xl mx-auto w-full">
+          <p
+            className="hero-text-anim-1 hero-text-shadow uppercase text-[1.1rem] sm:text-xl"
+            style={{
+              color: "var(--olive)",
+              letterSpacing: "0.25em",
+              fontFamily: "Cinzel, serif",
+              fontWeight: 500,
+            }}
+          >
+            {t("hero.tagline")}
+          </p>
 
-          <div className="mt-10 sm:mt-[60px] flex flex-col items-center">
-            <p
-              className="hero-text-anim-1 uppercase text-base sm:text-xl"
-              style={{
-                color: "var(--olive)",
-                letterSpacing: "0.3em",
-                fontFamily: "Cinzel, serif",
-                fontWeight: 500,
-              }}
-            >
-              {t("hero.tagline")}
-            </p>
-            <p
-              className="hero-text-anim-2 italic mt-3 text-4xl sm:text-5xl"
-              style={{
-                color: "var(--gold)",
-                fontFamily: "Allura, 'Great Vibes', cursive",
-                lineHeight: 1.1,
-              }}
-            >
-              {t("hero.tagline.script")}
-            </p>
-          </div>
+          <p
+            className="hero-text-anim-2 hero-text-shadow italic text-[2.5rem] sm:text-6xl"
+            style={{
+              color: "var(--gold)",
+              fontFamily: "Allura, 'Great Vibes', cursive",
+              lineHeight: 1.1,
+              marginTop: 20,
+            }}
+          >
+            {t("hero.tagline.script")}
+          </p>
 
-          <div className="hero-text-anim-3 flex items-center justify-center mt-8 sm:mt-10 mb-8 sm:mb-10">
+          <div
+            className="hero-text-anim-3 flex items-center justify-center"
+            style={{ marginTop: 30 }}
+          >
             <span aria-hidden style={{ width: "60px", borderTop: "1px dashed var(--olive)" }} />
             <Heart className="mx-3" size={14} strokeWidth={1.25} style={{ color: "var(--olive)" }} />
             <span aria-hidden style={{ width: "60px", borderTop: "1px dashed var(--olive)" }} />
           </div>
 
-          <div className="hero-text-anim-4 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center w-full sm:w-auto items-stretch sm:items-center">
+          <div
+            className="hero-text-anim-4 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center w-[85%] sm:w-auto"
+            style={{ marginTop: 40 }}
+          >
             <a
               href="#rsvp"
-              className="inline-flex items-center justify-center px-8 sm:px-10 py-4 font-display text-xs sm:text-sm uppercase transition-all hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center px-8 sm:px-10 font-display text-xs sm:text-sm uppercase transition-all hover:-translate-y-0.5"
               style={{
                 background: "var(--olive)",
                 color: "var(--cream)",
                 letterSpacing: "0.25em",
                 borderRadius: "8px",
-                minHeight: 44,
-                boxShadow: "0 6px 20px -10px color-mix(in oklab, var(--olive) 60%, transparent)",
+                minHeight: 52,
+                padding: "16px 32px",
+                boxShadow: "0 4px 16px rgba(107, 122, 79, 0.3)",
               }}
             >
               {t("hero.cta")}
             </a>
             <button
               onClick={downloadWeddingICS}
-              className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-4 font-display text-xs sm:text-sm uppercase transition-all hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 font-display text-xs sm:text-sm uppercase transition-all hover:-translate-y-0.5"
               style={{
                 color: "var(--olive)",
                 border: "1px solid var(--gold)",
                 letterSpacing: "0.25em",
                 borderRadius: "8px",
-                background: "transparent",
-                minHeight: 44,
+                background: "color-mix(in oklab, var(--ivory) 80%, transparent)",
+                minHeight: 52,
+                padding: "16px 24px",
+                boxShadow: "0 4px 16px rgba(107, 122, 79, 0.2)",
               }}
             >
               <CalendarPlus className="w-4 h-4" strokeWidth={1.5} />
