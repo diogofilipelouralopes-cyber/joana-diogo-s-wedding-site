@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { RsvpForm } from "@/components/RsvpForm";
+import { DecorativeDivider } from "@/components/DecorativeDivider";
 import { Header } from "@/components/Header";
 import { StorySection } from "@/components/StorySection";
 import { JourneyQuoteSection } from "@/components/JourneyQuoteSection";
@@ -165,14 +166,22 @@ function Index() {
         </div>
       </section>
 
+      <DecorativeDivider />
+
       {/* STORY */}
       <StorySection />
 
-      {/* JOURNEY QUOTE */}
+      <DecorativeDivider />
+
+      {/* JOURNEY QUOTE (Banner) */}
       <JourneyQuoteSection />
+
+      <DecorativeDivider />
 
       {/* GALLERY */}
       <GallerySection />
+
+      <DecorativeDivider />
 
       {/* EVENT */}
       <section id="event" className="py-28 sm:py-40 px-6 bg-secondary/40 scroll-mt-20">
@@ -224,6 +233,8 @@ function Index() {
         </div>
       </section>
 
+      <DecorativeDivider />
+
       {/* INFORMATION */}
       <section id="info" className="py-28 sm:py-40 px-6 scroll-mt-20">
         <div className="max-w-4xl mx-auto">
@@ -245,6 +256,8 @@ function Index() {
         </div>
       </section>
 
+      <DecorativeDivider />
+
       {/* RSVP */}
       <section id="rsvp" className="py-28 sm:py-40 px-6 bg-secondary/40 scroll-mt-20">
         <div className="max-w-3xl mx-auto">
@@ -261,8 +274,12 @@ function Index() {
         </div>
       </section>
 
+      <DecorativeDivider />
+
       {/* GIFTS */}
       <GiftsSection />
+
+      <DecorativeDivider />
 
       {/* SAVE THE DATE / FOOTER */}
       <footer className="py-20 px-6 border-t border-border text-center">
