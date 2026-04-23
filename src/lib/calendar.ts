@@ -3,6 +3,8 @@ import { toast } from "sonner";
 /**
  * Generate and download a .ics file for the wedding, then show a toast.
  * Compatible with Google Calendar, Apple Calendar, and Outlook.
+ *
+ * Event: 19 September 2026, 14:00 — 23:00 (Europe/Lisbon)
  */
 export function downloadWeddingICS() {
   const ics = [
@@ -21,7 +23,7 @@ export function downloadWeddingICS() {
     "DTSTART:20260919T140000",
     "DTEND:20260919T230000",
     "LOCATION:Glicínia Wedding House\\, Freamunde\\, Paços de Ferreira",
-    "DESCRIPTION:A nossa maior viagem começa agora. Será um prazer ter-vos connosco neste dia tão especial.",
+    "DESCRIPTION:A nossa maior viagem começa agora.",
     "END:VEVENT",
     "END:VCALENDAR",
   ].join("\r\n");
@@ -36,10 +38,17 @@ export function downloadWeddingICS() {
   document.body.removeChild(link);
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 
-  toast("Adicionado ao teu calendário! 📅", {
+  // Read current language (set by i18n provider) for the toast text.
+  let added = "Adicionado ao teu calendário! 📅";
+  try {
+    const lang = localStorage.getItem("lang");
+    if (lang === "en") added = "Added to your calendar! 📅";
+  } catch {}
+
+  toast(added, {
     style: {
-      background: "var(--ivory)",
-      color: "var(--olive)",
+      background: "var(--gold)",
+      color: "var(--ivory)",
       border: "1px solid var(--gold)",
       fontFamily: "Cinzel, serif",
       letterSpacing: "0.15em",
