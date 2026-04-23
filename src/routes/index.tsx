@@ -73,7 +73,7 @@ function Index() {
 
       {/* HERO */}
       <section
-        className="hero-bg relative flex flex-col items-center justify-center text-center overflow-hidden px-5 sm:px-6"
+        className="hero-bg relative flex flex-col items-center justify-start sm:justify-center text-center overflow-hidden px-5 sm:px-6"
         style={{
           backgroundImage: `url(${heroBg})`,
           minHeight: "100vh",
