@@ -80,9 +80,32 @@ export function MemoriesSection() {
                   borderRadius: 12,
                 }}
               >
-                <QRCodeClient value={ALBUM_URL} size={200} />
+                <QRCodeClient value={ALBUM_URL} size={220} />
               </div>
             </div>
+            {/* invisible spacer removed */}
+          </div>
+          {/* Mobile-priority CTA: bigger, full width on small screens */}
+          <a
+            href={ALBUM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-7 w-full sm:w-auto sm:mx-auto inline-flex items-center justify-center gap-2 px-6 py-4 uppercase transition-all hover:-translate-y-0.5"
+            style={{
+              fontFamily: "Cinzel, serif",
+              letterSpacing: "0.22em",
+              fontSize: "0.8rem",
+              background: "var(--olive)",
+              color: "var(--cream)",
+              border: "1px solid var(--olive)",
+              borderRadius: 8,
+              minHeight: 52,
+              display: "flex",
+            }}
+          >
+            <Camera size={18} strokeWidth={1.5} />
+            {t("memories.openPhone")}
+          </a>
 
             {/* Steps */}
             <div>

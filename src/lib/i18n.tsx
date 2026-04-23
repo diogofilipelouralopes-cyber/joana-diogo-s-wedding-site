@@ -62,7 +62,7 @@ const dict = {
     "count.secs": "Segundos",
     "count.over": "O dia chegou! 💍",
 
-    "story.kicker": "2020 — 2026",
+    "story.kicker": "2018 — 2026",
     "story.title": "A Nossa História",
     "story.1.title": "O Início",
     "story.1.desc": "A nossa primeira viagem oficial. Foi aqui que percebemos que queríamos percorrer o mundo lado a lado.",
@@ -204,7 +204,7 @@ const dict = {
     "count.secs": "Seconds",
     "count.over": "The day is here! 💍",
 
-    "story.kicker": "2020 — 2026",
+    "story.kicker": "2018 — 2026",
     "story.title": "Our Story",
     "story.1.title": "The Beginning",
     "story.1.desc": "Our first official trip. That's when we knew we wanted to travel the world side by side.",
