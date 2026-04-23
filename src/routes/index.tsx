@@ -4,6 +4,7 @@ import { RsvpForm } from "@/components/RsvpForm";
 import { Header } from "@/components/Header";
 import { StorySection } from "@/components/StorySection";
 import { GallerySection } from "@/components/GallerySection";
+import { Monogram } from "@/components/Monogram";
 import { GiftsSection } from "@/components/GiftsSection";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
 import { Toaster } from "@/components/ui/sonner";
@@ -93,16 +94,20 @@ function Index() {
           <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground mb-6">
             {t("hero.welcome")}
           </p>
-          <h1 className="font-display text-6xl sm:text-7xl lg:text-8xl leading-[0.95] text-primary">
-            Joana
-            <span className="block font-script text-5xl sm:text-6xl lg:text-7xl text-foreground/70 my-2 sm:my-4">
-              &amp;
-            </span>
-            Diogo
-          </h1>
 
-          <div className="divider-ornament my-8 max-w-xs">
-            <Heart className="w-3 h-3" strokeWidth={1} />
+          <div className="mb-8">
+            <Monogram
+              size={320}
+              className="hidden sm:inline-block"
+              topText="JOANA  ✦  DIOGO"
+              bottomText="19  SETEMBRO  2026"
+            />
+            <Monogram
+              size={240}
+              className="sm:hidden"
+              topText="JOANA  ✦  DIOGO"
+              bottomText="19  SETEMBRO  2026"
+            />
           </div>
 
           <p className="font-display italic text-2xl sm:text-3xl text-foreground/85 mb-2">
@@ -235,14 +240,16 @@ function Index() {
       {/* GIFTS */}
       <GiftsSection />
 
-      {/* FOOTER */}
-      <footer className="py-16 px-6 border-t border-border text-center">
-        <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">
+      {/* SAVE THE DATE / FOOTER */}
+      <footer className="py-20 px-6 border-t border-border text-center">
+        <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-8">
           {t("footer.tagline")}
         </p>
-        <p className="font-script text-3xl text-primary mb-2">Joana &amp; Diogo</p>
-        <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
-          19 · 09 · 2026
+        <div className="flex justify-center mb-6">
+          <Monogram size={200} />
+        </div>
+        <p className="font-script text-4xl mt-4" style={{ color: "var(--gold)" }}>
+          Save the Date
         </p>
       </footer>
 
