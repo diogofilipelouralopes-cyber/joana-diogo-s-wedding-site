@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { RsvpForm } from "@/components/RsvpForm";
 import { DecorativeDivider } from "@/components/DecorativeDivider";
+import { QuickNav } from "@/components/QuickNav";
 import { Header } from "@/components/Header";
 import { StorySection } from "@/components/StorySection";
 import { JourneyQuoteSection } from "@/components/JourneyQuoteSection";
