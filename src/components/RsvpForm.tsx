@@ -2,25 +2,14 @@ import { useState } from "react";
 import { z } from "zod";
 import { User, Mail, Phone, Music, Heart, X, Plane, Send } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
 
 const SHEETS_WEBHOOK_URL =
   "https://script.google.com/macros/s/AKfycbxbhmu0sJwJ_gkyvXf2AhmqJapuJqVFgIcKMsqq9rNlM2-hFDGiffrMwlq36txBUeL1/exec";
 
-/* ---------- Validation ---------- */
-const schema = z.object({
-  name: z.string().trim().min(2, "Indica o teu nome completo.").max(100),
-  email: z.string().trim().email("Email inválido.").max(255),
-  phone: z
-    .string()
-    .trim()
-    .regex(/^\d{9}$/, "Indica 9 dígitos (ex: 912345678)."),
-  guests: z.number().int().min(1).max(5),
-  attending: z.enum(["yes", "no"]),
-  allergies: z.string().trim().max(500).optional().or(z.literal("")),
-  song: z.string().trim().max(200).optional().or(z.literal("")),
-  message: z.string().trim().max(1000).optional().or(z.literal("")),
-});
-type FormErrors = Partial<Record<keyof z.infer<typeof schema>, string>>;
+type FormErrors = Partial<
+  Record<"name" | "email" | "phone" | "guests" | "attending" | "allergies" | "song" | "message", string>
+>;
 
 /* ---------- Floating-label field ---------- */
 function FloatingField({
@@ -50,7 +39,7 @@ function FloatingField({
 }) {
   const hasValue = value.length > 0;
   const inputCls =
-    "peer w-full bg-transparent outline-none text-[0.95rem] py-3 placeholder-transparent " +
+    "peer w-full bg-transparent outline-none text-base sm:text-[0.95rem] py-3 placeholder-transparent " +
     (Icon ? "pl-8 " : "pl-0 ") +
     "pr-0 text-[color:var(--foreground)]";
 
@@ -87,7 +76,6 @@ function FloatingField({
           />
         )}
 
-        {/* Floating label */}
         <label
           htmlFor={id}
           className={
@@ -104,7 +92,6 @@ function FloatingField({
           {required && " *"}
         </label>
 
-        {/* Bottom border */}
         <span
           className="absolute left-0 right-0 bottom-0 h-px transition-colors"
           style={{ background: error ? "var(--destructive)" : "var(--olive)" }}
@@ -123,6 +110,19 @@ function FloatingField({
 
 /* ---------- Main component ---------- */
 export function RsvpForm() {
+  const { t } = useI18n();
+
+  const schema = z.object({
+    name: z.string().trim().min(2, t("rsvp.err.name")).max(100),
+    email: z.string().trim().email(t("rsvp.err.email")).max(255),
+    phone: z.string().trim().regex(/^\d{9}$/, t("rsvp.err.phone")),
+    guests: z.number().int().min(1).max(5),
+    attending: z.enum(["yes", "no"]),
+    allergies: z.string().trim().max(500).optional().or(z.literal("")),
+    song: z.string().trim().max(200).optional().or(z.literal("")),
+    message: z.string().trim().max(1000).optional().or(z.literal("")),
+  });
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -159,7 +159,7 @@ export function RsvpForm() {
         const k = issue.path[0] as keyof FormErrors;
         if (!errs[k]) errs[k] = issue.message;
       }
-      if (!attending) errs.attending = "Indica se vais estar presente.";
+      if (!attending) errs.attending = t("rsvp.err.attending");
       setErrors(errs);
       return;
     }
@@ -179,10 +179,6 @@ export function RsvpForm() {
     };
 
     try {
-      // Send to Google Sheets via Apps Script webhook.
-      // CRITICAL: mode 'no-cors' + Content-Type 'text/plain;charset=utf-8'
-      // are required — Apps Script rejects CORS preflight with application/json.
-      // Response is opaque; assume success if no exception is thrown.
       await fetch(SHEETS_WEBHOOK_URL, {
         method: "POST",
         mode: "no-cors",
@@ -190,12 +186,10 @@ export function RsvpForm() {
         body: JSON.stringify(payload),
       });
 
-      // Fade out then show confirmation
       setFadingOut(true);
       setTimeout(() => setDone(true), 450);
     } catch {
-      const msg =
-        "Algo correu mal. Por favor tenta novamente ou contacta-nos diretamente.";
+      const msg = t("rsvp.err.submit");
       setSubmitError(msg);
       toast.error(msg, {
         style: {
@@ -221,44 +215,36 @@ export function RsvpForm() {
           background: "var(--ivory)",
           border: "1px solid var(--gold)",
           borderRadius: 12,
-          padding: "60px 40px",
+          padding: "48px 24px",
           boxShadow:
             "0 1px 2px color-mix(in oklab, var(--olive) 8%, transparent), 0 18px 40px -22px color-mix(in oklab, var(--olive) 25%, transparent)",
         }}
       >
         <div className="rsvp-plane-track" aria-hidden="true">
-          <Plane
-            size={36}
-            strokeWidth={1.25}
-            className="rsvp-plane"
-            style={{ color: "var(--gold)" }}
-          />
+          <Plane size={36} strokeWidth={1.25} className="rsvp-plane" style={{ color: "var(--gold)" }} />
         </div>
 
         <p
-          className="font-script"
+          className="font-script text-5xl sm:text-6xl"
           style={{
             fontFamily: "Allura, 'Great Vibes', cursive",
-            fontSize: "3.5rem",
             color: "var(--gold)",
             lineHeight: 1,
             marginTop: 8,
           }}
         >
-          Obrigado!
+          {t("rsvp.thanks")}
         </p>
 
         <p
-          className="mt-6 max-w-md mx-auto"
+          className="mt-6 max-w-md mx-auto text-sm sm:text-base"
           style={{
             fontFamily: "Lato, sans-serif",
             color: "var(--foreground)",
-            fontSize: "1rem",
             lineHeight: 1.7,
           }}
         >
-          A tua resposta foi recebida com amor. Mal podemos esperar por ti
-          no dia 19 de Setembro!
+          {t("rsvp.thanksDesc")}
         </p>
 
         <div className="mt-6 flex justify-center">
@@ -281,79 +267,47 @@ export function RsvpForm() {
       style={{ maxWidth: 600 }}
     >
       <div
+        className="px-6 py-10 sm:px-12 sm:py-14 md:p-[60px]"
         style={{
           background: "var(--ivory)",
           border: "1px solid var(--gold)",
           borderRadius: 12,
-          padding: "60px",
           boxShadow:
             "0 1px 2px color-mix(in oklab, var(--olive) 8%, transparent), 0 18px 40px -22px color-mix(in oklab, var(--olive) 25%, transparent)",
         }}
       >
-        {/* Title */}
         <h3
-          className="text-center"
+          className="text-center text-lg sm:text-xl"
           style={{
             fontFamily: "Cinzel, serif",
             color: "var(--olive)",
             letterSpacing: "0.3em",
-            fontSize: "1.4rem",
             fontWeight: 500,
             textTransform: "uppercase",
           }}
         >
-          Confirmar Presença
+          {t("rsvp.title")}
         </h3>
 
-        {/* Decorative divider with heart */}
         <div className="relative my-6 flex items-center justify-center">
           <span
             className="absolute left-1/2 -translate-x-1/2 right-0 top-1/2 -translate-y-1/2"
-            style={{
-              borderTop: "1px dashed var(--olive)",
-              opacity: 0.4,
-              width: "80%",
-            }}
+            style={{ borderTop: "1px dashed var(--olive)", opacity: 0.4, width: "80%" }}
           />
           <span
             className="relative inline-flex items-center justify-center px-3"
             style={{ background: "var(--ivory)" }}
           >
-            <Heart
-              size={14}
-              strokeWidth={1}
-              fill="var(--gold)"
-              style={{ color: "var(--gold)" }}
-            />
+            <Heart size={14} strokeWidth={1} fill="var(--gold)" style={{ color: "var(--gold)" }} />
           </span>
         </div>
 
-        <form onSubmit={onSubmit} className="space-y-7" noValidate>
-          <FloatingField
-            id="rsvp-name"
-            label="Nome Completo"
-            icon={User}
-            value={name}
-            onChange={setName}
-            error={errors.name}
-            required
-          />
-
-          <FloatingField
-            id="rsvp-email"
-            label="Email"
-            icon={Mail}
-            type="email"
-            inputMode="email"
-            value={email}
-            onChange={setEmail}
-            error={errors.email}
-            required
-          />
-
+        <form onSubmit={onSubmit} className="space-y-6 sm:space-y-7" noValidate>
+          <FloatingField id="rsvp-name" label={t("rsvp.name")} icon={User} value={name} onChange={setName} error={errors.name} required />
+          <FloatingField id="rsvp-email" label={t("rsvp.email")} icon={Mail} type="email" inputMode="email" value={email} onChange={setEmail} error={errors.email} required />
           <FloatingField
             id="rsvp-phone"
-            label="Contacto Telefónico"
+            label={t("rsvp.phone")}
             icon={Phone}
             type="tel"
             inputMode="numeric"
@@ -363,7 +317,6 @@ export function RsvpForm() {
             required
           />
 
-          {/* Guests select */}
           <div>
             <label
               htmlFor="rsvp-guests"
@@ -376,19 +329,19 @@ export function RsvpForm() {
                 fontSize: "0.7rem",
               }}
             >
-              Número de Pessoas *
+              {t("rsvp.guests")} *
             </label>
             <div className="relative">
               <select
                 id="rsvp-guests"
                 value={guests}
                 onChange={(e) => setGuests(Number(e.target.value))}
-                className="w-full bg-transparent appearance-none py-3 pr-8 outline-none text-[0.95rem] text-[color:var(--foreground)]"
-                style={{ borderBottom: "1px solid var(--olive)" }}
+                className="w-full bg-transparent appearance-none py-3 pr-8 outline-none text-base sm:text-[0.95rem] text-[color:var(--foreground)]"
+                style={{ borderBottom: "1px solid var(--olive)", minHeight: 44 }}
               >
                 {[1, 2, 3, 4, 5].map((n) => (
                   <option key={n} value={n}>
-                    {n} {n === 1 ? "pessoa" : "pessoas"}
+                    {n} {n === 1 ? t("rsvp.guests.one") : t("rsvp.guests.many")}
                   </option>
                 ))}
               </select>
@@ -401,7 +354,6 @@ export function RsvpForm() {
             </div>
           </div>
 
-          {/* Attending toggle */}
           <div>
             <p
               className="mb-3"
@@ -413,7 +365,7 @@ export function RsvpForm() {
                 fontSize: "0.7rem",
               }}
             >
-              Vais estar presente? *
+              {t("rsvp.attend")} *
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <button
@@ -421,14 +373,14 @@ export function RsvpForm() {
                 onClick={() => setAttending("yes")}
                 className="flex items-center justify-center gap-2 py-4 px-4 rounded-md transition-all"
                 style={{
-                  background:
-                    attending === "yes" ? "var(--olive)" : "transparent",
+                  background: attending === "yes" ? "var(--olive)" : "transparent",
                   color: attending === "yes" ? "var(--ivory)" : "var(--olive)",
                   border: "1px solid var(--olive)",
                   fontFamily: "Cinzel, serif",
                   letterSpacing: "0.15em",
                   fontSize: "0.8rem",
                   textTransform: "uppercase",
+                  minHeight: 44,
                 }}
               >
                 <Heart
@@ -436,69 +388,38 @@ export function RsvpForm() {
                   strokeWidth={1.5}
                   fill={attending === "yes" ? "var(--gold)" : "transparent"}
                 />
-                Sim, com alegria
+                {t("rsvp.yes")}
               </button>
               <button
                 type="button"
                 onClick={() => setAttending("no")}
                 className="flex items-center justify-center gap-2 py-4 px-4 rounded-md transition-all"
                 style={{
-                  background:
-                    attending === "no" ? "var(--olive)" : "transparent",
+                  background: attending === "no" ? "var(--olive)" : "transparent",
                   color: attending === "no" ? "var(--ivory)" : "var(--olive)",
                   border: "1px solid var(--olive)",
                   fontFamily: "Cinzel, serif",
                   letterSpacing: "0.15em",
                   fontSize: "0.8rem",
                   textTransform: "uppercase",
+                  minHeight: 44,
                 }}
               >
                 <X size={16} strokeWidth={1.5} />
-                Infelizmente não
+                {t("rsvp.no")}
               </button>
             </div>
             {errors.attending && (
-              <p className="mt-2 text-xs text-[color:var(--destructive)]">
-                {errors.attending}
-              </p>
+              <p className="mt-2 text-xs text-[color:var(--destructive)]">{errors.attending}</p>
             )}
           </div>
 
-          <FloatingField
-            id="rsvp-allergies"
-            label="Restrições alimentares"
-            value={allergies}
-            onChange={setAllergies}
-            error={errors.allergies}
-            multiline
-            rows={2}
-          />
-
-          <FloatingField
-            id="rsvp-song"
-            label="Música favorita"
-            icon={Music}
-            value={song}
-            onChange={setSong}
-            error={errors.song}
-          />
-
-          <FloatingField
-            id="rsvp-message"
-            label="Mensagem para os noivos"
-            value={message}
-            onChange={setMessage}
-            error={errors.message}
-            multiline
-            rows={3}
-          />
+          <FloatingField id="rsvp-allergies" label={t("rsvp.allergies")} value={allergies} onChange={setAllergies} error={errors.allergies} multiline rows={2} />
+          <FloatingField id="rsvp-song" label={t("rsvp.song")} icon={Music} value={song} onChange={setSong} error={errors.song} />
+          <FloatingField id="rsvp-message" label={t("rsvp.message")} value={message} onChange={setMessage} error={errors.message} multiline rows={3} />
 
           {submitError && (
-            <p
-              className="text-sm text-center"
-              style={{ color: "var(--destructive)" }}
-              role="alert"
-            >
+            <p className="text-sm text-center" style={{ color: "var(--destructive)" }} role="alert">
               {submitError}
             </p>
           )}
@@ -508,29 +429,27 @@ export function RsvpForm() {
             disabled={loading}
             className="w-full inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 disabled:opacity-60"
             style={{
-              padding: "18px 32px",
+              padding: "16px 28px",
               background: "var(--olive)",
               color: "var(--cream)",
               borderRadius: 8,
               fontFamily: "Cinzel, serif",
               letterSpacing: "0.25em",
-              fontSize: "0.9rem",
+              fontSize: "0.85rem",
               textTransform: "uppercase",
               border: "none",
-              boxShadow:
-                "0 6px 18px -10px color-mix(in oklab, var(--olive) 70%, transparent)",
+              minHeight: 44,
+              boxShadow: "0 6px 18px -10px color-mix(in oklab, var(--olive) 70%, transparent)",
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.background =
-                "var(--gold)";
+              (e.currentTarget as HTMLButtonElement).style.background = "var(--gold)";
             }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.background =
-                "var(--olive)";
+              (e.currentTarget as HTMLButtonElement).style.background = "var(--olive)";
             }}
           >
             <Send size={16} strokeWidth={1.5} />
-            {loading ? "A enviar..." : "Enviar Resposta"}
+            {loading ? t("rsvp.sending") : t("rsvp.send")}
           </button>
         </form>
       </div>
