@@ -63,9 +63,13 @@ export function SaveTheDateSection() {
           textAlign: "center",
         }}
       >
-        <div className="flex justify-center">
-          <Monogram size={160} className="sm:hidden" />
-          <Monogram size={200} className="hidden sm:inline-block" />
+        <div className="flex justify-center" aria-hidden="true">
+          <span className="inline-flex sm:hidden">
+            <Monogram size={150} />
+          </span>
+          <span className="hidden sm:inline-flex">
+            <Monogram size={200} />
+          </span>
         </div>
 
         <p
