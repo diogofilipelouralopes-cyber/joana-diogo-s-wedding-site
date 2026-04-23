@@ -3,6 +3,7 @@ import { RsvpForm } from "@/components/RsvpForm";
 import { DecorativeDivider } from "@/components/DecorativeDivider";
 import { QuickNav } from "@/components/QuickNav";
 import { SaveTheDateSection } from "@/components/SaveTheDateSection";
+import { CountdownSection } from "@/components/CountdownSection";
 import { Header } from "@/components/Header";
 import { StorySection } from "@/components/StorySection";
 import { JourneyQuoteSection } from "@/components/JourneyQuoteSection";
@@ -172,6 +173,11 @@ function Index() {
 
       {/* QUICK NAV */}
       <QuickNav />
+
+      <DecorativeDivider />
+
+      {/* COUNTDOWN */}
+      <CountdownSection />
 
       <DecorativeDivider />
 
