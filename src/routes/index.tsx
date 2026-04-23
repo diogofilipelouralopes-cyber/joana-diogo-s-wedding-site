@@ -4,6 +4,7 @@ import { RsvpForm } from "@/components/RsvpForm";
 import { Header } from "@/components/Header";
 import { StorySection } from "@/components/StorySection";
 import { GallerySection } from "@/components/GallerySection";
+import { Monogram } from "@/components/Monogram";
 import { GiftsSection } from "@/components/GiftsSection";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
 import { Toaster } from "@/components/ui/sonner";

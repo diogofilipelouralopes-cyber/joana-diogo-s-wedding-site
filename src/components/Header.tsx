@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
-import logo from "@/assets/logo.png";
+import { Monogram } from "@/components/Monogram";
 
 const links = [
   { id: "story", key: "nav.story" as const },
@@ -33,8 +33,8 @@ export function Header() {
       }`}
     >
       <div className="max-w-6xl mx-auto px-5 sm:px-8 flex items-center justify-between">
-        <a href="#top" className="flex items-center gap-2 shrink-0">
-          <img src={logo} alt="Joana & Diogo" className="h-10 w-10 sm:h-11 sm:w-11" />
+        <a href="#top" className="flex items-center shrink-0" aria-label="Joana & Diogo">
+          <Monogram size={60} />
         </a>
 
         <nav className="hidden md:flex items-center gap-7">
