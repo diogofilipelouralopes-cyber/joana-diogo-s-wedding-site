@@ -528,3 +528,11 @@ body { padding-top: 0; }
 
 /* Prevent any element from causing horizontal overflow */
 html, body { overflow-x: hidden; max-width: 100vw; }
+
+/* Playlist CTA hover (olive -> gold) */
+.playlist-cta:hover,
+.playlist-cta:focus-visible {
+  background: var(--gold) !important;
+  border-color: var(--gold) !important;
+  color: var(--ivory) !important;
+}
