@@ -31,7 +31,7 @@ export const Route = createFileRoute("/")({
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500&family=Pinyon+Script&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Lato:wght@300;400;700&family=Allura&family=Great+Vibes&display=swap",
       },
     ],
   }),
@@ -146,7 +146,7 @@ function Index() {
       <GallerySection />
 
       {/* EVENT */}
-      <section id="event" className="py-24 sm:py-32 px-6 bg-secondary/40 scroll-mt-20">
+      <section id="event" className="py-28 sm:py-40 px-6 bg-secondary/40 scroll-mt-20">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
             <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
@@ -158,7 +158,7 @@ function Index() {
             </div>
           </div>
 
-          <div className="bg-background border border-border p-8 sm:p-10 text-center mb-8">
+          <div className="card-gold p-8 sm:p-10 text-center mb-8">
             <h3 className="font-display text-2xl sm:text-3xl text-primary tracking-[0.08em]">
               {t("event.venue")}
             </h3>
@@ -181,7 +181,7 @@ function Index() {
           </div>
 
           {/* Embedded map */}
-          <div className="overflow-hidden border border-border bg-background">
+          <div className="overflow-hidden card-gold">
             <iframe
               title="Glicínia Wedding House — mapa"
               src="https://www.google.com/maps?q=Glic%C3%ADnia+Wedding+House+Freamunde&output=embed"
@@ -196,7 +196,7 @@ function Index() {
       </section>
 
       {/* INFORMATION */}
-      <section id="info" className="py-24 sm:py-32 px-6 scroll-mt-20">
+      <section id="info" className="py-28 sm:py-40 px-6 scroll-mt-20">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
             <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
@@ -217,7 +217,7 @@ function Index() {
       </section>
 
       {/* RSVP */}
-      <section id="rsvp" className="py-24 sm:py-32 px-6 bg-secondary/40 scroll-mt-20">
+      <section id="rsvp" className="py-28 sm:py-40 px-6 bg-secondary/40 scroll-mt-20">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
             <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
@@ -268,7 +268,7 @@ function InfoCard({
   desc: string;
 }) {
   return (
-    <div className="bg-background p-8 border border-border">
+    <div className="card-gold p-8">
       <div className="text-primary mb-4">{icon}</div>
       <h3 className="font-display text-xl mb-3 text-primary">{title}</h3>
       <p className="text-sm leading-relaxed text-foreground/75">{desc}</p>

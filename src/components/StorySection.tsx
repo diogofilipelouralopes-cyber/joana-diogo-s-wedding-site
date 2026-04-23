@@ -15,7 +15,7 @@ export function StorySection() {
   ];
 
   return (
-    <section id="story" className="py-24 sm:py-32 px-6 scroll-mt-20">
+    <section id="story" className="py-28 sm:py-40 px-6 scroll-mt-20">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-20">
           <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
