@@ -42,40 +42,42 @@ export function Header() {
 
   return (
     <header className="site-header">
-      <div className="max-w-6xl mx-auto px-5 sm:px-8 flex items-center justify-between gap-4">
-        {/* LEFT: PT/EN toggle (always visible) */}
-        <div className="lang-toggle shrink-0">
-          <LangBtn active={lang === "pt"} onClick={() => setLang("pt")}>
-            PT
-          </LangBtn>
-          <span className="lang-sep">|</span>
-          <LangBtn active={lang === "en"} onClick={() => setLang("en")}>
-            EN
-          </LangBtn>
-        </div>
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 flex items-center justify-between gap-3">
+        {/* LEFT: Logo */}
+        <a
+          href="#top"
+          aria-label="Joana & Diogo"
+          className="header-logo shrink-0 inline-flex"
+        >
+          <Monogram size={60} className="sm:hidden" />
+          <Monogram size={75} className="hidden sm:inline-block" />
+        </a>
 
-        {/* CENTER/RIGHT: Logo + nav */}
-        <div className="flex items-center gap-8 lg:gap-10">
-          <a
-            href="#top"
-            aria-label="Joana & Diogo"
-            className="header-logo shrink-0 inline-flex"
-          >
-            <Monogram size={75} />
-          </a>
+        {/* CENTER: Nav (desktop) */}
+        <nav className="hidden md:flex items-center gap-6 lg:gap-9">
+          {links.map((l) => (
+            <a
+              key={l.id}
+              href={`#${l.id}`}
+              data-active={active === l.id ? "true" : "false"}
+              className="header-link"
+            >
+              {t(l.key)}
+            </a>
+          ))}
+        </nav>
 
-          <nav className="hidden md:flex items-center gap-7 lg:gap-9">
-            {links.map((l) => (
-              <a
-                key={l.id}
-                href={`#${l.id}`}
-                data-active={active === l.id ? "true" : "false"}
-                className="header-link"
-              >
-                {t(l.key)}
-              </a>
-            ))}
-          </nav>
+        {/* RIGHT: Lang toggle + mobile hamburger */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <div className="lang-toggle">
+            <LangBtn active={lang === "pt"} onClick={() => setLang("pt")}>
+              PT
+            </LangBtn>
+            <span className="lang-sep">|</span>
+            <LangBtn active={lang === "en"} onClick={() => setLang("en")}>
+              EN
+            </LangBtn>
+          </div>
 
           {/* Mobile hamburger */}
           <button

@@ -493,12 +493,17 @@ body { padding-top: 0; }
 .hero-bg {
   background-color: var(--cream);
   background-size: cover;
-  background-position: center;
+  background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
 @media (max-width: 767px) {
-  .hero-bg { background-attachment: scroll; }
+  .hero-bg {
+    background-attachment: scroll;
+    background-position: center center;
+    background-size: cover;
+    min-height: 100svh;
+  }
 }
 .hero-overlay {
   position: absolute;
