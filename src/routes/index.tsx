@@ -15,7 +15,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { StickyRsvpButton } from "@/components/StickyRsvpButton";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider, useI18n } from "@/lib/i18n";
-import { MapPin, Clock, Hotel, Heart, CalendarPlus, Shirt, Car, Plane } from "lucide-react";
+import { MapPin, Clock, Hotel, Heart, CalendarPlus, Shirt, Car, Plane, ParkingCircle, ExternalLink } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -214,39 +214,102 @@ function Index() {
             </div>
           </div>
 
-          <div className="card-gold p-8 sm:p-10 text-center mb-8">
-            <h3 className="font-display text-2xl sm:text-3xl text-primary tracking-[0.08em]">
-              {t("event.venue")}
-            </h3>
-            <p className="text-foreground/75 mt-2">{t("event.place")}</p>
+          <div
+            className="mx-auto"
+            style={{
+              maxWidth: 900,
+              background: "var(--ivory)",
+              border: "1px solid var(--gold)",
+              borderRadius: 12,
+              padding: 30,
+              boxShadow:
+                "0 1px 2px color-mix(in oklab, var(--olive) 8%, transparent), 0 18px 40px -22px color-mix(in oklab, var(--olive) 25%, transparent)",
+            }}
+          >
+            {/* Venue title */}
+            <div className="text-center">
+              <h3
+                className="uppercase"
+                style={{
+                  fontFamily: "Cinzel, serif",
+                  color: "var(--olive)",
+                  letterSpacing: "0.25em",
+                  fontSize: "1.4rem",
+                  fontWeight: 500,
+                }}
+              >
+                Glicínia Wedding House
+              </h3>
 
-            <div className="flex justify-center gap-2 mt-4">
-              <Clock className="w-4 h-4 text-primary/70 mt-0.5" strokeWidth={1.5} />
-              <p className="text-sm text-foreground/85">{t("event.desc")}</p>
+              {/* Decorative divider with heart */}
+              <div className="relative my-5 flex items-center justify-center max-w-xs mx-auto">
+                <span
+                  aria-hidden
+                  className="absolute left-0 right-0 top-1/2 -translate-y-1/2"
+                  style={{ borderTop: "1px dashed var(--olive)", opacity: 0.4 }}
+                />
+                <span
+                  className="relative inline-flex items-center justify-center px-3"
+                  style={{ background: "var(--ivory)" }}
+                >
+                  <Heart
+                    size={14}
+                    strokeWidth={1}
+                    fill="var(--gold)"
+                    style={{ color: "var(--gold)" }}
+                  />
+                </span>
+              </div>
+
+              <div className="flex items-center justify-center gap-2 mt-1">
+                <Clock className="w-4 h-4" strokeWidth={1.5} style={{ color: "var(--olive)", opacity: 0.7 }} />
+                <p className="text-sm" style={{ color: "var(--foreground)", opacity: 0.85 }}>
+                  {t("event.desc")} · {t("event.place")}
+                </p>
+              </div>
             </div>
 
-            <a
-              href={MAPS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-6 text-xs uppercase tracking-[0.22em] text-primary hover:text-primary/70 underline-offset-4 hover:underline"
-            >
-              <MapPin className="w-3.5 h-3.5" />
-              {t("event.maps")}
-            </a>
-          </div>
+            {/* Embedded interactive map */}
+            <div className="mt-6 overflow-hidden" style={{ borderRadius: 8, border: "1px solid color-mix(in oklab, var(--gold) 40%, transparent)" }}>
+              <iframe
+                title="Glicínia Wedding House — mapa"
+                src="https://www.google.com/maps?q=Glic%C3%ADnia+Wedding+House+Freamunde&output=embed"
+                width="100%"
+                height="400"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="block w-full border-0"
+              />
+            </div>
 
-          {/* Embedded map */}
-          <div className="overflow-hidden card-gold">
-            <iframe
-              title="Glicínia Wedding House — mapa"
-              src="https://www.google.com/maps?q=Glic%C3%ADnia+Wedding+House+Freamunde&output=embed"
-              width="100%"
-              height="420"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="block w-full border-0"
-            />
+            {/* Practical info cards */}
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <PracticalCard icon={<Car size={22} strokeWidth={1.5} />} title="Do Porto" desc="30 minutos de carro" />
+              <PracticalCard icon={<Plane size={22} strokeWidth={1.5} />} title="Aeroporto" desc="35 min do Aeroporto Sá Carneiro" />
+              <PracticalCard icon={<ParkingCircle size={22} strokeWidth={1.5} />} title="Estacionamento" desc="Gratuito no local" />
+            </div>
+
+            {/* CTA */}
+            <div className="mt-8 flex justify-center">
+              <a
+                href={MAPS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-7 py-3 uppercase transition-all hover:-translate-y-0.5"
+                style={{
+                  fontFamily: "Cinzel, serif",
+                  letterSpacing: "0.25em",
+                  fontSize: "0.8rem",
+                  color: "var(--gold)",
+                  border: "1px solid var(--gold)",
+                  borderRadius: 8,
+                  background: "transparent",
+                }}
+              >
+                <ExternalLink size={14} strokeWidth={1.5} />
+                Abrir no Google Maps
+              </a>
+            </div>
           </div>
         </div>
       </section>
