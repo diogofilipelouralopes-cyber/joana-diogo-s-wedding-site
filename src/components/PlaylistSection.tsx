@@ -9,7 +9,7 @@ export function PlaylistSection() {
 
   return (
     <section
-      id="playlist"
+      id="musica"
       className="py-20 sm:py-28 px-5 sm:px-6 scroll-mt-24"
       style={{ background: "var(--cream)" }}
     >
