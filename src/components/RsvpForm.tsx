@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { z } from "zod";
 import { User, Mail, Phone, Music, Heart, X, Plane, Send } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
+const SHEETS_WEBHOOK_URL =
+  "https://script.google.com/macros/s/AKfycbxbhmu0sJwJ_gkyvXf2AhmqJapuJqVFgIcKMsqq9rNlM2-hFDGiffrMwlq36txBUeL1/exec";
 
 /* ---------- Validation ---------- */
 const schema = z.object({
