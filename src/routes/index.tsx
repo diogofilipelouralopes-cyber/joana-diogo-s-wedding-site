@@ -7,7 +7,7 @@ import { SaveTheDateSection } from "@/components/SaveTheDateSection";
 import { CountdownSection } from "@/components/CountdownSection";
 import { Header } from "@/components/Header";
 import { StorySection } from "@/components/StorySection";
-import { Monogram } from "@/components/Monogram";
+
 import { GiftsSection } from "@/components/GiftsSection";
 import { MemoriesSection } from "@/components/MemoriesSection";
 import { PlaylistSection } from "@/components/PlaylistSection";
