@@ -127,7 +127,7 @@ function Index() {
               Confirmar Presença
             </a>
             <button
-              onClick={downloadICS}
+              onClick={downloadWeddingICS}
               className="inline-flex items-center gap-2 px-8 py-4 font-display text-sm uppercase transition-all hover:-translate-y-0.5"
               style={{
                 color: "var(--olive)",
