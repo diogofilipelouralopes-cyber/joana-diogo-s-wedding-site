@@ -389,3 +389,52 @@ function InfoCard({
     </div>
   );
 }
+
+function PracticalCard({
+  icon,
+  title,
+  desc,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  desc: string;
+}) {
+  return (
+    <div
+      className="text-center"
+      style={{
+        background: "var(--cream)",
+        border: "1px solid color-mix(in oklab, var(--gold) 35%, transparent)",
+        borderRadius: 8,
+        padding: "20px 16px",
+      }}
+    >
+      <div className="flex justify-center" style={{ color: "var(--olive)" }}>
+        {icon}
+      </div>
+      <p
+        className="uppercase mt-3"
+        style={{
+          fontFamily: "Cinzel, serif",
+          color: "var(--olive)",
+          letterSpacing: "0.25em",
+          fontSize: "0.75rem",
+          fontWeight: 500,
+        }}
+      >
+        {title}
+      </p>
+      <p
+        className="mt-1"
+        style={{
+          fontFamily: "Lato, sans-serif",
+          color: "var(--foreground)",
+          opacity: 0.8,
+          fontSize: "0.85rem",
+        }}
+      >
+        {desc}
+      </p>
+    </div>
+  );
+}
