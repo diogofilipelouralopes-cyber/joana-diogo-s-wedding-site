@@ -80,22 +80,10 @@ function Index() {
       <Header />
 
       {/* HERO */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
-        <img
-          src={heroImg}
-          alt=""
-          width={1080}
-          height={1920}
-          className="absolute inset-0 w-full h-full object-cover object-right"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/30 sm:to-transparent" />
-
-        <div className="relative z-10 px-6 sm:px-12 lg:px-24 py-32 max-w-3xl">
-          <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground mb-6">
-            {t("hero.welcome")}
-          </p>
-
-          <div className="mb-8">
+      <section className="hero-map-bg relative min-h-screen flex items-center justify-center overflow-hidden px-6 py-32">
+        <div className="relative z-10 flex flex-col items-center text-center max-w-2xl mx-auto">
+          {/* Monogram */}
+          <div className="hero-mono-anim">
             <Monogram
               size={320}
               className="hidden sm:inline-block"
@@ -110,37 +98,71 @@ function Index() {
             />
           </div>
 
-          <p className="font-display italic text-2xl sm:text-3xl text-foreground/85 mb-2">
-            {t("hero.date")}
-          </p>
-          <a
-            href={MAPS_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block text-xs uppercase tracking-[0.25em] text-muted-foreground hover:text-primary mb-10 underline-offset-4 hover:underline"
-          >
-            {t("hero.location")}
-          </a>
-
-          <div className="mb-10">
-            <Countdown />
+          <div className="mt-[60px] flex flex-col items-center">
+            <p
+              className="hero-text-anim-1 uppercase"
+              style={{
+                color: "var(--olive)",
+                letterSpacing: "0.3em",
+                fontSize: "1.2rem",
+                fontFamily: "Cinzel, serif",
+                fontWeight: 500,
+              }}
+            >
+              A Nossa Maior Viagem
+            </p>
+            <p
+              className="hero-text-anim-2 italic mt-3"
+              style={{
+                color: "var(--gold)",
+                fontFamily: "Allura, 'Great Vibes', cursive",
+                fontSize: "3rem",
+                lineHeight: 1.1,
+              }}
+            >
+              começa agora
+            </p>
           </div>
 
-          <div className="flex flex-wrap gap-3">
+          <div className="hero-text-anim-3 flex items-center justify-center mt-10 mb-10">
+            <span aria-hidden style={{ width: "80px", borderTop: "1px dashed var(--olive)" }} />
+            <Heart className="mx-3" size={14} strokeWidth={1.25} style={{ color: "var(--olive)" }} />
+            <span aria-hidden style={{ width: "80px", borderTop: "1px dashed var(--olive)" }} />
+          </div>
+
+          <div className="hero-text-anim-4 flex flex-wrap gap-4 justify-center">
             <a
               href="#rsvp"
-              className="inline-block px-9 py-4 bg-primary text-primary-foreground font-display text-base tracking-[0.15em] hover:bg-primary/90 transition-colors uppercase"
+              className="inline-block px-10 py-4 font-display text-sm uppercase transition-all hover:-translate-y-0.5"
+              style={{
+                background: "var(--olive)",
+                color: "var(--cream)",
+                letterSpacing: "0.25em",
+                borderRadius: "8px",
+                boxShadow: "0 6px 20px -10px color-mix(in oklab, var(--olive) 60%, transparent)",
+              }}
             >
-              {t("hero.cta")}
+              Confirmar Presença
             </a>
             <button
               onClick={downloadICS}
-              className="inline-flex items-center gap-2 px-7 py-4 border border-primary/50 text-primary font-display text-sm tracking-[0.15em] hover:bg-primary/5 transition-colors uppercase"
+              className="inline-flex items-center gap-2 px-8 py-4 font-display text-sm uppercase transition-all hover:-translate-y-0.5"
+              style={{
+                color: "var(--olive)",
+                border: "1px solid var(--gold)",
+                letterSpacing: "0.25em",
+                borderRadius: "8px",
+                background: "transparent",
+              }}
             >
               <CalendarPlus className="w-4 h-4" strokeWidth={1.5} />
-              {t("hero.cal")}
+              Adicionar ao Calendário
             </button>
           </div>
+        </div>
+
+        <div className="hero-plane-path" aria-hidden="true">
+          <Plane className="hero-plane" size={20} strokeWidth={1.25} />
         </div>
       </section>
 
