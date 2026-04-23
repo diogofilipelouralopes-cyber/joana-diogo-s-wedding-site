@@ -18,7 +18,7 @@ import { StickyRsvpButton } from "@/components/StickyRsvpButton";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { MapPin, Clock, Hotel, Heart, CalendarPlus, Shirt, Car, Plane, ParkingCircle, ExternalLink } from "lucide-react";
-import heroBg from "@/assets/hero-tenerife-sunset.jpg";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -73,15 +73,25 @@ function Index() {
 
       {/* HERO */}
       <section
-        className="hero-bg relative flex flex-col items-center justify-start sm:justify-center text-center overflow-hidden px-5 sm:px-6"
+        className="hero-bg relative flex flex-col items-center text-center overflow-hidden px-5 sm:px-6"
         style={{
-          backgroundImage: `url(${heroBg})`,
           minHeight: "100vh",
           paddingTop: 100,
-          paddingBottom: 80,
+          paddingBottom: 60,
+          justifyContent: "space-between",
         }}
       >
+        <picture className="hero-picture">
+          <source media="(max-width: 768px)" srcSet="/hero-mobile.jpg" />
+          <img
+            src="/hero-desktop.jpg"
+            alt="Joana e Diogo ao pôr do sol"
+            className="hero-image"
+          />
+        </picture>
         <div className="hero-overlay" aria-hidden="true" />
+
+        {/* TOP THIRD: text */}
         <div className="relative z-10 flex flex-col items-center text-center max-w-2xl mx-auto w-full">
           <p
             className="hero-text-anim-1 hero-text-shadow uppercase text-[1.1rem] sm:text-xl"
@@ -106,10 +116,13 @@ function Index() {
           >
             {t("hero.tagline.script")}
           </p>
+        </div>
 
+        {/* BOTTOM THIRD: divider + buttons */}
+        <div className="relative z-10 flex flex-col items-center w-full max-w-2xl mx-auto">
           <div
             className="hero-text-anim-3 flex items-center justify-center"
-            style={{ marginTop: 30 }}
+            style={{ marginBottom: 28 }}
           >
             <span aria-hidden style={{ width: "60px", borderTop: "1px dashed var(--olive)" }} />
             <Heart className="mx-3" size={14} strokeWidth={1.25} style={{ color: "var(--olive)" }} />
@@ -118,7 +131,6 @@ function Index() {
 
           <div
             className="hero-text-anim-4 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center w-[85%] sm:w-auto"
-            style={{ marginTop: 40 }}
           >
             <a
               href="#rsvp"
