@@ -146,7 +146,7 @@ function Index() {
       <GallerySection />
 
       {/* EVENT */}
-      <section id="event" className="py-24 sm:py-32 px-6 bg-secondary/40 scroll-mt-20">
+      <section id="event" className="py-28 sm:py-40 px-6 bg-secondary/40 scroll-mt-20">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
             <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
@@ -196,7 +196,7 @@ function Index() {
       </section>
 
       {/* INFORMATION */}
-      <section id="info" className="py-24 sm:py-32 px-6 scroll-mt-20">
+      <section id="info" className="py-28 sm:py-40 px-6 scroll-mt-20">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
             <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
@@ -217,7 +217,7 @@ function Index() {
       </section>
 
       {/* RSVP */}
-      <section id="rsvp" className="py-24 sm:py-32 px-6 bg-secondary/40 scroll-mt-20">
+      <section id="rsvp" className="py-28 sm:py-40 px-6 bg-secondary/40 scroll-mt-20">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
             <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">

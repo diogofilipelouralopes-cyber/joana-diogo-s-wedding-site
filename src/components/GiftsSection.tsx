@@ -14,7 +14,7 @@ export function GiftsSection() {
   };
 
   return (
-    <section id="gifts" className="py-24 sm:py-32 px-6 bg-secondary/40 scroll-mt-20">
+    <section id="gifts" className="py-28 sm:py-40 px-6 bg-secondary/40 scroll-mt-20">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-12">
           <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
