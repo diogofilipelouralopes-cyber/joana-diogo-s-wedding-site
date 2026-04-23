@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { Heart, CalendarPlus } from "lucide-react";
 import { Monogram } from "@/components/Monogram";
 import { downloadWeddingICS } from "@/lib/calendar";
+import { useI18n } from "@/lib/i18n";
 
 const TARGET = new Date("2026-09-19T14:00:00+01:00").getTime();
 
 export function SaveTheDateSection() {
+  const { t } = useI18n();
   const ref = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
   const [days, setDays] = useState<number | null>(null);
@@ -37,15 +39,22 @@ export function SaveTheDateSection() {
     return () => obs.disconnect();
   }, []);
 
+  const daysLabel =
+    days === null
+      ? "—"
+      : t("std.daysLeft")
+        ? `${t("std.daysLeft")} ${days} ${days === 1 ? t("std.day") : t("std.days")}`
+        : `${days} ${days === 1 ? t("std.day") : t("std.days")}`;
+
   return (
-    <section className="w-full px-6 py-28 sm:py-36" style={{ backgroundColor: "var(--cream)" }}>
+    <section className="w-full px-5 sm:px-6 py-20 sm:py-28 md:py-36" style={{ backgroundColor: "var(--cream)" }}>
       <div
         ref={ref}
         className={visible ? "std-card-in" : "std-card-hidden"}
         style={{
           maxWidth: "500px",
           margin: "0 auto",
-          padding: "60px",
+          padding: "40px 24px",
           backgroundColor: "var(--ivory)",
           border: "1px solid var(--gold)",
           borderRadius: "12px",
@@ -54,96 +63,75 @@ export function SaveTheDateSection() {
           textAlign: "center",
         }}
       >
-        {/* Monogram */}
         <div className="flex justify-center">
-          <Monogram size={200} />
+          <Monogram size={160} className="sm:hidden" />
+          <Monogram size={200} className="hidden sm:inline-block" />
         </div>
 
-        {/* 40px spacing */}
         <p
-          className="uppercase"
+          className="uppercase mt-8 sm:mt-10 text-sm sm:text-base"
           style={{
-            marginTop: "40px",
             color: "var(--olive)",
             letterSpacing: "0.3em",
-            fontSize: "1.1rem",
             fontFamily: "Cinzel, serif",
             fontWeight: 500,
           }}
         >
-          Reserva Esta Data
+          {t("std.title")}
         </p>
 
-        {/* Filled heart separator */}
-        <div className="flex justify-center my-5">
-          <Heart
-            size={16}
-            strokeWidth={1}
-            fill="var(--gold)"
-            style={{ color: "var(--gold)" }}
-          />
+        <div className="flex justify-center my-4 sm:my-5">
+          <Heart size={16} strokeWidth={1} fill="var(--gold)" style={{ color: "var(--gold)" }} />
         </div>
 
-        {/* Date */}
         <div className="flex flex-col items-center" style={{ fontFamily: "Cinzel, serif", lineHeight: 1 }}>
-          <span style={{ fontSize: "4rem", color: "var(--gold)", fontWeight: 500 }}>19</span>
-          <span
-            className="uppercase mt-3"
-            style={{
-              fontSize: "1.5rem",
-              color: "var(--olive)",
-              letterSpacing: "0.4em",
-              fontWeight: 500,
-            }}
-          >
-            Setembro
+          <span className="text-5xl sm:text-6xl" style={{ color: "var(--gold)", fontWeight: 500 }}>
+            19
           </span>
           <span
-            className="mt-2"
-            style={{
-              fontSize: "1.5rem",
-              color: "var(--olive)",
-              letterSpacing: "0.2em",
-              fontWeight: 500,
-            }}
+            className="uppercase mt-3 text-lg sm:text-2xl"
+            style={{ color: "var(--olive)", letterSpacing: "0.4em", fontWeight: 500 }}
+          >
+            {t("std.month")}
+          </span>
+          <span
+            className="mt-2 text-lg sm:text-2xl"
+            style={{ color: "var(--olive)", letterSpacing: "0.2em", fontWeight: 500 }}
           >
             2026
           </span>
         </div>
 
-        {/* Countdown */}
         <p
-          className="uppercase mt-8"
+          className="uppercase mt-6 sm:mt-8 text-xs sm:text-sm"
           style={{
             color: "var(--olive)",
             letterSpacing: "0.25em",
-            fontSize: "0.9rem",
             fontFamily: "Cinzel, serif",
             fontWeight: 500,
           }}
         >
-          {days === null ? "—" : `Faltam ${days} dia${days === 1 ? "" : "s"}`}
+          {daysLabel}
         </p>
 
-        {/* CTA */}
         <button
           onClick={downloadWeddingICS}
-          className="inline-flex items-center gap-2 mt-8 px-8 py-4 uppercase transition-all hover:-translate-y-0.5"
+          className="inline-flex items-center gap-2 mt-6 sm:mt-8 px-6 sm:px-8 py-3 sm:py-4 uppercase transition-all hover:-translate-y-0.5"
           style={{
             background: "var(--gold)",
             color: "var(--ivory)",
             border: "none",
             borderRadius: "8px",
             fontFamily: "Cinzel, serif",
-            fontSize: "0.85rem",
+            fontSize: "0.8rem",
             letterSpacing: "0.25em",
             fontWeight: 500,
-            boxShadow:
-              "0 6px 18px -10px color-mix(in oklab, var(--gold) 70%, transparent)",
+            minHeight: 44,
+            boxShadow: "0 6px 18px -10px color-mix(in oklab, var(--gold) 70%, transparent)",
           }}
         >
           <CalendarPlus className="w-4 h-4" strokeWidth={1.5} />
-          Adicionar ao Calendário
+          {t("hero.cal")}
         </button>
       </div>
     </section>

@@ -4,8 +4,7 @@ import { useI18n } from "@/lib/i18n";
 import { Monogram } from "@/components/Monogram";
 
 const links = [
-  { id: "story", key: "nav.story" as const },
-  { id: "gallery", key: "nav.gallery" as const },
+  { id: "top", key: "nav.home" as const },
   { id: "event", key: "nav.event" as const },
   { id: "info", key: "nav.info" as const },
   { id: "rsvp", key: "nav.rsvp" as const },
@@ -15,83 +14,117 @@ const links = [
 export function Header() {
   const { t, lang, setLang } = useI18n();
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState<string>("top");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => {
+      const y = window.scrollY + 120;
+      let current = "top";
+      for (const l of links) {
+        const el = document.getElementById(l.id);
+        if (el && el.offsetTop <= y) current = l.id;
+      }
+      setActive(current);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Lock body scroll when mobile drawer is open
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   return (
-    <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all ${
-        scrolled
-          ? "bg-background/85 backdrop-blur-md border-b border-border/60 py-3"
-          : "bg-transparent py-5"
-      }`}
-    >
-      <div className="max-w-6xl mx-auto px-5 sm:px-8 flex items-center justify-between">
-        <a href="#top" className="flex items-center shrink-0" aria-label="Joana & Diogo">
-          <Monogram size={60} />
-        </a>
+    <header className="site-header">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 flex items-center justify-between gap-4">
+        {/* LEFT: PT/EN toggle (always visible) */}
+        <div className="lang-toggle shrink-0">
+          <LangBtn active={lang === "pt"} onClick={() => setLang("pt")}>
+            PT
+          </LangBtn>
+          <span className="lang-sep">|</span>
+          <LangBtn active={lang === "en"} onClick={() => setLang("en")}>
+            EN
+          </LangBtn>
+        </div>
 
-        <nav className="hidden md:flex items-center gap-7">
-          {links.map((l) => (
-            <a
-              key={l.id}
-              href={`#${l.id}`}
-              className="text-[11px] uppercase tracking-[0.22em] text-foreground/70 hover:text-primary transition-colors"
-            >
-              {t(l.key)}
-            </a>
-          ))}
-          <div className="flex items-center gap-1 ml-2 pl-5 border-l border-border">
-            <LangBtn active={lang === "pt"} onClick={() => setLang("pt")}>
-              PT
-            </LangBtn>
-            <span className="text-muted-foreground/40 text-xs">·</span>
-            <LangBtn active={lang === "en"} onClick={() => setLang("en")}>
-              EN
-            </LangBtn>
-          </div>
-        </nav>
+        {/* CENTER/RIGHT: Logo + nav */}
+        <div className="flex items-center gap-8 lg:gap-10">
+          <a
+            href="#top"
+            aria-label="Joana & Diogo"
+            className="header-logo shrink-0 inline-flex"
+          >
+            <Monogram size={75} />
+          </a>
 
-        <button
-          className="md:hidden p-2 -mr-2 text-foreground/80"
-          onClick={() => setOpen((o) => !o)}
-          aria-label="Menu"
-        >
-          {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      {open && (
-        <div className="md:hidden border-t border-border/60 bg-background/95 backdrop-blur-md">
-          <div className="px-6 py-6 flex flex-col gap-5">
+          <nav className="hidden md:flex items-center gap-7 lg:gap-9">
             {links.map((l) => (
               <a
                 key={l.id}
                 href={`#${l.id}`}
-                onClick={() => setOpen(false)}
-                className="text-sm uppercase tracking-[0.2em] text-foreground/80 hover:text-primary"
+                data-active={active === l.id ? "true" : "false"}
+                className="header-link"
               >
                 {t(l.key)}
               </a>
             ))}
-            <div className="flex items-center gap-3 pt-3 border-t border-border">
-              <LangBtn active={lang === "pt"} onClick={() => setLang("pt")}>
-                PT
-              </LangBtn>
-              <LangBtn active={lang === "en"} onClick={() => setLang("en")}>
-                EN
-              </LangBtn>
-            </div>
-          </div>
+          </nav>
+
+          {/* Mobile hamburger */}
+          <button
+            className="md:hidden inline-flex items-center justify-center"
+            onClick={() => setOpen((o) => !o)}
+            aria-label="Menu"
+            style={{
+              width: 44,
+              height: 44,
+              color: "var(--olive)",
+            }}
+          >
+            <Menu className="w-6 h-6" strokeWidth={1.5} />
+          </button>
         </div>
-      )}
+      </div>
+
+      {/* Mobile drawer */}
+      <div
+        className={`mobile-drawer-backdrop ${open ? "is-open" : ""}`}
+        onClick={() => setOpen(false)}
+        aria-hidden="true"
+      />
+      <aside
+        className={`mobile-drawer ${open ? "is-open" : ""}`}
+        aria-hidden={!open}
+      >
+        <div className="flex justify-end p-5">
+          <button
+            onClick={() => setOpen(false)}
+            aria-label="Fechar menu"
+            className="inline-flex items-center justify-center"
+            style={{ width: 44, height: 44, color: "var(--olive)" }}
+          >
+            <X className="w-6 h-6" strokeWidth={1.5} />
+          </button>
+        </div>
+        <nav className="px-8 pb-10 flex flex-col gap-6">
+          {links.map((l) => (
+            <a
+              key={l.id}
+              href={`#${l.id}`}
+              onClick={() => setOpen(false)}
+              className="mobile-drawer-link"
+            >
+              {t(l.key)}
+            </a>
+          ))}
+        </nav>
+      </aside>
     </header>
   );
 }
@@ -108,9 +141,8 @@ function LangBtn({
   return (
     <button
       onClick={onClick}
-      className={`text-[11px] tracking-[0.18em] font-medium transition-all ${
-        active ? "text-primary" : "text-muted-foreground hover:text-foreground"
-      }`}
+      data-active={active ? "true" : "false"}
+      className="lang-btn"
     >
       {children}
     </button>

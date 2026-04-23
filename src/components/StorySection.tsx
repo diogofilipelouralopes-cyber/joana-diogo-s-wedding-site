@@ -15,19 +15,19 @@ export function StorySection() {
   ];
 
   return (
-    <section id="story" className="py-28 sm:py-40 px-6 scroll-mt-20">
+    <section id="story" className="py-20 sm:py-28 md:py-40 px-5 sm:px-6 scroll-mt-24">
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-20">
-          <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
-            2020 — 2026
+        <div className="text-center mb-16 sm:mb-20">
+          <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
+            {t("story.kicker")}
           </p>
-          <h2 className="font-display text-5xl sm:text-6xl text-primary">{t("story.title")}</h2>
+          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-primary">{t("story.title")}</h2>
           <div className="divider-ornament mt-6 max-w-xs mx-auto">
             <Heart className="w-3 h-3" strokeWidth={1} />
           </div>
         </div>
 
-        <div className="space-y-16 sm:space-y-24">
+        <div className="space-y-14 sm:space-y-20 md:space-y-24">
           {items.map((it, i) => (
             <div
               key={i}
@@ -44,13 +44,13 @@ export function StorySection() {
                 />
               </div>
               <div className="md:px-4">
-                <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">
+                <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">
                   {String(i + 1).padStart(2, "0")}
                 </p>
-                <h3 className="font-display text-3xl sm:text-4xl text-primary mb-4">
+                <h3 className="font-display text-2xl sm:text-3xl md:text-4xl text-primary mb-4">
                   {it.title}
                 </h3>
-                <p className="text-foreground/75 leading-relaxed">{it.desc}</p>
+                <p className="text-foreground/75 leading-relaxed text-sm sm:text-base">{it.desc}</p>
               </div>
             </div>
           ))}

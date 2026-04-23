@@ -352,3 +352,179 @@
 }
 
 
+
+/* === Sticky Header === */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background-color: color-mix(in oklab, var(--cream) 88%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid color-mix(in oklab, var(--gold) 50%, transparent);
+}
+@media (min-width: 768px) {
+  .site-header { padding-top: 20px; padding-bottom: 20px; }
+}
+
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Cinzel", serif;
+}
+.lang-sep { color: color-mix(in oklab, var(--olive) 50%, transparent); font-size: 0.75rem; }
+.lang-btn {
+  font-family: "Cinzel", serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--olive);
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: all 0.25s ease;
+  min-width: 36px;
+  min-height: 36px;
+}
+.lang-btn[data-active="true"] {
+  background-color: var(--gold);
+  color: var(--cream);
+}
+.lang-btn:hover:not([data-active="true"]) { color: var(--gold); }
+
+.header-logo {
+  transition: transform 0.35s ease;
+}
+.header-logo:hover {
+  transform: rotate(5deg) scale(1.05);
+}
+
+.header-link {
+  position: relative;
+  font-family: "Cinzel", serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--olive);
+  padding: 8px 2px;
+  transition: transform 0.3s ease, color 0.3s ease;
+  display: inline-block;
+}
+@media (min-width: 1024px) {
+  .header-link { font-size: 0.85rem; }
+}
+.header-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1.5px;
+  background-color: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s ease;
+}
+.header-link:hover {
+  transform: translateY(-3px);
+  color: var(--gold);
+}
+.header-link:hover::after,
+.header-link[data-active="true"]::after {
+  transform: scaleX(1);
+}
+.header-link[data-active="true"] {
+  color: var(--gold);
+}
+
+/* Push page content below the fixed header */
+body { padding-top: 0; }
+#top { padding-top: 0; }
+
+/* === Mobile drawer === */
+.mobile-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: color-mix(in oklab, var(--olive) 30%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 60;
+}
+.mobile-drawer-backdrop.is-open { opacity: 1; pointer-events: auto; }
+
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100dvh;
+  width: min(80vw, 320px);
+  background-color: var(--cream);
+  border-left: 1px solid color-mix(in oklab, var(--gold) 40%, transparent);
+  box-shadow: -10px 0 40px -12px color-mix(in oklab, var(--olive) 35%, transparent);
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+}
+.mobile-drawer.is-open { transform: translateX(0); }
+
+.mobile-drawer-link {
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--olive);
+  padding: 12px 0;
+  border-bottom: 1px dashed color-mix(in oklab, var(--olive) 25%, transparent);
+  transition: color 0.25s ease, padding-left 0.25s ease;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.mobile-drawer-link:hover { color: var(--gold); padding-left: 6px; }
+
+/* === Hero background === */
+.hero-bg {
+  background-color: var(--cream);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+@media (max-width: 767px) {
+  .hero-bg { background-attachment: scroll; }
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--ivory) 70%, transparent) 0%,
+    color-mix(in oklab, var(--cream) 60%, transparent) 100%
+  );
+  pointer-events: none;
+}
+
+/* === Travel cards hover === */
+.travel-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 1px 2px color-mix(in oklab, var(--olive) 6%, transparent);
+}
+.travel-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px -16px color-mix(in oklab, var(--olive) 30%, transparent);
+}
+
+/* === Mobile sticky RSVP — keep above WhatsApp FAB === */
+@media (max-width: 640px) {
+  .sticky-rsvp-btn { bottom: 1rem; right: 1rem; padding: 0.7rem 1.1rem; font-size: 0.7rem; }
+}
+
+/* Prevent any element from causing horizontal overflow */
+html, body { overflow-x: hidden; max-width: 100vw; }

@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
+import { useI18n } from "@/lib/i18n";
 
-/**
- * Floating sticky "Confirmar Presença" button shown after the user scrolls
- * past 50% of the page.
- */
 export function StickyRsvpButton() {
+  const { t } = useI18n();
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -26,11 +24,11 @@ export function StickyRsvpButton() {
   return (
     <a
       href="#rsvp"
-      aria-label="Confirmar Presença"
+      aria-label={t("hero.cta")}
       className="sticky-rsvp-btn"
       data-visible={show ? "true" : "false"}
     >
-      Confirmar Presença
+      {t("hero.cta")}
     </a>
   );
 }

@@ -1,8 +1,6 @@
 import { Plane, Heart, MapPin } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
-/**
- * Simplified J&D monogram (no circle) used in the footer.
- */
 function MonogramSimple({ size = 100 }: { size?: number }) {
   const initialsSize = `${size * 0.6}px`;
   const ampSize = `${size * 0.55}px`;
@@ -40,9 +38,6 @@ function MonogramSimple({ size = 100 }: { size?: number }) {
   );
 }
 
-/**
- * Gold variant of the DecorativeDivider for use on the dark olive footer.
- */
 function GoldDivider() {
   const iconStyle = {
     color: "var(--gold)",
@@ -61,22 +56,13 @@ function GoldDivider() {
         style={{ borderTop: "1px dashed var(--gold)", opacity: 0.45 }}
       />
       <div className="absolute inset-0 flex items-center justify-center gap-6">
-        <span
-          className="inline-flex items-center justify-center"
-          style={{ ...iconStyle, padding: "0 8px" }}
-        >
+        <span className="inline-flex items-center justify-center" style={{ ...iconStyle, padding: "0 8px" }}>
           <Plane size={16} strokeWidth={1.25} />
         </span>
-        <span
-          className="inline-flex items-center justify-center"
-          style={{ ...iconStyle, padding: "0 8px" }}
-        >
+        <span className="inline-flex items-center justify-center" style={{ ...iconStyle, padding: "0 8px" }}>
           <Heart size={16} strokeWidth={1.25} />
         </span>
-        <span
-          className="inline-flex items-center justify-center"
-          style={{ ...iconStyle, padding: "0 8px" }}
-        >
+        <span className="inline-flex items-center justify-center" style={{ ...iconStyle, padding: "0 8px" }}>
           <MapPin size={16} strokeWidth={1.25} />
         </span>
       </div>
@@ -85,38 +71,37 @@ function GoldDivider() {
 }
 
 export function SiteFooter() {
+  const { t } = useI18n();
   return (
     <footer
-      className="text-center px-6"
+      className="text-center px-5 sm:px-6"
       style={{
         backgroundColor: "#6B7A4F",
         color: "#F5EFE4",
-        paddingTop: "80px",
-        paddingBottom: "80px",
+        paddingTop: "64px",
+        paddingBottom: "64px",
       }}
     >
-      <div className="max-w-2xl mx-auto flex flex-col items-center gap-6">
-        <MonogramSimple size={100} />
+      <div className="max-w-2xl mx-auto flex flex-col items-center gap-5 sm:gap-6">
+        <MonogramSimple size={90} />
 
         <p
-          className="italic"
+          className="italic text-xl sm:text-2xl"
           style={{
             fontFamily: "Allura, 'Great Vibes', cursive",
             color: "var(--gold)",
-            fontSize: "1.5rem",
             lineHeight: 1,
           }}
         >
-          Com amor,
+          {t("footer.tagline")}
         </p>
 
         <p
-          className="uppercase"
+          className="uppercase text-base sm:text-xl"
           style={{
             fontFamily: "Cinzel, serif",
             color: "#F5EFE4",
             letterSpacing: "0.3em",
-            fontSize: "1.3rem",
             fontWeight: 500,
           }}
         >
@@ -124,11 +109,11 @@ export function SiteFooter() {
         </p>
 
         <p
+          className="text-sm sm:text-lg"
           style={{
             fontFamily: "Cinzel, serif",
             color: "var(--gold)",
             letterSpacing: "0.3em",
-            fontSize: "1.1rem",
           }}
         >
           19 · 09 · 2026
@@ -137,15 +122,14 @@ export function SiteFooter() {
         <GoldDivider />
 
         <p
-          className="italic"
+          className="italic text-xs sm:text-sm"
           style={{
             fontFamily: "Lato, sans-serif",
             color: "#F5EFE4",
             opacity: 0.85,
-            fontSize: "0.9rem",
           }}
         >
-          Feito com <span style={{ color: "var(--gold)" }}>♡</span> para a nossa maior viagem
+          {t("footer.made")}
         </p>
       </div>
     </footer>
