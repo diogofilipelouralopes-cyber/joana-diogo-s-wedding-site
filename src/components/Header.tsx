@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Camera, Music } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { Monogram } from "@/components/Monogram";
 import { useIsMobile } from "@/hooks/use-mobile";
-
-import { Camera, Music } from "lucide-react";
 
 const links = [
   { id: "top", key: "nav.home" as const, icon: null },
