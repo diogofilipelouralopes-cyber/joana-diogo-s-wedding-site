@@ -87,7 +87,7 @@ export function CountdownSection() {
             <Card value={time.days} label={t("count.days")} />
             <Card value={time.hours} label={t("count.hours")} />
             <Card value={time.mins} label={t("count.mins")} />
-            <Card value={time.secs} label={t("count.secs")} suppressHydration={!mounted} />
+            <Card value={time.secs} label={t("count.secs")} />
           </div>
         )}
       </div>
@@ -95,7 +95,7 @@ export function CountdownSection() {
   );
 }
 
-function Card({ value, label, suppressHydration }: { value: number; label: string; suppressHydration?: boolean }) {
+function Card({ value, label }: { value: number; label: string }) {
   return (
     <div
       className="flex flex-col items-center justify-center w-full"
