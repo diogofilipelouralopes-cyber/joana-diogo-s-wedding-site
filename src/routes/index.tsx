@@ -167,6 +167,9 @@ function Index() {
         </div>
       </section>
 
+      {/* QUICK NAV */}
+      <QuickNav />
+
       <DecorativeDivider />
 
       {/* STORY */}
