@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { Monogram } from "@/components/Monogram";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const links = [
   { id: "top", key: "nav.home" as const },
@@ -16,6 +17,7 @@ export function Header() {
   const { t, lang, setLang } = useI18n();
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>("top");
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const onScroll = () => {
@@ -49,27 +51,26 @@ export function Header() {
           aria-label="Joana & Diogo"
           className="header-logo shrink-0 inline-flex"
         >
-          <span className="inline-flex sm:hidden" aria-hidden="true">
-            <Monogram size={52} />
-          </span>
-          <span className="hidden sm:inline-flex" aria-hidden="true">
-            <Monogram size={75} />
+          <span aria-hidden="true">
+            <Monogram size={isMobile ? 52 : 75} />
           </span>
         </a>
 
-        {/* CENTER: Nav (desktop) */}
-        <nav className="hidden md:flex items-center gap-6 lg:gap-9">
-          {links.map((l) => (
-            <a
-              key={l.id}
-              href={`#${l.id}`}
-              data-active={active === l.id ? "true" : "false"}
-              className="header-link"
-            >
-              {t(l.key)}
-            </a>
-          ))}
-        </nav>
+        {/* CENTER: Nav (desktop only) */}
+        {!isMobile && (
+          <nav className="flex items-center gap-6 lg:gap-9">
+            {links.map((l) => (
+              <a
+                key={l.id}
+                href={`#${l.id}`}
+                data-active={active === l.id ? "true" : "false"}
+                className="header-link"
+              >
+                {t(l.key)}
+              </a>
+            ))}
+          </nav>
+        )}
 
         {/* RIGHT: Lang toggle + mobile hamburger */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
@@ -84,54 +85,60 @@ export function Header() {
           </div>
 
           {/* Mobile hamburger */}
-          <button
-            className="md:hidden inline-flex items-center justify-center"
-            onClick={() => setOpen((o) => !o)}
-            aria-label="Menu"
-            style={{
-              width: 44,
-              height: 44,
-              color: "var(--olive)",
-            }}
-          >
-            <Menu className="w-6 h-6" strokeWidth={1.5} />
-          </button>
+          {isMobile && (
+            <button
+              className="inline-flex items-center justify-center"
+              onClick={() => setOpen((o) => !o)}
+              aria-label="Menu"
+              style={{
+                width: 44,
+                height: 44,
+                color: "var(--olive)",
+              }}
+            >
+              <Menu className="w-6 h-6" strokeWidth={1.5} />
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Mobile drawer */}
-      <div
-        className={`mobile-drawer-backdrop ${open ? "is-open" : ""}`}
-        onClick={() => setOpen(false)}
-        aria-hidden="true"
-      />
-      <aside
-        className={`mobile-drawer ${open ? "is-open" : ""}`}
-        aria-hidden={!open}
-      >
-        <div className="flex justify-end p-5">
-          <button
+      {/* Mobile drawer (only on mobile) */}
+      {isMobile && (
+        <>
+          <div
+            className={`mobile-drawer-backdrop ${open ? "is-open" : ""}`}
             onClick={() => setOpen(false)}
-            aria-label="Fechar menu"
-            className="inline-flex items-center justify-center"
-            style={{ width: 44, height: 44, color: "var(--olive)" }}
+            aria-hidden="true"
+          />
+          <aside
+            className={`mobile-drawer ${open ? "is-open" : ""}`}
+            aria-hidden={!open}
           >
-            <X className="w-6 h-6" strokeWidth={1.5} />
-          </button>
-        </div>
-        <nav className="px-8 pb-10 flex flex-col gap-6">
-          {links.map((l) => (
-            <a
-              key={l.id}
-              href={`#${l.id}`}
-              onClick={() => setOpen(false)}
-              className="mobile-drawer-link"
-            >
-              {t(l.key)}
-            </a>
-          ))}
-        </nav>
-      </aside>
+            <div className="flex justify-end p-5">
+              <button
+                onClick={() => setOpen(false)}
+                aria-label="Fechar menu"
+                className="inline-flex items-center justify-center"
+                style={{ width: 44, height: 44, color: "var(--olive)" }}
+              >
+                <X className="w-6 h-6" strokeWidth={1.5} />
+              </button>
+            </div>
+            <nav className="px-8 pb-10 flex flex-col gap-6">
+              {links.map((l) => (
+                <a
+                  key={l.id}
+                  href={`#${l.id}`}
+                  onClick={() => setOpen(false)}
+                  className="mobile-drawer-link"
+                >
+                  {t(l.key)}
+                </a>
+              ))}
+            </nav>
+          </aside>
+        </>
+      )}
     </header>
   );
 }
