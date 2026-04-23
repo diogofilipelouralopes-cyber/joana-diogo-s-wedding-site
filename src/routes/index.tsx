@@ -188,6 +188,11 @@ function Index() {
 
       <DecorativeDivider />
 
+      {/* SAVE THE DATE */}
+      <SaveTheDateSection />
+
+      <DecorativeDivider />
+
       {/* EVENT */}
       <section id="event" className="py-28 sm:py-40 px-6 bg-secondary/40 scroll-mt-20">
         <div className="max-w-5xl mx-auto">
