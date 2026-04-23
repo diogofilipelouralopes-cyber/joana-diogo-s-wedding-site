@@ -39,12 +39,12 @@ export function Countdown() {
       {items.map((i) => (
         <div
           key={i.label}
-          className="bg-card/80 backdrop-blur-sm border border-border/60 rounded-xl py-3 sm:py-4 text-center shadow-sm"
+          className="card-gold py-3 sm:py-4 text-center"
         >
-          <div className="font-display text-2xl sm:text-4xl text-primary tabular-nums leading-none">
+          <div className="font-display text-2xl sm:text-4xl tabular-nums leading-none" style={{ color: "var(--gold)" }}>
             {String(i.value).padStart(2, "0")}
           </div>
-          <div className="mt-1.5 text-[9px] sm:text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+          <div className="mt-1.5 text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
             {i.label}
           </div>
         </div>

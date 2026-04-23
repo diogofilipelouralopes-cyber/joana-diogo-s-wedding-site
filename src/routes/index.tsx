@@ -158,7 +158,7 @@ function Index() {
             </div>
           </div>
 
-          <div className="bg-background border border-border p-8 sm:p-10 text-center mb-8">
+          <div className="card-gold p-8 sm:p-10 text-center mb-8">
             <h3 className="font-display text-2xl sm:text-3xl text-primary tracking-[0.08em]">
               {t("event.venue")}
             </h3>
@@ -181,7 +181,7 @@ function Index() {
           </div>
 
           {/* Embedded map */}
-          <div className="overflow-hidden border border-border bg-background">
+          <div className="overflow-hidden card-gold">
             <iframe
               title="Glicínia Wedding House — mapa"
               src="https://www.google.com/maps?q=Glic%C3%ADnia+Wedding+House+Freamunde&output=embed"
@@ -268,7 +268,7 @@ function InfoCard({
   desc: string;
 }) {
   return (
-    <div className="bg-background p-8 border border-border">
+    <div className="card-gold p-8">
       <div className="text-primary mb-4">{icon}</div>
       <h3 className="font-display text-xl mb-3 text-primary">{title}</h3>
       <p className="text-sm leading-relaxed text-foreground/75">{desc}</p>

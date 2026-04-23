@@ -42,7 +42,7 @@ export function GiftsSection() {
             onCopy={() => copy(ibanRev)}
             copyLabel={t("gifts.copy")}
           />
-          <div className="bg-background border border-border p-7 sm:p-8">
+          <div className="card-gold p-7 sm:p-8">
             <div className="flex items-center gap-2 mb-3">
               <Smartphone className="w-4 h-4 text-primary" strokeWidth={1.5} />
               <h3 className="font-display text-xl text-primary">{t("gifts.mbway")}</h3>
@@ -50,7 +50,7 @@ export function GiftsSection() {
             <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-1">
               Joana Nora
             </p>
-            <p className="font-display text-2xl text-foreground">+351 912 633 104</p>
+            <p className="font-display text-2xl" style={{ color: "var(--gold)" }}>+351 912 633 104</p>
           </div>
         </div>
       </div>
@@ -72,7 +72,7 @@ function GiftCard({
   copyLabel: string;
 }) {
   return (
-    <div className="bg-background border border-border p-7 sm:p-8">
+    <div className="card-gold p-7 sm:p-8">
       <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-1">{label}</p>
       <p className="font-display text-xl text-primary mb-3">{owner}</p>
       <div className="flex items-center justify-between gap-3 flex-wrap">
