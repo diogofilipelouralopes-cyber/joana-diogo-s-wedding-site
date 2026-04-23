@@ -1,33 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Heart, CalendarPlus } from "lucide-react";
 import { Monogram } from "@/components/Monogram";
+import { downloadWeddingICS } from "@/lib/calendar";
 
 const TARGET = new Date("2026-09-19T14:00:00+01:00").getTime();
-
-function downloadICS() {
-  const ics = [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//Joana & Diogo//Wedding//EN",
-    "BEGIN:VEVENT",
-    "UID:joana-diogo-2026@wedding",
-    "DTSTAMP:20260101T000000Z",
-    "DTSTART:20260919T130000Z",
-    "DTEND:20260920T040000Z",
-    "SUMMARY:Casamento Joana & Diogo",
-    "LOCATION:Glicínia Wedding House, Freamunde, Portugal",
-    "DESCRIPTION:Cerimónia às 14h00",
-    "END:VEVENT",
-    "END:VCALENDAR",
-  ].join("\n");
-  const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "Joana-Diogo-2026.ics";
-  link.click();
-  URL.revokeObjectURL(url);
-}
 
 export function SaveTheDateSection() {
   const ref = useRef<HTMLDivElement | null>(null);
