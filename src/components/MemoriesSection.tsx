@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Camera, Smartphone, Heart, Sparkles, ExternalLink } from "lucide-react";
+import { Camera, Smartphone, Heart, Sparkles } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
 const ALBUM_URL = "https://photos.app.goo.gl/fRgpcdDbq9YgNJhi6";
