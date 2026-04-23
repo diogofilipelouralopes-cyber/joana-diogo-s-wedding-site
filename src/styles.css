@@ -494,6 +494,14 @@ body { padding-top: 0; }
   background-color: var(--cream);
   scroll-margin-top: 80px;
 }
+.hero-section {
+  padding-top: 120px;
+}
+@media (min-width: 768px) {
+  .hero-section {
+    padding-top: 160px;
+  }
+}
 .hero-picture {
   position: absolute;
   inset: 0;
