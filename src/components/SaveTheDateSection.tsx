@@ -64,12 +64,7 @@ export function SaveTheDateSection() {
         }}
       >
         <div className="flex justify-center" aria-hidden="true">
-          <span className="inline-flex sm:hidden">
-            <Monogram size={150} />
-          </span>
-          <span className="hidden sm:inline-flex">
-            <Monogram size={200} />
-          </span>
+          <Monogram size={200} className="monogram-responsive" />
         </div>
 
         <p
