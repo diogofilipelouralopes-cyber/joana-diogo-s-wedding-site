@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Countdown } from "@/components/Countdown";
 import { RsvpForm } from "@/components/RsvpForm";
 import { Header } from "@/components/Header";
 import { StorySection } from "@/components/StorySection";
@@ -9,7 +8,6 @@ import { GiftsSection } from "@/components/GiftsSection";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider, useI18n } from "@/lib/i18n";
-import heroImg from "@/assets/hero-florals.jpg";
 import { MapPin, Clock, Hotel, Heart, CalendarPlus, Shirt, Car, Plane } from "lucide-react";
 
 export const Route = createFileRoute("/")({
