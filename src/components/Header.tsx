@@ -4,13 +4,18 @@ import { useI18n } from "@/lib/i18n";
 import { Monogram } from "@/components/Monogram";
 import { useIsMobile } from "@/hooks/use-mobile";
 
+import { Camera, Music } from "lucide-react";
+
 const links = [
-  { id: "top", key: "nav.home" as const },
-  { id: "event", key: "nav.event" as const },
-  { id: "info", key: "nav.info" as const },
-  { id: "faq", key: "nav.faq" as const },
-  { id: "rsvp", key: "nav.rsvp" as const },
-  { id: "gifts", key: "nav.gifts" as const },
+  { id: "top", key: "nav.home" as const, icon: null },
+  { id: "story", key: "nav.story" as const, icon: null },
+  { id: "rsvp", key: "nav.rsvp" as const, icon: null },
+  { id: "event", key: "nav.event" as const, icon: null },
+  { id: "info", key: "nav.info" as const, icon: null },
+  { id: "fotos", key: "nav.photos" as const, icon: <Camera className="w-4 h-4" strokeWidth={1.5} /> },
+  { id: "musica", key: "nav.music" as const, icon: <Music className="w-4 h-4" strokeWidth={1.5} /> },
+  { id: "faq", key: "nav.faq" as const, icon: null },
+  { id: "gifts", key: "nav.gifts" as const, icon: null },
 ];
 
 export function Header() {
