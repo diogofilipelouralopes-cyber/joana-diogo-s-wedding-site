@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { z } from "zod";
 import { User, Mail, Phone, Music, Heart, X, Plane, Send } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
+const SHEETS_WEBHOOK_URL =
+  "https://script.google.com/macros/s/AKfycbxbhmu0sJwJ_gkyvXf2AhmqJapuJqVFgIcKMsqq9rNlM2-hFDGiffrMwlq36txBUeL1/exec";
 
 /* ---------- Validation ---------- */
 const schema = z.object({
@@ -164,53 +167,42 @@ export function RsvpForm() {
     setLoading(true);
 
     const payload = {
-      name: parsed.data.name,
+      nome: parsed.data.name,
       email: parsed.data.email,
-      phone: parsed.data.phone,
-      guests: parsed.data.guests,
-      attending: parsed.data.attending === "yes",
-      allergies: parsed.data.allergies || null,
-      song_suggestion: parsed.data.song || null,
-      message: parsed.data.message || null,
+      telefone: parsed.data.phone,
+      pessoas: parsed.data.guests,
+      presenca: parsed.data.attending === "yes" ? "Sim" : "Não",
+      restricoes: parsed.data.allergies || "",
+      musica: parsed.data.song || "",
+      mensagem: parsed.data.message || "",
       submitted_at: new Date().toISOString(),
     };
 
     try {
-      // 1) Persist in our backend (source of truth)
-      const { error } = await supabase.from("rsvps").insert({
-        name: payload.name,
-        email: payload.email,
-        phone: payload.phone,
-        guests: payload.guests,
-        attending: payload.attending,
-        allergies: payload.allergies,
-        song_suggestion: payload.song_suggestion,
-        message: payload.message,
+      // Send to Google Sheets via Apps Script webhook (no-cors: response is opaque)
+      await fetch(SHEETS_WEBHOOK_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
-      if (error) throw error;
-
-      // 2) Optional: forward to Google Sheet via webhook (if configured)
-      const webhook = import.meta.env.VITE_RSVP_WEBHOOK as string | undefined;
-      if (webhook) {
-        try {
-          await fetch(webhook, {
-            method: "POST",
-            mode: "no-cors", // Google Apps Script webhooks usually don't return CORS headers
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          });
-        } catch {
-          /* non-blocking */
-        }
-      }
 
       // Fade out then show confirmation
       setFadingOut(true);
       setTimeout(() => setDone(true), 450);
     } catch {
-      setSubmitError(
-        "Algo correu mal. Por favor tenta novamente ou contacta-nos diretamente.",
-      );
+      const msg =
+        "Algo correu mal. Por favor tenta novamente ou contacta-nos diretamente.";
+      setSubmitError(msg);
+      toast.error(msg, {
+        style: {
+          background: "var(--ivory)",
+          border: "1px solid var(--destructive)",
+          color: "var(--destructive)",
+          fontFamily: "Cinzel, serif",
+          letterSpacing: "0.1em",
+        },
+      });
     } finally {
       setLoading(false);
     }
