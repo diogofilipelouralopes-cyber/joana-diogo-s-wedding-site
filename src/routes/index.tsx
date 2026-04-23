@@ -184,6 +184,24 @@ function Index() {
 
       <DecorativeDivider />
 
+      {/* RSVP — moved up for priority */}
+      <section id="rsvp" className="py-20 sm:py-28 md:py-40 px-5 sm:px-6 bg-secondary/40 scroll-mt-24">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-10 sm:mb-12">
+            <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
+              {t("rsvp.subtitle")}
+            </p>
+            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-primary">{t("rsvp.title")}</h2>
+            <div className="divider-ornament mt-6 max-w-xs mx-auto">
+              <Heart className="w-3 h-3" strokeWidth={1} />
+            </div>
+          </div>
+          <RsvpForm />
+        </div>
+      </section>
+
+      <DecorativeDivider />
+
       {/* EVENT */}
       <section id="event" className="py-20 sm:py-28 md:py-40 px-5 sm:px-6 bg-secondary/40 scroll-mt-24">
         <div className="max-w-5xl mx-auto">
@@ -331,36 +349,18 @@ function Index() {
 
       <DecorativeDivider />
 
-      {/* MEMORIES (shared album) */}
+      {/* PHOTOS (shared album) */}
       <MemoriesSection />
 
       <DecorativeDivider />
 
-      {/* PLAYLIST */}
+      {/* MUSIC (Spotify playlist) */}
       <PlaylistSection />
 
       <DecorativeDivider />
 
       {/* FAQ */}
       <FaqSection />
-
-      <DecorativeDivider />
-
-      {/* RSVP */}
-      <section id="rsvp" className="py-20 sm:py-28 md:py-40 px-5 sm:px-6 bg-secondary/40 scroll-mt-24">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-10 sm:mb-12">
-            <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
-              {t("rsvp.subtitle")}
-            </p>
-            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-primary">{t("rsvp.title")}</h2>
-            <div className="divider-ornament mt-6 max-w-xs mx-auto">
-              <Heart className="w-3 h-3" strokeWidth={1} />
-            </div>
-          </div>
-          <RsvpForm />
-        </div>
-      </section>
 
       <DecorativeDivider />
 
