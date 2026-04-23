@@ -135,7 +135,8 @@ export function Header() {
                   onClick={() => setOpen(false)}
                   className="mobile-drawer-link"
                 >
-                  {t(l.key)}
+                  {l.icon && <span className="inline-flex" style={{ color: "var(--gold)" }}>{l.icon}</span>}
+                  <span>{t(l.key)}</span>
                 </a>
               ))}
             </nav>
