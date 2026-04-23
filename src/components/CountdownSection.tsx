@@ -17,9 +17,12 @@ function diff(now: number) {
 
 export function CountdownSection() {
   const { t } = useI18n();
-  const [time, setTime] = useState(() => diff(Date.now()));
+  const [time, setTime] = useState({ days: 0, hours: 0, mins: 0, secs: 0, over: false });
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    setTime(diff(Date.now()));
     const id = setInterval(() => setTime(diff(Date.now())), 1000);
     return () => clearInterval(id);
   }, []);
@@ -84,7 +87,7 @@ export function CountdownSection() {
             <Card value={time.days} label={t("count.days")} />
             <Card value={time.hours} label={t("count.hours")} />
             <Card value={time.mins} label={t("count.mins")} />
-            <Card value={time.secs} label={t("count.secs")} />
+            <Card value={time.secs} label={t("count.secs")} suppressHydration={!mounted} />
           </div>
         )}
       </div>
@@ -92,7 +95,7 @@ export function CountdownSection() {
   );
 }
 
-function Card({ value, label }: { value: number; label: string }) {
+function Card({ value, label, suppressHydration }: { value: number; label: string; suppressHydration?: boolean }) {
   return (
     <div
       className="flex flex-col items-center justify-center w-full"
@@ -107,6 +110,7 @@ function Card({ value, label }: { value: number; label: string }) {
       }}
     >
       <span
+        suppressHydrationWarning
         className="text-4xl sm:text-5xl md:text-6xl"
         style={{
           fontFamily: "Cinzel, serif",
