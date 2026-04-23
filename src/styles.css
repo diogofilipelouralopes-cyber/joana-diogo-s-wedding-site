@@ -230,3 +230,29 @@
   transform: translateY(-50%);
 }
 
+/* === Decorative Divider === */
+@keyframes decor-fade-up {
+  0%   { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes decor-plane-shift {
+  0%, 100% { transform: translateX(-5px); }
+  50%      { transform: translateX(5px); }
+}
+.decor-icon-hidden {
+  opacity: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.decor-icon-in {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  animation: decor-fade-up 0.6s ease-out both;
+}
+.decor-plane-loop > svg {
+  animation: decor-plane-shift 3.5s ease-in-out infinite;
+}
+
