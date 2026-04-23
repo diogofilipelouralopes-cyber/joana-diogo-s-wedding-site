@@ -18,7 +18,7 @@ import { StickyRsvpButton } from "@/components/StickyRsvpButton";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { MapPin, Clock, Hotel, Heart, CalendarPlus, Shirt, Car, Plane, ParkingCircle, ExternalLink } from "lucide-react";
-import heroBg from "@/assets/hero-background.jpg";
+import heroBg from "@/assets/hero-tenerife-sunset.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
