@@ -3,9 +3,7 @@ import { z } from "zod";
 import { User, Mail, Phone, Music, Heart, X, Plane, Send } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
-
-const SHEETS_WEBHOOK_URL =
-  "https://script.google.com/macros/s/AKfycbxbhmu0sJwJ_gkyvXf2AhmqJapuJqVFgIcKMsqq9rNlM2-hFDGiffrMwlq36txBUeL1/exec";
+import { supabase } from "@/integrations/supabase/client";
 
 type FormErrors = Partial<
   Record<"name" | "email" | "phone" | "guests" | "attending" | "allergies" | "song" | "message", string>
@@ -166,25 +164,19 @@ export function RsvpForm() {
     setErrors({});
     setLoading(true);
 
-    const payload = {
-      nome: parsed.data.name,
-      email: parsed.data.email,
-      telefone: parsed.data.phone,
-      pessoas: parsed.data.guests,
-      presenca: parsed.data.attending === "yes" ? "Sim" : "Não",
-      restricoes: parsed.data.allergies || "",
-      musica: parsed.data.song || "",
-      mensagem: parsed.data.message || "",
-      submitted_at: new Date().toISOString(),
-    };
-
     try {
-      await fetch(SHEETS_WEBHOOK_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(payload),
+      const { error } = await supabase.from("rsvps").insert({
+        name: parsed.data.name,
+        email: parsed.data.email,
+        phone: parsed.data.phone,
+        guests: parsed.data.guests,
+        attending: parsed.data.attending === "yes",
+        allergies: parsed.data.allergies || null,
+        song_suggestion: parsed.data.song || null,
+        message: parsed.data.message || null,
       });
+
+      if (error) throw error;
 
       setFadingOut(true);
       setTimeout(() => setDone(true), 450);
