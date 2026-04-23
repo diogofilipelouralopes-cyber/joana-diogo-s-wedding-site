@@ -10,6 +10,8 @@ import { GallerySection } from "@/components/GallerySection";
 import { Monogram } from "@/components/Monogram";
 import { GiftsSection } from "@/components/GiftsSection";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
+import { SiteFooter } from "@/components/SiteFooter";
+import { StickyRsvpButton } from "@/components/StickyRsvpButton";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { MapPin, Clock, Hotel, Heart, CalendarPlus, Shirt, Car, Plane } from "lucide-react";
@@ -291,26 +293,11 @@ function Index() {
 
       <DecorativeDivider />
 
-      {/* SAVE THE DATE / FOOTER */}
-      <footer className="py-20 px-6 border-t border-border text-center">
-        <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-8">
-          {t("footer.tagline")}
-        </p>
-        <div className="flex justify-center mb-6">
-          <Monogram size={200} />
-        </div>
-        <p className="font-script text-4xl mt-4" style={{ color: "var(--gold)" }}>
-          Save the Date
-        </p>
-      </footer>
+      {/* FOOTER */}
+      <SiteFooter />
 
       {/* FLOATING ACTIONS */}
-      <a
-        href="#rsvp"
-        className="fixed bottom-6 right-6 z-40 px-5 py-3 bg-primary text-primary-foreground font-display text-sm tracking-[0.15em] uppercase shadow-lg hover:bg-primary/90 transition-all hover:-translate-y-0.5"
-      >
-        {t("hero.cta")}
-      </a>
+      <StickyRsvpButton />
       <WhatsAppFab />
     </div>
   );

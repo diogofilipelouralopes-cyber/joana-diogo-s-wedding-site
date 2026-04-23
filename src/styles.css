@@ -282,4 +282,36 @@
 .std-card-hidden { opacity: 0; transform: translateY(28px); }
 .std-card-in     { animation: std-fade-up 1s ease-out both; }
 
+/* === Sticky RSVP floating button === */
+.sticky-rsvp-btn {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 50;
+  padding: 0.85rem 1.4rem;
+  background-color: var(--olive);
+  color: var(--cream);
+  font-family: "Cinzel", serif;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  border-radius: 999px;
+  box-shadow: 0 10px 28px -10px color-mix(in oklab, var(--olive) 60%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(16px);
+  transition: opacity 0.4s ease, transform 0.4s ease, background-color 0.25s ease, color 0.25s ease;
+}
+.sticky-rsvp-btn[data-visible="true"] {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.sticky-rsvp-btn:hover,
+.sticky-rsvp-btn:focus-visible {
+  background-color: var(--gold);
+  color: var(--ivory);
+  outline: none;
+}
+
 
