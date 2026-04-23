@@ -167,3 +167,66 @@
     position: relative;
   }
 }
+
+/* === Hero animations & decorative pieces === */
+@keyframes hero-mono-in {
+  0%   { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes hero-text-in {
+  0%   { opacity: 0; transform: translateY(14px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes plane-fly {
+  0%   { offset-distance: 0%;   opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+
+.hero-mono-anim   { animation: hero-mono-in 1.2s ease-out both; }
+.hero-text-anim-1 { animation: hero-text-in 0.9s ease-out 0.6s both; }
+.hero-text-anim-2 { animation: hero-text-in 0.9s ease-out 0.9s both; }
+.hero-text-anim-3 { animation: hero-text-in 0.9s ease-out 1.2s both; }
+.hero-text-anim-4 { animation: hero-text-in 0.9s ease-out 1.5s both; }
+
+/* Aged-paper / stylized map background for hero */
+.hero-map-bg {
+  background-color: var(--cream);
+  background-image:
+    radial-gradient(ellipse at 18% 22%, color-mix(in oklab, var(--sage) 22%, transparent) 0, transparent 40%),
+    radial-gradient(ellipse at 82% 78%, color-mix(in oklab, var(--gold) 18%, transparent) 0, transparent 45%),
+    radial-gradient(ellipse at 50% 50%, color-mix(in oklab, var(--ivory) 80%, transparent) 0, transparent 60%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'><g fill='none' stroke='%236B7A4F' stroke-width='0.6' opacity='0.18'><path d='M0,420 C120,380 200,460 320,400 C440,340 520,420 600,380'/><path d='M0,300 C140,260 240,340 360,280 C480,220 540,300 600,260'/><path d='M0,180 C100,140 220,220 340,160 C460,100 540,180 600,140'/><circle cx='120' cy='420' r='3'/><circle cx='320' cy='400' r='3'/><circle cx='520' cy='380' r='3'/><circle cx='240' cy='280' r='3'/><circle cx='460' cy='180' r='3'/></g><g fill='%23B8935A' opacity='0.25'><circle cx='120' cy='420' r='2'/><circle cx='460' cy='180' r='2'/></g></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='9'/><feColorMatrix values='0 0 0 0 0.72  0 0 0 0 0.58  0 0 0 0 0.35  0 0 0 0.07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: auto, auto, auto, 600px 600px, 200px 200px;
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat, repeat;
+}
+
+/* Plane traveling along a dotted path at the bottom of the hero */
+.hero-plane-path {
+  position: absolute;
+  inset: auto 0 28px 0;
+  height: 24px;
+  pointer-events: none;
+}
+.hero-plane-path::before {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 50%;
+  height: 0;
+  border-top: 1px dashed color-mix(in oklab, var(--olive) 45%, transparent);
+}
+.hero-plane {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  color: var(--gold);
+  offset-path: path("M 0,12 L 2000,12");
+  offset-rotate: 0deg;
+  animation: plane-fly 8s linear infinite;
+  transform: translateY(-50%);
+}
+
