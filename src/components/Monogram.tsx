@@ -70,6 +70,7 @@ export function Monogram({
 
       {/* Curved top text */}
       <text
+        aria-hidden="true"
         fill="#6B7A4F"
         style={{
           fontFamily: "Cinzel, serif",
@@ -85,6 +86,7 @@ export function Monogram({
 
       {/* Curved bottom text */}
       <text
+        aria-hidden="true"
         fill="#6B7A4F"
         style={{
           fontFamily: "Cinzel, serif",
@@ -109,6 +111,7 @@ export function Monogram({
 
       {/* Centered initials: J  &  D */}
       <text
+        aria-hidden="true"
         x="160"
         y="180"
         textAnchor="middle"
