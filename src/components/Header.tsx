@@ -7,6 +7,7 @@ const links = [
   { id: "top", key: "nav.home" as const },
   { id: "event", key: "nav.event" as const },
   { id: "info", key: "nav.info" as const },
+  { id: "faq", key: "nav.faq" as const },
   { id: "rsvp", key: "nav.rsvp" as const },
   { id: "gifts", key: "nav.gifts" as const },
 ];
