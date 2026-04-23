@@ -9,6 +9,9 @@ import { Header } from "@/components/Header";
 import { StorySection } from "@/components/StorySection";
 import { Monogram } from "@/components/Monogram";
 import { GiftsSection } from "@/components/GiftsSection";
+import { MemoriesSection } from "@/components/MemoriesSection";
+import { PlaylistSection } from "@/components/PlaylistSection";
+import { FaqSection } from "@/components/FaqSection";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
 import { SiteFooter } from "@/components/SiteFooter";
 import { StickyRsvpButton } from "@/components/StickyRsvpButton";
@@ -315,6 +318,21 @@ function Index() {
           </div>
         </div>
       </section>
+
+      <DecorativeDivider />
+
+      {/* MEMORIES (shared album) */}
+      <MemoriesSection />
+
+      <DecorativeDivider />
+
+      {/* PLAYLIST */}
+      <PlaylistSection />
+
+      <DecorativeDivider />
+
+      {/* FAQ */}
+      <FaqSection />
 
       <DecorativeDivider />
 

@@ -17,9 +17,10 @@ function diff(now: number) {
 
 export function CountdownSection() {
   const { t } = useI18n();
-  const [time, setTime] = useState(() => diff(Date.now()));
+  const [time, setTime] = useState({ days: 0, hours: 0, mins: 0, secs: 0, over: false });
 
   useEffect(() => {
+    setTime(diff(Date.now()));
     const id = setInterval(() => setTime(diff(Date.now())), 1000);
     return () => clearInterval(id);
   }, []);
@@ -107,6 +108,7 @@ function Card({ value, label }: { value: number; label: string }) {
       }}
     >
       <span
+        suppressHydrationWarning
         className="text-4xl sm:text-5xl md:text-6xl"
         style={{
           fontFamily: "Cinzel, serif",
