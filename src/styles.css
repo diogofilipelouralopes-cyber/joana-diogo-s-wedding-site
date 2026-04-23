@@ -492,6 +492,7 @@ body { padding-top: 0; }
 /* === Hero background === */
 .hero-bg {
   background-color: var(--cream);
+  scroll-margin-top: 80px;
 }
 .hero-picture {
   position: absolute;
@@ -529,6 +530,18 @@ body { padding-top: 0; }
 }
 .hero-text-shadow {
   text-shadow: 0 2px 8px rgba(245, 239, 228, 0.6);
+}
+
+/* Responsive monogram for Save The Date */
+.monogram-responsive {
+  width: 150px;
+  height: 150px;
+}
+@media (min-width: 640px) {
+  .monogram-responsive {
+    width: 200px;
+    height: 200px;
+  }
 }
 
 /* === Travel cards hover === */
