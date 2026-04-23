@@ -1,4 +1,11 @@
-import QRCode from "react-qr-code";
+import * as QRCodeModule from "react-qr-code";
+const QRCode = ((QRCodeModule as any).default ?? QRCodeModule) as React.ComponentType<{
+  value: string;
+  size?: number;
+  bgColor?: string;
+  fgColor?: string;
+  level?: "L" | "M" | "Q" | "H";
+}>;
 import { Camera, Smartphone, Heart, Sparkles, ExternalLink } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
