@@ -500,7 +500,7 @@ body { padding-top: 0; }
 @media (max-width: 767px) {
   .hero-bg {
     background-attachment: scroll;
-    background-position: 50% 30%;
+    background-position: 70% 35%;
     background-size: cover;
     min-height: 100vh;
     min-height: 100svh;
