@@ -1,15 +1,38 @@
-import * as QRCodeModule from "react-qr-code";
-const QRCode = ((QRCodeModule as any).default ?? QRCodeModule) as React.ComponentType<{
-  value: string;
-  size?: number;
-  bgColor?: string;
-  fgColor?: string;
-  level?: "L" | "M" | "Q" | "H";
-}>;
+import { useEffect, useState } from "react";
 import { Camera, Smartphone, Heart, Sparkles, ExternalLink } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
 const ALBUM_URL = "https://photos.app.goo.gl/fRgpcdDbq9YgNJhi6";
+
+function QRCodeClient({ value, size }: { value: string; size: number }) {
+  const [Comp, setComp] = useState<React.ComponentType<any> | null>(null);
+  useEffect(() => {
+    let mounted = true;
+    import("react-qr-code").then((mod) => {
+      if (!mounted) return;
+      const C = (mod as any).default ?? mod;
+      setComp(() => C);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+  if (!Comp) {
+    return (
+      <div
+        style={{
+          width: size,
+          height: size,
+          background: "#F5EFE4",
+          border: "1px dashed var(--gold)",
+          borderRadius: 8,
+        }}
+        aria-label="QR code loading"
+      />
+    );
+  }
+  return <Comp value={value} size={size} bgColor="#F5EFE4" fgColor="#6B7A4F" level="M" />;
+}
 
 export function MemoriesSection() {
   const { t } = useI18n();
@@ -57,13 +80,7 @@ export function MemoriesSection() {
                   borderRadius: 12,
                 }}
               >
-                <QRCode
-                  value={ALBUM_URL}
-                  size={200}
-                  bgColor="#F5EFE4"
-                  fgColor="#6B7A4F"
-                  level="M"
-                />
+                <QRCodeClient value={ALBUM_URL} size={200} />
               </div>
             </div>
 
