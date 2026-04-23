@@ -282,6 +282,43 @@
 .std-card-hidden { opacity: 0; transform: translateY(28px); }
 .std-card-in     { animation: std-fade-up 1s ease-out both; }
 
+/* === RSVP confirmation animations === */
+@keyframes rsvp-plane-fly {
+  0%   { transform: translateX(-120%) translateY(0) rotate(-4deg); opacity: 0; }
+  15%  { opacity: 1; }
+  50%  { transform: translateX(0%) translateY(-6px) rotate(0deg); }
+  85%  { opacity: 1; }
+  100% { transform: translateX(120%) translateY(0) rotate(4deg); opacity: 0; }
+}
+@keyframes rsvp-heart-pulse {
+  0%, 100% { transform: scale(1);   opacity: 0.85; }
+  50%      { transform: scale(1.18); opacity: 1; }
+}
+.rsvp-confirm { animation: std-fade-up 0.7s ease-out both; }
+.rsvp-plane-track {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  overflow: hidden;
+}
+.rsvp-plane-track::before {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 50%;
+  border-top: 1px dashed color-mix(in oklab, var(--gold) 55%, transparent);
+}
+.rsvp-plane {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -18px;
+  margin-left: -18px;
+  animation: rsvp-plane-fly 2.4s ease-in-out 0.1s both;
+}
+.rsvp-heart-pulse { animation: rsvp-heart-pulse 1.4s ease-in-out infinite; }
+
 /* === Sticky RSVP floating button === */
 .sticky-rsvp-btn {
   position: fixed;
