@@ -179,11 +179,13 @@ export function RsvpForm() {
       // 1) Persist in our backend (source of truth)
       const { error } = await supabase.from("rsvps").insert({
         name: payload.name,
+        email: payload.email,
         phone: payload.phone,
         guests: payload.guests,
         attending: payload.attending,
         allergies: payload.allergies,
         song_suggestion: payload.song_suggestion,
+        message: payload.message,
       });
       if (error) throw error;
 

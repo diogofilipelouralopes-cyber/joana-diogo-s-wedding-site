@@ -19,8 +19,10 @@ export type Database = {
           allergies: string | null
           attending: boolean
           created_at: string
+          email: string | null
           guests: number
           id: string
+          message: string | null
           name: string
           phone: string | null
           song_suggestion: string | null
@@ -29,8 +31,10 @@ export type Database = {
           allergies?: string | null
           attending: boolean
           created_at?: string
+          email?: string | null
           guests?: number
           id?: string
+          message?: string | null
           name: string
           phone?: string | null
           song_suggestion?: string | null
@@ -39,8 +43,10 @@ export type Database = {
           allergies?: string | null
           attending?: boolean
           created_at?: string
+          email?: string | null
           guests?: number
           id?: string
+          message?: string | null
           name?: string
           phone?: string | null
           song_suggestion?: string | null
