@@ -40,7 +40,7 @@ export function StorySection() {
                   src={it.img}
                   alt={it.title}
                   loading="lazy"
-                  className="w-full aspect-[4/3] object-cover hover:scale-105 transition-transform duration-700"
+                  className="story-image w-full aspect-[4/3] object-cover hover:scale-105 transition-transform duration-700"
                 />
               </div>
               <div className="md:px-4">

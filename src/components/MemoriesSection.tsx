@@ -38,7 +38,7 @@ export function MemoriesSection() {
   const { t } = useI18n();
 
   return (
-    <section id="memories" className="py-20 sm:py-28 px-5 sm:px-6 scroll-mt-24" style={{ background: "var(--ivory)" }}>
+    <section id="fotos" className="py-20 sm:py-28 px-5 sm:px-6 scroll-mt-24" style={{ background: "var(--ivory)" }}>
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-10 sm:mb-12">
           <h2

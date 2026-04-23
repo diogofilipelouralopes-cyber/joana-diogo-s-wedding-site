@@ -486,8 +486,20 @@ body { padding-top: 0; }
   min-height: 44px;
   display: flex;
   align-items: center;
+  gap: 12px;
 }
 .mobile-drawer-link:hover { color: var(--gold); padding-left: 6px; }
+
+/* === Story images: dessaturated vintage feel === */
+.story-image {
+  filter: saturate(0.6) sepia(0.15) brightness(1.02);
+  transition: filter 0.4s ease, transform 0.7s ease;
+}
+@media (hover: hover) {
+  .story-image:hover {
+    filter: saturate(1) sepia(0) brightness(1);
+  }
+}
 
 /* === Hero background === */
 .hero-bg {
