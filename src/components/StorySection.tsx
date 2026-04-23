@@ -19,7 +19,7 @@ export function StorySection() {
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-20">
           <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
-            2018 — 2026
+            2020 — 2026
           </p>
           <h2 className="font-display text-5xl sm:text-6xl text-primary">{t("story.title")}</h2>
           <div className="divider-ornament mt-6 max-w-xs mx-auto">
