@@ -493,7 +493,7 @@ body { padding-top: 0; }
 .hero-bg {
   background-color: var(--cream);
   background-size: cover;
-  background-position: center center;
+  background-position: center 30%;
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
