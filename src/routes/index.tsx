@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { RsvpForm } from "@/components/RsvpForm";
+import { downloadWeddingICS } from "@/lib/calendar";
 import { DecorativeDivider } from "@/components/DecorativeDivider";
 import { QuickNav } from "@/components/QuickNav";
 import { SaveTheDateSection } from "@/components/SaveTheDateSection";
@@ -51,30 +52,6 @@ export const Route = createFileRoute("/")({
 const MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=Glic%C3%ADnia+Wedding+House+Freamunde";
 
-function downloadICS() {
-  const ics = [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//Joana & Diogo//Wedding//EN",
-    "BEGIN:VEVENT",
-    "UID:joana-diogo-2026@wedding",
-    "DTSTAMP:20260101T000000Z",
-    "DTSTART:20260919T130000Z",
-    "DTEND:20260920T040000Z",
-    "SUMMARY:Casamento Joana & Diogo",
-    "LOCATION:Glicínia Wedding House, Freamunde, Portugal",
-    "DESCRIPTION:Cerimónia às 14h00",
-    "END:VEVENT",
-    "END:VCALENDAR",
-  ].join("\n");
-  const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "Joana-Diogo-2026.ics";
-  link.click();
-  URL.revokeObjectURL(url);
-}
 
 function Index() {
   const { t } = useI18n();
