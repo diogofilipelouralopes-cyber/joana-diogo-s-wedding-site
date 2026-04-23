@@ -127,7 +127,7 @@ export function SaveTheDateSection() {
 
         {/* CTA */}
         <button
-          onClick={downloadICS}
+          onClick={downloadWeddingICS}
           className="inline-flex items-center gap-2 mt-8 px-8 py-4 uppercase transition-all hover:-translate-y-0.5"
           style={{
             background: "var(--gold)",
