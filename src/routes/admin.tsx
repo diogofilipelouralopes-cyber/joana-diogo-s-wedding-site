@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -23,8 +23,13 @@ export const Route = createFileRoute("/admin")({
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),
-  component: AdminPage,
+  component: AdminRouteComponent,
 });
+
+function AdminRouteComponent() {
+  const location = useLocation();
+  return location.pathname === "/admin" ? <AdminPage /> : <Outlet />;
+}
 
 interface Rsvp {
   id: string;
