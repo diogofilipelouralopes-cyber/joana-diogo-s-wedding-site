@@ -22,7 +22,7 @@ function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [mode, setMode] = useState<"login" | "signup">("login");
+  const [mode, setMode] = useState<"login" | "signup">("signup");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -54,7 +54,7 @@ function LoginPage() {
         toast.error(error.message);
         return;
       }
-      toast.success("Conta criada. Pede ao administrador para te dar permissões.");
+      toast.success("Conta criada. A entrar no painel...");
       navigate({ to: "/admin" });
     }
   }
