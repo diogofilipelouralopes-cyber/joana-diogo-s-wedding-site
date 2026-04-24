@@ -61,14 +61,24 @@ function AdminPage() {
       }
     });
     supabase.auth.getSession().then(async ({ data }) => {
-      setSession(data.session);
-      if (data.session) {
-        const { data: isAllowed } = await supabase.rpc("has_role", {
-          _user_id: data.session.user.id,
-          _role: "admin",
-        });
-        setIsAdmin(!!isAllowed);
+      if (!data.session) {
+        setSession(null);
+        setAuthChecked(true);
+        navigate({ to: "/admin/login" });
+        return;
       }
+      const { data: isAllowed } = await supabase.rpc("has_role", {
+        _user_id: data.session.user.id,
+        _role: "admin",
+      });
+      if (!isAllowed) {
+        await supabase.auth.signOut();
+        toast.error("Sem permissões de administrador.");
+        navigate({ to: "/" });
+        return;
+      }
+      setSession(data.session);
+      setIsAdmin(true);
       setAuthChecked(true);
     });
     return () => sub.subscription.unsubscribe();
