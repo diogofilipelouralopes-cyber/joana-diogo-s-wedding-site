@@ -63,13 +63,11 @@ function AdminPage() {
     supabase.auth.getSession().then(async ({ data }) => {
       setSession(data.session);
       if (data.session) {
-        const { data: roles } = await supabase
-          .from("user_roles")
-          .select("role")
-          .eq("user_id", data.session.user.id)
-          .eq("role", "admin")
-          .maybeSingle();
-        setIsAdmin(!!roles);
+        const { data: isAllowed } = await supabase.rpc("has_role", {
+          _user_id: data.session.user.id,
+          _role: "admin",
+        });
+        setIsAdmin(!!isAllowed);
       }
       setAuthChecked(true);
     });
