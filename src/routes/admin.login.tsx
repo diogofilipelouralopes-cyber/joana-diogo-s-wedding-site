@@ -22,17 +22,7 @@ function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [mode, setMode] = useState<"login" | "signup">("signup");
   const [loading, setLoading] = useState(false);
-  const friendlyAuthError = (message: string) => {
-    if (message.toLowerCase().includes("weak") || message.toLowerCase().includes("pwned")) {
-      return "Esta palavra-passe foi recusada por segurança. Escolhe uma nova, forte e única, que nunca tenhas usado noutros sites.";
-    }
-    if (message.toLowerCase().includes("invalid login credentials")) {
-      return "Conta ainda não criada ou palavra-passe incorreta. Se ainda não criaste conta, usa o modo Criar conta.";
-    }
-    return message;
-  };
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -43,29 +33,13 @@ function LoginPage() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    if (mode === "login") {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      setLoading(false);
-      if (error) {
-        toast.error(friendlyAuthError(error.message));
-        return;
-      }
-      navigate({ to: "/admin" });
-    } else {
-      const redirectUrl = `${window.location.origin}/admin`;
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { emailRedirectTo: redirectUrl },
-      });
-      setLoading(false);
-      if (error) {
-        toast.error(friendlyAuthError(error.message));
-        return;
-      }
-      toast.success("Conta criada. A entrar no painel...");
-      navigate({ to: "/admin" });
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    setLoading(false);
+    if (error) {
+      toast.error("Credenciais inválidas.");
+      return;
     }
+    navigate({ to: "/admin" });
   }
 
   return (
@@ -102,27 +76,21 @@ function LoginPage() {
             <Input
               id="password"
               type="password"
-              autoComplete={mode === "login" ? "current-password" : "new-password"}
+              autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              minLength={6}
               className="mt-2"
             />
           </div>
 
           <Button type="submit" disabled={loading} className="w-full">
-            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : mode === "login" ? "Entrar" : "Criar conta"}
+            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Entrar"}
           </Button>
 
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => setMode((m) => (m === "login" ? "signup" : "login"))}
-            className="w-full"
-          >
-            {mode === "login" ? "Criar nova conta" : "Já tenho conta — entrar"}
-          </Button>
+          <p className="text-[11px] text-center text-muted-foreground uppercase tracking-[0.15em]">
+            Inscrições fechadas · acesso restrito
+          </p>
         </form>
 
         <div className="text-center mt-6">
