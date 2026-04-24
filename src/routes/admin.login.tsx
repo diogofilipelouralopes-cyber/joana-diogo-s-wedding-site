@@ -106,13 +106,14 @@ function LoginPage() {
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : mode === "login" ? "Entrar" : "Criar conta"}
           </Button>
 
-          <button
+          <Button
             type="button"
+            variant="outline"
             onClick={() => setMode((m) => (m === "login" ? "signup" : "login"))}
-            className="w-full text-xs text-muted-foreground hover:text-primary"
+            className="w-full"
           >
             {mode === "login" ? "Criar nova conta" : "Já tenho conta — entrar"}
-          </button>
+          </Button>
         </form>
 
         <div className="text-center mt-6">
