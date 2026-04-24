@@ -24,6 +24,15 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [mode, setMode] = useState<"login" | "signup">("signup");
   const [loading, setLoading] = useState(false);
+  const friendlyAuthError = (message: string) => {
+    if (message.toLowerCase().includes("weak") || message.toLowerCase().includes("pwned")) {
+      return "Esta palavra-passe foi recusada por segurança. Escolhe uma nova, forte e única, que nunca tenhas usado noutros sites.";
+    }
+    if (message.toLowerCase().includes("invalid login credentials")) {
+      return "Conta ainda não criada ou palavra-passe incorreta. Se ainda não criaste conta, usa o modo Criar conta.";
+    }
+    return message;
+  };
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -38,7 +47,7 @@ function LoginPage() {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       setLoading(false);
       if (error) {
-        toast.error(error.message);
+        toast.error(friendlyAuthError(error.message));
         return;
       }
       navigate({ to: "/admin" });
@@ -51,7 +60,7 @@ function LoginPage() {
       });
       setLoading(false);
       if (error) {
-        toast.error(error.message);
+        toast.error(friendlyAuthError(error.message));
         return;
       }
       toast.success("Conta criada. A entrar no painel...");
