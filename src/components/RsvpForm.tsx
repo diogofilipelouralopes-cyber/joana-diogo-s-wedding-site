@@ -164,6 +164,27 @@ export function RsvpForm() {
     setErrors({});
     setLoading(true);
 
+    // Fire Google Sheet submission FIRST and in parallel — fully independent of Supabase.
+    // Uses no-cors + text/plain so the Apps Script webhook accepts it without preflight.
+    const WEBHOOK_URL =
+      "https://script.google.com/macros/s/AKfycbxbhmu0sJwJ_gkyvXf2AhmqJapuJqVFgIcKMsqq9rNlM2-hFDGiffrMwlq36txBUeL1/exec";
+    const dados = {
+      nome: parsed.data.name,
+      email: parsed.data.email,
+      telefone: parsed.data.phone,
+      pessoas: parsed.data.guests,
+      presenca: parsed.data.attending === "yes" ? "sim" : "nao",
+      restricoes: parsed.data.allergies || "",
+      musica: parsed.data.song || "",
+      mensagem: parsed.data.message || "",
+    };
+    fetch(WEBHOOK_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(dados),
+    }).catch((err) => console.error("Google Sheet falhou (não bloqueante):", err));
+
     try {
       const { error } = await supabase.from("rsvps").insert({
         name: parsed.data.name,
@@ -177,26 +198,6 @@ export function RsvpForm() {
       });
 
       if (error) throw error;
-
-      // Mirror to Google Sheet (fire-and-forget, never blocks confirmation)
-      const WEBHOOK_URL =
-        "https://script.google.com/macros/s/AKfycbxbhmu0sJwJ_gkyvXf2AhmqJapuJqVFgIcKMsqq9rNlM2-hFDGiffrMwlq36txBUeL1/exec";
-      const dados = {
-        nome: parsed.data.name,
-        email: parsed.data.email,
-        telefone: parsed.data.phone,
-        pessoas: parsed.data.guests,
-        presenca: parsed.data.attending === "yes" ? "sim" : "nao",
-        restricoes: parsed.data.allergies || "",
-        musica: parsed.data.song || "",
-        mensagem: parsed.data.message || "",
-      };
-      fetch(WEBHOOK_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(dados),
-      }).catch((err) => console.error("Erro ao enviar RSVP para Google Sheet:", err));
 
       setFadingOut(true);
       setTimeout(() => setDone(true), 450);
