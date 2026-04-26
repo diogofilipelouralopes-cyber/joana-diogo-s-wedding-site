@@ -14,7 +14,24 @@ import {
   Search,
   Music2,
   Loader2,
+  Trash2,
 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -34,6 +51,7 @@ function AdminRouteComponent() {
 interface Rsvp {
   id: string;
   name: string;
+  email: string | null;
   phone: string | null;
   guests: number;
   attending: boolean;
@@ -51,6 +69,38 @@ function AdminPage() {
   const [rsvps, setRsvps] = useState<Rsvp[]>([]);
   const [filter, setFilter] = useState<"all" | "yes" | "no">("all");
   const [search, setSearch] = useState("");
+  const [toDelete, setToDelete] = useState<Rsvp | null>(null);
+  const [deleting, setDeleting] = useState(false);
+  const [fadingIds, setFadingIds] = useState<Set<string>>(new Set());
+
+  async function confirmDelete() {
+    if (!toDelete) return;
+    setDeleting(true);
+    const { data: { session: s } } = await supabase.auth.getSession();
+    if (!s) {
+      toast.error("Sessão expirada.");
+      setDeleting(false);
+      return;
+    }
+    const target = toDelete;
+    const { error } = await supabase.from("rsvps").delete().eq("id", target.id);
+    setDeleting(false);
+    if (error) {
+      toast.error("Erro ao eliminar. Tenta novamente.");
+      return;
+    }
+    setToDelete(null);
+    setFadingIds((prev) => new Set(prev).add(target.id));
+    toast.success(`✅ RSVP de ${target.name} eliminado`);
+    setTimeout(() => {
+      setRsvps((prev) => prev.filter((r) => r.id !== target.id));
+      setFadingIds((prev) => {
+        const n = new Set(prev);
+        n.delete(target.id);
+        return n;
+      });
+    }, 300);
+  }
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_evt, s) => {
@@ -301,11 +351,17 @@ function AdminPage() {
                   <th className="px-4 py-3">Alergias</th>
                   <th className="px-4 py-3">Música</th>
                   <th className="px-4 py-3">Quando</th>
+                  <th className="px-4 py-3 text-right w-[60px]">Ações</th>
                 </tr>
               </thead>
               <tbody>
                 {filtered.map((r) => (
-                  <tr key={r.id} className="border-b border-border/60 hover:bg-muted/30">
+                  <tr
+                    key={r.id}
+                    className={`border-b border-border/60 hover:bg-muted/30 transition-opacity duration-300 ${
+                      fadingIds.has(r.id) ? "opacity-0" : "opacity-100"
+                    }`}
+                  >
                     <td className="px-4 py-3 font-medium">{r.name}</td>
                     <td className="px-4 py-3 text-foreground/80">
                       {r.phone ? (
@@ -349,6 +405,23 @@ function AdminPage() {
                         minute: "2-digit",
                       })}
                     </td>
+                    <td className="px-2 py-3 text-right">
+                      <TooltipProvider delayDuration={200}>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <button
+                              type="button"
+                              onClick={() => setToDelete(r)}
+                              aria-label={`Eliminar RSVP de ${r.name}`}
+                              className="inline-flex items-center justify-center w-10 h-10 rounded-full text-[#9CA3AF] hover:text-[#B85C5C] hover:scale-110 transition-all cursor-pointer"
+                            >
+                              <Trash2 size={18} strokeWidth={1.75} />
+                            </button>
+                          </TooltipTrigger>
+                          <TooltipContent>Eliminar este RSVP</TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -356,6 +429,37 @@ function AdminPage() {
           </div>
         )}
       </main>
+
+      <AlertDialog open={!!toDelete} onOpenChange={(o) => !o && !deleting && setToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Eliminar RSVP?</AlertDialogTitle>
+            <AlertDialogDescription asChild>
+              <div className="space-y-3">
+                {toDelete && (
+                  <div className="bg-muted/50 border border-border p-3 text-sm text-foreground space-y-1">
+                    <p><span className="text-muted-foreground">Nome:</span> <strong>{toDelete.name}</strong></p>
+                    <p><span className="text-muted-foreground">Email:</span> {toDelete.email || "—"}</p>
+                    <p><span className="text-muted-foreground">Presença:</span> {toDelete.attending ? "Sim" : "Não"}</p>
+                    <p><span className="text-muted-foreground">Pessoas:</span> {toDelete.guests}</p>
+                  </div>
+                )}
+                <p className="text-[#B85C5C] font-medium">Esta ação é irreversível.</p>
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deleting}>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={(e) => { e.preventDefault(); confirmDelete(); }}
+              disabled={deleting}
+              className="bg-transparent border border-[#B85C5C] text-[#B85C5C] hover:bg-[#B85C5C] hover:text-white"
+            >
+              {deleting ? <Loader2 className="w-4 h-4 animate-spin" /> : "Eliminar"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
