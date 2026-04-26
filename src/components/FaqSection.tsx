@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ChevronDown, HelpCircle } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
-const KEYS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
+const KEYS = [1, 2, 3, 4, 5, 6, 7, 8] as const;
 
 export function FaqSection() {
   const { t } = useI18n();
