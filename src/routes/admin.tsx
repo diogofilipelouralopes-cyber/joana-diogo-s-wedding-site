@@ -568,6 +568,8 @@ function AdminPage() {
             ))}
           </div>
         )}
+        </>
+        )}
       </main>
 
       <AlertDialog open={!!toDelete} onOpenChange={(o) => !o && !deleting && setToDelete(null)}>
