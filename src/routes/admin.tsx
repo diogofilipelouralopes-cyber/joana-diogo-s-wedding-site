@@ -372,7 +372,7 @@ function AdminPage() {
         {tab === "mensagens" ? (
           <AdminMensagens />
         ) : (
-        <>
+        <div>
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           <StatCard label="Respostas" value={stats.total} icon={<Users className="w-5 h-5" />} />
