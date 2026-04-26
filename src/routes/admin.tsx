@@ -405,6 +405,23 @@ function AdminPage() {
                         minute: "2-digit",
                       })}
                     </td>
+                    <td className="px-2 py-3 text-right">
+                      <TooltipProvider delayDuration={200}>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <button
+                              type="button"
+                              onClick={() => setToDelete(r)}
+                              aria-label={`Eliminar RSVP de ${r.name}`}
+                              className="inline-flex items-center justify-center w-10 h-10 rounded-full text-[#9CA3AF] hover:text-[#B85C5C] hover:scale-110 transition-all cursor-pointer"
+                            >
+                              <Trash2 size={18} strokeWidth={1.75} />
+                            </button>
+                          </TooltipTrigger>
+                          <TooltipContent>Eliminar este RSVP</TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -412,6 +429,37 @@ function AdminPage() {
           </div>
         )}
       </main>
+
+      <AlertDialog open={!!toDelete} onOpenChange={(o) => !o && !deleting && setToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Eliminar RSVP?</AlertDialogTitle>
+            <AlertDialogDescription asChild>
+              <div className="space-y-3">
+                {toDelete && (
+                  <div className="bg-muted/50 border border-border p-3 text-sm text-foreground space-y-1">
+                    <p><span className="text-muted-foreground">Nome:</span> <strong>{toDelete.name}</strong></p>
+                    <p><span className="text-muted-foreground">Email:</span> {toDelete.email || "—"}</p>
+                    <p><span className="text-muted-foreground">Presença:</span> {toDelete.attending ? "Sim" : "Não"}</p>
+                    <p><span className="text-muted-foreground">Pessoas:</span> {toDelete.guests}</p>
+                  </div>
+                )}
+                <p className="text-[#B85C5C] font-medium">Esta ação é irreversível.</p>
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deleting}>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={(e) => { e.preventDefault(); confirmDelete(); }}
+              disabled={deleting}
+              className="bg-transparent border border-[#B85C5C] text-[#B85C5C] hover:bg-[#B85C5C] hover:text-white"
+            >
+              {deleting ? <Loader2 className="w-4 h-4 animate-spin" /> : "Eliminar"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
