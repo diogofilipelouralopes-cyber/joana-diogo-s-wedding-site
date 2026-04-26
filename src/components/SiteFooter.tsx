@@ -1,5 +1,7 @@
-import { Plane, Heart, MapPin } from "lucide-react";
+import { Plane, Heart, MapPin, Lock } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 function MonogramSimple({ size = 100 }: { size?: number }) {
   const initialsSize = `${size * 0.6}px`;
@@ -131,6 +133,30 @@ export function SiteFooter() {
         >
           {t("footer.made")}
         </p>
+
+        <TooltipProvider delayDuration={150}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link
+                to="/admin"
+                aria-label="Admin"
+                className="inline-flex items-center justify-center mt-2 transition-colors duration-300"
+                style={{ color: "#F5EFE4", opacity: 0.2 }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = "var(--gold)";
+                  e.currentTarget.style.opacity = "1";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = "#F5EFE4";
+                  e.currentTarget.style.opacity = "0.2";
+                }}
+              >
+                <Lock size={14} strokeWidth={1.25} />
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="top">Admin</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </footer>
   );
