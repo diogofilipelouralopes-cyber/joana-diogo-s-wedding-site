@@ -567,7 +567,7 @@ function AdminPage() {
             ))}
           </div>
         )}
-        </>
+        </div>
         )}
       </main>
 
