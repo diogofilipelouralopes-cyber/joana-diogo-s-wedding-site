@@ -21,6 +21,7 @@ import {
   Phone,
   Utensils,
 } from "lucide-react";
+import { AdminMensagens } from "@/components/AdminMensagens";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -89,6 +90,18 @@ function AdminPage() {
   const [fadingIds, setFadingIds] = useState<Set<string>>(new Set());
   const [editing, setEditing] = useState<Rsvp | null>(null);
   const [saving, setSaving] = useState(false);
+  const [tab, setTab] = useState<"rsvps" | "mensagens">("rsvps");
+  const [unreadCount, setUnreadCount] = useState<number>(0);
+
+  // Fetch unread messages count for tab badge
+  useEffect(() => {
+    if (!isAdmin) return;
+    supabase
+      .from("mensagens")
+      .select("id", { count: "exact", head: true })
+      .eq("lida", false)
+      .then(({ count }) => setUnreadCount(count ?? 0));
+  }, [isAdmin, tab]);
 
   async function confirmDelete() {
     if (!toDelete) return;
@@ -325,7 +338,9 @@ function AdminPage() {
             <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
               Painel
             </p>
-            <h1 className="font-display text-2xl text-primary">Respostas RSVP</h1>
+            <h1 className="font-display text-2xl text-primary">
+              {tab === "rsvps" ? "Respostas RSVP" : "Mensagens"}
+            </h1>
           </div>
           <div className="flex gap-2">
             <Button variant="ghost" size="sm" onClick={logout}>
@@ -333,9 +348,31 @@ function AdminPage() {
             </Button>
           </div>
         </div>
+        {/* Tabs */}
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex gap-1 -mb-px">
+            <TabButton
+              active={tab === "rsvps"}
+              onClick={() => setTab("rsvps")}
+              icon={<Users className="w-4 h-4" />}
+              label="RSVPs"
+            />
+            <TabButton
+              active={tab === "mensagens"}
+              onClick={() => setTab("mensagens")}
+              icon={<MessageCircleHeart className="w-4 h-4" />}
+              label="Mensagens"
+              badge={unreadCount > 0 ? unreadCount : undefined}
+            />
+          </div>
+        </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-10">
+        {tab === "mensagens" ? (
+          <AdminMensagens />
+        ) : (
+        <>
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           <StatCard label="Respostas" value={stats.total} icon={<Users className="w-5 h-5" />} />
@@ -530,6 +567,8 @@ function AdminPage() {
             ))}
           </div>
         )}
+        </>
+        )}
       </main>
 
       <AlertDialog open={!!toDelete} onOpenChange={(o) => !o && !deleting && setToDelete(null)}>
@@ -694,5 +733,41 @@ function StatCard({
       </div>
       <p className="font-display text-4xl text-foreground">{value}</p>
     </div>
+  );
+}
+
+function TabButton({
+  active,
+  onClick,
+  icon,
+  label,
+  badge,
+}: {
+  active: boolean;
+  onClick: () => void;
+  icon: React.ReactNode;
+  label: string;
+  badge?: number;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className="inline-flex items-center gap-2 px-4 py-3 text-xs uppercase tracking-[0.2em] border-b-2 transition-colors"
+      style={{
+        borderBottomColor: active ? "var(--gold)" : "transparent",
+        color: active ? "var(--gold)" : "var(--muted-foreground)",
+      }}
+    >
+      {icon}
+      {label}
+      {badge !== undefined && (
+        <span
+          className="inline-flex items-center justify-center text-[10px] rounded-full px-1.5 min-w-[18px] h-[18px]"
+          style={{ background: "var(--gold)", color: "#fff" }}
+        >
+          {badge}
+        </span>
+      )}
+    </button>
   );
 }

@@ -12,6 +12,7 @@ import { GiftsSection } from "@/components/GiftsSection";
 import { MemoriesSection } from "@/components/MemoriesSection";
 import { PlaylistSection } from "@/components/PlaylistSection";
 import { FaqSection } from "@/components/FaqSection";
+import { MessagesSection } from "@/components/MessagesSection";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
 import { SiteFooter } from "@/components/SiteFooter";
 import { StickyRsvpButton } from "@/components/StickyRsvpButton";
@@ -361,6 +362,11 @@ function Index() {
 
       {/* FAQ */}
       <FaqSection />
+
+      <DecorativeDivider />
+
+      {/* MESSAGES */}
+      <MessagesSection />
 
       <DecorativeDivider />
 
