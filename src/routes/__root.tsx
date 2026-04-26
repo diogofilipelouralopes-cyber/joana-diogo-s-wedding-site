@@ -39,8 +39,8 @@ export const Route = createRootRoute({
       { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "Casamento Joana&Diogo" },
       { name: "twitter:description", content: "A modern, elegant wedding website for Joana & Diogo, facilitating guest RSVPs and providing event details." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/BYFEOymySMX1cK6cJOdODewLp9l2/social-images/social-1776681804602-logo.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/BYFEOymySMX1cK6cJOdODewLp9l2/social-images/social-1776681804602-logo.webp" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/54d62790-74bf-4965-91bc-54ccac3089ce" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/54d62790-74bf-4965-91bc-54ccac3089ce" },
     ],
     links: [
       {
