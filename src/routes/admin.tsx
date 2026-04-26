@@ -91,6 +91,18 @@ function AdminPage() {
   const [fadingIds, setFadingIds] = useState<Set<string>>(new Set());
   const [editing, setEditing] = useState<Rsvp | null>(null);
   const [saving, setSaving] = useState(false);
+  const [tab, setTab] = useState<"rsvps" | "mensagens">("rsvps");
+  const [unreadCount, setUnreadCount] = useState<number>(0);
+
+  // Fetch unread messages count for tab badge
+  useEffect(() => {
+    if (!isAdmin) return;
+    supabase
+      .from("mensagens")
+      .select("id", { count: "exact", head: true })
+      .eq("lida", false)
+      .then(({ count }) => setUnreadCount(count ?? 0));
+  }, [isAdmin, tab]);
 
   async function confirmDelete() {
     if (!toDelete) return;
