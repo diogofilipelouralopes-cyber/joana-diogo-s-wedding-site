@@ -69,6 +69,38 @@ function AdminPage() {
   const [rsvps, setRsvps] = useState<Rsvp[]>([]);
   const [filter, setFilter] = useState<"all" | "yes" | "no">("all");
   const [search, setSearch] = useState("");
+  const [toDelete, setToDelete] = useState<Rsvp | null>(null);
+  const [deleting, setDeleting] = useState(false);
+  const [fadingIds, setFadingIds] = useState<Set<string>>(new Set());
+
+  async function confirmDelete() {
+    if (!toDelete) return;
+    setDeleting(true);
+    const { data: { session: s } } = await supabase.auth.getSession();
+    if (!s) {
+      toast.error("Sessão expirada.");
+      setDeleting(false);
+      return;
+    }
+    const target = toDelete;
+    const { error } = await supabase.from("rsvps").delete().eq("id", target.id);
+    setDeleting(false);
+    if (error) {
+      toast.error("Erro ao eliminar. Tenta novamente.");
+      return;
+    }
+    setToDelete(null);
+    setFadingIds((prev) => new Set(prev).add(target.id));
+    toast.success(`✅ RSVP de ${target.name} eliminado`);
+    setTimeout(() => {
+      setRsvps((prev) => prev.filter((r) => r.id !== target.id));
+      setFadingIds((prev) => {
+        const n = new Set(prev);
+        n.delete(target.id);
+        return n;
+      });
+    }, 300);
+  }
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_evt, s) => {
