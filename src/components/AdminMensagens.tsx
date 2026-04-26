@@ -90,9 +90,10 @@ export function AdminMensagens() {
   async function toggleField(m: Mensagem, field: "lida" | "favorita") {
     const next = !m[field];
     setItems((prev) => prev.map((x) => (x.id === m.id ? { ...x, [field]: next } : x)));
+    const patch = field === "lida" ? { lida: next } : { favorita: next };
     const { error } = await supabase
       .from("mensagens")
-      .update({ [field]: next })
+      .update(patch)
       .eq("id", m.id);
     if (error) {
       toast.error("Erro ao atualizar.");
