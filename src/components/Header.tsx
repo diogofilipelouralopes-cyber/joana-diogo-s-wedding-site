@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Menu, X, Camera, Music } from "lucide-react";
+import { Menu, X, Camera, Music, MessageCircleHeart } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { Monogram } from "@/components/Monogram";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -13,6 +13,7 @@ const links = [
   { id: "fotos", key: "nav.photos" as const, icon: <Camera className="w-4 h-4" strokeWidth={1.5} /> },
   { id: "musica", key: "nav.music" as const, icon: <Music className="w-4 h-4" strokeWidth={1.5} /> },
   { id: "faq", key: "nav.faq" as const, icon: null },
+  { id: "mensagens", key: "nav.messages" as const, icon: <MessageCircleHeart className="w-4 h-4" strokeWidth={1.5} /> },
   { id: "gifts", key: "nav.gifts" as const, icon: null },
 ];
 
