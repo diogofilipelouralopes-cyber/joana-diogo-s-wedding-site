@@ -15,6 +15,11 @@ import {
   Music2,
   Loader2,
   Trash2,
+  Pencil,
+  MessageCircleHeart,
+  Mail,
+  Phone,
+  Utensils,
 } from "lucide-react";
 import {
   AlertDialog,
@@ -26,6 +31,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Tooltip,
   TooltipContent,
@@ -57,8 +69,11 @@ interface Rsvp {
   attending: boolean;
   allergies: string | null;
   song_suggestion: string | null;
+  message: string | null;
   created_at: string;
 }
+
+type FilterKey = "all" | "yes" | "no" | "restrictions";
 
 function AdminPage() {
   const navigate = useNavigate();
@@ -67,11 +82,13 @@ function AdminPage() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [rsvps, setRsvps] = useState<Rsvp[]>([]);
-  const [filter, setFilter] = useState<"all" | "yes" | "no">("all");
+  const [filter, setFilter] = useState<FilterKey>("all");
   const [search, setSearch] = useState("");
   const [toDelete, setToDelete] = useState<Rsvp | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [fadingIds, setFadingIds] = useState<Set<string>>(new Set());
+  const [editing, setEditing] = useState<Rsvp | null>(null);
+  const [saving, setSaving] = useState(false);
 
   async function confirmDelete() {
     if (!toDelete) return;
@@ -100,6 +117,31 @@ function AdminPage() {
         return n;
       });
     }, 300);
+  }
+
+  async function saveEdit(updated: Rsvp) {
+    setSaving(true);
+    const { error } = await supabase
+      .from("rsvps")
+      .update({
+        name: updated.name.trim(),
+        email: updated.email?.trim() || null,
+        phone: updated.phone?.trim() || null,
+        guests: updated.guests,
+        attending: updated.attending,
+        allergies: updated.allergies?.trim() || null,
+        song_suggestion: updated.song_suggestion?.trim() || null,
+        message: updated.message?.trim() || null,
+      })
+      .eq("id", updated.id);
+    setSaving(false);
+    if (error) {
+      toast.error("Erro ao guardar. Tenta novamente.");
+      return;
+    }
+    setRsvps((prev) => prev.map((r) => (r.id === updated.id ? updated : r)));
+    setEditing(null);
+    toast.success("✅ RSVP atualizado");
   }
 
   useEffect(() => {
@@ -148,17 +190,23 @@ function AdminPage() {
       });
   }, [isAdmin]);
 
+  const counts = useMemo(() => {
+    const yes = rsvps.filter((r) => r.attending).length;
+    const no = rsvps.filter((r) => !r.attending).length;
+    const restrictions = rsvps.filter((r) => r.allergies && r.allergies.trim()).length;
+    return { all: rsvps.length, yes, no, restrictions };
+  }, [rsvps]);
+
   const filtered = useMemo(() => {
     return rsvps.filter((r) => {
       if (filter === "yes" && !r.attending) return false;
       if (filter === "no" && r.attending) return false;
+      if (filter === "restrictions" && !(r.allergies && r.allergies.trim())) return false;
       if (search) {
         const s = search.toLowerCase();
         return (
           r.name.toLowerCase().includes(s) ||
-          (r.phone ?? "").toLowerCase().includes(s) ||
-          (r.allergies ?? "").toLowerCase().includes(s) ||
-          (r.song_suggestion ?? "").toLowerCase().includes(s)
+          (r.email ?? "").toLowerCase().includes(s)
         );
       }
       return true;
@@ -167,28 +215,31 @@ function AdminPage() {
 
   const stats = useMemo(() => {
     const yes = rsvps.filter((r) => r.attending);
-    const no = rsvps.filter((r) => !r.attending);
     const totalGuests = yes.reduce((sum, r) => sum + (r.guests || 0), 0);
-    return { yes: yes.length, no: no.length, total: rsvps.length, totalGuests };
+    return { yes: yes.length, no: rsvps.length - yes.length, total: rsvps.length, totalGuests };
   }, [rsvps]);
 
   function exportCSV() {
     const headers = [
       "Nome",
+      "Email",
       "Telefone",
       "Vai",
       "Pessoas",
-      "Alergias",
+      "Restrições",
       "Música",
+      "Mensagem",
       "Submetido em",
     ];
     const rows = filtered.map((r) => [
       r.name,
+      r.email ?? "",
       r.phone ?? "",
       r.attending ? "Sim" : "Não",
       String(r.guests),
       r.allergies ?? "",
       r.song_suggestion ?? "",
+      r.message ?? "",
       new Date(r.created_at).toLocaleString("pt-PT"),
     ]);
     const csv = [headers, ...rows]
@@ -205,7 +256,7 @@ function AdminPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `rsvps-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.download = `rsvp-casamento-${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   }
@@ -258,6 +309,13 @@ function AdminPage() {
     );
   }
 
+  const filterChips: { key: FilterKey; label: string; count: number; activeBg: string; activeText: string }[] = [
+    { key: "all", label: "Todos", count: counts.all, activeBg: "var(--primary)", activeText: "var(--primary-foreground)" },
+    { key: "yes", label: "Sim", count: counts.yes, activeBg: "var(--olive, #6B7A4F)", activeText: "#fff" },
+    { key: "no", label: "Não", count: counts.no, activeBg: "#B85C5C", activeText: "#fff" },
+    { key: "restrictions", label: "Com restrições", count: counts.restrictions, activeBg: "var(--gold, #C9A961)", activeText: "#fff" },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       <Toaster position="top-center" />
@@ -270,9 +328,6 @@ function AdminPage() {
             <h1 className="font-display text-2xl text-primary">Respostas RSVP</h1>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={exportCSV}>
-              <Download className="w-4 h-4 mr-2" /> CSV
-            </Button>
             <Button variant="ghost" size="sm" onClick={logout}>
               <LogOut className="w-4 h-4 mr-2" /> Sair
             </Button>
@@ -304,35 +359,49 @@ function AdminPage() {
           />
         </div>
 
-        {/* Filters */}
+        {/* Total counter line */}
+        <p className="text-sm text-muted-foreground mb-4">
+          <span className="font-medium text-foreground">{stats.total}</span> RSVPs no total ·{" "}
+          <span className="text-primary font-medium">{stats.yes}</span> confirmados ·{" "}
+          <span className="font-medium">{stats.no}</span> não vêm
+        </p>
+
+        {/* Filters + search + export */}
         <div className="flex flex-wrap gap-3 mb-6 items-center">
+          <div className="flex flex-wrap gap-2">
+            {filterChips.map((c) => {
+              const active = filter === c.key;
+              return (
+                <button
+                  key={c.key}
+                  onClick={() => setFilter(c.key)}
+                  className="px-4 py-2 text-xs uppercase tracking-[0.15em] rounded-full border transition-all"
+                  style={{
+                    background: active ? c.activeBg : "transparent",
+                    color: active ? c.activeText : "var(--muted-foreground)",
+                    borderColor: active ? c.activeBg : "var(--border)",
+                  }}
+                >
+                  {c.label} ({c.count})
+                </button>
+              );
+            })}
+          </div>
           <div className="relative flex-1 min-w-[220px]">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
-              placeholder="Procurar por nome, telefone, alergia, música..."
+              placeholder="Pesquisar por nome ou email..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="pl-9"
             />
           </div>
-          <div className="flex gap-1 border border-border bg-card p-1">
-            {(["all", "yes", "no"] as const).map((f) => (
-              <button
-                key={f}
-                onClick={() => setFilter(f)}
-                className={`px-4 py-2 text-xs uppercase tracking-[0.15em] transition-colors ${
-                  filter === f
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {f === "all" ? "Todos" : f === "yes" ? "Sim" : "Não"}
-              </button>
-            ))}
-          </div>
+          <Button variant="outline" size="sm" onClick={exportCSV}>
+            <Download className="w-4 h-4 mr-2" /> Exportar para CSV
+          </Button>
         </div>
 
-        {/* Table */}
+        {/* List */}
         {loading ? (
           <div className="py-20 text-center">
             <Loader2 className="w-6 h-6 animate-spin text-primary mx-auto" />
@@ -340,92 +409,125 @@ function AdminPage() {
         ) : filtered.length === 0 ? (
           <div className="py-20 text-center text-muted-foreground">Sem respostas.</div>
         ) : (
-          <div className="border border-border bg-card overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-muted/50 border-b border-border">
-                <tr className="text-left text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
-                  <th className="px-4 py-3">Nome</th>
-                  <th className="px-4 py-3">Telefone</th>
-                  <th className="px-4 py-3 text-center">Vai</th>
-                  <th className="px-4 py-3 text-center">Pessoas</th>
-                  <th className="px-4 py-3">Alergias</th>
-                  <th className="px-4 py-3">Música</th>
-                  <th className="px-4 py-3">Quando</th>
-                  <th className="px-4 py-3 text-right w-[60px]">Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.map((r) => (
-                  <tr
-                    key={r.id}
-                    className={`border-b border-border/60 hover:bg-muted/30 transition-opacity duration-300 ${
-                      fadingIds.has(r.id) ? "opacity-0" : "opacity-100"
-                    }`}
-                  >
-                    <td className="px-4 py-3 font-medium">{r.name}</td>
-                    <td className="px-4 py-3 text-foreground/80">
-                      {r.phone ? (
-                        <a href={`tel:${r.phone}`} className="hover:text-primary">
-                          {r.phone}
-                        </a>
-                      ) : (
-                        "—"
-                      )}
-                    </td>
-                    <td className="px-4 py-3 text-center">
+          <div className="space-y-3">
+            {filtered.map((r) => (
+              <div
+                key={r.id}
+                className={`bg-card border border-border rounded-md p-5 transition-opacity duration-300 ${
+                  fadingIds.has(r.id) ? "opacity-0" : "opacity-100"
+                }`}
+              >
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                  <div className="flex-1 min-w-0 space-y-2">
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                      <h3 className="font-display text-lg text-foreground">{r.name}</h3>
                       {r.attending ? (
-                        <span className="inline-flex items-center gap-1 text-primary">
-                          <CheckCircle2 className="w-4 h-4" /> Sim
+                        <span className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary">
+                          <CheckCircle2 className="w-3.5 h-3.5" /> Vai
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-muted-foreground">
-                          <XCircle className="w-4 h-4" /> Não
+                        <span className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground">
+                          <XCircle className="w-3.5 h-3.5" /> Não vai
                         </span>
                       )}
-                    </td>
-                    <td className="px-4 py-3 text-center font-medium">{r.guests}</td>
-                    <td className="px-4 py-3 text-foreground/75 max-w-[200px] truncate">
-                      {r.allergies || "—"}
-                    </td>
-                    <td className="px-4 py-3 text-foreground/75 max-w-[220px] truncate">
-                      {r.song_suggestion ? (
-                        <span className="inline-flex items-center gap-1.5">
-                          <Music2 className="w-3.5 h-3.5 text-primary/60 shrink-0" />
-                          {r.song_suggestion}
-                        </span>
-                      ) : (
-                        "—"
+                      <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+                        <Users className="w-3.5 h-3.5" /> {r.guests} {r.guests === 1 ? "pessoa" : "pessoas"}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 text-sm">
+                      {r.email && (
+                        <div className="flex items-center gap-2 text-foreground/80 min-w-0">
+                          <Mail className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                          <a href={`mailto:${r.email}`} className="hover:text-primary truncate">{r.email}</a>
+                        </div>
                       )}
-                    </td>
-                    <td className="px-4 py-3 text-xs text-muted-foreground whitespace-nowrap">
-                      {new Date(r.created_at).toLocaleDateString("pt-PT", {
+                      {r.phone && (
+                        <div className="flex items-center gap-2 text-foreground/80">
+                          <Phone className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                          <a href={`tel:${r.phone}`} className="hover:text-primary">{r.phone}</a>
+                        </div>
+                      )}
+                      {r.allergies && (
+                        <div className="flex items-start gap-2 text-foreground/80 sm:col-span-2">
+                          <Utensils className="w-3.5 h-3.5 text-muted-foreground shrink-0 mt-0.5" />
+                          <span>{r.allergies}</span>
+                        </div>
+                      )}
+                      {r.song_suggestion && (
+                        <div className="flex items-start gap-2 text-foreground/80 sm:col-span-2">
+                          <Music2 className="w-3.5 h-3.5 text-muted-foreground shrink-0 mt-0.5" />
+                          <span>{r.song_suggestion}</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Message card */}
+                    {r.message && r.message.trim() && (
+                      <div
+                        className="mt-3 flex items-start gap-3 p-3 rounded-md"
+                        style={{
+                          background: "color-mix(in oklab, var(--gold, #C9A961) 8%, transparent)",
+                          border: "1px solid color-mix(in oklab, var(--gold, #C9A961) 50%, transparent)",
+                        }}
+                      >
+                        <MessageCircleHeart
+                          className="w-5 h-5 shrink-0 mt-0.5"
+                          style={{ color: "var(--gold, #C9A961)" }}
+                        />
+                        <p
+                          className="text-sm italic leading-relaxed"
+                          style={{ color: "var(--olive, #6B7A4F)" }}
+                        >
+                          {r.message}
+                        </p>
+                      </div>
+                    )}
+
+                    <p className="text-[11px] text-muted-foreground mt-2">
+                      {new Date(r.created_at).toLocaleString("pt-PT", {
                         day: "2-digit",
                         month: "short",
+                        year: "numeric",
                         hour: "2-digit",
                         minute: "2-digit",
                       })}
-                    </td>
-                    <td className="px-2 py-3 text-right">
-                      <TooltipProvider delayDuration={200}>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <button
-                              type="button"
-                              onClick={() => setToDelete(r)}
-                              aria-label={`Eliminar RSVP de ${r.name}`}
-                              className="inline-flex items-center justify-center w-10 h-10 rounded-full text-[#9CA3AF] hover:text-[#B85C5C] hover:scale-110 transition-all cursor-pointer"
-                            >
-                              <Trash2 size={18} strokeWidth={1.75} />
-                            </button>
-                          </TooltipTrigger>
-                          <TooltipContent>Eliminar este RSVP</TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                    </p>
+                  </div>
+
+                  <div className="flex md:flex-col items-center gap-1 shrink-0">
+                    <TooltipProvider delayDuration={200}>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <button
+                            type="button"
+                            onClick={() => setEditing(r)}
+                            aria-label={`Editar RSVP de ${r.name}`}
+                            className="inline-flex items-center justify-center w-10 h-10 rounded-full text-[#9CA3AF] hover:text-[var(--olive,#6B7A4F)] hover:scale-110 transition-all cursor-pointer"
+                          >
+                            <Pencil size={18} strokeWidth={1.75} />
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent>Editar este RSVP</TooltipContent>
+                      </Tooltip>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <button
+                            type="button"
+                            onClick={() => setToDelete(r)}
+                            aria-label={`Eliminar RSVP de ${r.name}`}
+                            className="inline-flex items-center justify-center w-10 h-10 rounded-full text-[#9CA3AF] hover:text-[#B85C5C] hover:scale-110 transition-all cursor-pointer"
+                          >
+                            <Trash2 size={18} strokeWidth={1.75} />
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent>Eliminar este RSVP</TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </main>
@@ -460,6 +562,105 @@ function AdminPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {editing && (
+        <EditRsvpDialog
+          rsvp={editing}
+          saving={saving}
+          onCancel={() => !saving && setEditing(null)}
+          onSave={saveEdit}
+        />
+      )}
+    </div>
+  );
+}
+
+function EditRsvpDialog({
+  rsvp,
+  saving,
+  onCancel,
+  onSave,
+}: {
+  rsvp: Rsvp;
+  saving: boolean;
+  onCancel: () => void;
+  onSave: (r: Rsvp) => void;
+}) {
+  const [draft, setDraft] = useState<Rsvp>(rsvp);
+
+  return (
+    <Dialog open onOpenChange={(o) => !o && onCancel()}>
+      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Editar RSVP</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4 py-2">
+          <Field label="Nome">
+            <Input value={draft.name} onChange={(e) => setDraft({ ...draft, name: e.target.value })} />
+          </Field>
+          <Field label="Email">
+            <Input type="email" value={draft.email ?? ""} onChange={(e) => setDraft({ ...draft, email: e.target.value })} />
+          </Field>
+          <Field label="Telefone">
+            <Input value={draft.phone ?? ""} onChange={(e) => setDraft({ ...draft, phone: e.target.value })} />
+          </Field>
+          <div className="grid grid-cols-2 gap-3">
+            <Field label="Pessoas">
+              <Input
+                type="number"
+                min={1}
+                max={10}
+                value={draft.guests}
+                onChange={(e) => setDraft({ ...draft, guests: Math.max(1, Number(e.target.value) || 1) })}
+              />
+            </Field>
+            <Field label="Presença">
+              <select
+                value={draft.attending ? "yes" : "no"}
+                onChange={(e) => setDraft({ ...draft, attending: e.target.value === "yes" })}
+                className="w-full h-9 px-3 rounded-md border border-input bg-background text-sm"
+              >
+                <option value="yes">Sim, vai</option>
+                <option value="no">Não vai</option>
+              </select>
+            </Field>
+          </div>
+          <Field label="Restrições alimentares">
+            <textarea
+              value={draft.allergies ?? ""}
+              onChange={(e) => setDraft({ ...draft, allergies: e.target.value })}
+              rows={2}
+              className="w-full px-3 py-2 rounded-md border border-input bg-background text-sm"
+            />
+          </Field>
+          <Field label="Música favorita">
+            <Input value={draft.song_suggestion ?? ""} onChange={(e) => setDraft({ ...draft, song_suggestion: e.target.value })} />
+          </Field>
+          <Field label="Mensagem para os noivos">
+            <textarea
+              value={draft.message ?? ""}
+              onChange={(e) => setDraft({ ...draft, message: e.target.value })}
+              rows={3}
+              className="w-full px-3 py-2 rounded-md border border-input bg-background text-sm"
+            />
+          </Field>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={onCancel} disabled={saving}>Cancelar</Button>
+          <Button onClick={() => onSave(draft)} disabled={saving || !draft.name.trim()}>
+            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : "Guardar Alterações"}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="space-y-1.5">
+      <label className="text-[11px] uppercase tracking-[0.15em] text-muted-foreground">{label}</label>
+      {children}
     </div>
   );
 }
