@@ -351,6 +351,7 @@ function AdminPage() {
                   <th className="px-4 py-3">Alergias</th>
                   <th className="px-4 py-3">Música</th>
                   <th className="px-4 py-3">Quando</th>
+                  <th className="px-4 py-3 text-right w-[60px]">Ações</th>
                 </tr>
               </thead>
               <tbody>
