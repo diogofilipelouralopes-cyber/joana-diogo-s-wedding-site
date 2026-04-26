@@ -29,6 +29,33 @@ export type Database = {
         }
         Relationships: []
       }
+      mensagens: {
+        Row: {
+          created_at: string
+          favorita: boolean
+          id: string
+          lida: boolean
+          mensagem: string
+          nome: string
+        }
+        Insert: {
+          created_at?: string
+          favorita?: boolean
+          id?: string
+          lida?: boolean
+          mensagem: string
+          nome: string
+        }
+        Update: {
+          created_at?: string
+          favorita?: boolean
+          id?: string
+          lida?: boolean
+          mensagem?: string
+          nome?: string
+        }
+        Relationships: []
+      }
       rsvps: {
         Row: {
           allergies: string | null
