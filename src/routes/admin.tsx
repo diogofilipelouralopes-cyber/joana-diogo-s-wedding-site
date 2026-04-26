@@ -51,6 +51,7 @@ function AdminRouteComponent() {
 interface Rsvp {
   id: string;
   name: string;
+  email: string | null;
   phone: string | null;
   guests: number;
   attending: boolean;
