@@ -736,3 +736,39 @@ function StatCard({
     </div>
   );
 }
+
+function TabButton({
+  active,
+  onClick,
+  icon,
+  label,
+  badge,
+}: {
+  active: boolean;
+  onClick: () => void;
+  icon: React.ReactNode;
+  label: string;
+  badge?: number;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className="inline-flex items-center gap-2 px-4 py-3 text-xs uppercase tracking-[0.2em] border-b-2 transition-colors"
+      style={{
+        borderBottomColor: active ? "var(--gold)" : "transparent",
+        color: active ? "var(--gold)" : "var(--muted-foreground)",
+      }}
+    >
+      {icon}
+      {label}
+      {badge !== undefined && (
+        <span
+          className="inline-flex items-center justify-center text-[10px] rounded-full px-1.5 min-w-[18px] h-[18px]"
+          style={{ background: "var(--gold)", color: "#fff" }}
+        >
+          {badge}
+        </span>
+      )}
+    </button>
+  );
+}
