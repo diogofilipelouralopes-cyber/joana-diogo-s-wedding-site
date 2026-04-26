@@ -339,7 +339,9 @@ function AdminPage() {
             <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
               Painel
             </p>
-            <h1 className="font-display text-2xl text-primary">Respostas RSVP</h1>
+            <h1 className="font-display text-2xl text-primary">
+              {tab === "rsvps" ? "Respostas RSVP" : "Mensagens"}
+            </h1>
           </div>
           <div className="flex gap-2">
             <Button variant="ghost" size="sm" onClick={logout}>
@@ -347,9 +349,31 @@ function AdminPage() {
             </Button>
           </div>
         </div>
+        {/* Tabs */}
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex gap-1 -mb-px">
+            <TabButton
+              active={tab === "rsvps"}
+              onClick={() => setTab("rsvps")}
+              icon={<Users className="w-4 h-4" />}
+              label="RSVPs"
+            />
+            <TabButton
+              active={tab === "mensagens"}
+              onClick={() => setTab("mensagens")}
+              icon={<MessageCircleHeart className="w-4 h-4" />}
+              label="Mensagens"
+              badge={unreadCount > 0 ? unreadCount : undefined}
+            />
+          </div>
+        </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-10">
+        {tab === "mensagens" ? (
+          <AdminMensagens />
+        ) : (
+        <>
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           <StatCard label="Respostas" value={stats.total} icon={<Users className="w-5 h-5" />} />
