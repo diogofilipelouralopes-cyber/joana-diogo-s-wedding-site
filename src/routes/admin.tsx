@@ -356,7 +356,12 @@ function AdminPage() {
               </thead>
               <tbody>
                 {filtered.map((r) => (
-                  <tr key={r.id} className="border-b border-border/60 hover:bg-muted/30">
+                  <tr
+                    key={r.id}
+                    className={`border-b border-border/60 hover:bg-muted/30 transition-opacity duration-300 ${
+                      fadingIds.has(r.id) ? "opacity-0" : "opacity-100"
+                    }`}
+                  >
                     <td className="px-4 py-3 font-medium">{r.name}</td>
                     <td className="px-4 py-3 text-foreground/80">
                       {r.phone ? (
