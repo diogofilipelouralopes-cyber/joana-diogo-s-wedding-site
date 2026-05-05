@@ -30,17 +30,20 @@ export const Route = createRootRoute({
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Casamento Joana&Diogo" },
-      { name: "description", content: "A modern, elegant wedding website for Joana & Diogo, facilitating guest RSVPs and providing event details." },
+      { name: "description", content: "Bem-vindos ao site do nosso Casamento 😘
+Welcome to our wedding website  😘" },
       { name: "author", content: "Lovable" },
       { property: "og:title", content: "Casamento Joana&Diogo" },
-      { property: "og:description", content: "A modern, elegant wedding website for Joana & Diogo, facilitating guest RSVPs and providing event details." },
+      { property: "og:description", content: "Bem-vindos ao site do nosso Casamento 😘
+Welcome to our wedding website  😘" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "Casamento Joana&Diogo" },
-      { name: "twitter:description", content: "A modern, elegant wedding website for Joana & Diogo, facilitating guest RSVPs and providing event details." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/df99ca4b-b02d-4860-a862-796b86fe5b75" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/df99ca4b-b02d-4860-a862-796b86fe5b75" },
+      { name: "twitter:description", content: "Bem-vindos ao site do nosso Casamento 😘
+Welcome to our wedding website  😘" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/5a05d264-b116-44d4-aed8-d0755312f381" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/5a05d264-b116-44d4-aed8-d0755312f381" },
     ],
     links: [
       {
