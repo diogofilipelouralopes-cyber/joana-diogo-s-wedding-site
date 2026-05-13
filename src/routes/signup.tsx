@@ -4,9 +4,14 @@ import { Lock } from "lucide-react";
 export const Route = createFileRoute("/signup")({
   head: () => ({
     meta: [
-      { title: "Inscrições fechadas" },
+      { title: "Inscrições fechadas · Joana & Diogo" },
+      { name: "description", content: "As inscrições estão fechadas. Apenas administradores autorizados podem aceder." },
+      { property: "og:title", content: "Inscrições fechadas · Joana & Diogo" },
+      { property: "og:description", content: "As inscrições estão fechadas. Apenas administradores autorizados." },
+      { property: "og:url", content: "https://joanaediogo-com.lovable.app/signup" },
       { name: "robots", content: "noindex,nofollow" },
     ],
+    links: [{ rel: "canonical", href: "https://joanaediogo-com.lovable.app/signup" }],
   }),
   component: SignupClosedPage,
 });
