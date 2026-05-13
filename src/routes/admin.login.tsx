@@ -11,9 +11,14 @@ import { Loader2, Heart } from "lucide-react";
 export const Route = createFileRoute("/admin/login")({
   head: () => ({
     meta: [
-      { title: "Login · Admin" },
+      { title: "Login · Admin · Joana & Diogo" },
+      { name: "description", content: "Acesso restrito ao painel de administração do casamento de Joana e Diogo." },
+      { property: "og:title", content: "Login · Admin" },
+      { property: "og:description", content: "Acesso restrito ao painel de administração." },
+      { property: "og:url", content: "https://joanaediogo-com.lovable.app/admin/login" },
       { name: "robots", content: "noindex,nofollow" },
     ],
+    links: [{ rel: "canonical", href: "https://joanaediogo-com.lovable.app/admin/login" }],
   }),
   component: LoginPage,
 });
