@@ -272,9 +272,9 @@ function FloatingField({
   counter?: string;
 }) {
   const inputCls =
-    "peer w-full bg-transparent outline-none text-base sm:text-[0.95rem] py-3 placeholder:italic placeholder:text-[color:var(--olive)]/40 " +
+    "peer w-full outline-none text-base sm:text-[0.95rem] py-3 placeholder:italic placeholder:text-[color:var(--olive)]/40 " +
     (Icon ? "pl-8 " : "pl-0 ") +
-    "pr-0 text-[color:var(--foreground)]";
+    "pr-0 text-[color:var(--foreground)] bg-slate-50 text-slate-800";
   const hasValue = value.length > 0;
   return (
     <div className="relative">
