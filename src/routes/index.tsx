@@ -424,6 +424,7 @@ function Index() {
       <GiftsSection />
 
       <DecorativeDivider />
+      </main>
 
       {/* FOOTER */}
       <SiteFooter />
