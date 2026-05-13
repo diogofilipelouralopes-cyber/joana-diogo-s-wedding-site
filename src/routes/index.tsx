@@ -132,6 +132,10 @@ function Index() {
             src="/hero-desktop.jpg"
             alt="Joana e Diogo ao pôr do sol"
             className="hero-image"
+            width={1920}
+            height={1280}
+            fetchPriority="high"
+            decoding="async"
           />
         </picture>
         <div className="hero-overlay" aria-hidden="true" />
