@@ -152,7 +152,7 @@ export function MessagesSection() {
                 {/* Mensagem */}
                 <FloatingField
                   id="msg-text"
-                  label={t("msg.field.message")}
+                  label=""
                   value={mensagem}
                   onChange={(v) => setMensagem(v.slice(0, 1000))}
                   multiline
