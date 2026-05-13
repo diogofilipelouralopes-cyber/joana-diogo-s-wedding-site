@@ -117,6 +117,7 @@ function Index() {
       <Toaster position="top-center" />
       <Header />
 
+      <main>
       {/* HERO */}
       <section
         className="hero-bg hero-section relative flex flex-col items-center text-center overflow-hidden px-5 sm:px-6"
