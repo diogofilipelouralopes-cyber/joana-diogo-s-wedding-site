@@ -50,8 +50,13 @@ export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
       { title: "Admin · Joana & Diogo" },
+      { name: "description", content: "Painel privado dos noivos para gerir RSVPs e mensagens dos convidados." },
+      { property: "og:title", content: "Admin · Joana & Diogo" },
+      { property: "og:description", content: "Painel privado dos noivos para gerir RSVPs e mensagens." },
+      { property: "og:url", content: "https://joanaediogo-com.lovable.app/admin" },
       { name: "robots", content: "noindex,nofollow" },
     ],
+    links: [{ rel: "canonical", href: "https://joanaediogo-com.lovable.app/admin" }],
   }),
   component: AdminRouteComponent,
 });
