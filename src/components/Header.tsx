@@ -41,8 +41,10 @@ export function Header() {
   // Lock body scroll when mobile drawer is open
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+    document.body.classList.toggle("drawer-open", open);
     return () => {
       document.body.style.overflow = "";
+      document.body.classList.remove("drawer-open");
     };
   }, [open]);
 
