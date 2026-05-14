@@ -344,6 +344,7 @@
   pointer-events: auto;
   transform: translateY(0);
 }
+body.drawer-open .sticky-rsvp-btn { opacity: 0 !important; pointer-events: none !important; }
 .sticky-rsvp-btn:hover,
 .sticky-rsvp-btn:focus-visible {
   background-color: var(--gold);

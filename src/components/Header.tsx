@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
-import { Menu, X, Camera, Music, MessageCircleHeart } from "lucide-react";
+import { Menu, X, Camera, Music, MessageCircleHeart, Gift, Home, BookHeart, CalendarCheck, MapPin, Info, HelpCircle } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { Monogram } from "@/components/Monogram";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const links = [
-  { id: "top", key: "nav.home" as const, icon: null },
-  { id: "story", key: "nav.story" as const, icon: null },
-  { id: "rsvp", key: "nav.rsvp" as const, icon: null },
-  { id: "event", key: "nav.event" as const, icon: null },
-  { id: "info", key: "nav.info" as const, icon: null },
-  { id: "fotos", key: "nav.photos" as const, icon: <Camera className="w-4 h-4" strokeWidth={1.5} /> },
-  { id: "musica", key: "nav.music" as const, icon: <Music className="w-4 h-4" strokeWidth={1.5} /> },
-  { id: "faq", key: "nav.faq" as const, icon: null },
-  { id: "mensagens", key: "nav.messages" as const, icon: <MessageCircleHeart className="w-4 h-4" strokeWidth={1.5} /> },
-  { id: "gifts", key: "nav.gifts" as const, icon: null },
+  { id: "top", key: "nav.home" as const, icon: <Home className="w-5 h-5" strokeWidth={1.5} /> },
+  { id: "story", key: "nav.story" as const, icon: <BookHeart className="w-5 h-5" strokeWidth={1.5} /> },
+  { id: "rsvp", key: "nav.rsvp" as const, icon: <CalendarCheck className="w-5 h-5" strokeWidth={1.5} /> },
+  { id: "event", key: "nav.event" as const, icon: <MapPin className="w-5 h-5" strokeWidth={1.5} /> },
+  { id: "info", key: "nav.info" as const, icon: <Info className="w-5 h-5" strokeWidth={1.5} /> },
+  { id: "fotos", key: "nav.photos" as const, icon: <Camera className="w-5 h-5" strokeWidth={1.5} /> },
+  { id: "musica", key: "nav.music" as const, icon: <Music className="w-5 h-5" strokeWidth={1.5} /> },
+  { id: "faq", key: "nav.faq" as const, icon: <HelpCircle className="w-5 h-5" strokeWidth={1.5} /> },
+  { id: "mensagens", key: "nav.messages" as const, icon: <MessageCircleHeart className="w-5 h-5" strokeWidth={1.5} /> },
+  { id: "gifts", key: "nav.gifts" as const, icon: <Gift className="w-5 h-5" strokeWidth={1.5} /> },
 ];
 
 export function Header() {
@@ -41,8 +41,10 @@ export function Header() {
   // Lock body scroll when mobile drawer is open
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+    document.body.classList.toggle("drawer-open", open);
     return () => {
       document.body.style.overflow = "";
+      document.body.classList.remove("drawer-open");
     };
   }, [open]);
 
