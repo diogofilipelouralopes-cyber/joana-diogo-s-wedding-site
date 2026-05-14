@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Menu, X, Camera, Music, MessageCircleHeart } from "lucide-react";
+import { Menu, X, Camera, Music, MessageCircleHeart, Gift, Home, BookHeart, CalendarCheck, MapPin, Info, HelpCircle } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { Monogram } from "@/components/Monogram";
 import { useIsMobile } from "@/hooks/use-mobile";
