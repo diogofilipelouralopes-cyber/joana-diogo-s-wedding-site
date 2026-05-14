@@ -462,7 +462,8 @@ body { padding-top: 0; }
   top: 0;
   right: 0;
   height: 100dvh;
-  width: min(80vw, 320px);
+  width: 100vw;
+  max-width: 100vw;
   background-color: var(--cream);
   border-left: 1px solid color-mix(in oklab, var(--gold) 40%, transparent);
   box-shadow: -10px 0 40px -12px color-mix(in oklab, var(--olive) 35%, transparent);
@@ -476,19 +477,22 @@ body { padding-top: 0; }
 
 .mobile-drawer-link {
   font-family: "Cinzel", serif;
-  font-size: 1rem;
+  font-size: 1.15rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--olive);
-  padding: 12px 0;
+  padding: 14px 24px;
+  width: 100%;
+  max-width: 360px;
   border-bottom: 1px dashed color-mix(in oklab, var(--olive) 25%, transparent);
-  transition: color 0.25s ease, padding-left 0.25s ease;
-  min-height: 44px;
+  transition: color 0.25s ease, transform 0.25s ease;
+  min-height: 52px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
 }
-.mobile-drawer-link:hover { color: var(--gold); padding-left: 6px; }
+.mobile-drawer-link:hover { color: var(--gold); transform: scale(1.04); }
 
 /* === Story images: dessaturated vintage feel === */
 .story-image {
