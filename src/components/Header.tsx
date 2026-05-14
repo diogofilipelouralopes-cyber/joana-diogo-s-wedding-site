@@ -5,16 +5,16 @@ import { Monogram } from "@/components/Monogram";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const links = [
-  { id: "top", key: "nav.home" as const, icon: <Home className="w-5 h-5" strokeWidth={1.5} /> },
-  { id: "story", key: "nav.story" as const, icon: <BookHeart className="w-5 h-5" strokeWidth={1.5} /> },
-  { id: "rsvp", key: "nav.rsvp" as const, icon: <CalendarCheck className="w-5 h-5" strokeWidth={1.5} /> },
-  { id: "event", key: "nav.event" as const, icon: <MapPin className="w-5 h-5" strokeWidth={1.5} /> },
-  { id: "info", key: "nav.info" as const, icon: <Info className="w-5 h-5" strokeWidth={1.5} /> },
-  { id: "fotos", key: "nav.photos" as const, icon: <Camera className="w-5 h-5" strokeWidth={1.5} /> },
-  { id: "musica", key: "nav.music" as const, icon: <Music className="w-5 h-5" strokeWidth={1.5} /> },
-  { id: "faq", key: "nav.faq" as const, icon: <HelpCircle className="w-5 h-5" strokeWidth={1.5} /> },
-  { id: "mensagens", key: "nav.messages" as const, icon: <MessageCircleHeart className="w-5 h-5" strokeWidth={1.5} /> },
-  { id: "gifts", key: "nav.gifts" as const, icon: <Gift className="w-5 h-5" strokeWidth={1.5} /> },
+  { id: "top", key: "nav.home" as const, icon: <Home className="w-4 h-4" strokeWidth={1.5} /> },
+  { id: "story", key: "nav.story" as const, icon: <BookHeart className="w-4 h-4" strokeWidth={1.5} /> },
+  { id: "rsvp", key: "nav.rsvp" as const, icon: <CalendarCheck className="w-4 h-4" strokeWidth={1.5} /> },
+  { id: "event", key: "nav.event" as const, icon: <MapPin className="w-4 h-4" strokeWidth={1.5} /> },
+  { id: "info", key: "nav.info" as const, icon: <Info className="w-4 h-4" strokeWidth={1.5} /> },
+  { id: "fotos", key: "nav.photos" as const, icon: <Camera className="w-4 h-4" strokeWidth={1.5} /> },
+  { id: "musica", key: "nav.music" as const, icon: <Music className="w-4 h-4" strokeWidth={1.5} /> },
+  { id: "faq", key: "nav.faq" as const, icon: <HelpCircle className="w-4 h-4" strokeWidth={1.5} /> },
+  { id: "mensagens", key: "nav.messages" as const, icon: <MessageCircleHeart className="w-4 h-4" strokeWidth={1.5} /> },
+  { id: "gifts", key: "nav.gifts" as const, icon: <Gift className="w-4 h-4" strokeWidth={1.5} /> },
 ];
 
 export function Header() {
