@@ -478,20 +478,20 @@ body { padding-top: 0; }
 
 .mobile-drawer-link {
   font-family: "Cinzel", serif;
-  font-size: 1.15rem;
-  letter-spacing: 0.25em;
+  font-size: 0.9rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--olive);
-  padding: 14px 24px;
+  padding: 8px 20px;
   width: 100%;
-  max-width: 360px;
+  max-width: 340px;
   border-bottom: 1px dashed color-mix(in oklab, var(--olive) 25%, transparent);
   transition: color 0.25s ease, transform 0.25s ease;
-  min-height: 52px;
+  min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
 }
 .mobile-drawer-link:hover { color: var(--gold); transform: scale(1.04); }
 
