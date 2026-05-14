@@ -462,7 +462,8 @@ body { padding-top: 0; }
   top: 0;
   right: 0;
   height: 100dvh;
-  width: min(80vw, 320px);
+  width: 100vw;
+  max-width: 100vw;
   background-color: var(--cream);
   border-left: 1px solid color-mix(in oklab, var(--gold) 40%, transparent);
   box-shadow: -10px 0 40px -12px color-mix(in oklab, var(--olive) 35%, transparent);
