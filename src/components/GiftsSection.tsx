@@ -1,8 +1,6 @@
-import { Heart, Copy, Smartphone, CreditCard, X } from "lucide-react";
-import { useState } from "react";
+import { Heart, Copy, Smartphone } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
-import { StripeEmbeddedCheckout } from "@/components/StripeEmbeddedCheckout";
 
 const ibanPT = "PT50 0035 0836 0068 8932 0308 1";
 const ibanRev = "BE66 6502 5539 2943";
@@ -10,7 +8,6 @@ const mbwayNumber = "+351 912 633 104";
 
 export function GiftsSection() {
   const { t } = useI18n();
-  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   const goldToast = (msg: string) =>
     toast(msg, {
@@ -87,48 +84,8 @@ export function GiftsSection() {
               </button>
             </div>
           </div>
-
-          <div className="card-gold p-6 sm:p-8">
-            <div className="flex items-center gap-2 mb-3">
-              <CreditCard className="w-4 h-4 text-primary" strokeWidth={1.5} />
-              <h3 className="font-display text-lg sm:text-xl text-primary">Contributo para a Lua de Mel</h3>
-            </div>
-            <p className="text-foreground/75 text-sm mb-4">
-              Ajudem-nos a tornar a nossa lua de mel inesquecível com um contributo de 25€ (cartão).
-            </p>
-            <div className="flex items-center justify-between gap-3 flex-wrap">
-              <p className="font-display text-xl sm:text-2xl" style={{ color: "var(--gold)" }}>
-                25 €
-              </p>
-              <button
-                onClick={() => setCheckoutOpen(true)}
-                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-primary hover:text-primary/70 transition-colors border border-primary/40 px-4 py-2 hover:bg-primary/5 rounded"
-                style={{ minHeight: 44 }}
-              >
-                <CreditCard className="w-3.5 h-3.5" />
-                Contribuir
-              </button>
-            </div>
-          </div>
         </div>
       </div>
-
-      {checkoutOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 flex items-start sm:items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-background rounded-lg max-w-2xl w-full my-8 relative">
-            <button
-              onClick={() => setCheckoutOpen(false)}
-              className="absolute top-3 right-3 z-10 p-2 rounded-full bg-background/90 hover:bg-background border border-primary/20"
-              aria-label="Fechar"
-            >
-              <X className="w-4 h-4" />
-            </button>
-            <div className="p-2 sm:p-4">
-              <StripeEmbeddedCheckout priceId="gift_lua_de_mel_25" />
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   );
 }
