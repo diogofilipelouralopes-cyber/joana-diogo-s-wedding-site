@@ -41,6 +41,7 @@ export const Route = createRootRoute({
       { name: "twitter:description", content: "Bem-vindos ao site do nosso Casamento 😘 Welcome to our wedding website 😘" },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/5a05d264-b116-44d4-aed8-d0755312f381" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/5a05d264-b116-44d4-aed8-d0755312f381" },
+      { name: "google-site-verification", content: "CLYQjxJnIyplIQtWJvvY7KYRmVaJRdnTKeqZUdT8zyU" },
     ],
     links: [
       {
