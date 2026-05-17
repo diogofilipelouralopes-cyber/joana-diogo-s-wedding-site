@@ -372,6 +372,18 @@ body.drawer-open .sticky-rsvp-btn { opacity: 0 !important; pointer-events: none 
   .site-header { padding-top: 20px; padding-bottom: 20px; }
 }
 
+/* Header responsive show/hide (CSS-only, no JS flash) */
+.header-nav-desktop { display: none; }
+.header-logo-desktop { display: none; }
+.header-logo-mobile { display: inline-flex; }
+.header-hamburger { display: inline-flex; }
+@media (min-width: 768px) {
+  .header-nav-desktop { display: flex; }
+  .header-logo-desktop { display: inline-flex; }
+  .header-logo-mobile { display: none; }
+  .header-hamburger { display: none; }
+}
+
 .lang-toggle {
   display: inline-flex;
   align-items: center;
