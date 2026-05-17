@@ -39,9 +39,8 @@ export const Route = createRootRoute({
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Casamento Joana&Diogo" },
       { name: "twitter:description", content: "Bem-vindos ao site do nosso Casamento 😘 Welcome to our wedding website 😘" },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/5a05d264-b116-44d4-aed8-d0755312f381" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/5a05d264-b116-44d4-aed8-d0755312f381" },
-      { name: "google-site-verification", content: "CLYQjxJnIyplIQtWJvvY7KYRmVaJRdnTKeqZUdT8zyU" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/BYFEOymySMX1cK6cJOdODewLp9l2/social-images/social-1779013495690-IMG_2195.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/BYFEOymySMX1cK6cJOdODewLp9l2/social-images/social-1779013495690-IMG_2195.webp" },
     ],
     links: [
       {
