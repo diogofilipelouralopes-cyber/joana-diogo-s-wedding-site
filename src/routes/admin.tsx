@@ -347,7 +347,14 @@ function AdminPage() {
               {tab === "rsvps" ? "Respostas RSVP" : "Mensagens"}
             </h1>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
+            <Link
+              to="/admin/galeria"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-[0.2em] rounded-md border border-border hover:border-primary hover:text-primary transition-colors"
+              title="Galeria privada"
+            >
+              <ImageIcon className="w-3.5 h-3.5" /> Galeria
+            </Link>
             <Button variant="ghost" size="sm" onClick={logout}>
               <LogOut className="w-4 h-4 mr-2" /> Sair
             </Button>
