@@ -125,7 +125,7 @@ export function Header() {
             <X className="w-6 h-6" strokeWidth={1.5} />
           </button>
         </div>
-        <nav className="flex-1 px-6 pb-8 flex flex-col items-center justify-center gap-2 text-center">
+        <nav className="flex-1 px-6 pb-8 flex flex-col items-center justify-center gap-2 text-center text-3xl">
           {links.map((l) => (
             <a
               key={l.id}

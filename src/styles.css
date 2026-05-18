@@ -494,7 +494,7 @@ body { padding-top: 0; }
 
 .mobile-drawer-link {
   font-family: "Cinzel", serif;
-  font-size: 0.9rem;
+  font-size: inherit;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--olive);
