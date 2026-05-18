@@ -448,7 +448,7 @@ function InfoCard({
   return (
     <div className="card-gold p-6 sm:p-8">
       <div className="text-primary mb-4">{icon}</div>
-      <h3 className="font-display text-lg sm:text-xl mb-3 text-primary">{title}</h3>
+      <h3 className="font-display text-base sm:text-lg mb-3 text-primary break-words" style={{ letterSpacing: "0.18em" }}>{title}</h3>
       <p className="text-sm leading-relaxed text-foreground/75">{desc}</p>
     </div>
   );
