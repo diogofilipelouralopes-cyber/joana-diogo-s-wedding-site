@@ -419,16 +419,20 @@ body.drawer-open .sticky-rsvp-btn { opacity: 0 !important; pointer-events: none 
 .header-link {
   position: relative;
   font-family: "Cinzel", serif;
-  font-size: 0.8rem;
-  letter-spacing: 0.25em;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--olive);
   padding: 8px 2px;
+  white-space: nowrap;
   transition: transform 0.3s ease, color 0.3s ease;
   display: inline-block;
 }
 @media (min-width: 1024px) {
-  .header-link { font-size: 0.85rem; }
+  .header-link { font-size: 0.74rem; letter-spacing: 0.18em; }
+}
+@media (min-width: 1280px) {
+  .header-link { font-size: 0.8rem; letter-spacing: 0.22em; }
 }
 .header-link::after {
   content: "";

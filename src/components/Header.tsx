@@ -48,7 +48,7 @@ export function Header() {
 
   return (
     <header className="site-header">
-      <div className="max-w-6xl mx-auto px-5 sm:px-8 flex items-center justify-between gap-3">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
         {/* LEFT: Logo */}
         <a
           href="#top"
@@ -64,7 +64,7 @@ export function Header() {
         </a>
 
         {/* CENTER: Nav (desktop only) */}
-        <nav className="header-nav-desktop items-center gap-6 lg:gap-9">
+        <nav className="header-nav-desktop items-center gap-3 lg:gap-5 xl:gap-7">
           {links.map((l) => (
             <a
               key={l.id}
