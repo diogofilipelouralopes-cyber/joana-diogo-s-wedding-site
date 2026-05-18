@@ -20,6 +20,7 @@ import {
   Mail,
   Phone,
   Utensils,
+  Image as ImageIcon,
 } from "lucide-react";
 import { AdminMensagens } from "@/components/AdminMensagens";
 import {
