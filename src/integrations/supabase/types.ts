@@ -116,6 +116,110 @@ export type Database = {
         }
         Relationships: []
       }
+      wedding_albums: {
+        Row: {
+          cover_photo_id: string | null
+          created_at: string
+          description: string | null
+          id: string
+          is_preview: boolean
+          is_published: boolean
+          minimum_contribution_cents: number | null
+          requires_contribution: boolean
+          slug: string
+          sort_order: number
+          suggested_contribution_cents: number | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          cover_photo_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_preview?: boolean
+          is_published?: boolean
+          minimum_contribution_cents?: number | null
+          requires_contribution?: boolean
+          slug: string
+          sort_order?: number
+          suggested_contribution_cents?: number | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          cover_photo_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_preview?: boolean
+          is_published?: boolean
+          minimum_contribution_cents?: number | null
+          requires_contribution?: boolean
+          slug?: string
+          sort_order?: number
+          suggested_contribution_cents?: number | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      wedding_photos: {
+        Row: {
+          album_id: string
+          caption: string | null
+          created_at: string
+          file_name: string | null
+          height: number | null
+          id: string
+          is_preview: boolean
+          mime_type: string | null
+          size_bytes: number | null
+          sort_order: number
+          storage_path: string
+          watermark_applied: boolean
+          width: number | null
+        }
+        Insert: {
+          album_id: string
+          caption?: string | null
+          created_at?: string
+          file_name?: string | null
+          height?: number | null
+          id?: string
+          is_preview?: boolean
+          mime_type?: string | null
+          size_bytes?: number | null
+          sort_order?: number
+          storage_path: string
+          watermark_applied?: boolean
+          width?: number | null
+        }
+        Update: {
+          album_id?: string
+          caption?: string | null
+          created_at?: string
+          file_name?: string | null
+          height?: number | null
+          id?: string
+          is_preview?: boolean
+          mime_type?: string | null
+          size_bytes?: number | null
+          sort_order?: number
+          storage_path?: string
+          watermark_applied?: boolean
+          width?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wedding_photos_album_id_fkey"
+            columns: ["album_id"]
+            isOneToOne: false
+            referencedRelation: "wedding_albums"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
