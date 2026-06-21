@@ -9,6 +9,10 @@ import {
 const WEDDING_DATE = new Date("2026-09-19T00:00:00+01:00");
 const SHOW_DAYS_BEFORE = 7;
 
+// Durante o desenvolvimento, deixa sempre visível.
+// TODO: reativar a condição dos 7 dias antes do casamento (trocar para `false`).
+const FORCE_VISIBLE = true;
+
 const WAZE_URL =
   "https://waze.com/ul?q=Glic%C3%ADnia%20Wedding%20House%20Freamunde";
 const MAPS_URL =
@@ -16,6 +20,7 @@ const MAPS_URL =
 const EMERGENCY_URL = "https://wa.me/351967324430";
 
 function shouldShow(): boolean {
+  if (FORCE_VISIBLE) return true;
   const now = Date.now();
   const diff = WEDDING_DATE.getTime() - now;
   const days = diff / (1000 * 60 * 60 * 24);
@@ -48,9 +53,13 @@ export function QuickAccessBar() {
         left: 0,
         right: 0,
         zIndex: 55,
-        background: "#0a0a0a",
-        borderTop: "1px solid var(--gold)",
-        boxShadow: "0 -6px 20px rgba(0,0,0,0.25)",
+        background:
+          "color-mix(in oklab, var(--ivory, var(--background)) 82%, transparent)",
+        backdropFilter: "blur(14px) saturate(120%)",
+        WebkitBackdropFilter: "blur(14px) saturate(120%)",
+        borderTop:
+          "1px solid color-mix(in oklab, var(--gold) 38%, transparent)",
+        boxShadow: "0 -4px 24px color-mix(in oklab, var(--gold) 12%, transparent)",
         paddingBottom: "env(safe-area-inset-bottom, 0px)",
       }}
     >
@@ -66,13 +75,21 @@ export function QuickAccessBar() {
             <PopoverContent
               side="top"
               align="center"
-              className="w-56 p-2 bg-black text-white border-[color:var(--gold)]"
+              className="w-56 p-2"
+              style={{
+                background:
+                  "color-mix(in oklab, var(--ivory, var(--background)) 92%, transparent)",
+                backdropFilter: "blur(14px)",
+                WebkitBackdropFilter: "blur(14px)",
+                border:
+                  "1px solid color-mix(in oklab, var(--gold) 40%, transparent)",
+              }}
             >
               <a
                 href={WAZE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between gap-2 px-3 py-2 rounded hover:bg-white/10 text-sm"
+                className="qa-popover-link"
               >
                 Waze <ExternalLink size={14} />
               </a>
@@ -80,7 +97,7 @@ export function QuickAccessBar() {
                 href={MAPS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between gap-2 px-3 py-2 rounded hover:bg-white/10 text-sm"
+                className="qa-popover-link"
               >
                 Google Maps <ExternalLink size={14} />
               </a>
@@ -108,7 +125,12 @@ export function QuickAccessBar() {
           </button>
         </li>
         <li className="flex-1">
-          <a href={EMERGENCY_URL} target="_blank" rel="noopener noreferrer" className="qa-btn">
+          <a
+            href={EMERGENCY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="qa-btn"
+          >
             <AlertTriangle size={20} strokeWidth={1.6} />
             <span>Emergência</span>
           </a>
@@ -120,25 +142,40 @@ export function QuickAccessBar() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 4px;
-          padding: 10px 6px;
-          color: var(--gold);
+          gap: 5px;
+          padding: 11px 6px;
+          color: color-mix(in oklab, var(--gold) 88%, #6b5a2e);
           font-family: "Cinzel", serif;
-          font-size: 0.62rem;
-          letter-spacing: 0.16em;
+          font-size: 0.6rem;
+          letter-spacing: 0.18em;
           text-transform: uppercase;
           transition: color 0.2s ease, background 0.2s ease;
         }
         .qa-btn:hover, .qa-btn:focus-visible {
-          color: #fff;
-          background: rgba(255,255,255,0.05);
+          color: color-mix(in oklab, var(--gold) 60%, #000);
+          background: color-mix(in oklab, var(--gold) 10%, transparent);
           outline: none;
         }
-        /* Lift other floating elements above the bar */
-        body:has(.quick-access-bar) .sticky-rsvp-btn { bottom: 5.5rem; }
-        body:has(.quick-access-bar) .install-btn { bottom: 5.5rem; }
+        .qa-popover-link {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 8px;
+          padding: 8px 12px;
+          border-radius: 6px;
+          font-size: 0.875rem;
+          color: var(--foreground);
+          transition: background 0.2s ease;
+        }
+        .qa-popover-link:hover {
+          background: color-mix(in oklab, var(--gold) 14%, transparent);
+        }
+        /* Elevar os botões flutuantes acima da barra */
+        body:has(.quick-access-bar) .sticky-rsvp-btn { bottom: 6rem; }
+        body:has(.quick-access-bar) .install-btn { bottom: 6rem; }
+        body:has(.quick-access-bar) .whatsapp-fab { bottom: 6rem; }
         @media (max-width: 640px) {
-          body:has(.quick-access-bar) .install-btn { bottom: 9rem; }
+          body:has(.quick-access-bar) .install-btn { bottom: 9.5rem; }
         }
       `}</style>
     </nav>
