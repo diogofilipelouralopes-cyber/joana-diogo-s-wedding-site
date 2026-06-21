@@ -17,6 +17,8 @@ import { WhatsAppFab } from "@/components/WhatsAppFab";
 import { SiteFooter } from "@/components/SiteFooter";
 import { StickyRsvpButton } from "@/components/StickyRsvpButton";
 import { InstallButton } from "@/components/InstallButton";
+import { LiveAnnouncementBanner } from "@/components/LiveAnnouncementBanner";
+import { QuickAccessBar } from "@/components/QuickAccessBar";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { MapPin, Clock, Hotel, Heart, CalendarPlus, Shirt, Car, Plane, ParkingCircle, ExternalLink } from "lucide-react";
@@ -117,6 +119,8 @@ function Index() {
     <div id="top" className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Toaster position="top-center" />
       <Header />
+      <LiveAnnouncementBanner />
+
 
       <main>
       {/* HERO */}
@@ -434,6 +438,7 @@ function Index() {
       <StickyRsvpButton />
       <InstallButton />
       <WhatsAppFab />
+      <QuickAccessBar />
     </div>
   );
 }
