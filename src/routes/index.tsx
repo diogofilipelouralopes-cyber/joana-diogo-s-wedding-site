@@ -17,6 +17,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { InstallButton } from "@/components/InstallButton";
 import { LiveAnnouncementBanner } from "@/components/LiveAnnouncementBanner";
 import { QuickAccessBar } from "@/components/QuickAccessBar";
+import { Reveal } from "@/components/Reveal";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { MapPin, Clock, Hotel, Heart, CalendarPlus, Shirt, Car, Plane, ParkingCircle, ExternalLink } from "lucide-react";
@@ -224,17 +225,17 @@ function Index() {
       <DecorativeDivider />
 
       {/* COUNTDOWN */}
-      <CountdownSection />
+      <Reveal><CountdownSection /></Reveal>
 
       <DecorativeDivider />
 
       {/* STORY */}
-      <StorySection />
+      <Reveal><StorySection /></Reveal>
 
       <DecorativeDivider />
 
       {/* SAVE THE DATE */}
-      <SaveTheDateSection />
+      <Reveal><SaveTheDateSection /></Reveal>
 
       <DecorativeDivider />
 
@@ -404,27 +405,27 @@ function Index() {
       <DecorativeDivider />
 
       {/* PHOTOS (shared album) */}
-      <MemoriesSection />
+      <Reveal><MemoriesSection /></Reveal>
 
       <DecorativeDivider />
 
       {/* MUSIC (Spotify playlist) */}
-      <PlaylistSection />
+      <Reveal><PlaylistSection /></Reveal>
 
       <DecorativeDivider />
 
       {/* FAQ */}
-      <FaqSection />
+      <Reveal><FaqSection /></Reveal>
 
       <DecorativeDivider />
 
       {/* MESSAGES */}
-      <MessagesSection />
+      <Reveal><MessagesSection /></Reveal>
 
       <DecorativeDivider />
 
       {/* GIFTS */}
-      <GiftsSection />
+      <Reveal><GiftsSection /></Reveal>
 
       <DecorativeDivider />
       </main>
