@@ -90,7 +90,7 @@ export function QuickAccessBar() {
         <li className="flex-1">
           <button
             type="button"
-            onClick={() => scrollToId("memories")}
+            onClick={() => scrollToId("fotos")}
             className="qa-btn"
           >
             <Camera size={20} strokeWidth={1.6} />
@@ -100,7 +100,7 @@ export function QuickAccessBar() {
         <li className="flex-1">
           <button
             type="button"
-            onClick={() => scrollToId("playlist")}
+            onClick={() => scrollToId("musica")}
             className="qa-btn"
           >
             <Music size={20} strokeWidth={1.6} />
