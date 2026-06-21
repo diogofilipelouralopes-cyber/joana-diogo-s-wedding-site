@@ -352,6 +352,97 @@ body.drawer-open .sticky-rsvp-btn { opacity: 0 !important; pointer-events: none 
   outline: none;
 }
 
+/* === Install (Add to Home Screen) button === */
+.install-btn {
+  position: fixed;
+  left: 50%;
+  bottom: 1.25rem;
+  transform: translateX(-50%) translateY(0);
+  z-index: 49;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.75rem 1.15rem;
+  background-color: var(--cream, #faf7f1);
+  color: var(--olive);
+  border: 1px solid color-mix(in oklab, var(--olive) 30%, transparent);
+  font-family: "Cinzel", serif;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  border-radius: 999px;
+  box-shadow: 0 12px 30px -12px color-mix(in oklab, var(--olive) 50%, transparent);
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+.install-btn:hover,
+.install-btn:focus-visible {
+  background-color: var(--olive);
+  color: var(--cream);
+  outline: none;
+}
+body.drawer-open .install-btn { opacity: 0; pointer-events: none; }
+
+@media (max-width: 640px) {
+  .install-btn { bottom: 5.25rem; font-size: 0.65rem; padding: 0.65rem 1rem; }
+}
+
+.install-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: color-mix(in oklab, #000 55%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  animation: fade-in 0.2s ease;
+}
+.install-modal {
+  position: relative;
+  max-width: 22rem;
+  width: 100%;
+  background: var(--cream, #faf7f1);
+  color: var(--olive);
+  border-radius: 1rem;
+  padding: 1.75rem 1.5rem 1.5rem;
+  box-shadow: 0 30px 60px -20px rgba(0,0,0,0.4);
+  text-align: center;
+}
+.install-modal-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--olive);
+  border-radius: 999px;
+}
+.install-modal-title {
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+.install-modal-text {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+.install-modal-illustration {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px dashed color-mix(in oklab, var(--olive) 40%, transparent);
+  border-radius: 999px;
+  color: var(--olive);
+}
+@keyframes fade-in { from { opacity: 0 } to { opacity: 1 } }
+
 
 
 /* === Sticky Header === */
