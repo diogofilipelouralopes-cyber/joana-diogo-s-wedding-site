@@ -13,9 +13,7 @@ import { MemoriesSection } from "@/components/MemoriesSection";
 import { PlaylistSection } from "@/components/PlaylistSection";
 import { FaqSection } from "@/components/FaqSection";
 import { MessagesSection } from "@/components/MessagesSection";
-import { WhatsAppFab } from "@/components/WhatsAppFab";
 import { SiteFooter } from "@/components/SiteFooter";
-import { StickyRsvpButton } from "@/components/StickyRsvpButton";
 import { InstallButton } from "@/components/InstallButton";
 import { LiveAnnouncementBanner } from "@/components/LiveAnnouncementBanner";
 import { QuickAccessBar } from "@/components/QuickAccessBar";
@@ -435,9 +433,7 @@ function Index() {
       <SiteFooter />
 
       {/* FLOATING ACTIONS */}
-      <StickyRsvpButton />
       <InstallButton />
-      <WhatsAppFab />
       <QuickAccessBar />
     </div>
   );
