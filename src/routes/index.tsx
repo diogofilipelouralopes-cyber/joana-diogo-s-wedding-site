@@ -16,6 +16,7 @@ import { MessagesSection } from "@/components/MessagesSection";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
 import { SiteFooter } from "@/components/SiteFooter";
 import { StickyRsvpButton } from "@/components/StickyRsvpButton";
+import { InstallButton } from "@/components/InstallButton";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { MapPin, Clock, Hotel, Heart, CalendarPlus, Shirt, Car, Plane, ParkingCircle, ExternalLink } from "lucide-react";
@@ -431,6 +432,7 @@ function Index() {
 
       {/* FLOATING ACTIONS */}
       <StickyRsvpButton />
+      <InstallButton />
       <WhatsAppFab />
     </div>
   );
