@@ -21,8 +21,10 @@ import {
   Phone,
   Utensils,
   Image as ImageIcon,
+  Megaphone,
 } from "lucide-react";
 import { AdminMensagens } from "@/components/AdminMensagens";
+import { AdminAvisos } from "@/components/AdminAvisos";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -96,7 +98,7 @@ function AdminPage() {
   const [fadingIds, setFadingIds] = useState<Set<string>>(new Set());
   const [editing, setEditing] = useState<Rsvp | null>(null);
   const [saving, setSaving] = useState(false);
-  const [tab, setTab] = useState<"rsvps" | "mensagens">("rsvps");
+  const [tab, setTab] = useState<"rsvps" | "mensagens" | "avisos">("rsvps");
   const [unreadCount, setUnreadCount] = useState<number>(0);
 
   // Fetch unread messages count for tab badge
@@ -345,7 +347,7 @@ function AdminPage() {
               Painel
             </p>
             <h1 className="font-display text-2xl text-primary">
-              {tab === "rsvps" ? "Respostas RSVP" : "Mensagens"}
+              {tab === "rsvps" ? "Respostas RSVP" : tab === "mensagens" ? "Mensagens" : "Avisos"}
             </h1>
           </div>
           <div className="flex gap-2 items-center">
@@ -377,6 +379,12 @@ function AdminPage() {
               label="Mensagens"
               badge={unreadCount > 0 ? unreadCount : undefined}
             />
+            <TabButton
+              active={tab === "avisos"}
+              onClick={() => setTab("avisos")}
+              icon={<Megaphone className="w-4 h-4" />}
+              label="Avisos"
+            />
           </div>
         </div>
       </header>
@@ -384,6 +392,8 @@ function AdminPage() {
       <main className="max-w-7xl mx-auto px-6 py-10">
         {tab === "mensagens" ? (
           <AdminMensagens />
+        ) : tab === "avisos" ? (
+          <AdminAvisos />
         ) : (
         <div>
         {/* Stats */}
