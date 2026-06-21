@@ -143,12 +143,13 @@ export function QuickAccessBar() {
           flex-direction: column;
           align-items: center;
           gap: 5px;
-          padding: 11px 6px;
+          padding: 11px 4px;
           color: color-mix(in oklab, var(--gold) 88%, #6b5a2e);
           font-family: "Cinzel", serif;
-          font-size: 0.6rem;
-          letter-spacing: 0.18em;
+          font-size: 0.56rem;
+          letter-spacing: 0.1em;
           text-transform: uppercase;
+          white-space: nowrap;
           transition: color 0.2s ease, background 0.2s ease;
         }
         .qa-btn:hover, .qa-btn:focus-visible {
@@ -169,13 +170,6 @@ export function QuickAccessBar() {
         }
         .qa-popover-link:hover {
           background: color-mix(in oklab, var(--gold) 14%, transparent);
-        }
-        /* Elevar os botões flutuantes acima da barra */
-        body:has(.quick-access-bar) .sticky-rsvp-btn { bottom: 6rem; }
-        body:has(.quick-access-bar) .install-btn { bottom: 6rem; }
-        body:has(.quick-access-bar) .whatsapp-fab { bottom: 6rem; }
-        @media (max-width: 640px) {
-          body:has(.quick-access-bar) .install-btn { bottom: 9.5rem; }
         }
       `}</style>
     </nav>
