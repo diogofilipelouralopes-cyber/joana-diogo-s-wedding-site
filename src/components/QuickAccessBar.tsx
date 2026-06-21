@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MapPin, Camera, Music, AlertTriangle, ExternalLink } from "lucide-react";
+import { MapPin, Camera, CalendarHeart, Phone, ExternalLink } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -17,7 +17,11 @@ const WAZE_URL =
   "https://waze.com/ul?q=Glic%C3%ADnia%20Wedding%20House%20Freamunde";
 const MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=Glic%C3%ADnia+Wedding+House+Freamunde";
-const EMERGENCY_URL = "https://wa.me/351967324430";
+
+const CONTACTS = [
+  { name: "Joana", phone: "+351 912 633 104", url: "https://wa.me/351912633104" },
+  { name: "Diogo", phone: "+32 493 945 581", url: "https://wa.me/32493945581" },
+];
 
 function shouldShow(): boolean {
   if (FORCE_VISIBLE) return true;
@@ -64,6 +68,7 @@ export function QuickAccessBar() {
       }}
     >
       <ul className="flex items-stretch justify-around max-w-2xl mx-auto">
+        {/* Localização */}
         <li className="flex-1">
           <Popover>
             <PopoverTrigger asChild>
@@ -104,6 +109,8 @@ export function QuickAccessBar() {
             </PopoverContent>
           </Popover>
         </li>
+
+        {/* Fotos */}
         <li className="flex-1">
           <button
             type="button"
@@ -114,26 +121,55 @@ export function QuickAccessBar() {
             <span>Fotos</span>
           </button>
         </li>
+
+        {/* Confirmar Presença */}
         <li className="flex-1">
           <button
             type="button"
-            onClick={() => scrollToId("musica")}
+            onClick={() => scrollToId("rsvp")}
             className="qa-btn"
           >
-            <Music size={20} strokeWidth={1.6} />
-            <span>Música</span>
+            <CalendarHeart size={20} strokeWidth={1.6} />
+            <span>Presença</span>
           </button>
         </li>
+
+        {/* Contactos */}
         <li className="flex-1">
-          <a
-            href={EMERGENCY_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="qa-btn"
-          >
-            <AlertTriangle size={20} strokeWidth={1.6} />
-            <span>Emergência</span>
-          </a>
+          <Popover>
+            <PopoverTrigger asChild>
+              <button type="button" className="qa-btn">
+                <Phone size={20} strokeWidth={1.6} />
+                <span>Contactos</span>
+              </button>
+            </PopoverTrigger>
+            <PopoverContent
+              side="top"
+              align="center"
+              className="w-60 p-2"
+              style={{
+                background:
+                  "color-mix(in oklab, var(--ivory, var(--background)) 92%, transparent)",
+                backdropFilter: "blur(14px)",
+                WebkitBackdropFilter: "blur(14px)",
+                border:
+                  "1px solid color-mix(in oklab, var(--gold) 40%, transparent)",
+              }}
+            >
+              {CONTACTS.map((c) => (
+                <a
+                  key={c.name}
+                  href={c.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="qa-contact-link"
+                >
+                  <span className="qa-contact-name">{c.name}</span>
+                  <span className="qa-contact-phone">{c.phone}</span>
+                </a>
+              ))}
+            </PopoverContent>
+          </Popover>
         </li>
       </ul>
       <style>{`
@@ -146,8 +182,8 @@ export function QuickAccessBar() {
           padding: 11px 4px;
           color: color-mix(in oklab, var(--gold) 88%, #6b5a2e);
           font-family: "Cinzel", serif;
-          font-size: 0.56rem;
-          letter-spacing: 0.1em;
+          font-size: 0.58rem;
+          letter-spacing: 0.12em;
           text-transform: uppercase;
           white-space: nowrap;
           transition: color 0.2s ease, background 0.2s ease;
@@ -170,6 +206,26 @@ export function QuickAccessBar() {
         }
         .qa-popover-link:hover {
           background: color-mix(in oklab, var(--gold) 14%, transparent);
+        }
+        .qa-contact-link {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          padding: 9px 12px;
+          border-radius: 6px;
+          transition: background 0.2s ease;
+        }
+        .qa-contact-link:hover {
+          background: color-mix(in oklab, var(--gold) 14%, transparent);
+        }
+        .qa-contact-name {
+          font-family: "Cinzel", serif;
+          font-size: 0.95rem;
+          color: var(--gold);
+        }
+        .qa-contact-phone {
+          font-size: 0.78rem;
+          color: var(--muted-foreground);
         }
       `}</style>
     </nav>
