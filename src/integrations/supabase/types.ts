@@ -29,6 +29,27 @@ export type Database = {
         }
         Relationships: []
       }
+      announcements: {
+        Row: {
+          active: boolean
+          id: string
+          message: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          id?: string
+          message?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          id?: string
+          message?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       mensagens: {
         Row: {
           created_at: string
