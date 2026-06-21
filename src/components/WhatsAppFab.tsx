@@ -9,7 +9,7 @@ const contacts = [
 export function WhatsAppFab() {
   const [open, setOpen] = useState(false);
   return (
-    <div className="fixed bottom-6 left-6 z-40 flex flex-col-reverse items-start gap-3">
+    <div className="whatsappfab fixed bottom-6 left-6 z-40 flex flex-col-reverse items-start gap-3">
       <button
         onClick={() => setOpen((o) => !o)}
         aria-label="WhatsApp"
