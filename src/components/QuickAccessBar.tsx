@@ -65,6 +65,8 @@ export function QuickAccessBar() {
           "1px solid color-mix(in oklab, var(--gold) 38%, transparent)",
         boxShadow: "0 -4px 24px color-mix(in oklab, var(--gold) 12%, transparent)",
         paddingBottom: "env(safe-area-inset-bottom, 0px)",
+        transform: "translateZ(0)",
+        isolation: "isolate",
       }}
     >
       <ul className="flex items-stretch justify-around max-w-2xl mx-auto">
@@ -73,7 +75,7 @@ export function QuickAccessBar() {
           <Popover>
             <PopoverTrigger asChild>
               <button type="button" className="qa-btn">
-                <MapPin size={20} strokeWidth={1.6} />
+                <MapPin size={24} strokeWidth={1.5} />
                 <span>Localização</span>
               </button>
             </PopoverTrigger>
@@ -117,7 +119,7 @@ export function QuickAccessBar() {
             onClick={() => scrollToId("fotos")}
             className="qa-btn"
           >
-            <Camera size={20} strokeWidth={1.6} />
+            <Camera size={24} strokeWidth={1.5} />
             <span>Fotos</span>
           </button>
         </li>
@@ -129,7 +131,7 @@ export function QuickAccessBar() {
             onClick={() => scrollToId("rsvp")}
             className="qa-btn"
           >
-            <CalendarHeart size={20} strokeWidth={1.6} />
+            <CalendarHeart size={24} strokeWidth={1.5} />
             <span>Presença</span>
           </button>
         </li>
@@ -139,7 +141,7 @@ export function QuickAccessBar() {
           <Popover>
             <PopoverTrigger asChild>
               <button type="button" className="qa-btn">
-                <Phone size={20} strokeWidth={1.6} />
+                <Phone size={24} strokeWidth={1.5} />
                 <span>Contactos</span>
               </button>
             </PopoverTrigger>
@@ -178,11 +180,11 @@ export function QuickAccessBar() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 5px;
-          padding: 11px 4px;
+          gap: 6px;
+          padding: 12px 4px;
           color: color-mix(in oklab, var(--gold) 88%, #6b5a2e);
           font-family: "Cinzel", serif;
-          font-size: 0.58rem;
+          font-size: 0.6rem;
           letter-spacing: 0.12em;
           text-transform: uppercase;
           white-space: nowrap;
