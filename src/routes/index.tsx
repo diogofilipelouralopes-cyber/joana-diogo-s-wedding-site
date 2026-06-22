@@ -115,10 +115,11 @@ function Index() {
   }, []);
 
   return (
-    <div id="top" className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <>
+      <LiveAnnouncementBanner />
+      <div id="top" className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Toaster position="top-center" />
       <Header />
-      <LiveAnnouncementBanner />
 
 
       <main>
@@ -432,11 +433,12 @@ function Index() {
 
       {/* FOOTER */}
       <SiteFooter />
+      </div>
 
       {/* FLOATING ACTIONS */}
       <InstallButton />
       <QuickAccessBar />
-    </div>
+    </>
   );
 }
 
