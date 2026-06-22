@@ -28,7 +28,7 @@ export function CountdownSection() {
   return (
     <section
       className="w-full px-5 sm:px-6"
-      style={{ backgroundColor: "var(--cream)", paddingTop: 64, paddingBottom: 64 }}
+      style={{ backgroundColor: "var(--cream)", paddingTop: 44, paddingBottom: 44 }}
     >
       <div className="max-w-5xl mx-auto text-center">
         <h2
@@ -81,7 +81,7 @@ export function CountdownSection() {
             {t("count.over")}
           </p>
         ) : (
-          <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5 justify-items-center">
+          <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3 justify-items-center">
             <Card value={time.days} label={t("count.days")} />
             <Card value={time.hours} label={t("count.hours")} />
             <Card value={time.mins} label={t("count.mins")} />
@@ -98,8 +98,8 @@ function Card({ value, label }: { value: number; label: string }) {
     <div
       className="flex flex-col items-center justify-center w-full"
       style={{
-        maxWidth: 140,
-        padding: "20px 16px",
+        maxWidth: 104,
+        padding: "14px 10px",
         background: "var(--ivory)",
         border: "1px solid var(--gold)",
         borderRadius: 8,
@@ -109,7 +109,7 @@ function Card({ value, label }: { value: number; label: string }) {
     >
       <span
         suppressHydrationWarning
-        className="text-4xl sm:text-5xl md:text-6xl"
+        className="text-2xl sm:text-3xl md:text-4xl"
         style={{
           fontFamily: "Cinzel, serif",
           fontWeight: 700,
