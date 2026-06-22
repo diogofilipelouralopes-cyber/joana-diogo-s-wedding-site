@@ -8,6 +8,7 @@ import { StorySection } from "@/components/StorySection";
 
 import { GiftsSection } from "@/components/GiftsSection";
 import { MemoriesSection } from "@/components/MemoriesSection";
+import { PublicGallerySection } from "@/components/PublicGallerySection";
 import { PlaylistSection } from "@/components/PlaylistSection";
 import { FaqSection } from "@/components/FaqSection";
 import { MessagesSection } from "@/components/MessagesSection";
@@ -364,6 +365,11 @@ function Index() {
 
       {/* PHOTOS (shared album) */}
       <Reveal><MemoriesSection /></Reveal>
+
+      <DecorativeDivider />
+
+      {/* GALERIA PÚBLICA (álbuns publicados) */}
+      <Reveal><PublicGallerySection /></Reveal>
 
       <DecorativeDivider />
 
