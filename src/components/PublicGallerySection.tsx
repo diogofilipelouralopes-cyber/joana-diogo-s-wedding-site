@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { Camera, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
@@ -101,9 +102,11 @@ export function PublicGallerySection() {
     };
     window.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
+    document.body.classList.add("lightbox-open");
     return () => {
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
+      document.body.classList.remove("lightbox-open");
     };
   }, [lightbox, closeLightbox, prev, next]);
 
@@ -179,18 +182,18 @@ export function PublicGallerySection() {
         )}
       </div>
 
-      {/* Lightbox */}
-      {lightbox !== null && photos[lightbox] && (
+      {/* Lightbox (via Portal, fica acima de tudo) */}
+      {lightbox !== null && photos[lightbox] && createPortal(
         <div className="lightbox" onClick={closeLightbox} role="dialog" aria-modal="true">
           <button className="lightbox-close" onClick={closeLightbox} aria-label="Fechar">
-            <X size={28} />
+            <X size={26} />
           </button>
           <button
             className="lightbox-nav lightbox-prev"
             onClick={(e) => { e.stopPropagation(); prev(); }}
             aria-label="Anterior"
           >
-            <ChevronLeft size={32} />
+            <ChevronLeft size={28} />
           </button>
           <img
             src={urls[photos[lightbox].id]}
@@ -203,9 +206,10 @@ export function PublicGallerySection() {
             onClick={(e) => { e.stopPropagation(); next(); }}
             aria-label="Seguinte"
           >
-            <ChevronRight size={32} />
+            <ChevronRight size={28} />
           </button>
-        </div>
+        </div>,
+        document.body
       )}
 
       <style>{`
@@ -243,42 +247,56 @@ export function PublicGallerySection() {
         .lightbox {
           position: fixed;
           inset: 0;
-          z-index: 100;
-          background: rgba(20, 16, 10, 0.92);
+          z-index: 9999;
+          background: rgba(20, 16, 10, 0.94);
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 20px;
-          backdrop-filter: blur(4px);
+          padding: 16px;
+          backdrop-filter: blur(6px);
+          -webkit-backdrop-filter: blur(6px);
         }
         .lightbox-img {
-          max-width: 92vw;
-          max-height: 88vh;
+          max-width: 94vw;
+          max-height: 86vh;
           object-fit: contain;
-          border-radius: 6px;
-          box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+          border-radius: 8px;
+          box-shadow: 0 8px 50px rgba(0,0,0,0.6);
         }
         .lightbox-close {
           position: absolute;
-          top: 18px;
-          right: 18px;
+          top: calc(16px + env(safe-area-inset-top, 0px));
+          right: 16px;
+          width: 44px;
+          height: 44px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 999px;
+          background: rgba(0, 0, 0, 0.45);
           color: #fff;
-          opacity: 0.85;
-          transition: opacity 0.2s;
+          transition: background 0.2s ease;
+          z-index: 2;
         }
-        .lightbox-close:hover { opacity: 1; }
+        .lightbox-close:hover { background: rgba(0, 0, 0, 0.7); }
         .lightbox-nav {
           position: absolute;
           top: 50%;
           transform: translateY(-50%);
+          width: 44px;
+          height: 44px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 999px;
+          background: rgba(0, 0, 0, 0.4);
           color: #fff;
-          opacity: 0.7;
-          padding: 12px;
-          transition: opacity 0.2s;
+          transition: background 0.2s ease;
+          z-index: 2;
         }
-        .lightbox-nav:hover { opacity: 1; }
-        .lightbox-prev { left: 8px; }
-        .lightbox-next { right: 8px; }
+        .lightbox-nav:hover { background: rgba(0, 0, 0, 0.65); }
+        .lightbox-prev { left: 12px; }
+        .lightbox-next { right: 12px; }
       `}</style>
     </section>
   );
