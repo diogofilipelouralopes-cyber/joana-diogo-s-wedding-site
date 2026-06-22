@@ -77,11 +77,37 @@ export function Header() {
       }
     };
 
+    // Gesto para FECHAR: arrastar da esquerda para a direita com o menu aberto
+    let closeStartX = 0;
+    let closeStartY = 0;
+    let closeTracking = false;
+    const onCloseStart = (e: TouchEvent) => {
+      if (!open) return;
+      const t = e.touches[0];
+      closeStartX = t.clientX;
+      closeStartY = t.clientY;
+      closeTracking = true;
+    };
+    const onCloseEnd = (e: TouchEvent) => {
+      if (!closeTracking) return;
+      closeTracking = false;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - closeStartX;
+      const dy = t.clientY - closeStartY;
+      if (dx > 60 && Math.abs(dx) > Math.abs(dy)) {
+        setOpen(false);
+      }
+    };
+
     window.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("touchend", onTouchEnd, { passive: true });
+    window.addEventListener("touchstart", onCloseStart, { passive: true });
+    window.addEventListener("touchend", onCloseEnd, { passive: true });
     return () => {
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("touchstart", onCloseStart);
+      window.removeEventListener("touchend", onCloseEnd);
     };
   }, [open]);
 
@@ -147,19 +173,17 @@ export function Header() {
       {/* Thin date row */}
       <div className="header-date-row">
         <span className="header-date-spacer" aria-hidden="true" />
-        <span className="header-date-label">
+        <button
+          type="button"
+          onClick={downloadWeddingICS}
+          className="header-date-label header-date-btn"
+          title={lang === "en" ? "Add to calendar" : "Adicionar ao calendário"}
+          aria-label={lang === "en" ? "Add to calendar" : "Adicionar ao calendário"}
+        >
+          <CalendarPlus size={13} strokeWidth={1.6} style={{ marginRight: 6, opacity: 0.75 }} />
           {lang === "en" ? "September 19, 2026" : "19 de Setembro de 2026"}
-        </span>
+        </button>
         <div className="header-date-actions">
-          <button
-            type="button"
-            onClick={downloadWeddingICS}
-            aria-label={lang === "en" ? "Add to calendar" : "Adicionar ao calendário"}
-            title={lang === "en" ? "Add to calendar" : "Adicionar ao calendário"}
-            className="header-date-icon-btn"
-          >
-            <CalendarPlus size={16} strokeWidth={1.6} />
-          </button>
           <Link
             to="/admin"
             aria-label={lang === "en" ? "Admin area" : "Área de administração"}
@@ -189,7 +213,7 @@ export function Header() {
             <X className="w-6 h-6" strokeWidth={1.5} />
           </button>
         </div>
-        <nav className="flex-1 px-6 pb-8 flex flex-col items-center justify-center gap-2 text-center text-3xl">
+        <nav className="flex-1 px-6 pb-8 flex flex-col items-center justify-center gap-1 text-center text-xl">
           {links.map((l) => (
             <a
               key={l.id}
