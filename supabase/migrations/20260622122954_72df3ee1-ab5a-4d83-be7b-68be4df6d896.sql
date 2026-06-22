@@ -1,0 +1,1 @@
+ALTER TABLE public.announcements ADD COLUMN IF NOT EXISTS message_en text NOT NULL DEFAULT '';
