@@ -715,3 +715,63 @@ body:has(.quick-access-bar) .whatsapp-fab { bottom: 6.5rem; }
 /* === Ticker de avisos: empurrar header para baixo quando ativo === */
 body.has-announcement .site-header { top: 34px; }
 body.has-announcement #top { scroll-padding-top: 34px; }
+
+/* === Linha da data no header === */
+.header-date-row {
+  max-width: 80rem;
+  margin: 6px auto 0;
+  padding: 6px 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid color-mix(in oklab, var(--gold) 22%, transparent);
+}
+.header-date-spacer { width: 52px; flex-shrink: 0; }
+.header-date-label {
+  font-family: "Cinzel", serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--olive);
+  white-space: nowrap;
+}
+.header-date-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 52px;
+  flex-shrink: 0;
+  justify-content: flex-end;
+}
+.header-date-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  color: color-mix(in oklab, var(--gold) 78%, #6b5a2e);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.header-date-icon-btn:hover {
+  background: color-mix(in oklab, var(--gold) 14%, transparent);
+  color: color-mix(in oklab, var(--gold) 55%, #000);
+}
+
+/* Header mais compacto no topo para acomodar a linha da data */
+.site-header { padding-top: 10px; padding-bottom: 10px; }
+@media (min-width: 768px) {
+  .site-header { padding-top: 12px; padding-bottom: 12px; }
+}
+
+/* Hero: dar mais espaço no topo para não colar ao header (que agora tem 2 linhas) */
+.hero-section { padding-top: 150px; }
+@media (min-width: 768px) {
+  .hero-section { padding-top: 190px; }
+}
+/* Quando o ticker de avisos está ativo, empurrar ainda mais */
+body.has-announcement .hero-section { padding-top: 184px; }
+@media (min-width: 768px) {
+  body.has-announcement .hero-section { padding-top: 224px; }
+}
