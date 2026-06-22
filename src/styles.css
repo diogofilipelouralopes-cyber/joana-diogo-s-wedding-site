@@ -723,8 +723,7 @@ body.has-announcement #top { scroll-padding-top: 34px; }
   padding: 6px 20px 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: center;
   border-top: 1px solid color-mix(in oklab, var(--gold) 22%, transparent);
 }
 .header-date-spacer { width: 52px; flex-shrink: 0; }
