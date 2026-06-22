@@ -48,9 +48,18 @@ export function LiveAnnouncementBanner() {
 
   if (!visible) return null;
 
-  // Repete a mensagem algumas vezes para preencher a linha em loop contínuo
-  const text = ann!.message.trim();
-  const repeated = Array.from({ length: 4 }, () => text);
+  // Divide a mensagem por linhas (cada Enter = um item separado pelo ✦).
+  // Se for só uma linha, fica uma única mensagem repetida.
+  const lines = ann!.message
+    .split("\n")
+    .map((l) => l.trim())
+    .filter((l) => l.length > 0);
+
+  // Garante conteúdo suficiente para preencher a linha em loop contínuo
+  let items = [...lines];
+  while (items.length < 4) {
+    items = [...items, ...lines];
+  }
 
   return (
     <div
@@ -73,14 +82,14 @@ export function LiveAnnouncementBanner() {
       }}
     >
       <div className="announcement-track">
-        {repeated.map((t, i) => (
+        {items.map((t, i) => (
           <span key={i} className="announcement-item">
             <span style={{ margin: "0 1.5rem" }}>✦</span>
             {t}
           </span>
         ))}
         {/* duplicado para loop perfeito */}
-        {repeated.map((t, i) => (
+        {items.map((t, i) => (
           <span key={`dup-${i}`} className="announcement-item">
             <span style={{ margin: "0 1.5rem" }}>✦</span>
             {t}
