@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useI18n } from "@/lib/i18n";
 
 type Announcement = {
   id: string;
   message: string;
+  message_en: string;
   active: boolean;
   updated_at: string;
 };
 
 export function LiveAnnouncementBanner() {
+  const { lang } = useI18n();
   const [ann, setAnn] = useState<Announcement | null>(null);
 
   async function load() {
@@ -36,7 +39,13 @@ export function LiveAnnouncementBanner() {
     };
   }, []);
 
-  const visible = !!(ann && ann.active && ann.message?.trim());
+  // Escolhe a mensagem conforme o idioma; se EN estiver vazio, usa PT.
+  const activeMessage =
+    lang === "en"
+      ? (ann?.message_en?.trim() ? ann.message_en : ann?.message ?? "")
+      : ann?.message ?? "";
+
+  const visible = !!(ann && ann.active && activeMessage.trim());
 
   // Empurra o header para baixo enquanto o ticker está visível
   useEffect(() => {
@@ -50,7 +59,7 @@ export function LiveAnnouncementBanner() {
 
   // Divide a mensagem por linhas (cada Enter = um item separado pelo ✦).
   // Se for só uma linha, fica uma única mensagem repetida.
-  const lines = ann!.message
+  const lines = activeMessage
     .split("\n")
     .map((l) => l.trim())
     .filter((l) => l.length > 0);
