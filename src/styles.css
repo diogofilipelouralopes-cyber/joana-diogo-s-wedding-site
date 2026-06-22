@@ -775,3 +775,22 @@ body.has-announcement .hero-section { padding-top: 184px; }
 @media (min-width: 768px) {
   body.has-announcement .hero-section { padding-top: 224px; }
 }
+
+/* === Data clicável (adicionar ao calendário) + spacer ajustado === */
+.header-date-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+.header-date-btn:hover {
+  color: color-mix(in oklab, var(--gold) 70%, var(--olive));
+}
+/* Só há um ícone à direita agora — estreitar o spacer para centrar a data */
+.header-date-spacer { width: 28px; }
+.header-date-actions { width: 28px; }
+
+/* Itens do menu lateral um pouco mais compactos */
+.mobile-drawer-link { min-height: 34px; padding: 5px 20px; }
