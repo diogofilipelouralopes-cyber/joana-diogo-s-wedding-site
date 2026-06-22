@@ -1,9 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { RsvpForm } from "@/components/RsvpForm";
-import { downloadWeddingICS } from "@/lib/calendar";
 import { DecorativeDivider } from "@/components/DecorativeDivider";
-import { SaveTheDateSection } from "@/components/SaveTheDateSection";
 import { CountdownSection } from "@/components/CountdownSection";
 import { Header } from "@/components/Header";
 import { StorySection } from "@/components/StorySection";
@@ -20,7 +18,7 @@ import { QuickAccessBar } from "@/components/QuickAccessBar";
 import { Reveal } from "@/components/Reveal";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider, useI18n } from "@/lib/i18n";
-import { MapPin, Clock, Hotel, Heart, CalendarPlus, Shirt, Car, Plane, ParkingCircle, ExternalLink } from "lucide-react";
+import { MapPin, Clock, Hotel, Heart, Shirt, Car, Plane, ParkingCircle, ExternalLink } from "lucide-react";
 
 
 const SITE_URL = "https://joanaediogo-com.lovable.app";
@@ -184,42 +182,6 @@ function Index() {
             <span aria-hidden style={{ width: "60px", borderTop: "1px dashed var(--olive)" }} />
           </div>
 
-          <div
-            className="hero-text-anim-4 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center w-[85%] sm:w-auto"
-          >
-            <a
-              href="#rsvp"
-              className="inline-flex items-center justify-center px-8 sm:px-10 font-display text-xs sm:text-sm uppercase transition-all hover:-translate-y-0.5"
-              style={{
-                background: "var(--olive)",
-                color: "var(--cream)",
-                letterSpacing: "0.25em",
-                borderRadius: "8px",
-                minHeight: 52,
-                padding: "16px 32px",
-                boxShadow: "0 4px 16px rgba(107, 122, 79, 0.3)",
-              }}
-            >
-              {t("hero.cta")}
-            </a>
-            <button
-              onClick={downloadWeddingICS}
-              className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 font-display text-xs sm:text-sm uppercase transition-all hover:-translate-y-0.5"
-              style={{
-                color: "var(--olive)",
-                border: "1px solid var(--gold)",
-                letterSpacing: "0.25em",
-                borderRadius: "8px",
-                background: "color-mix(in oklab, var(--ivory) 80%, transparent)",
-                minHeight: 52,
-                padding: "16px 24px",
-                boxShadow: "0 4px 16px rgba(107, 122, 79, 0.2)",
-              }}
-            >
-              <CalendarPlus className="w-4 h-4" strokeWidth={1.5} />
-              {t("hero.cal")}
-            </button>
-          </div>
         </div>
       </section>
 
@@ -232,11 +194,6 @@ function Index() {
 
       {/* STORY */}
       <Reveal><StorySection /></Reveal>
-
-      <DecorativeDivider />
-
-      {/* SAVE THE DATE */}
-      <Reveal><SaveTheDateSection /></Reveal>
 
       <DecorativeDivider />
 
