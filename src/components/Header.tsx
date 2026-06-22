@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { Menu, X, Camera, Music, MessageCircleHeart, Gift, Home, BookHeart, CalendarCheck, MapPin, Info, HelpCircle } from "lucide-react";
+import { Menu, X, Camera, Music, MessageCircleHeart, Gift, Home, BookHeart, CalendarCheck, MapPin, Info, HelpCircle, CalendarPlus, Lock } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { Monogram } from "@/components/Monogram";
+import { downloadWeddingICS } from "@/lib/calendar";
 
 const links = [
   { id: "top", key: "nav.home" as const, icon: <Home className="w-4 h-4" strokeWidth={1.5} /> },
@@ -43,6 +45,43 @@ export function Header() {
     return () => {
       document.body.style.overflow = "";
       document.body.classList.remove("drawer-open");
+    };
+  }, [open]);
+
+  // Gesto: arrastar da direita para a esquerda abre o menu
+  useEffect(() => {
+    let startX = 0;
+    let startY = 0;
+    let tracking = false;
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (open) return;
+      const t = e.touches[0];
+      // Só começa a seguir se o toque iniciar perto da margem direita (24px)
+      if (t.clientX >= window.innerWidth - 24) {
+        startX = t.clientX;
+        startY = t.clientY;
+        tracking = true;
+      }
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      if (!tracking) return;
+      tracking = false;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
+      // Deslize horizontal para a esquerda, maior que vertical
+      if (dx < -60 && Math.abs(dx) > Math.abs(dy)) {
+        setOpen(true);
+      }
+    };
+
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
+    return () => {
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchend", onTouchEnd);
     };
   }, [open]);
 
@@ -105,7 +144,32 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile drawer */}
+      {/* Thin date row */}
+      <div className="header-date-row">
+        <span className="header-date-spacer" aria-hidden="true" />
+        <span className="header-date-label">
+          {lang === "en" ? "September 19, 2026" : "19 de Setembro de 2026"}
+        </span>
+        <div className="header-date-actions">
+          <button
+            type="button"
+            onClick={downloadWeddingICS}
+            aria-label={lang === "en" ? "Add to calendar" : "Adicionar ao calendário"}
+            title={lang === "en" ? "Add to calendar" : "Adicionar ao calendário"}
+            className="header-date-icon-btn"
+          >
+            <CalendarPlus size={16} strokeWidth={1.6} />
+          </button>
+          <Link
+            to="/admin"
+            aria-label={lang === "en" ? "Admin area" : "Área de administração"}
+            title={lang === "en" ? "Admin area" : "Área de administração"}
+            className="header-date-icon-btn"
+          >
+            <Lock size={14} strokeWidth={1.6} />
+          </Link>
+        </div>
+      </div>
       <div
         className={`mobile-drawer-backdrop ${open ? "is-open" : ""}`}
         onClick={() => setOpen(false)}
