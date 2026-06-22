@@ -90,6 +90,9 @@ export function AdminAvisos() {
           rows={3}
           placeholder="Ex.: A cerimónia começa às 14h em ponto. Tragam um casaco leve 🤍"
         />
+        <p className="text-xs text-muted-foreground">
+          Cada linha (Enter) aparece como um aviso separado, dividido por ✦ no site.
+        </p>
       </div>
 
       <div className="flex items-center justify-between border border-border rounded-md px-4 py-3">
