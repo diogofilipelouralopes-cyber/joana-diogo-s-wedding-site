@@ -194,8 +194,9 @@ export function QuickAccessBar() {
         </li>
       </ul>
       <style>{`
-        /* Esconder a barra quando o menu lateral está aberto */
-        body.drawer-open .quick-access-bar {
+        /* Esconder a barra quando o menu lateral OU o lightbox estão abertos */
+        body.drawer-open .quick-access-bar,
+        body.lightbox-open .quick-access-bar {
           opacity: 0;
           pointer-events: none;
           transition: opacity 0.2s ease;
