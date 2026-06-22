@@ -22,6 +22,7 @@ import {
   Utensils,
   Image as ImageIcon,
   Megaphone,
+  Home,
 } from "lucide-react";
 import { AdminMensagens } from "@/components/AdminMensagens";
 import { AdminAvisos } from "@/components/AdminAvisos";
@@ -351,6 +352,13 @@ function AdminPage() {
             </h1>
           </div>
           <div className="flex gap-2 items-center">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-[0.2em] rounded-md border border-border hover:border-primary hover:text-primary transition-colors"
+              title="Voltar ao site"
+            >
+              <Home className="w-3.5 h-3.5" /> Site
+            </Link>
             <Link
               to="/admin/galeria"
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-[0.2em] rounded-md border border-border hover:border-primary hover:text-primary transition-colors"
