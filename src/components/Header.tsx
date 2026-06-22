@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Menu, X, Camera, Music, MessageCircleHeart, Gift, Home, BookHeart, CalendarCheck, MapPin, Info, HelpCircle, CalendarPlus } from "lucide-react";
+import { Menu, X, Camera, Music, MessageCircleHeart, Gift, Home, BookHeart, CalendarCheck, MapPin, Info, HelpCircle } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { Monogram } from "@/components/Monogram";
@@ -197,7 +197,6 @@ export function Header() {
           title={lang === "en" ? "Add to calendar" : "Adicionar ao calendário"}
           aria-label={lang === "en" ? "Add to calendar" : "Adicionar ao calendário"}
         >
-          <CalendarPlus size={13} strokeWidth={1.6} style={{ marginRight: 6, opacity: 0.75 }} />
           {lang === "en" ? "September 19, 2026" : "19 de Setembro de 2026"}
         </button>
       </div>
