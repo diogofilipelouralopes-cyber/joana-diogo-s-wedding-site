@@ -711,3 +711,7 @@ html, body { overflow-x: hidden; max-width: 100vw; }
 body:has(.quick-access-bar) .sticky-rsvp-btn { bottom: 6.5rem; }
 body:has(.quick-access-bar) .install-btn { bottom: 6.5rem; }
 body:has(.quick-access-bar) .whatsapp-fab { bottom: 6.5rem; }
+
+/* === Ticker de avisos: empurrar header para baixo quando ativo === */
+body.has-announcement .site-header { top: 34px; }
+body.has-announcement #top { scroll-padding-top: 34px; }
