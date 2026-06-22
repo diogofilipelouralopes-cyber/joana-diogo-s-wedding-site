@@ -34,18 +34,21 @@ export type Database = {
           active: boolean
           id: string
           message: string
+          message_en: string
           updated_at: string
         }
         Insert: {
           active?: boolean
           id?: string
           message?: string
+          message_en?: string
           updated_at?: string
         }
         Update: {
           active?: boolean
           id?: string
           message?: string
+          message_en?: string
           updated_at?: string
         }
         Relationships: []
