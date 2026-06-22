@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { Menu, X, Camera, Music, MessageCircleHeart, Gift, Home, BookHeart, CalendarCheck, MapPin, Info, HelpCircle, CalendarPlus, Lock } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+import { useEffect, useState, useRef } from "react";
+import { Menu, X, Camera, Music, MessageCircleHeart, Gift, Home, BookHeart, CalendarCheck, MapPin, Info, HelpCircle, CalendarPlus } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { Monogram } from "@/components/Monogram";
 import { downloadWeddingICS } from "@/lib/calendar";
@@ -22,6 +22,23 @@ export function Header() {
   const { t, lang, setLang } = useI18n();
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>("top");
+  const navigate = useNavigate();
+
+  // Toque/clique triplo no logo abre o /admin (atalho discreto)
+  const tapCount = useRef(0);
+  const tapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const handleLogoTap = () => {
+    tapCount.current += 1;
+    if (tapTimer.current) clearTimeout(tapTimer.current);
+    if (tapCount.current >= 3) {
+      tapCount.current = 0;
+      navigate({ to: "/admin" });
+      return;
+    }
+    tapTimer.current = setTimeout(() => {
+      tapCount.current = 0;
+    }, 600);
+  };
 
   useEffect(() => {
     const onScroll = () => {
@@ -114,11 +131,12 @@ export function Header() {
   return (
     <header className="site-header">
       <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
-        {/* LEFT: Logo */}
+        {/* LEFT: Logo (toque triplo abre /admin) */}
         <a
           href="#top"
           aria-label="Joana & Diogo"
           className="header-logo shrink-0 inline-flex"
+          onClick={handleLogoTap}
         >
           <span aria-hidden="true" className="header-logo-desktop">
             <Monogram size={75} />
@@ -172,7 +190,6 @@ export function Header() {
 
       {/* Thin date row */}
       <div className="header-date-row">
-        <span className="header-date-spacer" aria-hidden="true" />
         <button
           type="button"
           onClick={downloadWeddingICS}
@@ -183,16 +200,6 @@ export function Header() {
           <CalendarPlus size={13} strokeWidth={1.6} style={{ marginRight: 6, opacity: 0.75 }} />
           {lang === "en" ? "September 19, 2026" : "19 de Setembro de 2026"}
         </button>
-        <div className="header-date-actions">
-          <Link
-            to="/admin"
-            aria-label={lang === "en" ? "Admin area" : "Área de administração"}
-            title={lang === "en" ? "Admin area" : "Área de administração"}
-            className="header-date-icon-btn"
-          >
-            <Lock size={14} strokeWidth={1.6} />
-          </Link>
-        </div>
       </div>
       <div
         className={`mobile-drawer-backdrop ${open ? "is-open" : ""}`}
