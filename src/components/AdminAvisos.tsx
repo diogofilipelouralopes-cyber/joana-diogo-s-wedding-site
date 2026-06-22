@@ -9,6 +9,7 @@ import { toast } from "sonner";
 type Announcement = {
   id: string;
   message: string;
+  message_en: string;
   active: boolean;
   updated_at: string;
 };
@@ -18,6 +19,7 @@ export function AdminAvisos() {
   const [saving, setSaving] = useState(false);
   const [id, setId] = useState<string | null>(null);
   const [message, setMessage] = useState("");
+  const [messageEn, setMessageEn] = useState("");
   const [active, setActive] = useState(false);
 
   useEffect(() => {
@@ -32,6 +34,7 @@ export function AdminAvisos() {
         if (a) {
           setId(a.id);
           setMessage(a.message ?? "");
+          setMessageEn(a.message_en ?? "");
           setActive(!!a.active);
         }
         setLoading(false);
@@ -40,7 +43,11 @@ export function AdminAvisos() {
 
   async function save() {
     setSaving(true);
-    const payload = { message: message.trim(), active };
+    const payload = {
+      message: message.trim(),
+      message_en: messageEn.trim(),
+      active,
+    };
     let error;
     if (id) {
       ({ error } = await supabase.from("announcements").update(payload).eq("id", id));
@@ -80,9 +87,10 @@ export function AdminAvisos() {
         direto para todos os visitantes.
       </p>
 
+      {/* Português */}
       <div className="space-y-2">
         <label className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-          Mensagem
+          Mensagem (Português) 🇵🇹
         </label>
         <Textarea
           value={message}
@@ -90,8 +98,22 @@ export function AdminAvisos() {
           rows={3}
           placeholder="Ex.: A cerimónia começa às 14h em ponto. Tragam um casaco leve 🤍"
         />
+      </div>
+
+      {/* Inglês */}
+      <div className="space-y-2">
+        <label className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+          Message (English) 🇬🇧
+        </label>
+        <Textarea
+          value={messageEn}
+          onChange={(e) => setMessageEn(e.target.value)}
+          rows={3}
+          placeholder="Ex.: The ceremony starts at 2pm sharp. Bring a light jacket 🤍"
+        />
         <p className="text-xs text-muted-foreground">
           Cada linha (Enter) aparece como um aviso separado, dividido por ✦ no site.
+          Se deixares o inglês em branco, é usada a versão portuguesa.
         </p>
       </div>
 
