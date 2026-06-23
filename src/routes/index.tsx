@@ -15,7 +15,6 @@ import { PlaylistSection } from "@/components/PlaylistSection";
 import { FaqSection } from "@/components/FaqSection";
 import { MessagesSection } from "@/components/MessagesSection";
 import { SiteFooter } from "@/components/SiteFooter";
-import { InstallButton } from "@/components/InstallButton";
 import { LiveAnnouncementBanner } from "@/components/LiveAnnouncementBanner";
 import { QuickAccessBar } from "@/components/QuickAccessBar";
 import { Reveal } from "@/components/Reveal";
@@ -411,7 +410,6 @@ function Index() {
       </div>
 
       {/* FLOATING ACTIONS */}
-      <InstallButton />
       <QuickAccessBar />
     </>
   );
