@@ -99,18 +99,7 @@ export function HonorBookSection() {
                 >
                   "{e.message}"
                 </p>
-                <p
-                  className="mt-3 text-right"
-                  style={{
-                    fontFamily: "Cinzel, serif",
-                    fontSize: "0.65rem",
-                    letterSpacing: "0.15em",
-                    textTransform: "uppercase",
-                    color: "var(--gold)",
-                  }}
-                >
-                  — {e.name}
-                </p>
+
               </div>
             ))}
           </div>
