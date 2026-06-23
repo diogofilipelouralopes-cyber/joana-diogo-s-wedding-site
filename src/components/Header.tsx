@@ -7,6 +7,11 @@ import { toast } from "sonner";
 import { Monogram } from "@/components/Monogram";
 import { downloadWeddingICS } from "@/lib/calendar";
 
+const SITE_URL = "https://joanaediogo-com.lovable.app";
+const WA_SHARE_URL = `https://wa.me/?text=${encodeURIComponent(
+  "Joana & Diogo - 19 Setembro 2026 🌿 " + "https://joanaediogo-com.lovable.app"
+)}`;
+
 const links = [
   { id: "top", key: "nav.home" as const, icon: <Home className="w-4 h-4" strokeWidth={1.5} /> },
   { id: "story", key: "nav.story" as const, icon: <BookHeart className="w-4 h-4" strokeWidth={1.5} /> },
