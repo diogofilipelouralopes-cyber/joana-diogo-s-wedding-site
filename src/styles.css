@@ -793,3 +793,20 @@ body.has-announcement .hero-section { padding-top: 184px; }
 
 /* Itens do menu lateral um pouco mais compactos */
 .mobile-drawer-link { min-height: 34px; padding: 5px 20px; }
+
+/* === Botão partilhar no header === */
+.header-share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  color: color-mix(in oklab, var(--gold) 80%, #6b5a2e);
+  transition: background 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
+}
+.header-share-btn:hover {
+  background: color-mix(in oklab, var(--gold) 12%, transparent);
+  color: color-mix(in oklab, var(--gold) 60%, #000);
+}
