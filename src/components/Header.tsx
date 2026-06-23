@@ -1,7 +1,9 @@
 import { useEffect, useState, useRef } from "react";
-import { Menu, X, Camera, Music, MessageCircleHeart, Gift, Home, BookHeart, CalendarCheck, MapPin, Info, HelpCircle, Image as ImageIcon } from "lucide-react";
+import { Menu, X, Camera, Music, MessageCircleHeart, Gift, Home, BookHeart, CalendarCheck, MapPin, Info, HelpCircle, Image as ImageIcon, Share2, Link as LinkIcon, MessageCircle } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { toast } from "sonner";
 import { Monogram } from "@/components/Monogram";
 import { downloadWeddingICS } from "@/lib/calendar";
 
@@ -146,6 +148,46 @@ export function Header() {
             <Monogram size={52} />
           </span>
         </a>
+
+        {/* Botão partilhar — ao lado do logo */}
+        <Popover>
+          <PopoverTrigger asChild>
+            <button
+              type="button"
+              aria-label={lang === "en" ? "Share this site" : "Partilhar o site"}
+              className="header-share-btn"
+            >
+              <Share2 size={16} strokeWidth={1.8} />
+            </button>
+          </PopoverTrigger>
+          <PopoverContent
+            side="bottom"
+            align="start"
+            className="w-52 p-2"
+            style={{
+              background: "color-mix(in oklab, var(--ivory, var(--background)) 92%, transparent)",
+              backdropFilter: "blur(14px)",
+              WebkitBackdropFilter: "blur(14px)",
+              border: "1px solid color-mix(in oklab, var(--gold) 40%, transparent)",
+            }}
+          >
+            <a href={WA_SHARE_URL} target="_blank" rel="noopener noreferrer" className="qa-popover-link">
+              <MessageCircle size={15} />
+              {lang === "en" ? "Share via WhatsApp" : "Partilhar no WhatsApp"}
+            </a>
+            <button
+              type="button"
+              className="qa-popover-link w-full text-left"
+              onClick={() => {
+                navigator.clipboard.writeText(SITE_URL);
+                toast.success(lang === "en" ? "Link copied! 🔗" : "Link copiado! 🔗");
+              }}
+            >
+              <LinkIcon size={15} />
+              {lang === "en" ? "Copy link" : "Copiar link"}
+            </button>
+          </PopoverContent>
+        </Popover>
 
         {/* CENTER: Nav (desktop only) */}
         <nav className="header-nav-desktop items-center gap-3 lg:gap-5 xl:gap-7">
