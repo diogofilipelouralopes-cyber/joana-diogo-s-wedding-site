@@ -188,28 +188,6 @@ export function Header() {
               {t(l.key)}
             </a>
           ))}
-
-          {/* Partilhar */}
-          <a
-            href={WA_SHARE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setOpen(false)}
-            className="mobile-drawer-link"
-          >
-            <span className="inline-flex" style={{ color: "var(--gold)" }}><Share2 className="w-4 h-4" strokeWidth={1.5} /></span>
-            <span>{lang === "en" ? "Share" : "Partilhar"}</span>
-          </a>
-
-          {/* Adicionar ao ecrã principal */}
-          <button
-            type="button"
-            onClick={handleInstall}
-            className="mobile-drawer-link"
-          >
-            <span className="inline-flex" style={{ color: "var(--gold)" }}><Smartphone className="w-4 h-4" strokeWidth={1.5} /></span>
-            <span>{lang === "en" ? "Add to Home Screen" : "Adicionar ao ecrã"}</span>
-          </button>
         </nav>
 
         {/* RIGHT: Lang toggle + mobile hamburger */}
@@ -283,6 +261,28 @@ export function Header() {
               <span>{t(l.key)}</span>
             </a>
           ))}
+
+          {/* Partilhar */}
+          <a
+            href={WA_SHARE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setOpen(false)}
+            className="mobile-drawer-link"
+          >
+            <span className="inline-flex" style={{ color: "var(--gold)" }}><Share2 className="w-4 h-4" strokeWidth={1.5} /></span>
+            <span>{lang === "en" ? "Share" : "Partilhar"}</span>
+          </a>
+
+          {/* Adicionar ao ecrã principal */}
+          <button
+            type="button"
+            onClick={handleInstall}
+            className="mobile-drawer-link"
+          >
+            <span className="inline-flex" style={{ color: "var(--gold)" }}><Smartphone className="w-4 h-4" strokeWidth={1.5} /></span>
+            <span>{lang === "en" ? "Add to Home Screen" : "Adicionar ao ecrã"}</span>
+          </button>
         </nav>
 
         {showIOSHelp && (
