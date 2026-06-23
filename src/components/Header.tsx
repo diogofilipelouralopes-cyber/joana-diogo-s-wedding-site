@@ -271,7 +271,7 @@ export function Header() {
             <X className="w-6 h-6" strokeWidth={1.5} />
           </button>
         </div>
-        <nav className="flex-1 px-6 pb-8 flex flex-col items-center justify-center gap-1 text-center text-xl">
+        <nav className="flex-1 px-6 pb-8 flex flex-col items-center gap-1 text-center text-xl" style={{ overflowY: "auto", justifyContent: "safe center" }}>
           {links.map((l) => (
             <a
               key={l.id}
