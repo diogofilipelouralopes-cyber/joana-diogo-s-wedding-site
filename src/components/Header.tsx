@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Menu, X, Camera, Music, MessageCircleHeart, Gift, Home, BookHeart, CalendarCheck, MapPin, Info, HelpCircle, Image as ImageIcon, Share2, Link as LinkIcon, MessageCircle } from "lucide-react";
+import { Menu, X, Camera, Music, MessageCircleHeart, Gift, Home, BookHeart, CalendarCheck, MapPin, Info, HelpCircle, Image as ImageIcon, Share2, Link as LinkIcon, MessageCircle, Smartphone, Share, Plus } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -31,6 +31,27 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>("top");
   const navigate = useNavigate();
+
+  // Instalação PWA (adicionar ao ecrã principal)
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [isIOS, setIsIOS] = useState(false);
+  const [showIOSHelp, setShowIOSHelp] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const ua = window.navigator.userAgent;
+    setIsIOS(/iPad|iPhone|iPod/.test(ua));
+    const onBIP = (e: Event) => { e.preventDefault(); setDeferredPrompt(e); };
+    window.addEventListener("beforeinstallprompt", onBIP);
+    return () => window.removeEventListener("beforeinstallprompt", onBIP);
+  }, []);
+  const handleInstall = async () => {
+    if (isIOS) { setShowIOSHelp(true); return; }
+    if (deferredPrompt) {
+      await deferredPrompt.prompt();
+      setDeferredPrompt(null);
+      setOpen(false);
+    }
+  };
 
   // Toque/clique triplo no logo abre o /admin (atalho discreto)
   const tapCount = useRef(0);
@@ -154,45 +175,6 @@ export function Header() {
           </span>
         </a>
 
-        {/* Botão partilhar — ao lado do logo */}
-        <Popover>
-          <PopoverTrigger asChild>
-            <button
-              type="button"
-              aria-label={lang === "en" ? "Share this site" : "Partilhar o site"}
-              className="header-share-btn"
-            >
-              <Share2 size={16} strokeWidth={1.8} />
-            </button>
-          </PopoverTrigger>
-          <PopoverContent
-            side="bottom"
-            align="start"
-            className="w-52 p-2"
-            style={{
-              background: "color-mix(in oklab, var(--ivory, var(--background)) 92%, transparent)",
-              backdropFilter: "blur(14px)",
-              WebkitBackdropFilter: "blur(14px)",
-              border: "1px solid color-mix(in oklab, var(--gold) 40%, transparent)",
-            }}
-          >
-            <a href={WA_SHARE_URL} target="_blank" rel="noopener noreferrer" className="qa-popover-link">
-              <MessageCircle size={15} />
-              {lang === "en" ? "Share via WhatsApp" : "Partilhar no WhatsApp"}
-            </a>
-            <button
-              type="button"
-              className="qa-popover-link w-full text-left"
-              onClick={() => {
-                navigator.clipboard.writeText(SITE_URL);
-                toast.success(lang === "en" ? "Link copied! 🔗" : "Link copiado! 🔗");
-              }}
-            >
-              <LinkIcon size={15} />
-              {lang === "en" ? "Copy link" : "Copiar link"}
-            </button>
-          </PopoverContent>
-        </Popover>
 
         {/* CENTER: Nav (desktop only) */}
         <nav className="header-nav-desktop items-center gap-3 lg:gap-5 xl:gap-7">
@@ -206,6 +188,28 @@ export function Header() {
               {t(l.key)}
             </a>
           ))}
+
+          {/* Partilhar */}
+          <a
+            href={WA_SHARE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setOpen(false)}
+            className="mobile-drawer-link"
+          >
+            <span className="inline-flex" style={{ color: "var(--gold)" }}><Share2 className="w-4 h-4" strokeWidth={1.5} /></span>
+            <span>{lang === "en" ? "Share" : "Partilhar"}</span>
+          </a>
+
+          {/* Adicionar ao ecrã principal */}
+          <button
+            type="button"
+            onClick={handleInstall}
+            className="mobile-drawer-link"
+          >
+            <span className="inline-flex" style={{ color: "var(--gold)" }}><Smartphone className="w-4 h-4" strokeWidth={1.5} /></span>
+            <span>{lang === "en" ? "Add to Home Screen" : "Adicionar ao ecrã"}</span>
+          </button>
         </nav>
 
         {/* RIGHT: Lang toggle + mobile hamburger */}
@@ -280,6 +284,40 @@ export function Header() {
             </a>
           ))}
         </nav>
+
+        {showIOSHelp && (
+          <div
+            className="install-modal-backdrop"
+            onClick={() => setShowIOSHelp(false)}
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="install-modal" onClick={(e) => e.stopPropagation()}>
+              <button
+                className="install-modal-close"
+                onClick={() => setShowIOSHelp(false)}
+                aria-label="Fechar"
+              >
+                <X className="w-5 h-5" strokeWidth={1.5} />
+              </button>
+              <h3 className="install-modal-title">
+                {lang === "en" ? "Add to Home Screen" : "Adicionar ao Ecrã Principal"}
+              </h3>
+              <p className="install-modal-text">
+                {lang === "en" ? (
+                  <>Tap the <Share className="inline w-4 h-4 align-text-bottom mx-1" strokeWidth={1.5} /> <strong>Share</strong> icon and then <strong>Add to Home Screen</strong> <Plus className="inline w-4 h-4 align-text-bottom mx-1" strokeWidth={1.5} />.</>
+                ) : (
+                  <>Toca no ícone <Share className="inline w-4 h-4 align-text-bottom mx-1" strokeWidth={1.5} /> <strong>Partilhar</strong> e depois em <strong>Adicionar ao Ecrã Principal</strong> <Plus className="inline w-4 h-4 align-text-bottom mx-1" strokeWidth={1.5} />.</>
+                )}
+              </p>
+              <div className="install-modal-illustration">
+                <Share className="w-6 h-6" strokeWidth={1.5} />
+                <span>→</span>
+                <Plus className="w-6 h-6" strokeWidth={1.5} />
+              </div>
+            </div>
+          </div>
+        )}
       </aside>
     </header>
   );
