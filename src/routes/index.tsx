@@ -9,8 +9,6 @@ import { StorySection } from "@/components/StorySection";
 import { GiftsSection } from "@/components/GiftsSection";
 import { ThankYouSection } from "@/components/ThankYouSection";
 import { HonorBookSection } from "@/components/HonorBookSection";
-import { ScrollToTopButton } from "@/components/ScrollToTopButton";
-import { ShareButton } from "@/components/ShareButton";
 import { MemoriesSection } from "@/components/MemoriesSection";
 import { PublicGallerySection } from "@/components/PublicGallerySection";
 import { PlaylistSection } from "@/components/PlaylistSection";
@@ -413,8 +411,6 @@ function Index() {
       </div>
 
       {/* FLOATING ACTIONS */}
-      <ScrollToTopButton />
-      <ShareButton />
       <InstallButton />
       <QuickAccessBar />
     </>
