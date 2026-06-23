@@ -16,17 +16,32 @@ export function HonorBookSection() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase
-      .from("rsvps")
-      .select("id, name, message, created_at")
-      .eq("attending", true)
-      .not("message", "is", null)
-      .neq("message", "")
-      .order("created_at", { ascending: false })
-      .then(({ data }) => {
-        setEntries((data ?? []) as Entry[]);
-        setLoading(false);
-      });
+    let active = true;
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from("rsvps")
+          .select("id, name, message, created_at")
+          .eq("attending", true)
+          .not("message", "is", null)
+          .neq("message", "")
+          .order("created_at", { ascending: false });
+        if (!active) return;
+        if (error) {
+          console.warn("Livro de honra: erro ao ler mensagens", error.message);
+          setEntries([]);
+        } else {
+          setEntries((data ?? []) as Entry[]);
+        }
+      } catch (e) {
+        if (active) setEntries([]);
+      } finally {
+        if (active) setLoading(false);
+      }
+    })();
+    return () => {
+      active = false;
+    };
   }, []);
 
   if (!loading && entries.length === 0) return null;
