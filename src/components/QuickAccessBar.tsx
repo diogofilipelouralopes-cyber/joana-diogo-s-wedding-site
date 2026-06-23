@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useI18n } from "@/lib/i18n";
 import { createPortal } from "react-dom";
 import { MapPin, Camera, CalendarHeart, ExternalLink } from "lucide-react";
 import {
@@ -53,6 +54,7 @@ function scrollToId(id: string) {
 }
 
 export function QuickAccessBar() {
+  const { lang } = useI18n();
   const [visible, setVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -92,7 +94,7 @@ export function QuickAccessBar() {
             <PopoverTrigger asChild>
               <button type="button" className="qa-btn">
                 <MapPin size={22} strokeWidth={1.5} />
-                <span>Localização</span>
+                <span>{lang === "en" ? "Location" : "Localização"}</span>
               </button>
             </PopoverTrigger>
             <PopoverContent
@@ -136,7 +138,7 @@ export function QuickAccessBar() {
             className="qa-btn"
           >
             <Camera size={22} strokeWidth={1.5} />
-            <span>Fotos</span>
+            <span>{lang === "en" ? "Photos" : "Fotos"}</span>
           </button>
         </li>
 
@@ -148,7 +150,7 @@ export function QuickAccessBar() {
             className="qa-btn"
           >
             <CalendarHeart size={22} strokeWidth={1.5} />
-            <span>Presença</span>
+            <span>{lang === "en" ? "RSVP" : "Presença"}</span>
           </button>
         </li>
 
@@ -158,7 +160,7 @@ export function QuickAccessBar() {
             <PopoverTrigger asChild>
               <button type="button" className="qa-btn">
                 <WhatsAppIcon size={22} />
-                <span>Contactos</span>
+                <span>{lang === "en" ? "Contacts" : "Contactos"}</span>
               </button>
             </PopoverTrigger>
             <PopoverContent
