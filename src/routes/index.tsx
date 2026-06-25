@@ -8,7 +8,6 @@ import { StorySection } from "@/components/StorySection";
 
 import { GiftsSection } from "@/components/GiftsSection";
 import { ThankYouSection } from "@/components/ThankYouSection";
-import { HonorBookSection } from "@/components/HonorBookSection";
 import { MemoriesSection } from "@/components/MemoriesSection";
 import { PublicGallerySection } from "@/components/PublicGallerySection";
 import { PlaylistSection } from "@/components/PlaylistSection";
@@ -391,11 +390,6 @@ function Index() {
 
       {/* GIFTS */}
       <Reveal><GiftsSection /></Reveal>
-
-      <DecorativeDivider />
-
-      {/* LIVRO DE HONRA */}
-      <Reveal><HonorBookSection /></Reveal>
 
       <DecorativeDivider />
 
