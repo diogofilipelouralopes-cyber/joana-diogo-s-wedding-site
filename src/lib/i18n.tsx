@@ -158,6 +158,22 @@ const dict = {
     "footer.made": "Feito com ♡ para a nossa maior viagem",
 
     "cal.added": "Adicionado ao teu calendário! 📅",
+
+    "nav.beforeLeave": "Antes de sair",
+    "beforeLeave.kicker": "A nossa maior viagem começa com uma chegada tranquila.",
+    "beforeLeave.title": "ANTES DE SAIR DE CASA",
+    "beforeLeave.subtitle": "Tudo o que precisas para chegar com calma e aproveitar o dia.",
+    "beforeLeave.arrival.title": "Chegada",
+    "beforeLeave.arrival.body": "A cerimónia começa pontualmente às <strong>14h00</strong>.<br/><br/>Pedimos que chegues entre as <strong>13h30 e as 13h45</strong>, para te instalares com tranquilidade e vivermos este momento juntos desde o início.",
+    "beforeLeave.location.title": "Como chegar e estacionar",
+    "beforeLeave.location.body": "Encontramo-nos na <strong>Glicínia Wedding House, Freamunde</strong>.<br/><br/>Existe estacionamento privado e gratuito no local.",
+    "beforeLeave.location.cta": "Abrir no Google Maps",
+    "beforeLeave.dress.title": "O que vestir",
+    "beforeLeave.dress.body": "Vem confortável e incrível.<br/><br/>Cores alegres são muito bem-vindas; guardamos o branco para a noiva.<br/><br/>Como estaremos num espaço de quinta, sugerimos calçado em que consigas caminhar e dançar à vontade.",
+    "beforeLeave.help.title": "Precisaste de ajuda no dia?",
+    "beforeLeave.help.body": "Para questões práticas — chegada, estacionamento, mobilidade ou algum imprevisto — fala com os nossos anfitriões.",
+    "beforeLeave.help.pending": "Os contactos dos anfitriões serão disponibilizados mais perto da data do casamento.",
+    "beforeLeave.help.note": "No dia, queremos estar inteiramente convosco; estes serão os contactos certos para resolver qualquer questão com rapidez e carinho.",
   },
   en: {
     "nav.home": "Home",
@@ -314,6 +330,22 @@ const dict = {
     "footer.made": "Made with ♡ for our greatest journey",
 
     "cal.added": "Added to your calendar! 📅",
+
+    "nav.beforeLeave": "Before You Leave",
+    "beforeLeave.kicker": "Our greatest journey begins with a peaceful arrival.",
+    "beforeLeave.title": "BEFORE YOU LEAVE HOME",
+    "beforeLeave.subtitle": "Everything you need to arrive relaxed and enjoy the day.",
+    "beforeLeave.arrival.title": "Arrival",
+    "beforeLeave.arrival.body": "The ceremony begins promptly at <strong>2:00 PM</strong>.<br/><br/>We kindly ask you to arrive between <strong>1:30 PM and 1:45 PM</strong>, so you can settle in comfortably and share this special moment with us from the very beginning.",
+    "beforeLeave.location.title": "Getting Here & Parking",
+    "beforeLeave.location.body": "The celebration will take place at <strong>Glicínia Wedding House, Freamunde</strong>.<br/><br/>Free private parking is available on site.",
+    "beforeLeave.location.cta": "Open in Google Maps",
+    "beforeLeave.dress.title": "Dress Code",
+    "beforeLeave.dress.body": "Come comfortable and ready to celebrate.<br/><br/>Bright colours are warmly welcomed; we'll keep white reserved for the bride.<br/><br/>As we'll be celebrating at a countryside venue, we recommend comfortable footwear for walking and dancing.",
+    "beforeLeave.help.title": "Need Help on the Day?",
+    "beforeLeave.help.body": "For practical questions regarding arrival, parking, accessibility or any unexpected situation, our hosts will be happy to help.",
+    "beforeLeave.help.pending": "The hosts' contact details will be shared closer to the wedding date.",
+    "beforeLeave.help.note": "On the day, we want to spend every moment celebrating with you; these will be the right contacts for any practical questions or unexpected situations.",
   },
 } as const;
 
