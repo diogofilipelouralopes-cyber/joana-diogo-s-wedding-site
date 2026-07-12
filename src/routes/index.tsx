@@ -14,7 +14,6 @@ import { PlaylistSection } from "@/components/PlaylistSection";
 import { FaqSection } from "@/components/FaqSection";
 import { MessagesSection } from "@/components/MessagesSection";
 import { SiteFooter } from "@/components/SiteFooter";
-import { BeforeYouLeaveSection } from "@/components/BeforeYouLeaveSection";
 import { LiveAnnouncementBanner } from "@/components/LiveAnnouncementBanner";
 import { QuickAccessBar } from "@/components/QuickAccessBar";
 import { Reveal } from "@/components/Reveal";
@@ -361,11 +360,6 @@ function Index() {
           </div>
         </div>
       </section>
-
-      <DecorativeDivider />
-
-      {/* ANTES DE SAIR DE CASA */}
-      <Reveal><BeforeYouLeaveSection /></Reveal>
 
       <DecorativeDivider />
 
