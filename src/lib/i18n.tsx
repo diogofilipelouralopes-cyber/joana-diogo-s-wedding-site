@@ -330,6 +330,22 @@ const dict = {
     "footer.made": "Made with ♡ for our greatest journey",
 
     "cal.added": "Added to your calendar! 📅",
+
+    "nav.beforeLeave": "Before You Leave",
+    "beforeLeave.kicker": "Our greatest journey begins with a peaceful arrival.",
+    "beforeLeave.title": "BEFORE YOU LEAVE HOME",
+    "beforeLeave.subtitle": "Everything you need to arrive relaxed and enjoy the day.",
+    "beforeLeave.arrival.title": "Arrival",
+    "beforeLeave.arrival.body": "The ceremony begins promptly at <strong>2:00 PM</strong>.<br/><br/>We kindly ask you to arrive between <strong>1:30 PM and 1:45 PM</strong>, so you can settle in comfortably and share this special moment with us from the very beginning.",
+    "beforeLeave.location.title": "Getting Here & Parking",
+    "beforeLeave.location.body": "The celebration will take place at <strong>Glicínia Wedding House, Freamunde</strong>.<br/><br/>Free private parking is available on site.",
+    "beforeLeave.location.cta": "Open in Google Maps",
+    "beforeLeave.dress.title": "Dress Code",
+    "beforeLeave.dress.body": "Come comfortable and ready to celebrate.<br/><br/>Bright colours are warmly welcomed; we'll keep white reserved for the bride.<br/><br/>As we'll be celebrating at a countryside venue, we recommend comfortable footwear for walking and dancing.",
+    "beforeLeave.help.title": "Need Help on the Day?",
+    "beforeLeave.help.body": "For practical questions regarding arrival, parking, accessibility or any unexpected situation, our hosts will be happy to help.",
+    "beforeLeave.help.pending": "The hosts' contact details will be shared closer to the wedding date.",
+    "beforeLeave.help.note": "On the day, we want to spend every moment celebrating with you; these will be the right contacts for any practical questions or unexpected situations.",
   },
 } as const;
 
