@@ -364,6 +364,11 @@ function Index() {
 
       <DecorativeDivider />
 
+      {/* ANTES DE SAIR DE CASA */}
+      <Reveal><BeforeYouLeaveSection /></Reveal>
+
+      <DecorativeDivider />
+
       {/* PHOTOS (shared album) */}
       <Reveal><MemoriesSection /></Reveal>
 
