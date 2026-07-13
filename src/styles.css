@@ -469,9 +469,11 @@ body.drawer-open .install-btn { opacity: 0; pointer-events: none; }
 .header-logo-mobile { display: inline-flex; }
 .header-hamburger { display: inline-flex; }
 @media (min-width: 768px) {
-  .header-nav-desktop { display: flex; }
   .header-logo-desktop { display: inline-flex; }
   .header-logo-mobile { display: none; }
+}
+@media (min-width: 1280px) {
+  .header-nav-desktop { display: flex; }
   .header-hamburger { display: none; }
 }
 
