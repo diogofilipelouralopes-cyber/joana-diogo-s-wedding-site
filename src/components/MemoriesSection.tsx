@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Camera, Smartphone, Heart, Sparkles } from "lucide-react";
+import { Camera, Smartphone, Heart, Sparkles, ImagePlus } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
-const ALBUM_URL = "https://photos.app.goo.gl/fRgpcdDbq9YgNJhi6";
+export const ALBUM_URL = "https://photos.app.goo.gl/ZfRKu3pg8oHait6eA";
 
 function QRCodeClient({ value, size }: { value: string; size: number }) {
   const [Comp, setComp] = useState<React.ComponentType<any> | null>(null);
@@ -38,9 +38,9 @@ export function MemoriesSection() {
   const { t } = useI18n();
 
   return (
-    <section id="fotos" className="py-20 sm:py-28 px-5 sm:px-6 scroll-mt-24" style={{ background: "var(--ivory)" }}>
+    <section id="fotos" className="py-24 sm:py-32 px-5 sm:px-6 scroll-mt-24" style={{ background: "var(--ivory)" }}>
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-10 sm:mb-12">
+        <div className="text-center mb-12 sm:mb-14">
           <h2
             className="uppercase text-xl sm:text-2xl md:text-3xl"
             style={{ fontFamily: "Cinzel, serif", color: "var(--olive)", letterSpacing: "0.3em", fontWeight: 500 }}
@@ -56,20 +56,38 @@ export function MemoriesSection() {
           <div className="divider-ornament mt-6 max-w-xs mx-auto">
             <Camera className="w-4 h-4" strokeWidth={1.25} />
           </div>
+          <p
+            className="mt-6 mx-auto text-sm sm:text-base leading-relaxed"
+            style={{ color: "var(--olive)", opacity: 0.9, maxWidth: 560 }}
+          >
+            {t("memories.desc")}
+          </p>
         </div>
 
         <div
-          className="mx-auto p-7 sm:p-12"
+          className="mx-auto p-8 sm:p-12 relative"
           style={{
-            maxWidth: 760,
+            maxWidth: 780,
             background: "var(--cream)",
             border: "1px solid var(--gold)",
-            borderRadius: 12,
+            borderRadius: 14,
             boxShadow:
-              "0 1px 2px color-mix(in oklab, var(--olive) 8%, transparent), 0 18px 40px -22px color-mix(in oklab, var(--olive) 25%, transparent)",
+              "0 1px 2px color-mix(in oklab, var(--olive) 8%, transparent), 0 22px 48px -24px color-mix(in oklab, var(--olive) 28%, transparent)",
           }}
         >
-          <div className="grid md:grid-cols-2 gap-8 items-center">
+          {/* Detalhe dourado interior */}
+          <span
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              inset: 8,
+              borderRadius: 10,
+              border: "1px solid color-mix(in oklab, var(--gold) 32%, transparent)",
+              pointerEvents: "none",
+            }}
+          />
+
+          <div className="grid md:grid-cols-2 gap-10 items-center relative">
             {/* QR */}
             <div className="flex justify-center order-2 md:order-1">
               <div
@@ -100,32 +118,50 @@ export function MemoriesSection() {
             </div>
           </div>
 
-          {/* Mobile-priority CTA: bigger, full width */}
-          <a
-            href={ALBUM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-7 w-full inline-flex items-center justify-center gap-2 px-6 py-4 uppercase transition-all hover:-translate-y-0.5"
-            style={{
-              fontFamily: "Cinzel, serif",
-              letterSpacing: "0.22em",
-              fontSize: "0.8rem",
-              background: "var(--olive)",
-              color: "var(--cream)",
-              border: "1px solid var(--olive)",
-              borderRadius: 8,
-              minHeight: 52,
-            }}
-          >
-            <Camera size={18} strokeWidth={1.5} />
-            {t("memories.openPhone")}
-          </a>
+          {/* CTAs */}
+          <div className="mt-9 grid sm:grid-cols-2 gap-3 relative">
+            <a
+              href={ALBUM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 uppercase transition-all hover:-translate-y-0.5"
+              style={{
+                fontFamily: "Cinzel, serif",
+                letterSpacing: "0.22em",
+                fontSize: "0.78rem",
+                background: "var(--olive)",
+                color: "var(--cream)",
+                border: "1px solid var(--olive)",
+                borderRadius: 8,
+                minHeight: 54,
+              }}
+            >
+              <Camera size={18} strokeWidth={1.5} />
+              {t("memories.primary")}
+            </a>
+            <a
+              href={ALBUM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 uppercase transition-all hover:-translate-y-0.5"
+              style={{
+                fontFamily: "Cinzel, serif",
+                letterSpacing: "0.22em",
+                fontSize: "0.78rem",
+                background: "transparent",
+                color: "var(--olive)",
+                border: "1px solid var(--gold)",
+                borderRadius: 8,
+                minHeight: 54,
+              }}
+            >
+              <ImagePlus size={18} strokeWidth={1.5} />
+              {t("memories.secondary")}
+            </a>
+          </div>
         </div>
 
-        <p
-          className="text-center italic mt-6 text-sm"
-          style={{ color: "var(--olive)", opacity: 0.85 }}
-        >
+        <p className="text-center italic mt-6 text-sm" style={{ color: "var(--olive)", opacity: 0.85 }}>
           {t("memories.note")}
         </p>
       </div>
