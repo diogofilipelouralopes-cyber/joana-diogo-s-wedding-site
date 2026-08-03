@@ -276,51 +276,64 @@ export function Header() {
         className={`mobile-drawer ${open ? "is-open" : ""}`}
         aria-hidden={!open}
       >
-        <div className="flex justify-end p-5">
+        {/* Cabeçalho do drawer */}
+        <div className="drawer-head">
           <button
             onClick={() => setOpen(false)}
-            aria-label="Fechar menu"
-            className="inline-flex items-center justify-center"
-            style={{ width: 44, height: 44, color: "var(--olive)" }}
+            aria-label={lang === "en" ? "Close menu" : "Fechar menu"}
+            className="drawer-close"
           >
-            <X className="w-6 h-6" strokeWidth={1.5} />
+            <X className="w-5 h-5" strokeWidth={1.5} />
           </button>
+          <div className="drawer-brand">
+            <span className="drawer-brand-name">Joana</span>
+            <span className="drawer-brand-amp">&amp;</span>
+            <span className="drawer-brand-name">Diogo</span>
+            <span className="drawer-brand-rule" aria-hidden="true" />
+            <span className="drawer-brand-date">
+              {lang === "en" ? "19 September 2026" : "19 Setembro 2026"}
+            </span>
+          </div>
         </div>
-        <nav className="flex-1 px-6 pb-8 flex flex-col items-center gap-1 text-center text-xl" style={{ overflowY: "auto", justifyContent: "safe center" }}>
-          {links.map((l) => (
-            <a
-              key={l.id}
-              href={`#${l.id}`}
-              onClick={() => setOpen(false)}
-              className="mobile-drawer-link"
-            >
-              {l.icon && <span className="inline-flex" style={{ color: "var(--gold)" }}>{l.icon}</span>}
-              <span>{t(l.key)}</span>
-            </a>
-          ))}
 
-          {/* Partilhar */}
+        <nav className="drawer-nav">
+          {mobileGroups.map((g) => (
+            <div key={g.labelPt} className="drawer-group">
+              <p className="drawer-group-label">{lang === "en" ? g.labelEn : g.labelPt}</p>
+              {g.items.map((l) => (
+                <a
+                  key={l.id}
+                  href={`#${l.id}`}
+                  onClick={() => setOpen(false)}
+                  data-active={active === l.id ? "true" : "false"}
+                  className="drawer-item"
+                >
+                  <span className="drawer-item-icon">{l.icon}</span>
+                  <span className="drawer-item-text">{t(l.key)}</span>
+                </a>
+              ))}
+            </div>
+          ))}
+        </nav>
+
+        {/* Ações */}
+        <div className="drawer-actions">
           <a
             href={WA_SHARE_URL}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setOpen(false)}
-            className="mobile-drawer-link"
+            className="drawer-action"
           >
-            <span className="inline-flex" style={{ color: "var(--gold)" }}><Share2 className="w-4 h-4" strokeWidth={1.5} /></span>
-            <span>{lang === "en" ? "Share" : "Partilhar"}</span>
+            <span className="drawer-item-icon"><Share2 className="w-[18px] h-[18px]" strokeWidth={1.5} /></span>
+            <span className="drawer-item-text">{lang === "en" ? "Share" : "Partilhar"}</span>
           </a>
-
-          {/* Adicionar ao ecrã principal */}
-          <button
-            type="button"
-            onClick={handleInstall}
-            className="mobile-drawer-link"
-          >
-            <span className="inline-flex" style={{ color: "var(--gold)" }}><Smartphone className="w-4 h-4" strokeWidth={1.5} /></span>
-            <span>{lang === "en" ? "Add to Home Screen" : "Adicionar ao ecrã"}</span>
+          <button type="button" onClick={handleInstall} className="drawer-action">
+            <span className="drawer-item-icon"><Smartphone className="w-[18px] h-[18px]" strokeWidth={1.5} /></span>
+            <span className="drawer-item-text">{lang === "en" ? "Add to Home Screen" : "Adicionar ao ecrã"}</span>
           </button>
-        </nav>
+        </div>
+
 
         {showIOSHelp && (
           <div
