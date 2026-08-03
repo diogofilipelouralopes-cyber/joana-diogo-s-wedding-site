@@ -238,18 +238,19 @@ export function Header() {
             </LangBtn>
           </div>
 
-          {/* Mobile hamburger */}
+          {/* Mobile hamburger → X */}
           <button
-            className="header-hamburger inline-flex items-center justify-center"
+            className="header-hamburger burger-btn items-center justify-center"
             onClick={() => setOpen((o) => !o)}
             aria-label="Menu"
-            style={{
-              width: 44,
-              height: 44,
-              color: "var(--olive)",
-            }}
+            aria-expanded={open}
+            data-open={open ? "true" : "false"}
           >
-            <Menu className="w-6 h-6" strokeWidth={1.5} />
+            <span className="burger-icon" aria-hidden="true">
+              <span className="burger-bar burger-bar-1" />
+              <span className="burger-bar burger-bar-2" />
+              <span className="burger-bar burger-bar-3" />
+            </span>
           </button>
         </div>
       </div>
