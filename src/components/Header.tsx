@@ -26,6 +26,42 @@ const links = [
   { id: "gifts", key: "nav.gifts" as const, icon: <Gift className="w-4 h-4" strokeWidth={1.5} /> },
 ];
 
+/** Grupos do menu mobile (drawer). Desktop continua a usar `links`. */
+const mobileGroups: {
+  labelPt: string;
+  labelEn: string;
+  items: { id: string; key: (typeof links)[number]["key"]; icon: React.ReactNode }[];
+}[] = [
+  {
+    labelPt: "Casamento",
+    labelEn: "Wedding",
+    items: [
+      { id: "top", key: "nav.home", icon: <Home className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+      { id: "story", key: "nav.story", icon: <BookHeart className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+      { id: "rsvp", key: "nav.rsvp", icon: <CalendarCheck className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+      { id: "event", key: "nav.event", icon: <MapPin className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+      { id: "info", key: "nav.info", icon: <Info className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+    ],
+  },
+  {
+    labelPt: "Convidados",
+    labelEn: "Guests",
+    items: [
+      { id: "fotos", key: "nav.photos", icon: <Camera className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+      { id: "musica", key: "nav.music", icon: <Music className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+    ],
+  },
+  {
+    labelPt: "Mais",
+    labelEn: "More",
+    items: [
+      { id: "faq", key: "nav.faq", icon: <HelpCircle className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+      { id: "mensagens", key: "nav.messages", icon: <MessageCircleHeart className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+      { id: "gifts", key: "nav.gifts", icon: <Gift className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+    ],
+  },
+];
+
 export function Header() {
   const { t, lang, setLang } = useI18n();
   const [open, setOpen] = useState(false);
