@@ -594,7 +594,7 @@ body { padding-top: 0; }
 /* --- Cabeçalho do drawer --- */
 .drawer-head {
   position: relative;
-  padding: 22px 22px 16px;
+  padding: 18px 22px 12px;
   border-bottom: 1px solid color-mix(in oklab, var(--gold) 22%, transparent);
 }
 .drawer-close {
@@ -654,7 +654,7 @@ body { padding-top: 0; }
   padding: 14px 14px 6px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 12px;
 }
 .drawer-group { display: flex; flex-direction: column; gap: 2px; }
 .drawer-group-label {
@@ -671,8 +671,8 @@ body { padding-top: 0; }
   align-items: center;
   gap: 14px;
   width: 100%;
-  min-height: 50px;
-  padding: 10px 12px;
+  min-height: 44px;
+  padding: 7px 12px;
   border-radius: 14px;
   text-align: left;
   font-family: "Cinzel", serif;
