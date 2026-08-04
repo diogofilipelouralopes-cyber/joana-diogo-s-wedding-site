@@ -101,8 +101,11 @@ function AdminPage() {
   const [fadingIds, setFadingIds] = useState<Set<string>>(new Set());
   const [editing, setEditing] = useState<Rsvp | null>(null);
   const [saving, setSaving] = useState(false);
-  const [tab, setTab] = useState<"rsvps" | "mensagens" | "avisos">("rsvps");
+  const [tab, setTab] = useState<
+    "rsvps" | "convidados" | "comunicacoes" | "mensagens" | "avisos"
+  >("rsvps");
   const [unreadCount, setUnreadCount] = useState<number>(0);
+  const [commStats, setCommStats] = useState({ emails: 0, whatsapps: 0 });
 
   // Fetch unread messages count for tab badge
   useEffect(() => {
@@ -112,6 +115,22 @@ function AdminPage() {
       .select("id", { count: "exact", head: true })
       .eq("lida", false)
       .then(({ count }) => setUnreadCount(count ?? 0));
+  }, [isAdmin, tab]);
+
+  // Communications counters for the dashboard
+  useEffect(() => {
+    if (!isAdmin) return;
+    supabase
+      .from("guest_communications")
+      .select("type, status")
+      .eq("status", "sent")
+      .then(({ data }) => {
+        const rows = data ?? [];
+        setCommStats({
+          emails: rows.filter((r) => r.type === "email_1_month").length,
+          whatsapps: rows.filter((r) => r.type === "whatsapp_1_week").length,
+        });
+      });
   }, [isAdmin, tab]);
 
   async function confirmDelete() {
