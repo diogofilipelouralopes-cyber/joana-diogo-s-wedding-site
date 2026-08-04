@@ -397,13 +397,26 @@ function AdminPage() {
         </div>
         {/* Tabs */}
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex gap-1 -mb-px">
+          <div className="flex gap-1 -mb-px overflow-x-auto">
             <TabButton
               active={tab === "rsvps"}
               onClick={() => setTab("rsvps")}
               icon={<Users className="w-4 h-4" />}
               label="RSVPs"
             />
+            <TabButton
+              active={tab === "convidados"}
+              onClick={() => setTab("convidados")}
+              icon={<Users className="w-4 h-4" />}
+              label="Convidados"
+            />
+            <TabButton
+              active={tab === "comunicacoes"}
+              onClick={() => setTab("comunicacoes")}
+              icon={<Mail className="w-4 h-4" />}
+              label="Comunicações"
+            />
+
             <TabButton
               active={tab === "mensagens"}
               onClick={() => setTab("mensagens")}
