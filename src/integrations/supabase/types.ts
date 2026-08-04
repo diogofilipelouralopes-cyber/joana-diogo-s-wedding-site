@@ -53,6 +53,51 @@ export type Database = {
         }
         Relationships: []
       }
+      guest_communications: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          guest_id: string
+          id: string
+          sent_at: string | null
+          status: string
+          type: string
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          guest_id: string
+          id?: string
+          sent_at?: string | null
+          status?: string
+          type: string
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          guest_id?: string
+          id?: string
+          sent_at?: string | null
+          status?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "guest_communications_guest_id_fkey"
+            columns: ["guest_id"]
+            isOneToOne: false
+            referencedRelation: "rsvp_public_messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "guest_communications_guest_id_fkey"
+            columns: ["guest_id"]
+            isOneToOne: false
+            referencedRelation: "rsvps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       mensagens: {
         Row: {
           created_at: string
@@ -82,40 +127,73 @@ export type Database = {
       }
       rsvps: {
         Row: {
+          accommodation: string | null
           allergies: string | null
           attending: boolean
           created_at: string
           email: string | null
+          family_group: string | null
           guests: number
           id: string
+          internal_notes: string | null
           message: string | null
           name: string
           phone: string | null
           song_suggestion: string | null
+          table_number: string | null
+          transport: string | null
         }
         Insert: {
+          accommodation?: string | null
           allergies?: string | null
           attending: boolean
           created_at?: string
           email?: string | null
+          family_group?: string | null
           guests?: number
           id?: string
+          internal_notes?: string | null
           message?: string | null
           name: string
           phone?: string | null
           song_suggestion?: string | null
+          table_number?: string | null
+          transport?: string | null
         }
         Update: {
+          accommodation?: string | null
           allergies?: string | null
           attending?: boolean
           created_at?: string
           email?: string | null
+          family_group?: string | null
           guests?: number
           id?: string
+          internal_notes?: string | null
           message?: string | null
           name?: string
           phone?: string | null
           song_suggestion?: string | null
+          table_number?: string | null
+          transport?: string | null
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value?: string
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: string
         }
         Relationships: []
       }

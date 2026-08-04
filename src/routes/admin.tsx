@@ -26,6 +26,8 @@ import {
 } from "lucide-react";
 import { AdminMensagens } from "@/components/AdminMensagens";
 import { AdminAvisos } from "@/components/AdminAvisos";
+import { AdminConvidados } from "@/components/AdminConvidados";
+import { AdminComunicacoes } from "@/components/AdminComunicacoes";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -99,8 +101,11 @@ function AdminPage() {
   const [fadingIds, setFadingIds] = useState<Set<string>>(new Set());
   const [editing, setEditing] = useState<Rsvp | null>(null);
   const [saving, setSaving] = useState(false);
-  const [tab, setTab] = useState<"rsvps" | "mensagens" | "avisos">("rsvps");
+  const [tab, setTab] = useState<
+    "rsvps" | "convidados" | "comunicacoes" | "mensagens" | "avisos"
+  >("rsvps");
   const [unreadCount, setUnreadCount] = useState<number>(0);
+  const [commStats, setCommStats] = useState({ emails: 0, whatsapps: 0 });
 
   // Fetch unread messages count for tab badge
   useEffect(() => {
@@ -110,6 +115,22 @@ function AdminPage() {
       .select("id", { count: "exact", head: true })
       .eq("lida", false)
       .then(({ count }) => setUnreadCount(count ?? 0));
+  }, [isAdmin, tab]);
+
+  // Communications counters for the dashboard
+  useEffect(() => {
+    if (!isAdmin) return;
+    supabase
+      .from("guest_communications")
+      .select("type, status")
+      .eq("status", "sent")
+      .then(({ data }) => {
+        const rows = data ?? [];
+        setCommStats({
+          emails: rows.filter((r) => r.type === "email_1_month").length,
+          whatsapps: rows.filter((r) => r.type === "whatsapp_1_week").length,
+        });
+      });
   }, [isAdmin, tab]);
 
   async function confirmDelete() {
@@ -351,7 +372,15 @@ function AdminPage() {
               Painel
             </p>
             <h1 className="font-display text-2xl text-primary">
-              {tab === "rsvps" ? "Respostas RSVP" : tab === "mensagens" ? "Mensagens" : "Avisos"}
+              {tab === "rsvps"
+                ? "Respostas RSVP"
+                : tab === "convidados"
+                  ? "Convidados"
+                  : tab === "comunicacoes"
+                    ? "Comunicações"
+                    : tab === "mensagens"
+                      ? "Mensagens"
+                      : "Avisos"}
             </h1>
           </div>
           <div className="flex gap-2 items-center">
@@ -376,13 +405,26 @@ function AdminPage() {
         </div>
         {/* Tabs */}
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex gap-1 -mb-px">
+          <div className="flex gap-1 -mb-px overflow-x-auto">
             <TabButton
               active={tab === "rsvps"}
               onClick={() => setTab("rsvps")}
               icon={<Users className="w-4 h-4" />}
               label="RSVPs"
             />
+            <TabButton
+              active={tab === "convidados"}
+              onClick={() => setTab("convidados")}
+              icon={<Users className="w-4 h-4" />}
+              label="Convidados"
+            />
+            <TabButton
+              active={tab === "comunicacoes"}
+              onClick={() => setTab("comunicacoes")}
+              icon={<Mail className="w-4 h-4" />}
+              label="Comunicações"
+            />
+
             <TabButton
               active={tab === "mensagens"}
               onClick={() => setTab("mensagens")}
@@ -405,10 +447,14 @@ function AdminPage() {
           <AdminMensagens />
         ) : tab === "avisos" ? (
           <AdminAvisos />
+        ) : tab === "convidados" ? (
+          <AdminConvidados />
+        ) : tab === "comunicacoes" ? (
+          <AdminComunicacoes />
         ) : (
         <div>
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-10">
           <StatCard label="Respostas" value={stats.total} icon={<Users className="w-5 h-5" />} />
           <StatCard
             label="Confirmados"
@@ -428,7 +474,24 @@ function AdminPage() {
             icon={<Users className="w-5 h-5" />}
             tone="positive"
           />
+          <StatCard
+            label="Emails enviados"
+            value={commStats.emails}
+            icon={<Mail className="w-5 h-5" />}
+          />
+          <StatCard
+            label="WhatsApps"
+            value={commStats.whatsapps}
+            icon={<MessageCircleHeart className="w-5 h-5" />}
+          />
+          <StatCard
+            label="Restrições"
+            value={counts.restrictions}
+            icon={<Utensils className="w-5 h-5" />}
+            tone="muted"
+          />
         </div>
+
 
         {/* Total counter line */}
         <p className="text-sm text-muted-foreground mb-4">
