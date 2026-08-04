@@ -372,7 +372,15 @@ function AdminPage() {
               Painel
             </p>
             <h1 className="font-display text-2xl text-primary">
-              {tab === "rsvps" ? "Respostas RSVP" : tab === "mensagens" ? "Mensagens" : "Avisos"}
+              {tab === "rsvps"
+                ? "Respostas RSVP"
+                : tab === "convidados"
+                  ? "Convidados"
+                  : tab === "comunicacoes"
+                    ? "Comunicações"
+                    : tab === "mensagens"
+                      ? "Mensagens"
+                      : "Avisos"}
             </h1>
           </div>
           <div className="flex gap-2 items-center">
