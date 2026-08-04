@@ -426,10 +426,14 @@ function AdminPage() {
           <AdminMensagens />
         ) : tab === "avisos" ? (
           <AdminAvisos />
+        ) : tab === "convidados" ? (
+          <AdminConvidados />
+        ) : tab === "comunicacoes" ? (
+          <AdminComunicacoes />
         ) : (
         <div>
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-10">
           <StatCard label="Respostas" value={stats.total} icon={<Users className="w-5 h-5" />} />
           <StatCard
             label="Confirmados"
@@ -449,7 +453,24 @@ function AdminPage() {
             icon={<Users className="w-5 h-5" />}
             tone="positive"
           />
+          <StatCard
+            label="Emails enviados"
+            value={commStats.emails}
+            icon={<Mail className="w-5 h-5" />}
+          />
+          <StatCard
+            label="WhatsApps"
+            value={commStats.whatsapps}
+            icon={<MessageCircleHeart className="w-5 h-5" />}
+          />
+          <StatCard
+            label="Restrições"
+            value={counts.restrictions}
+            icon={<Utensils className="w-5 h-5" />}
+            tone="muted"
+          />
         </div>
+
 
         {/* Total counter line */}
         <p className="text-sm text-muted-foreground mb-4">
