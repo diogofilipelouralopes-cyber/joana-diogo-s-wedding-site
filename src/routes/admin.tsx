@@ -26,6 +26,8 @@ import {
 } from "lucide-react";
 import { AdminMensagens } from "@/components/AdminMensagens";
 import { AdminAvisos } from "@/components/AdminAvisos";
+import { AdminConvidados } from "@/components/AdminConvidados";
+import { AdminComunicacoes } from "@/components/AdminComunicacoes";
 import {
   AlertDialog,
   AlertDialogAction,
