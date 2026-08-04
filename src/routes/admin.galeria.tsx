@@ -107,10 +107,13 @@ function AdminGaleriaPage() {
         navigate({ to: "/admin/login" });
         return;
       }
-      const { data: isAllowed } = await supabase.rpc("has_role", {
-        _user_id: data.session.user.id,
-        _role: "admin",
-      });
+      const { data: roleRow } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", data.session.user.id)
+        .eq("role", "admin")
+        .maybeSingle();
+      const isAllowed = !!roleRow;
       if (!isAllowed) {
         await supabase.auth.signOut();
         toast.error("Sem permissões.");

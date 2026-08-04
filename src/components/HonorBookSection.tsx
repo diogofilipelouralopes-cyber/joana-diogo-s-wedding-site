@@ -20,11 +20,8 @@ export function HonorBookSection() {
     (async () => {
       try {
         const { data, error } = await supabase
-          .from("rsvps")
+          .from("rsvp_public_messages")
           .select("id, name, message, created_at")
-          .eq("attending", true)
-          .not("message", "is", null)
-          .neq("message", "")
           .order("created_at", { ascending: false });
         if (!active) return;
         if (error) {
