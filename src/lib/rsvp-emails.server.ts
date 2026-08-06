@@ -112,7 +112,9 @@ function buildInternalEmail(p: RsvpEmailPayload): { html: string; text: string }
   return { html, text };
 }
 
-export async function sendRsvpNotifications(p: RsvpEmailPayload): Promise<{ ok: boolean }> {
+export async function sendRsvpNotifications(
+  p: RsvpEmailPayload,
+): Promise<{ ok: boolean; errors: string[] }> {
   const replyTo = process.env['WEDDING_CONTACT_EMAIL'];
 
   const guest = buildGuestEmail(p.name);
@@ -137,5 +139,9 @@ export async function sendRsvpNotifications(p: RsvpEmailPayload): Promise<{ ok: 
       : Promise.resolve({ ok: false as const, error: 'WEDDING_CONTACT_EMAIL não configurado.' }),
   ]);
 
-  return { ok: results.every((r) => r.ok) };
+  const errors = results
+    .map((r) => ('error' in r ? r.error : null))
+    .filter((e): e is string => Boolean(e));
+  if (errors.length) console.error('[rsvp-emails] falhas:', errors.join(' | '));
+  return { ok: results.every((r) => r.ok), errors };
 }
