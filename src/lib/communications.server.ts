@@ -1,6 +1,6 @@
 // Server-only helpers for guest communications (email templates + Resend API).
 
-const SITE_URL = 'https://joanaediogo-com.lovable.app';
+const SITE_URL = 'https://joanaediogo.com';
 
 const OLIVE = '#6B7A4F';
 const CREAM = '#FAF7F0';
