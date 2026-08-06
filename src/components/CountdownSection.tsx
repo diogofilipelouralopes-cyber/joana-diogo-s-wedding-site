@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Plane } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
-const TARGET = new Date("2026-11-19T14:00:00+00:00").getTime();
+const TARGET = new Date("2026-09-19T14:00:00+01:00").getTime();
 
 function diff(now: number) {
   const d = Math.max(0, TARGET - now);

@@ -31,7 +31,7 @@ export function Monogram({
       height={size}
       className={`inline-block shrink-0 ${className}`}
       role="img"
-      aria-label="Joana & Diogo · 19 Novembro 2026"
+      aria-label="Joana & Diogo · 19 Setembro 2026"
     >
       <defs>
         {/* Top arc — slight inset so text sits inside the inner ring */}

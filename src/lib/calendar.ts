@@ -4,7 +4,7 @@ import { toast } from "sonner";
  * Generate and download a .ics file for the wedding, then show a toast.
  * Compatible with Google Calendar, Apple Calendar, and Outlook.
  *
- * Event: 19 November 2026, 14:00 — 23:00 (Europe/Lisbon)
+ * Event: 19 September 2026, 14:00 — 23:00 (Europe/Lisbon)
  */
 export function downloadWeddingICS() {
   const ics = [
@@ -14,14 +14,14 @@ export function downloadWeddingICS() {
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
     "BEGIN:VEVENT",
-    "UID:joana-diogo-2026-11-19@wedding",
+    "UID:joana-diogo-2026-09-19@wedding",
     `DTSTAMP:${new Date()
       .toISOString()
       .replace(/[-:]/g, "")
       .replace(/\.\d{3}/, "")}`,
     "SUMMARY:Casamento Joana & Diogo",
-    "DTSTART:20261119T140000",
-    "DTEND:20261119T230000",
+    "DTSTART:20260919T140000",
+    "DTEND:20260919T230000",
     "LOCATION:Glicínia Wedding House\\, Freamunde\\, Paços de Ferreira",
     "DESCRIPTION:A nossa maior viagem começa agora.",
     "END:VEVENT",
