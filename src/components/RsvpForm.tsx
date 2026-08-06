@@ -196,6 +196,19 @@ export function RsvpForm() {
 
       if (error) throw error;
 
+      // Emails (confirmação ao convidado + notificação interna) — não bloqueantes.
+      sendRsvpEmails({
+        data: {
+          name: parsed.data.name,
+          email: parsed.data.email,
+          guests: parsed.data.guests,
+          attending: parsed.data.attending === "yes",
+          allergies: parsed.data.allergies || "",
+          song: parsed.data.song || "",
+          message: parsed.data.message || "",
+        },
+      }).catch((err: unknown) => console.error("Envio de email falhou (não bloqueante):", err));
+
       setFadingOut(true);
       setTimeout(() => setDone(true), 450);
     } catch {
