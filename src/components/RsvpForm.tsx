@@ -4,7 +4,7 @@ import { User, Mail, Phone, Music, Heart, X, Plane, Send } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
-import { syncRsvpToSheet } from "@/lib/rsvp.functions";
+import { syncRsvpToSheet, sendRsvpEmails } from "@/lib/rsvp.functions";
 
 
 type FormErrors = Partial<

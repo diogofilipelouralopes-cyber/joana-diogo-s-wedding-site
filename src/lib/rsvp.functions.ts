@@ -18,3 +18,21 @@ export const syncRsvpToSheet = createServerFn({ method: 'POST' })
     const { forwardToSheet } = await import('./rsvp.server');
     return forwardToSheet(data);
   });
+
+const emailSchema = z.object({
+  name: z.string().trim().min(2).max(100),
+  email: z.string().trim().email().max(255),
+  guests: z.number().int().min(1).max(10),
+  attending: z.boolean(),
+  allergies: z.string().max(500).default(''),
+  song: z.string().max(200).default(''),
+  message: z.string().max(1000).default(''),
+});
+
+export const sendRsvpEmails = createServerFn({ method: 'POST' })
+  .inputValidator((data: unknown) => emailSchema.parse(data))
+  .handler(async ({ data }) => {
+    const { sendRsvpNotifications } = await import('./rsvp-emails.server');
+    return sendRsvpNotifications(data);
+  });
+
