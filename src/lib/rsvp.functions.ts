@@ -33,6 +33,8 @@ export const sendRsvpEmails = createServerFn({ method: 'POST' })
   .inputValidator((data: unknown) => emailSchema.parse(data))
   .handler(async ({ data }) => {
     const { sendRsvpNotifications } = await import('./rsvp-emails.server');
-    return sendRsvpNotifications(data);
+    const result = await sendRsvpNotifications(data);
+    console.log('[rsvp-emails] send result', JSON.stringify(result));
+    return result;
   });
 
