@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
-import { Loader2, Heart } from "lucide-react";
+import { Loader2, Heart, Mail } from "lucide-react";
 
 export const Route = createFileRoute("/admin/login")({
   head: () => ({
