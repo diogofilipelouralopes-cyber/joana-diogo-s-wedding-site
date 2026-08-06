@@ -126,6 +126,7 @@ export async function sendResendEmail(params: {
   subject: string;
   html: string;
   text: string;
+  replyTo?: string;
 }): Promise<{ ok: true } | { ok: false; error: string }> {
   const apiKey = process.env['RESEND_API_KEY'];
   if (!apiKey) {
