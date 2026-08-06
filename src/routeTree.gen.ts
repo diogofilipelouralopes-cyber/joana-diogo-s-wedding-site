@@ -15,6 +15,7 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as AdminGaleriaRouteImport } from './routes/admin.galeria'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as ApiPublicHooksOneMonthEmailsRouteImport } from './routes/api/public/hooks/one-month-emails'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,6 +47,12 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => AdminRoute,
 } as any)
+const ApiPublicHooksOneMonthEmailsRoute =
+  ApiPublicHooksOneMonthEmailsRouteImport.update({
+    id: '/api/public/hooks/one-month-emails',
+    path: '/api/public/hooks/one-month-emails',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/galeria': typeof AdminGaleriaRoute
   '/admin/login': typeof AdminLoginRoute
+  '/api/public/hooks/one-month-emails': typeof ApiPublicHooksOneMonthEmailsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +70,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/galeria': typeof AdminGaleriaRoute
   '/admin/login': typeof AdminLoginRoute
+  '/api/public/hooks/one-month-emails': typeof ApiPublicHooksOneMonthEmailsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,6 +80,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/galeria': typeof AdminGaleriaRoute
   '/admin/login': typeof AdminLoginRoute
+  '/api/public/hooks/one-month-emails': typeof ApiPublicHooksOneMonthEmailsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -81,6 +91,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/admin/galeria'
     | '/admin/login'
+    | '/api/public/hooks/one-month-emails'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -89,6 +100,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/admin/galeria'
     | '/admin/login'
+    | '/api/public/hooks/one-month-emails'
   id:
     | '__root__'
     | '/'
@@ -97,6 +109,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/admin/galeria'
     | '/admin/login'
+    | '/api/public/hooks/one-month-emails'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -104,6 +117,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   SignupRoute: typeof SignupRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ApiPublicHooksOneMonthEmailsRoute: typeof ApiPublicHooksOneMonthEmailsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -150,6 +164,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/api/public/hooks/one-month-emails': {
+      id: '/api/public/hooks/one-month-emails'
+      path: '/api/public/hooks/one-month-emails'
+      fullPath: '/api/public/hooks/one-month-emails'
+      preLoaderRoute: typeof ApiPublicHooksOneMonthEmailsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -170,17 +191,8 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   SignupRoute: SignupRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ApiPublicHooksOneMonthEmailsRoute: ApiPublicHooksOneMonthEmailsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
