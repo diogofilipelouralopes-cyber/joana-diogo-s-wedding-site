@@ -69,7 +69,7 @@ Joana & Diogo`;
           <td align="center" style="background:${OLIVE};padding:36px 24px;">
             <p style="margin:0 0 10px;font-family:Arial,Helvetica,sans-serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:${GOLD};">Vamos casar</p>
             <h1 style="margin:0;font-family:Georgia,'Times New Roman',serif;font-weight:normal;font-size:34px;color:#ffffff;">Joana &amp; Diogo</h1>
-            <p style="margin:12px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#ffffffcc;">19 Novembro 2026</p>
+            <p style="margin:12px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#ffffffcc;">19 Setembro 2026</p>
           </td>
         </tr>
         <tr>

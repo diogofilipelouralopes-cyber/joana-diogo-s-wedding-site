@@ -47,7 +47,7 @@ const EVENT_JSONLD = {
   "@context": "https://schema.org",
   "@type": "Event",
   name: "Casamento Joana & Diogo",
-  startDate: "2026-11-19T14:00:00+00:00",
+  startDate: "2026-09-19T14:00:00+01:00",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   eventStatus: "https://schema.org/EventScheduled",
   location: {
@@ -66,7 +66,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Joana & Diogo casam-se a 19 de novembro de 2026 na Glicínia Wedding House. Confirma a tua presença, vê fotos e deixa uma mensagem.",
+          "Joana & Diogo casam-se a 19 de setembro de 2026 na Glicínia Wedding House. Confirma a tua presença, vê fotos e deixa uma mensagem.",
       },
       { property: "og:title", content: "Joana & Diogo · Casamento 19.11.2026" },
       {

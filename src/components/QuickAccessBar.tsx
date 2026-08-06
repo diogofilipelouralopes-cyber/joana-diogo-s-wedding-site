@@ -8,7 +8,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-const WEDDING_DATE = new Date("2026-11-19T00:00:00+00:00");
+const WEDDING_DATE = new Date("2026-09-19T00:00:00+01:00");
 const SHOW_DAYS_BEFORE = 7;
 
 // Durante o desenvolvimento, deixa sempre visível.
