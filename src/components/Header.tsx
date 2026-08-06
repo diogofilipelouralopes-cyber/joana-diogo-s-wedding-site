@@ -9,7 +9,7 @@ import { downloadWeddingICS } from "@/lib/calendar";
 
 const SITE_URL = "https://joanaediogo-com.lovable.app";
 const WA_SHARE_URL = `https://wa.me/?text=${encodeURIComponent(
-  "Joana & Diogo - 19 Setembro 2026 🌿 " + "https://joanaediogo-com.lovable.app"
+  "Joana & Diogo - 19 Novembro 2026 🌿 " + "https://joanaediogo-com.lovable.app"
 )}`;
 
 const links = [
@@ -264,7 +264,7 @@ export function Header() {
           title={lang === "en" ? "Add to calendar" : "Adicionar ao calendário"}
           aria-label={lang === "en" ? "Add to calendar" : "Adicionar ao calendário"}
         >
-          {lang === "en" ? "September 19, 2026" : "19 de Setembro de 2026"}
+          {lang === "en" ? "November 19, 2026" : "19 de Novembro de 2026"}
         </button>
       </div>
       <div
@@ -291,7 +291,7 @@ export function Header() {
             <span className="drawer-brand-name">Diogo</span>
             <span className="drawer-brand-rule" aria-hidden="true" />
             <span className="drawer-brand-date">
-              {lang === "en" ? "19 September 2026" : "19 Setembro 2026"}
+              {lang === "en" ? "19 November 2026" : "19 Novembro 2026"}
             </span>
           </div>
         </div>

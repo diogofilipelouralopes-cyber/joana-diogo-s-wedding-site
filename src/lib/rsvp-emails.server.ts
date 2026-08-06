@@ -33,7 +33,7 @@ function buildGuestEmail(name: string): { html: string; text: string } {
 
   const text = `Olá ${name},
 
-Recebemos a tua confirmação para o nosso casamento no dia 19 de setembro de 2026.
+Recebemos a tua confirmação para o nosso casamento no dia 19 de novembro de 2026.
 
 Estamos muito felizes por partilhar este momento contigo.
 
@@ -52,12 +52,12 @@ Joana & Diogo`;
       <tr><td align="center" style="background:${OLIVE};padding:36px 24px;">
         <p style="margin:0 0 10px;font-family:Arial,Helvetica,sans-serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:${GOLD};">Confirmação recebida</p>
         <h1 style="margin:0;font-family:Georgia,'Times New Roman',serif;font-weight:normal;font-size:34px;color:#ffffff;">Joana &amp; Diogo</h1>
-        <p style="margin:12px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#ffffffcc;">19 Setembro 2026</p>
+        <p style="margin:12px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#ffffffcc;">19 Novembro 2026</p>
       </td></tr>
       <tr><td style="padding:36px 32px 36px;">
         <p style="margin:0 0 18px;font-family:Georgia,'Times New Roman',serif;font-size:20px;color:${OLIVE};">Olá ${safeName},</p>
         <p style="margin:0 0 14px;font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:1.7;color:${INK};">
-          Recebemos a tua confirmação para o nosso casamento no dia 19 de setembro de 2026.
+          Recebemos a tua confirmação para o nosso casamento no dia 19 de novembro de 2026.
         </p>
         <p style="margin:0 0 14px;font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:1.7;color:${INK};">
           Estamos muito felizes por partilhar este momento contigo.

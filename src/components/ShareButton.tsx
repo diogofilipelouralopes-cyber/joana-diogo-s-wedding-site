@@ -6,7 +6,7 @@ import { useI18n } from "@/lib/i18n";
 import { toast } from "sonner";
 
 const SITE_URL = "https://joanaediogo-com.lovable.app";
-const WA_URL = `https://wa.me/?text=${encodeURIComponent("Joana & Diogo - 19 Setembro 2026 🌿 " + SITE_URL)}`;
+const WA_URL = `https://wa.me/?text=${encodeURIComponent("Joana & Diogo - 19 Novembro 2026 🌿 " + SITE_URL)}`;
 
 export function ShareButton() {
   const { lang } = useI18n();
