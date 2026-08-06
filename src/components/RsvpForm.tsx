@@ -4,6 +4,8 @@ import { User, Mail, Phone, Music, Heart, X, Plane, Send } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
+import { syncRsvpToSheet } from "@/lib/rsvp.functions";
+
 
 type FormErrors = Partial<
   Record<"name" | "email" | "phone" | "guests" | "attending" | "allergies" | "song" | "message", string>
@@ -164,26 +166,21 @@ export function RsvpForm() {
     setErrors({});
     setLoading(true);
 
-    // Fire Google Sheet submission FIRST and in parallel — fully independent of Supabase.
-    // Uses no-cors + text/plain so the Apps Script webhook accepts it without preflight.
-    const WEBHOOK_URL =
-      "https://script.google.com/macros/s/AKfycbxbhmu0sJwJ_gkyvXf2AhmqJapuJqVFgIcKMsqq9rNlM2-hFDGiffrMwlq36txBUeL1/exec";
-    const dados = {
-      nome: parsed.data.name,
-      email: parsed.data.email,
-      telefone: parsed.data.phone,
-      pessoas: parsed.data.guests,
-      presenca: parsed.data.attending === "yes" ? "sim" : "nao",
-      restricoes: parsed.data.allergies || "",
-      musica: parsed.data.song || "",
-      mensagem: parsed.data.message || "",
-    };
-    fetch(WEBHOOK_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(dados),
-    }).catch((err) => console.error("Google Sheet falhou (não bloqueante):", err));
+    // Google Sheet sync goes through a server function that re-validates the
+    // payload; the webhook URL never reaches the client bundle.
+    syncRsvpToSheet({
+      data: {
+        nome: parsed.data.name,
+        email: parsed.data.email,
+        telefone: parsed.data.phone,
+        pessoas: parsed.data.guests,
+        presenca: parsed.data.attending === "yes" ? "sim" : "nao",
+        restricoes: parsed.data.allergies || "",
+        musica: parsed.data.song || "",
+        mensagem: parsed.data.message || "",
+      },
+    }).catch((err: unknown) => console.error("Google Sheet falhou (não bloqueante):", err));
+
 
     try {
       const { error } = await supabase.from("rsvps").insert({
