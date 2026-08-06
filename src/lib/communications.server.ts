@@ -147,6 +147,7 @@ export async function sendResendEmail(params: {
         subject: params.subject,
         html: params.html,
         text: params.text,
+        ...(params.replyTo ? { reply_to: params.replyTo } : {}),
       }),
     });
 
