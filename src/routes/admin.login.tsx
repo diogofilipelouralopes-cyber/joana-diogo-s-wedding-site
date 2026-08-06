@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
-import { Loader2, Heart } from "lucide-react";
+import { Loader2, Heart, Mail } from "lucide-react";
 
 export const Route = createFileRoute("/admin/login")({
   head: () => ({
@@ -28,6 +28,8 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [mode, setMode] = useState<"password" | "magic">("magic");
+  const [sent, setSent] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -38,6 +40,25 @@ function LoginPage() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
+
+    if (mode === "magic") {
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          shouldCreateUser: false,
+          emailRedirectTo: `${window.location.origin}/admin`,
+        },
+      });
+      setLoading(false);
+      if (error) {
+        toast.error("Não foi possível enviar o link. Verifica o email.");
+        return;
+      }
+      setSent(true);
+      toast.success("Link de acesso enviado para o teu email.");
+      return;
+    }
+
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) {
@@ -69,34 +90,67 @@ function LoginPage() {
               type="email"
               autoComplete="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="mt-2"
-            />
-          </div>
-          <div>
-            <Label htmlFor="password" className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              Palavra-passe
-            </Label>
-            <Input
-              id="password"
-              type="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setSent(false);
+              }}
               required
               className="mt-2"
             />
           </div>
 
+          {mode === "password" && (
+            <div>
+              <Label htmlFor="password" className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                Palavra-passe
+              </Label>
+              <Input
+                id="password"
+                type="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="mt-2"
+              />
+            </div>
+          )}
+
           <Button type="submit" disabled={loading} className="w-full">
-            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Entrar"}
+            {loading ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : mode === "magic" ? (
+              <>
+                <Mail className="w-4 h-4 mr-2" strokeWidth={1.5} />
+                Enviar link de acesso
+              </>
+            ) : (
+              "Entrar"
+            )}
           </Button>
+
+          {sent && mode === "magic" && (
+            <p className="text-[11px] text-center text-muted-foreground">
+              Verifica o teu email (e a pasta de spam) e clica no link para entrar.
+            </p>
+          )}
+
+          <button
+            type="button"
+            onClick={() => {
+              setMode(mode === "magic" ? "password" : "magic");
+              setSent(false);
+            }}
+            className="w-full text-[11px] text-center text-muted-foreground hover:text-primary uppercase tracking-[0.15em]"
+          >
+            {mode === "magic" ? "Entrar com palavra-passe" : "Entrar com link por email"}
+          </button>
 
           <p className="text-[11px] text-center text-muted-foreground uppercase tracking-[0.15em]">
             Inscrições fechadas · acesso restrito
           </p>
         </form>
+
 
         <div className="text-center mt-6">
           <Link to="/" className="text-xs text-muted-foreground hover:text-primary">
