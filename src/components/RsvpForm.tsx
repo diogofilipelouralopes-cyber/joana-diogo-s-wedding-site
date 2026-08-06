@@ -179,7 +179,7 @@ export function RsvpForm() {
         musica: parsed.data.song || "",
         mensagem: parsed.data.message || "",
       },
-    }).catch((err) => console.error("Google Sheet falhou (não bloqueante):", err));
+    }).catch((err: unknown) => console.error("Google Sheet falhou (não bloqueante):", err));
 
 
     try {
