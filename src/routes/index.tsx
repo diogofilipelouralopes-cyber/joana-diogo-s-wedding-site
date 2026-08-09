@@ -16,6 +16,7 @@ import { MessagesSection } from "@/components/MessagesSection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { LiveAnnouncementBanner } from "@/components/LiveAnnouncementBanner";
 import { QuickAccessBar } from "@/components/QuickAccessBar";
+import ChatWidget from "@/components/ChatWidget";
 import { Reveal } from "@/components/Reveal";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider, useI18n } from "@/lib/i18n";
@@ -407,6 +408,7 @@ function Index() {
 
       {/* FLOATING ACTIONS */}
       <QuickAccessBar />
+      <ChatWidget />
     </>
   );
 }
