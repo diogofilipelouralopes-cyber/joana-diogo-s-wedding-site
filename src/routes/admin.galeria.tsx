@@ -33,9 +33,20 @@ export const Route = createFileRoute("/admin/galeria")({
   head: () => ({
     meta: [
       { title: "Galeria privada · Admin" },
+      {
+        name: "description",
+        content:
+          "Área privada de gestão da galeria do casamento de Joana & Diogo: criar álbuns, carregar fotos e definir quais ficam visíveis para os convidados.",
+      },
+      { property: "og:title", content: "Galeria privada · Admin — Joana & Diogo" },
+      {
+        property: "og:description",
+        content: "Gestão privada dos álbuns e fotos do casamento de Joana & Diogo.",
+      },
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),
+
   component: AdminGaleriaPage,
 });
 
