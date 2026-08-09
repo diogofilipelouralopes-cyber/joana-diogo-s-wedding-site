@@ -92,7 +92,7 @@ export async function saveEmailContent(input: EmailContent): Promise<void> {
       preheader: input.preheader,
       greeting: input.greeting,
       body: input.body,
-      details: input.details,
+      details: input.details.map((d) => ({ label: d.label, value: d.value })) as any,
       button_label: input.button_label,
       button_url: input.button_url,
       signature: input.signature,
