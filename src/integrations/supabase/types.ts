@@ -29,6 +29,30 @@ export type Database = {
         }
         Relationships: []
       }
+      admin_login_attempts: {
+        Row: {
+          attempts: number
+          blocked_until: string | null
+          first_attempt_at: string
+          ip_hash: string
+          updated_at: string
+        }
+        Insert: {
+          attempts?: number
+          blocked_until?: string | null
+          first_attempt_at?: string
+          ip_hash: string
+          updated_at?: string
+        }
+        Update: {
+          attempts?: number
+          blocked_until?: string | null
+          first_attempt_at?: string
+          ip_hash?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       announcements: {
         Row: {
           active: boolean

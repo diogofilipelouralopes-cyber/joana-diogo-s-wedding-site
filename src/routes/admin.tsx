@@ -24,6 +24,7 @@ import {
   Megaphone,
   Home,
 } from "lucide-react";
+import { adminLogout } from "@/lib/admin-auth.functions";
 import { AdminMensagens } from "@/components/AdminMensagens";
 import { AdminAvisos } from "@/components/AdminAvisos";
 import { AdminConvidados } from "@/components/AdminConvidados";
@@ -308,6 +309,7 @@ function AdminPage() {
   }
 
   async function logout() {
+    await adminLogout();
     await supabase.auth.signOut();
     navigate({ to: "/admin/login" });
   }
