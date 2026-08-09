@@ -58,7 +58,7 @@ function LoginPage() {
         email,
         options: {
           shouldCreateUser: false,
-          emailRedirectTo: `${window.location.origin}/admin`,
+          emailRedirectTo: `${window.location.origin}${next ?? "/admin"}`,
         },
       });
       setLoading(false);
@@ -77,7 +77,8 @@ function LoginPage() {
       toast.error("Credenciais inválidas.");
       return;
     }
-    navigate({ to: "/admin" });
+    if (next) window.location.replace(next);
+    else navigate({ to: "/admin" });
   }
 
   return (
