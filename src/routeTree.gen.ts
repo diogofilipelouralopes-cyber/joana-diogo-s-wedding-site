@@ -19,6 +19,7 @@ import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as AdminGaleriaRouteImport } from './routes/admin.galeria'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminOauthLoginRouteImport } from './routes/admin.oauth-login'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as ApiPublicHooksOneMonthEmailsRouteImport } from './routes/api/public/hooks/one-month-emails'
@@ -75,6 +76,11 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminOauthLoginRoute = AdminOauthLoginRouteImport.update({
+  id: '/oauth-login',
+  path: '/oauth-login',
+  getParentRoute: () => AdminRoute,
+} as any)
 const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
   id: '/.lovable/oauth/consent',
   path: '/.lovable/oauth/consent',
@@ -104,6 +110,7 @@ export interface FileRoutesByFullPath {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/galeria': typeof AdminGaleriaRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/oauth-login': typeof AdminOauthLoginRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/hooks/one-month-emails': typeof ApiPublicHooksOneMonthEmailsRoute
@@ -119,6 +126,7 @@ export interface FileRoutesByTo {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/galeria': typeof AdminGaleriaRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/oauth-login': typeof AdminOauthLoginRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/hooks/one-month-emails': typeof ApiPublicHooksOneMonthEmailsRoute
@@ -135,6 +143,7 @@ export interface FileRoutesById {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/galeria': typeof AdminGaleriaRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/oauth-login': typeof AdminOauthLoginRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/hooks/one-month-emails': typeof ApiPublicHooksOneMonthEmailsRoute
@@ -152,6 +161,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/admin/galeria'
     | '/admin/login'
+    | '/admin/oauth-login'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/hooks/one-month-emails'
@@ -167,6 +177,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/admin/galeria'
     | '/admin/login'
+    | '/admin/oauth-login'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/hooks/one-month-emails'
@@ -182,6 +193,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/admin/galeria'
     | '/admin/login'
+    | '/admin/oauth-login'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/hooks/one-month-emails'
@@ -273,6 +285,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/oauth-login': {
+      id: '/admin/oauth-login'
+      path: '/oauth-login'
+      fullPath: '/admin/oauth-login'
+      preLoaderRoute: typeof AdminOauthLoginRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/.lovable/oauth/consent': {
       id: '/.lovable/oauth/consent'
       path: '/.lovable/oauth/consent'
@@ -300,11 +319,13 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminGaleriaRoute: typeof AdminGaleriaRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminOauthLoginRoute: typeof AdminOauthLoginRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminGaleriaRoute: AdminGaleriaRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminOauthLoginRoute: AdminOauthLoginRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
