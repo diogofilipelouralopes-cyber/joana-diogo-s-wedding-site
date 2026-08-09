@@ -85,7 +85,7 @@ export default function ChatWidget() {
   const [initialMessages] = useState<UIMessage[]>(() => loadStoredMessages());
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  useEffect(() => { console.log("CHATWIDGET_MOUNT"); setMounted(true); }, []);
+  useEffect(() => setMounted(true), []);
 
   const transport = useMemo(
     () =>
