@@ -8,7 +8,15 @@ import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 import { Loader2, Heart, Mail } from "lucide-react";
 
+function safeNext(value: unknown): string | undefined {
+  if (typeof value !== "string") return undefined;
+  // Only same-origin relative paths are allowed.
+  if (!value.startsWith("/") || value.startsWith("//")) return undefined;
+  return value;
+}
+
 export const Route = createFileRoute("/admin/login")({
+  validateSearch: (s: Record<string, unknown>) => ({ next: safeNext(s.next) }),
   head: () => ({
     meta: [
       { title: "Login · Admin · Joana & Diogo" },
@@ -25,6 +33,7 @@ export const Route = createFileRoute("/admin/login")({
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { next } = Route.useSearch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -33,9 +42,12 @@ function LoginPage() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/admin" });
+      if (!data.session) return;
+      if (next) window.location.replace(next);
+      else navigate({ to: "/admin" });
     });
-  }, [navigate]);
+  }, [navigate, next]);
+
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
