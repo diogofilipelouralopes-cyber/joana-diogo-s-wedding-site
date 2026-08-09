@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react'
 
+
 export interface TemplateEntry {
   component: ComponentType<any>
   subject: string | ((data: Record<string, any>) => string)
