@@ -1,16 +1,16 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
+import { adminCodeLogin } from "@/lib/admin-auth.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Toaster } from "@/components/ui/sonner";
-import { toast } from "sonner";
-import { Loader2, Heart, Mail } from "lucide-react";
+import { Loader2, Heart, KeyRound } from "lucide-react";
 
 function safeNext(value: unknown): string | undefined {
   if (typeof value !== "string") return undefined;
-  // Only same-origin relative paths are allowed.
   if (!value.startsWith("/") || value.startsWith("//")) return undefined;
   return value;
 }
@@ -22,9 +22,12 @@ export const Route = createFileRoute("/admin/login")({
   },
   head: () => ({
     meta: [
-      { title: "Login · Admin · Joana & Diogo" },
-      { name: "description", content: "Acesso restrito ao painel de administração do casamento de Joana e Diogo." },
-      { property: "og:title", content: "Login · Admin" },
+      { title: "Acesso · Admin · Joana & Diogo" },
+      {
+        name: "description",
+        content: "Acesso restrito ao painel de administração do casamento de Joana e Diogo.",
+      },
+      { property: "og:title", content: "Acesso · Admin" },
       { property: "og:description", content: "Acesso restrito ao painel de administração." },
       { property: "og:url", content: "https://joanaediogo-com.lovable.app/admin/login" },
       { name: "robots", content: "noindex,nofollow" },
@@ -37,51 +40,30 @@ export const Route = createFileRoute("/admin/login")({
 function LoginPage() {
   const navigate = useNavigate();
   const { next } = Route.useSearch();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const login = useServerFn(adminCodeLogin);
+  const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
-  const [mode, setMode] = useState<"password" | "magic">("magic");
-  const [sent, setSent] = useState(false);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (!data.session) return;
-      if (next) window.location.replace(next);
-      else navigate({ to: "/admin" });
-    });
-  }, [navigate, next]);
-
+  const [error, setError] = useState<string | null>(null);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-
-    if (mode === "magic") {
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          shouldCreateUser: false,
-          emailRedirectTo: `${window.location.origin}${next ?? "/admin"}`,
-        },
-      });
-      setLoading(false);
-      if (error) {
-        toast.error("Não foi possível enviar o link. Verifica o email.");
+    setError(null);
+    try {
+      const result = await login({ data: { code } });
+      if (!result.ok) {
+        setError("Código inválido.");
+        setCode("");
+        setLoading(false);
         return;
       }
-      setSent(true);
-      toast.success("Link de acesso enviado para o teu email.");
-      return;
+      await supabase.auth.setSession(result.tokens);
+      if (next) window.location.replace(next);
+      else navigate({ to: "/admin" });
+    } catch {
+      setError("Código inválido.");
+      setLoading(false);
     }
-
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    setLoading(false);
-    if (error) {
-      toast.error("Credenciais inválidas.");
-      return;
-    }
-    if (next) window.location.replace(next);
-    else navigate({ to: "/admin" });
   }
 
   return (
@@ -98,81 +80,49 @@ function LoginPage() {
 
         <form onSubmit={onSubmit} className="space-y-5 bg-card border border-border p-7">
           <div>
-            <Label htmlFor="email" className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              Email
+            <Label
+              htmlFor="code"
+              className="text-xs uppercase tracking-[0.2em] text-muted-foreground"
+            >
+              Código de acesso
             </Label>
             <Input
-              id="email"
-              type="email"
-              autoComplete="email"
-              value={email}
+              id="code"
+              type="password"
+              inputMode="text"
+              autoComplete="off"
+              autoFocus
+              value={code}
               onChange={(e) => {
-                setEmail(e.target.value);
-                setSent(false);
+                setCode(e.target.value);
+                setError(null);
               }}
               required
-              className="mt-2"
+              className="mt-2 tracking-widest"
             />
           </div>
 
-          {mode === "password" && (
-            <div>
-              <Label htmlFor="password" className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                Palavra-passe
-              </Label>
-              <Input
-                id="password"
-                type="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="mt-2"
-              />
-            </div>
-          )}
-
-          <Button type="submit" disabled={loading} className="w-full">
-            {loading ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : mode === "magic" ? (
-              <>
-                <Mail className="w-4 h-4 mr-2" strokeWidth={1.5} />
-                Enviar link de acesso
-              </>
-            ) : (
-              "Entrar"
-            )}
-          </Button>
-
-          {sent && mode === "magic" && (
-            <p className="text-[11px] text-center text-muted-foreground">
-              Verifica o teu email (e a pasta de spam) e clica no link para entrar.
+          {error && (
+            <p role="alert" className="text-xs text-destructive text-center">
+              {error}
             </p>
           )}
 
-          <button
-            type="button"
-            onClick={() => {
-              setMode(mode === "magic" ? "password" : "magic");
-              setSent(false);
-            }}
-            className="w-full text-[11px] text-center text-muted-foreground hover:text-primary uppercase tracking-[0.15em]"
-          >
-            {mode === "magic" ? "Entrar com palavra-passe" : "Entrar com link por email"}
-          </button>
+          <Button type="submit" disabled={loading || !code} className="w-full">
+            {loading ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <>
+                <KeyRound className="w-4 h-4 mr-2" strokeWidth={1.5} />
+                Entrar
+              </>
+            )}
+          </Button>
 
-          <p className="text-[11px] text-center text-muted-foreground uppercase tracking-[0.15em]">
-            Inscrições fechadas · acesso restrito
+          <p className="text-[11px] text-center text-muted-foreground">
+            Acesso reservado aos noivos.
           </p>
         </form>
-
-
-        <div className="text-center mt-6">
-          <Link to="/" className="text-xs text-muted-foreground hover:text-primary">
-            ← Voltar ao site
-          </Link>
-        </div>
       </div>
     </div>
   );
