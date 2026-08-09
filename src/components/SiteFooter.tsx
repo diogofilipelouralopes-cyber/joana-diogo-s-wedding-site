@@ -1,4 +1,4 @@
-import { Plane, Heart, MapPin, Lock } from "lucide-react";
+import { Plane, Heart, MapPin, Lock, Bot } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
