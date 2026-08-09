@@ -1,0 +1,132 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.1",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://sshordgcibihtduhcalu.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "joana-diogo-s-wedding-site",
+      "version": "0.1.0",
+      "title": "Joana & Diogo's Wedding Site"
+    },
+    "tools": [
+      {
+        "name": "list_rsvps",
+        "title": "List RSVPs",
+        "description": "List wedding RSVP entries (name, attending, guests, contact, allergies, notes). Only the couple's admin accounts can read them.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "attending": {
+              "description": "Filter by attendance. Defaults to all.",
+              "type": "string",
+              "enum": [
+                "all",
+                "yes",
+                "no"
+              ]
+            },
+            "search": {
+              "description": "Case-insensitive match on the guest name.",
+              "type": "string"
+            },
+            "limit": {
+              "description": "Maximum rows to return (default 50, max 200).",
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "rsvp_stats",
+        "title": "RSVP statistics",
+        "description": "Summary of the wedding RSVPs: totals, confirmed vs declined, total guest headcount and dietary restrictions.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_messages",
+        "title": "List guest messages",
+        "description": "List the messages guests left for the couple in the guest book, newest first. Admin accounts only.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "only_unread": {
+              "description": "Return only messages not yet marked as read.",
+              "type": "boolean"
+            },
+            "limit": {
+              "description": "Maximum rows to return (default 50, max 200).",
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "set_announcement",
+        "title": "Set live announcement",
+        "description": "Update the live announcement banner shown on the wedding site (Portuguese and English text, and whether it is visible). Admin accounts only.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "description": "Announcement text in Portuguese."
+            },
+            "message_en": {
+              "description": "Announcement text in English.",
+              "type": "string"
+            },
+            "active": {
+              "description": "Whether the banner is visible on the site.",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "message"
+          ]
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
