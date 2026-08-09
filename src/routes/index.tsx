@@ -22,7 +22,7 @@ import { I18nProvider, useI18n } from "@/lib/i18n";
 import { MapPin, Clock, Hotel, Heart, Shirt, Car, Plane, ParkingCircle, ExternalLink } from "lucide-react";
 
 
-const SITE_URL = "https://joanaediogo-com.lovable.app";
+const SITE_URL = "https://joanaediogo.com";
 
 const FAQ_JSONLD = {
   "@context": "https://schema.org",
@@ -147,6 +147,8 @@ function Index() {
 
         {/* TOP THIRD: text */}
         <div className="relative z-10 flex flex-col items-center text-center max-w-2xl mx-auto w-full">
+          <h1 className="sr-only">Joana &amp; Diogo — Casamento 19 de setembro de 2026, Glicínia Wedding House</h1>
+
           <p
             className="hero-text-anim-1 hero-text-shadow uppercase text-[1.1rem] sm:text-xl"
             style={{

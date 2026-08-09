@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /signup
 
-Sitemap: https://joanaediogo-com.lovable.app/sitemap.xml
+Sitemap: https://joanaediogo.com/sitemap.xml

@@ -32,6 +32,8 @@ export const Route = createRootRoute({
       { title: "Casamento Joana&Diogo" },
       { name: "description", content: "Bem-vindos ao site do nosso Casamento 😘 Welcome to our wedding website 😘" },
       { name: "author", content: "Joana & Diogo" },
+      { name: "google-site-verification", content: "g4kD7YZS7_VFe2sZ4vexnJZGI2ORqdJDN4O5oRRybhc" },
+
       { property: "og:title", content: "Casamento Joana&Diogo" },
       { property: "og:description", content: "Bem-vindos ao site do nosso Casamento 😘 Welcome to our wedding website 😘" },
       { property: "og:type", content: "website" },
