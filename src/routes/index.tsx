@@ -22,7 +22,7 @@ import { I18nProvider, useI18n } from "@/lib/i18n";
 import { MapPin, Clock, Hotel, Heart, Shirt, Car, Plane, ParkingCircle, ExternalLink } from "lucide-react";
 
 
-const SITE_URL = "https://joanaediogo-com.lovable.app";
+const SITE_URL = "https://joanaediogo.com";
 
 const FAQ_JSONLD = {
   "@context": "https://schema.org",
