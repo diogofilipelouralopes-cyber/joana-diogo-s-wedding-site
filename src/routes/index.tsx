@@ -62,13 +62,13 @@ const EVENT_JSONLD = {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Joana & Diogo · Casamento 19.11.2026" },
+      { title: "Joana & Diogo · Casamento 19.09.2026" },
       {
         name: "description",
         content:
           "Joana & Diogo casam-se a 19 de setembro de 2026 na Glicínia Wedding House. Confirma a tua presença, vê fotos e deixa uma mensagem.",
       },
-      { property: "og:title", content: "Joana & Diogo · Casamento 19.11.2026" },
+      { property: "og:title", content: "Joana & Diogo · Casamento 19.09.2026" },
       {
         property: "og:description",
         content: "Junta-te a nós na Glicínia Wedding House para celebrar o nosso dia.",

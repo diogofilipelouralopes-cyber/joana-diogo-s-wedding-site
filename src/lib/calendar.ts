@@ -32,7 +32,7 @@ export function downloadWeddingICS() {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = "Casamento-Joana-Diogo-19-11-2026.ics";
+  link.download = "Casamento-Joana-Diogo-19-09-2026.ics";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
