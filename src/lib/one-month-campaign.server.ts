@@ -47,10 +47,12 @@ export async function runOneMonthCampaign(): Promise<CampaignResult> {
       continue;
     }
 
-    const { html, text } = buildOneMonthEmail(guest.name);
+    const { renderStoredEmail } = await import('./email-content.server');
+    const stored = await renderStoredEmail('one-month-reminder', { nome: guest.name });
+    const { html, text } = stored ?? buildOneMonthEmail(guest.name);
     const outcome = await sendResendEmail({
       to: guest.email,
-      subject: EMAIL_1_MONTH_SUBJECT,
+      subject: stored?.subject ?? EMAIL_1_MONTH_SUBJECT,
       html,
       text,
       ...(replyTo ? { replyTo } : {}),

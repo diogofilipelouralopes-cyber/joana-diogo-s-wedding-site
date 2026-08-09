@@ -400,6 +400,13 @@ function AdminPage() {
             >
               <ImageIcon className="w-3.5 h-3.5" /> Galeria
             </Link>
+            <Link
+              to="/admin/emails"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-[0.2em] rounded-md border border-border hover:border-primary hover:text-primary transition-colors"
+              title="Editar emails"
+            >
+              <Mail className="w-3.5 h-3.5" /> Emails
+            </Link>
             <Button variant="ghost" size="sm" onClick={logout}>
               <LogOut className="w-4 h-4 mr-2" /> Sair
             </Button>

@@ -77,6 +77,48 @@ export type Database = {
         }
         Relationships: []
       }
+      email_content: {
+        Row: {
+          body: string
+          button_label: string
+          button_url: string
+          details: Json
+          display_name: string
+          greeting: string
+          key: string
+          preheader: string
+          signature: string
+          subject: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string
+          button_label?: string
+          button_url?: string
+          details?: Json
+          display_name: string
+          greeting?: string
+          key: string
+          preheader?: string
+          signature?: string
+          subject: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          button_label?: string
+          button_url?: string
+          details?: Json
+          display_name?: string
+          greeting?: string
+          key?: string
+          preheader?: string
+          signature?: string
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       email_send_log: {
         Row: {
           created_at: string

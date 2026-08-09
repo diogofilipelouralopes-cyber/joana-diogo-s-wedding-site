@@ -18,6 +18,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as AdminEmailsRouteImport } from './routes/admin.emails'
 import { Route as AdminGaleriaRouteImport } from './routes/admin.galeria'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminOauthLoginRouteImport } from './routes/admin.oauth-login'
@@ -79,6 +80,11 @@ const Char91DotwellKnownChar93OauthProtectedResourceRoute =
     path: '/.well-known/oauth-protected-resource',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AdminEmailsRoute = AdminEmailsRouteImport.update({
+  id: '/emails',
+  path: '/emails',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminGaleriaRoute = AdminGaleriaRouteImport.update({
   id: '/galeria',
   path: '/galeria',
@@ -160,6 +166,7 @@ export interface FileRoutesByFullPath {
   '/unsubscribe': typeof UnsubscribeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/emails': typeof AdminEmailsRoute
   '/admin/galeria': typeof AdminGaleriaRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/oauth-login': typeof AdminOauthLoginRoute
@@ -184,6 +191,7 @@ export interface FileRoutesByTo {
   '/unsubscribe': typeof UnsubscribeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/emails': typeof AdminEmailsRoute
   '/admin/galeria': typeof AdminGaleriaRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/oauth-login': typeof AdminOauthLoginRoute
@@ -209,6 +217,7 @@ export interface FileRoutesById {
   '/unsubscribe': typeof UnsubscribeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/emails': typeof AdminEmailsRoute
   '/admin/galeria': typeof AdminGaleriaRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/oauth-login': typeof AdminOauthLoginRoute
@@ -235,6 +244,7 @@ export interface FileRouteTypes {
     | '/unsubscribe'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/emails'
     | '/admin/galeria'
     | '/admin/login'
     | '/admin/oauth-login'
@@ -259,6 +269,7 @@ export interface FileRouteTypes {
     | '/unsubscribe'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/emails'
     | '/admin/galeria'
     | '/admin/login'
     | '/admin/oauth-login'
@@ -283,6 +294,7 @@ export interface FileRouteTypes {
     | '/unsubscribe'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/emails'
     | '/admin/galeria'
     | '/admin/login'
     | '/admin/oauth-login'
@@ -385,6 +397,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/emails': {
+      id: '/admin/emails'
+      path: '/emails'
+      fullPath: '/admin/emails'
+      preLoaderRoute: typeof AdminEmailsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/galeria': {
       id: '/admin/galeria'
       path: '/galeria'
@@ -480,12 +499,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminEmailsRoute: typeof AdminEmailsRoute
   AdminGaleriaRoute: typeof AdminGaleriaRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminOauthLoginRoute: typeof AdminOauthLoginRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminEmailsRoute: AdminEmailsRoute,
   AdminGaleriaRoute: AdminGaleriaRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminOauthLoginRoute: AdminOauthLoginRoute,

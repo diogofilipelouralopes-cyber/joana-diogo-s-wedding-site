@@ -117,13 +117,28 @@ export async function sendRsvpNotifications(
 ): Promise<{ ok: boolean; errors: string[] }> {
   const replyTo = process.env['WEDDING_CONTACT_EMAIL'];
 
-  const guest = buildGuestEmail(p.name);
-  const internal = buildInternalEmail(p);
+  const { renderStoredEmail } = await import('./email-content.server');
+
+  const stored = await renderStoredEmail('rsvp-confirmation', { nome: p.name });
+  const guest = stored ?? buildGuestEmail(p.name);
+  const guestSubject = stored?.subject ?? GUEST_SUBJECT;
+
+  const storedInternal = await renderStoredEmail('rsvp-notification', { nome: p.name }, [
+    ['Nome', p.name],
+    ['Email', p.email],
+    ['Número de convidados', String(p.guests)],
+    ['Presença', p.attending ? 'Sim' : 'Não'],
+    ['Restrições alimentares', p.allergies || '—'],
+    ['Música escolhida', p.song || '—'],
+    ['Mensagem adicional', p.message || '—'],
+  ]);
+  const internal = storedInternal ?? buildInternalEmail(p);
+  const internalSubject = storedInternal?.subject ?? `Nova confirmação RSVP — ${p.name}`;
 
   const results = await Promise.all([
     sendResendEmail({
       to: p.email,
-      subject: GUEST_SUBJECT,
+      subject: guestSubject,
       html: guest.html,
       text: guest.text,
       ...(replyTo ? { replyTo } : {}),
@@ -131,7 +146,7 @@ export async function sendRsvpNotifications(
     replyTo
       ? sendResendEmail({
           to: replyTo,
-          subject: `Nova confirmação RSVP — ${p.name}`,
+          subject: internalSubject,
           html: internal.html,
           text: internal.text,
           replyTo: p.email,
