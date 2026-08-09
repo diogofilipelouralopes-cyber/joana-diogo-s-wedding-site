@@ -256,20 +256,19 @@ function ClientCard({
               <li key={`connect-${i}`}>{step}</li>
             ))}
           </ol>
-          {href && !href.startsWith("https://") && !href.startsWith("http://") ? null : null}
-          {href && href.startsWith("http") && (
-            <a
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-4 text-sm transition-colors hover:text-primary"
-              style={{ color: "var(--gold)" }}
-            >
-              Abrir {name}
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          )}
-          {command && (
+            {href && href.startsWith("http") && (
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 mt-4 text-sm transition-colors hover:text-primary"
+                style={{ color: "var(--gold)" }}
+              >
+                Abrir {name}
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            )}
+            {command && (
             <div className="mt-4 relative group">
               <pre
                 className="p-4 rounded-md text-xs sm:text-sm overflow-x-auto font-mono"
