@@ -7,9 +7,14 @@ export const Route = createFileRoute('/api/public/hooks/one-month-emails')({
         const apikey =
           request.headers.get('apikey') ??
           request.headers.get('authorization')?.replace('Bearer ', '');
-        const expected = process.env['SUPABASE_ANON_KEY'];
+        const accepted = [
+          process.env['SUPABASE_ANON_KEY'],
+          process.env['SUPABASE_PUBLISHABLE_KEY'],
+          process.env['VITE_SUPABASE_ANON_KEY'],
+          process.env['VITE_SUPABASE_PUBLISHABLE_KEY'],
+        ].filter((v): v is string => Boolean(v));
 
-        if (!expected || !apikey || apikey !== expected) {
+        if (!accepted.length || !apikey || !accepted.includes(apikey)) {
           return new Response(JSON.stringify({ error: 'Unauthorized' }), {
             status: 401,
             headers: { 'Content-Type': 'application/json' },
