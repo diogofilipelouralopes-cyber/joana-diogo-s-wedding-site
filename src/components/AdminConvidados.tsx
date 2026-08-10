@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Loader2, Search, Pencil, Users, Utensils } from "lucide-react";
+import { Loader2, Search, Pencil, Users, Utensils, UserPlus } from "lucide-react";
 
 export interface Guest {
   id: string;
