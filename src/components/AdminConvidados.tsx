@@ -94,6 +94,47 @@ export function AdminConvidados() {
     toast.success("✅ Convidado atualizado");
   }
 
+  async function create(draft: NewGuest) {
+    const name = draft.name.trim();
+    const email = draft.email.trim();
+    const phone = draft.phone.replace(/\s+/g, "");
+    if (name.length < 2) {
+      toast.error("Indica o nome do convidado.");
+      return;
+    }
+    if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      toast.error("Email inválido.");
+      return;
+    }
+    if (phone && !/^[0-9+()-]{6,20}$/.test(phone)) {
+      toast.error("Telefone inválido (6 a 20 dígitos).");
+      return;
+    }
+    setSaving(true);
+    const { data, error } = await supabase
+      .from("rsvps")
+      .insert({
+        name,
+        email: email || null,
+        phone: phone || null,
+        guests: draft.guests,
+        attending: draft.attending,
+        allergies: draft.allergies.trim() || null,
+        family_group: draft.family_group.trim() || null,
+        internal_notes: draft.internal_notes.trim() || null,
+      })
+      .select(GUEST_COLUMNS)
+      .single();
+    setSaving(false);
+    if (error || !data) {
+      toast.error("Não foi possível adicionar o convidado.");
+      return;
+    }
+    setRows((prev) => [data as unknown as Guest, ...prev]);
+    setAdding(false);
+    toast.success("✅ Convidado adicionado");
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center gap-3">
