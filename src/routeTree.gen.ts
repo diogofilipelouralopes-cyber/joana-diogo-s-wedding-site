@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ConnectRouteImport } from './routes/connect'
+import { Route as LocalRouteImport } from './routes/local'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -47,6 +48,11 @@ const AdminRoute = AdminRouteImport.update({
 const ConnectRoute = ConnectRouteImport.update({
   id: '/connect',
   path: '/connect',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocalRoute = LocalRouteImport.update({
+  id: '/local',
+  path: '/local',
   getParentRoute: () => rootRouteImport,
 } as any)
 const McpRoute = McpRouteImport.update({
@@ -166,6 +172,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/connect': typeof ConnectRoute
+  '/local': typeof LocalRoute
   '/mcp': typeof McpRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -192,6 +199,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/connect': typeof ConnectRoute
+  '/local': typeof LocalRoute
   '/mcp': typeof McpRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -219,6 +227,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/connect': typeof ConnectRoute
+  '/local': typeof LocalRoute
   '/mcp': typeof McpRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -247,6 +256,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/connect'
+    | '/local'
     | '/mcp'
     | '/signup'
     | '/sitemap.xml'
@@ -273,6 +283,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/connect'
+    | '/local'
     | '/mcp'
     | '/signup'
     | '/sitemap.xml'
@@ -299,6 +310,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/connect'
+    | '/local'
     | '/mcp'
     | '/signup'
     | '/sitemap.xml'
@@ -326,6 +338,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   ConnectRoute: typeof ConnectRoute
+  LocalRoute: typeof LocalRoute
   McpRoute: typeof McpRoute
   SignupRoute: typeof SignupRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -366,6 +379,13 @@ declare module '@tanstack/react-router' {
       path: '/connect'
       fullPath: '/connect'
       preLoaderRoute: typeof ConnectRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/local': {
+      id: '/local'
+      path: '/local'
+      fullPath: '/local'
+      preLoaderRoute: typeof LocalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mcp': {
@@ -538,6 +558,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   ConnectRoute: ConnectRoute,
+  LocalRoute: LocalRoute,
   McpRoute: McpRoute,
   SignupRoute: SignupRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
