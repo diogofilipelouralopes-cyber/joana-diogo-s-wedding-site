@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
-import { MessageCircleHeart, X, RotateCcw } from "lucide-react";
+import { X, RotateCcw } from "lucide-react";
 import {
   Conversation,
   ConversationContent,
@@ -171,12 +171,12 @@ export default function ChatWidget() {
           aria-label={copy.title}
           style={{
             width: "min(380px, calc(100vw - 32px))",
-            height: "min(560px, calc(100vh - 140px))",
+            height: "min(540px, calc(100vh - 180px))",
             display: "flex",
             flexDirection: "column",
             background: "var(--ivory, #FBF8F1)",
             border: "1px solid color-mix(in oklab, var(--gold) 55%, transparent)",
-            borderRadius: 12,
+            borderRadius: 22,
             overflow: "hidden",
             boxShadow: "0 18px 50px rgba(0,0,0,0.18)",
           }}
