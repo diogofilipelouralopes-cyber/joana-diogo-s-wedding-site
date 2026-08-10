@@ -113,6 +113,13 @@ export default function ChatWidget() {
     } catch {}
   }, [messages, status]);
 
+  // Abertura controlada pela barra de acesso rápido.
+  useEffect(() => {
+    const toggle = () => setOpen((v) => !v);
+    window.addEventListener("wedding-chat:toggle", toggle);
+    return () => window.removeEventListener("wedding-chat:toggle", toggle);
+  }, []);
+
   useEffect(() => {
     if (!open) return;
     const id = window.setTimeout(() => textareaRef.current?.focus(), 120);
@@ -122,6 +129,7 @@ export default function ChatWidget() {
   useEffect(() => {
     if (open && !isBusy) textareaRef.current?.focus();
   }, [isBusy, open]);
+
 
   const ask = (text: string) => {
     const value = text.trim();
