@@ -287,6 +287,10 @@ export function AdminConvidados() {
       {editing && (
         <EditGuestDialog guest={editing} saving={saving} onCancel={() => !saving && setEditing(null)} onSave={save} />
       )}
+
+      {adding && (
+        <AddGuestDialog saving={saving} onCancel={() => !saving && setAdding(false)} onSave={create} />
+      )}
     </div>
   );
 }
