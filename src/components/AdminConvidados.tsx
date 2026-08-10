@@ -390,3 +390,99 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
     </div>
   );
 }
+
+function AddGuestDialog({
+  saving,
+  onCancel,
+  onSave,
+}: {
+  saving: boolean;
+  onCancel: () => void;
+  onSave: (g: NewGuest) => void;
+}) {
+  const [draft, setDraft] = useState<NewGuest>({
+    name: "",
+    email: "",
+    phone: "",
+    guests: 1,
+    attending: true,
+    allergies: "",
+    family_group: "",
+    internal_notes: "",
+  });
+
+  return (
+    <Dialog open onOpenChange={(o) => !o && onCancel()}>
+      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Novo convidado</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4 py-2">
+          <Field label="Nome *">
+            <Input value={draft.name} onChange={(e) => setDraft({ ...draft, name: e.target.value })} />
+          </Field>
+          <Field label="Email (para os emails automáticos)">
+            <Input
+              type="email"
+              inputMode="email"
+              value={draft.email}
+              onChange={(e) => setDraft({ ...draft, email: e.target.value })}
+            />
+          </Field>
+          <Field label="Telemóvel (para WhatsApp, ex: 912345678 ou +351912345678)">
+            <Input
+              type="tel"
+              inputMode="tel"
+              value={draft.phone}
+              onChange={(e) => setDraft({ ...draft, phone: e.target.value })}
+            />
+          </Field>
+          <div className="grid grid-cols-2 gap-3">
+            <Field label="Nº de pessoas">
+              <Input
+                type="number"
+                min={1}
+                max={10}
+                value={draft.guests}
+                onChange={(e) =>
+                  setDraft({ ...draft, guests: Math.min(10, Math.max(1, Number(e.target.value) || 1)) })
+                }
+              />
+            </Field>
+            <Field label="Estado">
+              <div className="flex gap-2">
+                <Chip active={draft.attending} onClick={() => setDraft({ ...draft, attending: true })} label="Confirmado" />
+                <Chip active={!draft.attending} onClick={() => setDraft({ ...draft, attending: false })} label="Não vai" />
+              </div>
+            </Field>
+          </div>
+          <Field label="Grupo / Família">
+            <Input
+              value={draft.family_group}
+              onChange={(e) => setDraft({ ...draft, family_group: e.target.value })}
+            />
+          </Field>
+          <Field label="Restrições alimentares">
+            <Input value={draft.allergies} onChange={(e) => setDraft({ ...draft, allergies: e.target.value })} />
+          </Field>
+          <Field label="Notas internas">
+            <textarea
+              value={draft.internal_notes}
+              onChange={(e) => setDraft({ ...draft, internal_notes: e.target.value })}
+              rows={3}
+              className="w-full px-3 py-2 rounded-md border border-input bg-background text-sm"
+            />
+          </Field>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={onCancel} disabled={saving}>
+            Cancelar
+          </Button>
+          <Button onClick={() => onSave(draft)} disabled={saving}>
+            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : "Adicionar"}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
