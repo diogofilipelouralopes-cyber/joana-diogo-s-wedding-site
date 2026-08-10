@@ -146,23 +146,25 @@ export default function ChatWidget() {
     textareaRef.current?.focus();
   };
 
-  if (!mounted) return null;
+  if (!mounted || !open) return null;
 
   return (
     <div
       className="chat-widget-root"
       style={{
         position: "fixed",
-        left: 16,
-        bottom: 16,
+        left: "50%",
+        transform: "translateX(-50%)",
+        bottom: "calc(78px + env(safe-area-inset-bottom, 0px))",
         zIndex: 60,
         display: "flex",
         flexDirection: "column",
-        alignItems: "flex-start",
+        alignItems: "stretch",
         gap: 12,
-        maxWidth: "calc(100vw - 32px)",
+        maxWidth: "calc(100vw - 24px)",
       }}
     >
+
       {open && (
         <div
           role="dialog"
