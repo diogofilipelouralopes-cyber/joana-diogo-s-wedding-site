@@ -172,6 +172,9 @@ export function AdminConvidados() {
             label="Com restrições"
           />
         </div>
+        <Button onClick={() => setAdding(true)} className="gap-2">
+          <UserPlus className="w-4 h-4" /> Adicionar convidado
+        </Button>
       </div>
 
       {loading ? (
