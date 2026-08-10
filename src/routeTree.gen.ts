@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ConnectRouteImport } from './routes/connect'
+import { Route as FotosRouteImport } from './routes/fotos'
 import { Route as LocalRouteImport } from './routes/local'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as SignupRouteImport } from './routes/signup'
@@ -48,6 +49,11 @@ const AdminRoute = AdminRouteImport.update({
 const ConnectRoute = ConnectRouteImport.update({
   id: '/connect',
   path: '/connect',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FotosRoute = FotosRouteImport.update({
+  id: '/fotos',
+  path: '/fotos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocalRoute = LocalRouteImport.update({
@@ -172,6 +178,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/connect': typeof ConnectRoute
+  '/fotos': typeof FotosRoute
   '/local': typeof LocalRoute
   '/mcp': typeof McpRoute
   '/signup': typeof SignupRoute
@@ -199,6 +206,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/connect': typeof ConnectRoute
+  '/fotos': typeof FotosRoute
   '/local': typeof LocalRoute
   '/mcp': typeof McpRoute
   '/signup': typeof SignupRoute
@@ -227,6 +235,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/connect': typeof ConnectRoute
+  '/fotos': typeof FotosRoute
   '/local': typeof LocalRoute
   '/mcp': typeof McpRoute
   '/signup': typeof SignupRoute
@@ -256,6 +265,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/connect'
+    | '/fotos'
     | '/local'
     | '/mcp'
     | '/signup'
@@ -283,6 +293,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/connect'
+    | '/fotos'
     | '/local'
     | '/mcp'
     | '/signup'
@@ -310,6 +321,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/connect'
+    | '/fotos'
     | '/local'
     | '/mcp'
     | '/signup'
@@ -338,6 +350,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   ConnectRoute: typeof ConnectRoute
+  FotosRoute: typeof FotosRoute
   LocalRoute: typeof LocalRoute
   McpRoute: typeof McpRoute
   SignupRoute: typeof SignupRoute
@@ -379,6 +392,13 @@ declare module '@tanstack/react-router' {
       path: '/connect'
       fullPath: '/connect'
       preLoaderRoute: typeof ConnectRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fotos': {
+      id: '/fotos'
+      path: '/fotos'
+      fullPath: '/fotos'
+      preLoaderRoute: typeof FotosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/local': {
@@ -558,6 +578,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   ConnectRoute: ConnectRoute,
+  FotosRoute: FotosRoute,
   LocalRoute: LocalRoute,
   McpRoute: McpRoute,
   SignupRoute: SignupRoute,
