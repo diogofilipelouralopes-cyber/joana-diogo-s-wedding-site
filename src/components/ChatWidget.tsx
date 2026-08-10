@@ -303,28 +303,6 @@ export default function ChatWidget() {
         </div>
       )}
 
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-label={copy.open}
-        title={copy.open}
-        className="flex items-center gap-2 rounded-full px-4 py-3 shadow-lg transition-transform hover:scale-105"
-        style={{
-          background: "var(--olive)",
-          color: "#FBF8F1",
-          border: "1px solid color-mix(in oklab, var(--gold) 60%, transparent)",
-        }}
-      >
-        {open ? <X size={20} /> : <MessageCircleHeart size={20} />}
-        {!open && (
-          <span
-            className="hidden text-xs uppercase sm:inline"
-            style={{ fontFamily: "Cinzel, serif", letterSpacing: "0.16em" }}
-          >
-            FAQ
-          </span>
-        )}
-      </button>
     </div>
   );
 }
