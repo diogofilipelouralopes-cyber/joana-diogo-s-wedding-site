@@ -35,6 +35,17 @@ export const GUEST_COLUMNS =
 
 type Presence = "all" | "yes" | "no";
 
+interface NewGuest {
+  name: string;
+  email: string;
+  phone: string;
+  guests: number;
+  attending: boolean;
+  allergies: string;
+  family_group: string;
+  internal_notes: string;
+}
+
 export function AdminConvidados() {
   const [rows, setRows] = useState<Guest[]>([]);
   const [loading, setLoading] = useState(true);
