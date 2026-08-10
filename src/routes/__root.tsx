@@ -33,6 +33,11 @@ export const Route = createRootRoute({
       { name: "description", content: "Bem-vindos ao site do nosso Casamento 😘 Welcome to our wedding website 😘" },
       { name: "author", content: "Joana & Diogo" },
       { name: "google-site-verification", content: "g4kD7YZS7_VFe2sZ4vexnJZGI2ORqdJDN4O5oRRybhc" },
+      { name: "theme-color", content: "#6B7A4F" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "default" },
+      { name: "apple-mobile-web-app-title", content: "Joana & Diogo" },
+
 
       { property: "og:title", content: "Casamento Joana&Diogo" },
       { property: "og:description", content: "Bem-vindos ao site do nosso Casamento 😘 Welcome to our wedding website 😘" },
@@ -45,11 +50,19 @@ export const Route = createRootRoute({
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/BYFEOymySMX1cK6cJOdODewLp9l2/social-images/social-1779014286961-Casamento_Joana__Diogo.webp" },
     ],
     links: [
+      { rel: "icon", type: "image/png", href: "/favicon.png" },
+      { rel: "stylesheet", href: appCss },
+
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: appCss,
+        href: "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Lato:wght@300;400&family=Allura&display=swap",
       },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "apple-touch-icon", href: "/app-icon-192.png" },
     ],
+
   }),
   shellComponent: RootShell,
   component: RootComponent,
