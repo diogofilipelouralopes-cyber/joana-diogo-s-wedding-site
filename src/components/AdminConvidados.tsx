@@ -42,6 +42,7 @@ export function AdminConvidados() {
   const [presence, setPresence] = useState<Presence>("all");
   const [onlyRestrictions, setOnlyRestrictions] = useState(false);
   const [editing, setEditing] = useState<Guest | null>(null);
+  const [adding, setAdding] = useState(false);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
