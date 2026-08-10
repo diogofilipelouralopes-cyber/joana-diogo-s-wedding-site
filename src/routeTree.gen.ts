@@ -15,6 +15,7 @@ import { Route as ConnectRouteImport } from './routes/connect'
 import { Route as FotosRouteImport } from './routes/fotos'
 import { Route as LocalRouteImport } from './routes/local'
 import { Route as McpRouteImport } from './routes/mcp'
+import { Route as RsvpRouteImport } from './routes/rsvp'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
@@ -64,6 +65,11 @@ const LocalRoute = LocalRouteImport.update({
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RsvpRoute = RsvpRouteImport.update({
+  id: '/rsvp',
+  path: '/rsvp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignupRoute = SignupRouteImport.update({
@@ -181,6 +187,7 @@ export interface FileRoutesByFullPath {
   '/fotos': typeof FotosRoute
   '/local': typeof LocalRoute
   '/mcp': typeof McpRoute
+  '/rsvp': typeof RsvpRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/unsubscribe': typeof UnsubscribeRoute
@@ -209,6 +216,7 @@ export interface FileRoutesByTo {
   '/fotos': typeof FotosRoute
   '/local': typeof LocalRoute
   '/mcp': typeof McpRoute
+  '/rsvp': typeof RsvpRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/unsubscribe': typeof UnsubscribeRoute
@@ -238,6 +246,7 @@ export interface FileRoutesById {
   '/fotos': typeof FotosRoute
   '/local': typeof LocalRoute
   '/mcp': typeof McpRoute
+  '/rsvp': typeof RsvpRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/unsubscribe': typeof UnsubscribeRoute
@@ -268,6 +277,7 @@ export interface FileRouteTypes {
     | '/fotos'
     | '/local'
     | '/mcp'
+    | '/rsvp'
     | '/signup'
     | '/sitemap.xml'
     | '/unsubscribe'
@@ -296,6 +306,7 @@ export interface FileRouteTypes {
     | '/fotos'
     | '/local'
     | '/mcp'
+    | '/rsvp'
     | '/signup'
     | '/sitemap.xml'
     | '/unsubscribe'
@@ -324,6 +335,7 @@ export interface FileRouteTypes {
     | '/fotos'
     | '/local'
     | '/mcp'
+    | '/rsvp'
     | '/signup'
     | '/sitemap.xml'
     | '/unsubscribe'
@@ -353,6 +365,7 @@ export interface RootRouteChildren {
   FotosRoute: typeof FotosRoute
   LocalRoute: typeof LocalRoute
   McpRoute: typeof McpRoute
+  RsvpRoute: typeof RsvpRoute
   SignupRoute: typeof SignupRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   UnsubscribeRoute: typeof UnsubscribeRoute
@@ -413,6 +426,13 @@ declare module '@tanstack/react-router' {
       path: '/mcp'
       fullPath: '/mcp'
       preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rsvp': {
+      id: '/rsvp'
+      path: '/rsvp'
+      fullPath: '/rsvp'
+      preLoaderRoute: typeof RsvpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/signup': {
@@ -581,6 +601,7 @@ const rootRouteChildren: RootRouteChildren = {
   FotosRoute: FotosRoute,
   LocalRoute: LocalRoute,
   McpRoute: McpRoute,
+  RsvpRoute: RsvpRoute,
   SignupRoute: SignupRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   UnsubscribeRoute: UnsubscribeRoute,
