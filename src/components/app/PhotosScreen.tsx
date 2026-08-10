@@ -21,7 +21,7 @@ export function PhotosScreen() {
       const { data: albums } = await supabase
         .from("wedding_albums")
         .select("id")
-        .eq("is_public", true);
+        .eq("is_published", true);
       const ids = (albums ?? []).map((x) => x.id);
       if (!ids.length) return;
       const { data } = await supabase
