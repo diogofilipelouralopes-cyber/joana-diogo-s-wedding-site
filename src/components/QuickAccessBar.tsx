@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useI18n } from "@/lib/i18n";
 import { createPortal } from "react-dom";
-import { MapPin, Camera, CalendarHeart, ExternalLink } from "lucide-react";
+import { MapPin, Camera, CalendarHeart, ExternalLink, MessageCircleHeart } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -57,6 +57,8 @@ export function QuickAccessBar() {
   const { lang } = useI18n();
   const [visible, setVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
 
   useEffect(() => {
     setMounted(true);
@@ -65,65 +67,53 @@ export function QuickAccessBar() {
     return () => clearInterval(interval);
   }, []);
 
+  // Auto-esconder ao fazer scroll para baixo, reaparecer ao subir.
+  useEffect(() => {
+    lastY.current = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      const delta = y - lastY.current;
+      if (Math.abs(delta) > 8) {
+        setHidden(delta > 0 && y > 120);
+        lastY.current = y;
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   if (!visible || !mounted) return null;
 
   const bar = (
     <nav
       aria-label="Acesso rápido"
-      className="quick-access-bar"
-      style={{
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        zIndex: 55,
-        background:
-          "color-mix(in oklab, var(--ivory, var(--background)) 82%, transparent)",
-        backdropFilter: "blur(14px) saturate(120%)",
-        WebkitBackdropFilter: "blur(14px) saturate(120%)",
-        borderTop:
-          "1px solid color-mix(in oklab, var(--gold) 38%, transparent)",
-        boxShadow: "0 -4px 24px color-mix(in oklab, var(--gold) 12%, transparent)",
-        paddingBottom: "env(safe-area-inset-bottom, 0px)",
-      }}
+      className={`quick-access-bar${hidden ? " qa-hidden" : ""}`}
     >
-      <ul className="flex items-stretch justify-around max-w-2xl mx-auto">
+      <ul className="qa-pill">
         {/* Localização */}
-        <li className="flex-1">
+        <li className="qa-item">
           <Popover>
             <PopoverTrigger asChild>
-              <button type="button" className="qa-btn">
-                <MapPin size={22} strokeWidth={1.5} />
-                <span>{lang === "en" ? "Location" : "Localização"}</span>
+              <button type="button" className="qa-btn" aria-label={lang === "en" ? "Location" : "Localização"}>
+                <MapPin size={22} strokeWidth={1.6} />
               </button>
             </PopoverTrigger>
             <PopoverContent
               side="top"
               align="center"
-              className="w-56 p-2"
+              className="w-56 p-2 rounded-2xl"
               style={{
                 background:
-                  "color-mix(in oklab, var(--ivory, var(--background)) 92%, transparent)",
+                  "color-mix(in oklab, var(--ivory, var(--background)) 94%, transparent)",
                 backdropFilter: "blur(14px)",
-                WebkitBackdropFilter: "blur(14px)",
                 border:
                   "1px solid color-mix(in oklab, var(--gold) 40%, transparent)",
               }}
             >
-              <a
-                href={WAZE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="qa-popover-link"
-              >
+              <a href={WAZE_URL} target="_blank" rel="noopener noreferrer" className="qa-popover-link">
                 Waze <ExternalLink size={14} />
               </a>
-              <a
-                href={MAPS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="qa-popover-link"
-              >
+              <a href={MAPS_URL} target="_blank" rel="noopener noreferrer" className="qa-popover-link">
                 Google Maps <ExternalLink size={14} />
               </a>
             </PopoverContent>
@@ -131,47 +121,57 @@ export function QuickAccessBar() {
         </li>
 
         {/* Fotos */}
-        <li className="flex-1">
+        <li className="qa-item">
           <button
             type="button"
             onClick={() => scrollToId("fotos")}
             className="qa-btn"
+            aria-label={lang === "en" ? "Photos" : "Fotos"}
           >
-            <Camera size={22} strokeWidth={1.5} />
-            <span>{lang === "en" ? "Photos" : "Fotos"}</span>
+            <Camera size={22} strokeWidth={1.6} />
           </button>
         </li>
 
         {/* Confirmar Presença */}
-        <li className="flex-1">
+        <li className="qa-item">
           <button
             type="button"
             onClick={() => scrollToId("rsvp")}
             className="qa-btn"
+            aria-label={lang === "en" ? "RSVP" : "Confirmar presença"}
           >
-            <CalendarHeart size={22} strokeWidth={1.5} />
-            <span>{lang === "en" ? "RSVP" : "Presença"}</span>
+            <CalendarHeart size={22} strokeWidth={1.6} />
+          </button>
+        </li>
+
+        {/* Chat / FAQ */}
+        <li className="qa-item">
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent("wedding-chat:toggle"))}
+            className="qa-btn"
+            aria-label={lang === "en" ? "Chat" : "Assistente"}
+          >
+            <MessageCircleHeart size={22} strokeWidth={1.6} />
           </button>
         </li>
 
         {/* Contactos (WhatsApp) */}
-        <li className="flex-1">
+        <li className="qa-item">
           <Popover>
             <PopoverTrigger asChild>
-              <button type="button" className="qa-btn">
+              <button type="button" className="qa-btn" aria-label={lang === "en" ? "Contacts" : "Contactos"}>
                 <WhatsAppIcon size={22} />
-                <span>{lang === "en" ? "Contacts" : "Contactos"}</span>
               </button>
             </PopoverTrigger>
             <PopoverContent
               side="top"
               align="center"
-              className="w-60 p-2"
+              className="w-60 p-2 rounded-2xl"
               style={{
                 background:
-                  "color-mix(in oklab, var(--ivory, var(--background)) 92%, transparent)",
+                  "color-mix(in oklab, var(--ivory, var(--background)) 94%, transparent)",
                 backdropFilter: "blur(14px)",
-                WebkitBackdropFilter: "blur(14px)",
                 border:
                   "1px solid color-mix(in oklab, var(--gold) 40%, transparent)",
               }}
@@ -196,31 +196,53 @@ export function QuickAccessBar() {
         </li>
       </ul>
       <style>{`
+        .quick-access-bar {
+          position: fixed;
+          left: 50%;
+          transform: translateX(-50%);
+          bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+          z-index: 55;
+          width: min(420px, calc(100vw - 24px));
+          transition: transform 0.28s ease, opacity 0.28s ease;
+        }
+        .quick-access-bar.qa-hidden {
+          transform: translateX(-50%) translateY(140%);
+          opacity: 0;
+          pointer-events: none;
+        }
         /* Esconder a barra quando o menu lateral OU o lightbox estão abertos */
         body.drawer-open .quick-access-bar,
         body.lightbox-open .quick-access-bar {
           opacity: 0;
           pointer-events: none;
-          transition: opacity 0.2s ease;
         }
-        .qa-btn {
-          width: 100%;
+        .qa-pill {
           display: flex;
-          flex-direction: column;
           align-items: center;
-          gap: 6px;
-          padding: 11px 4px;
+          justify-content: space-between;
+          gap: 2px;
+          padding: 8px 10px;
+          border-radius: 999px;
+          background: color-mix(in oklab, var(--ivory, var(--background)) 88%, transparent);
+          backdrop-filter: blur(16px) saturate(130%);
+          border: 1px solid color-mix(in oklab, var(--gold) 36%, transparent);
+          box-shadow: 0 10px 30px rgba(0,0,0,0.14);
+        }
+        .qa-item { flex: 1; display: flex; justify-content: center; }
+        .qa-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 44px;
+          height: 44px;
+          border-radius: 999px;
           color: color-mix(in oklab, var(--gold) 88%, #6b5a2e);
-          font-family: "Cinzel", serif;
-          font-size: 0.58rem;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          white-space: nowrap;
-          transition: color 0.2s ease, background 0.2s ease;
+          transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
         }
         .qa-btn:hover, .qa-btn:focus-visible {
           color: color-mix(in oklab, var(--gold) 60%, #000);
-          background: color-mix(in oklab, var(--gold) 10%, transparent);
+          background: color-mix(in oklab, var(--gold) 14%, transparent);
+          transform: translateY(-1px);
           outline: none;
         }
         .qa-popover-link {
@@ -229,7 +251,7 @@ export function QuickAccessBar() {
           justify-content: space-between;
           gap: 8px;
           padding: 8px 12px;
-          border-radius: 6px;
+          border-radius: 999px;
           font-size: 0.875rem;
           color: var(--foreground);
           transition: background 0.2s ease;
@@ -242,31 +264,20 @@ export function QuickAccessBar() {
           align-items: center;
           gap: 10px;
           padding: 9px 12px;
-          border-radius: 6px;
+          border-radius: 999px;
           transition: background 0.2s ease;
         }
         .qa-contact-link:hover {
           background: color-mix(in oklab, var(--gold) 14%, transparent);
         }
-        .qa-contact-icon {
-          color: #25D366;
-          display: inline-flex;
-          flex-shrink: 0;
-        }
-        .qa-contact-texts {
-          display: flex;
-          flex-direction: column;
-          gap: 1px;
-        }
+        .qa-contact-icon { color: #25D366; display: inline-flex; flex-shrink: 0; }
+        .qa-contact-texts { display: flex; flex-direction: column; gap: 1px; }
         .qa-contact-name {
           font-family: "Cinzel", serif;
           font-size: 0.95rem;
           color: var(--gold);
         }
-        .qa-contact-phone {
-          font-size: 0.78rem;
-          color: var(--muted-foreground);
-        }
+        .qa-contact-phone { font-size: 0.78rem; color: var(--muted-foreground); }
       `}</style>
     </nav>
   );

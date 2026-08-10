@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
-import { MessageCircleHeart, X, RotateCcw } from "lucide-react";
+import { X, RotateCcw } from "lucide-react";
 import {
   Conversation,
   ConversationContent,
@@ -113,6 +113,13 @@ export default function ChatWidget() {
     } catch {}
   }, [messages, status]);
 
+  // Abertura controlada pela barra de acesso rápido.
+  useEffect(() => {
+    const toggle = () => setOpen((v) => !v);
+    window.addEventListener("wedding-chat:toggle", toggle);
+    return () => window.removeEventListener("wedding-chat:toggle", toggle);
+  }, []);
+
   useEffect(() => {
     if (!open) return;
     const id = window.setTimeout(() => textareaRef.current?.focus(), 120);
@@ -122,6 +129,7 @@ export default function ChatWidget() {
   useEffect(() => {
     if (open && !isBusy) textareaRef.current?.focus();
   }, [isBusy, open]);
+
 
   const ask = (text: string) => {
     const value = text.trim();
@@ -138,35 +146,37 @@ export default function ChatWidget() {
     textareaRef.current?.focus();
   };
 
-  if (!mounted) return null;
+  if (!mounted || !open) return null;
 
   return (
     <div
       className="chat-widget-root"
       style={{
         position: "fixed",
-        left: 16,
-        bottom: 16,
+        left: "50%",
+        transform: "translateX(-50%)",
+        bottom: "calc(78px + env(safe-area-inset-bottom, 0px))",
         zIndex: 60,
         display: "flex",
         flexDirection: "column",
-        alignItems: "flex-start",
+        alignItems: "stretch",
         gap: 12,
-        maxWidth: "calc(100vw - 32px)",
+        maxWidth: "calc(100vw - 24px)",
       }}
     >
+
       {open && (
         <div
           role="dialog"
           aria-label={copy.title}
           style={{
             width: "min(380px, calc(100vw - 32px))",
-            height: "min(560px, calc(100vh - 140px))",
+            height: "min(540px, calc(100vh - 180px))",
             display: "flex",
             flexDirection: "column",
             background: "var(--ivory, #FBF8F1)",
             border: "1px solid color-mix(in oklab, var(--gold) 55%, transparent)",
-            borderRadius: 12,
+            borderRadius: 22,
             overflow: "hidden",
             boxShadow: "0 18px 50px rgba(0,0,0,0.18)",
           }}
@@ -295,28 +305,6 @@ export default function ChatWidget() {
         </div>
       )}
 
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-label={copy.open}
-        title={copy.open}
-        className="flex items-center gap-2 rounded-full px-4 py-3 shadow-lg transition-transform hover:scale-105"
-        style={{
-          background: "var(--olive)",
-          color: "#FBF8F1",
-          border: "1px solid color-mix(in oklab, var(--gold) 60%, transparent)",
-        }}
-      >
-        {open ? <X size={20} /> : <MessageCircleHeart size={20} />}
-        {!open && (
-          <span
-            className="hidden text-xs uppercase sm:inline"
-            style={{ fontFamily: "Cinzel, serif", letterSpacing: "0.16em" }}
-          >
-            FAQ
-          </span>
-        )}
-      </button>
     </div>
   );
 }
