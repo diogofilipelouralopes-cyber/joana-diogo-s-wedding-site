@@ -377,7 +377,6 @@ function Index() {
 
       <DecorativeDivider />
 
-      {/* MUSIC (Spotify playlist) */}
 
       <DecorativeDivider />
 
