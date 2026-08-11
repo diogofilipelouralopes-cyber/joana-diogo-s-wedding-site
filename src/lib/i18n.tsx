@@ -65,6 +65,9 @@ const dict = {
     "faq.a7": "A vossa presença é o nosso maior presente. Caso queiram contribuir, deixamos os nossos dados na secção 'Presentes'.",
     "faq.q8": "Tenho restrições alimentares. O que faço?",
     "faq.a8": "Sem problema! Indica todas as restrições no formulário RSVP e nós tratamos do resto.",
+    "faq.q9": "O hotel tem piscina?",
+    "faq.a9": "Tem sim! Se vais ficar no hotel, não te esqueças do fato de banho — pode dar jeito para um mergulho.",
+
 
     "hero.tagline": "A Nossa Maior Viagem",
     "hero.tagline.script": "começa agora",
@@ -224,6 +227,9 @@ const dict = {
     "faq.a7": "Your presence is our greatest gift. If you wish to contribute, you'll find our details in the 'Gifts' section.",
     "faq.q8": "I have dietary restrictions. What should I do?",
     "faq.a8": "No problem! Just indicate all restrictions in the RSVP form and we'll take care of the rest.",
+    "faq.q9": "Does the hotel have a swimming pool?",
+    "faq.a9": "Yes! If you're staying at the hotel, don't forget your swimsuit — you might fancy a dip.",
+
 
     "hero.tagline": "Our Greatest Journey",
     "hero.tagline.script": "begins now",
