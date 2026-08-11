@@ -16,7 +16,9 @@ import { MessagesSection } from "@/components/MessagesSection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { LiveAnnouncementBanner } from "@/components/LiveAnnouncementBanner";
 import { QuickAccessBar } from "@/components/QuickAccessBar";
-import ChatWidget from "@/components/ChatWidget";
+// Chat widget pulls in shiki/oniguruma (WASM) through streamdown — must never
+// enter the SSR/Worker import graph.
+const ChatWidget = lazy(() => import("@/components/ChatWidget"));
 import { Reveal } from "@/components/Reveal";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider, useI18n } from "@/lib/i18n";
