@@ -10,7 +10,6 @@ import { GiftsSection } from "@/components/GiftsSection";
 import { ThankYouSection } from "@/components/ThankYouSection";
 import { MemoriesSection } from "@/components/MemoriesSection";
 import { PublicGallerySection } from "@/components/PublicGallerySection";
-import { PlaylistSection } from "@/components/PlaylistSection";
 import { FaqSection } from "@/components/FaqSection";
 import { MessagesSection } from "@/components/MessagesSection";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -379,7 +378,6 @@ function Index() {
       <DecorativeDivider />
 
       {/* MUSIC (Spotify playlist) */}
-      <Reveal><PlaylistSection /></Reveal>
 
       <DecorativeDivider />
 
