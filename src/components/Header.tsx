@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { X, Camera, Music, MessageCircleHeart, Gift, Home, BookHeart, CalendarCheck, MapPin, Info, HelpCircle, Share2, Link as LinkIcon, MessageCircle, Smartphone, Share, Plus } from "lucide-react";
+import { X, Camera, MessageCircleHeart, Gift, Home, BookHeart, CalendarCheck, MapPin, Info, HelpCircle, Share2, Link as LinkIcon, MessageCircle, Smartphone, Share, Plus } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -20,7 +20,6 @@ const links = [
   { id: "info", key: "nav.info" as const, icon: <Info className="w-4 h-4" strokeWidth={1.5} /> },
   { id: "fotos", key: "nav.photos" as const, icon: <Camera className="w-4 h-4" strokeWidth={1.5} /> },
 
-  { id: "musica", key: "nav.music" as const, icon: <Music className="w-4 h-4" strokeWidth={1.5} /> },
   { id: "faq", key: "nav.faq" as const, icon: <HelpCircle className="w-4 h-4" strokeWidth={1.5} /> },
   { id: "mensagens", key: "nav.messages" as const, icon: <MessageCircleHeart className="w-4 h-4" strokeWidth={1.5} /> },
   { id: "gifts", key: "nav.gifts" as const, icon: <Gift className="w-4 h-4" strokeWidth={1.5} /> },
@@ -48,7 +47,6 @@ const mobileGroups: {
     labelEn: "Guests",
     items: [
       { id: "fotos", key: "nav.photos", icon: <Camera className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
-      { id: "musica", key: "nav.music", icon: <Music className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
     ],
   },
   {
@@ -211,7 +209,6 @@ export function Header() {
           </span>
         </a>
 
-
         {/* CENTER: Nav (desktop only) */}
         <nav className="header-nav-desktop items-center gap-3 lg:gap-5 xl:gap-7">
           {links.map((l) => (
@@ -333,7 +330,6 @@ export function Header() {
             <span className="drawer-item-text">{lang === "en" ? "Add to Home Screen" : "Adicionar ao ecrã"}</span>
           </button>
         </div>
-
 
         {showIOSHelp && (
           <div

@@ -15,9 +15,9 @@ export function StorySection() {
   ];
 
   return (
-    <section id="story" className="py-20 sm:py-28 md:py-40 px-5 sm:px-6 scroll-mt-24">
+    <section id="story" className="py-12 sm:py-16 md:py-24 px-5 sm:px-6 scroll-mt-24">
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-16 sm:mb-20">
+        <div className="text-center mb-10 sm:mb-14">
           <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
             {t("story.kicker")}
           </p>
@@ -31,7 +31,7 @@ export function StorySection() {
           {items.map((it, i) => (
             <div
               key={i}
-              className={`grid md:grid-cols-2 gap-8 sm:gap-12 items-center ${
+              className={`grid md:grid-cols-2 gap-6 sm:gap-7 items-center ${
                 i % 2 === 1 ? "md:[&>:first-child]:order-2" : ""
               }`}
             >

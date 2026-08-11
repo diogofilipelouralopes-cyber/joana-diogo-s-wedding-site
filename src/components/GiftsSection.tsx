@@ -34,9 +34,9 @@ export function GiftsSection() {
   };
 
   return (
-    <section id="gifts" className="py-20 sm:py-28 md:py-40 px-5 sm:px-6 bg-secondary/40 scroll-mt-24">
+    <section id="gifts" className="py-12 sm:py-16 md:py-24 px-5 sm:px-6 bg-secondary/40 scroll-mt-24">
       <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
             {t("gifts.kicker")}
           </p>

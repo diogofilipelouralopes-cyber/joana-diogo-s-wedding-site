@@ -38,9 +38,9 @@ export function MemoriesSection() {
   const { t } = useI18n();
 
   return (
-    <section id="fotos" className="py-24 sm:py-32 px-5 sm:px-6 scroll-mt-24" style={{ background: "var(--ivory)" }}>
+    <section id="fotos" className="py-12 sm:py-20 px-5 sm:px-6 scroll-mt-24" style={{ background: "var(--ivory)" }}>
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-12 sm:mb-14">
+        <div className="text-center mb-8 sm:mb-10">
           <h2
             className="uppercase text-xl sm:text-2xl md:text-3xl"
             style={{ fontFamily: "Cinzel, serif", color: "var(--olive)", letterSpacing: "0.3em", fontWeight: 500 }}
@@ -87,7 +87,7 @@ export function MemoriesSection() {
             }}
           />
 
-          <div className="grid md:grid-cols-2 gap-10 items-center relative">
+          <div className="grid md:grid-cols-2 gap-7 items-center relative">
             {/* QR */}
             <div className="flex justify-center order-2 md:order-1">
               <div

@@ -7,7 +7,7 @@ export function ThankYouSection() {
 
   return (
     <section
-      className="py-20 sm:py-28 px-5 sm:px-6"
+      className="py-12 sm:py-18 px-5 sm:px-6"
       style={{ background: "var(--ivory)" }}
     >
       <div className="max-w-lg mx-auto text-center">

@@ -63,7 +63,7 @@ export function MessagesSection() {
     >
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-10">
+        <div className="text-center mb-7">
           <h2
             className="uppercase text-xl sm:text-2xl md:text-3xl"
             style={{

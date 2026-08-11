@@ -290,7 +290,7 @@ export function RsvpForm() {
       style={{ maxWidth: 600 }}
     >
       <div
-        className="px-6 py-10 sm:px-12 sm:py-14 md:p-[60px]"
+        className="px-6 py-8 sm:px-10 sm:py-12 md:p-[48px]"
         style={{
           background: "var(--ivory)",
           border: "1px solid var(--gold)",
