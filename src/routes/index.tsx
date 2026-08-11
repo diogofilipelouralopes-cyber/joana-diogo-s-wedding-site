@@ -377,9 +377,6 @@ function Index() {
 
       <DecorativeDivider />
 
-
-      <DecorativeDivider />
-
       {/* FAQ */}
       <Reveal><FaqSection /></Reveal>
 
