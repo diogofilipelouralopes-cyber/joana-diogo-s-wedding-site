@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { createFileRoute, ClientOnly } from "@tanstack/react-router";
+import { useEffect, lazy, Suspense } from "react";
 import { RsvpForm } from "@/components/RsvpForm";
 import { DecorativeDivider } from "@/components/DecorativeDivider";
 import { CountdownSection } from "@/components/CountdownSection";
