@@ -410,7 +410,11 @@ function Index() {
 
       {/* FLOATING ACTIONS */}
       <QuickAccessBar />
-      <ChatWidget />
+      <ClientOnly fallback={null}>
+        <Suspense fallback={null}>
+          <ChatWidget />
+        </Suspense>
+      </ClientOnly>
     </>
   );
 }
