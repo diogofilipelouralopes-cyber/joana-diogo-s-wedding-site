@@ -203,9 +203,9 @@ function Index() {
       <DecorativeDivider />
 
       {/* RSVP — moved up for priority */}
-      <section id="rsvp" className="py-20 sm:py-28 md:py-40 px-5 sm:px-6 bg-secondary/40 scroll-mt-24">
+      <section id="rsvp" className="py-12 sm:py-16 md:py-24 px-5 sm:px-6 bg-secondary/40 scroll-mt-24">
         <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-10 sm:mb-12">
+          <div className="text-center mb-7 sm:mb-10">
             <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
               {t("rsvp.subtitle")}
             </p>
@@ -221,9 +221,9 @@ function Index() {
       <DecorativeDivider />
 
       {/* EVENT */}
-      <section id="event" className="py-20 sm:py-28 md:py-40 px-5 sm:px-6 bg-secondary/40 scroll-mt-24">
+      <section id="event" className="py-12 sm:py-16 md:py-24 px-5 sm:px-6 bg-secondary/40 scroll-mt-24">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12 sm:mb-16">
+          <div className="text-center mb-8 sm:mb-12">
             <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
               {t("event.kicker")}
             </p>
@@ -345,9 +345,9 @@ function Index() {
       <DecorativeDivider />
 
       {/* INFORMATION */}
-      <section id="info" className="py-20 sm:py-28 md:py-40 px-5 sm:px-6 scroll-mt-24">
+      <section id="info" className="py-12 sm:py-16 md:py-24 px-5 sm:px-6 scroll-mt-24">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12 sm:mb-16">
+          <div className="text-center mb-8 sm:mb-12">
             <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
               {t("info.kicker")}
             </p>

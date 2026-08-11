@@ -49,12 +49,12 @@ export function HonorBookSection() {
   return (
     <section
       id="livro"
-      className="py-20 sm:py-28 px-5 sm:px-6 scroll-mt-24"
+      className="py-12 sm:py-18 px-5 sm:px-6 scroll-mt-24"
       style={{ background: "var(--cream)" }}
     >
       <div className="max-w-3xl mx-auto">
         {/* Título */}
-        <div className="text-center mb-10 sm:mb-12">
+        <div className="text-center mb-7 sm:mb-10">
           <h2
             className="uppercase text-xl sm:text-2xl md:text-3xl"
             style={{

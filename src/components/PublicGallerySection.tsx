@@ -117,9 +117,9 @@ export function PublicGallerySection() {
   const subtitle = lang === "en" ? "moments we want to share" : "momentos que queremos partilhar";
 
   return (
-    <section id="galeria" className="py-20 sm:py-28 px-5 sm:px-6 scroll-mt-24" style={{ background: "var(--cream)" }}>
+    <section id="galeria" className="py-12 sm:py-18 px-5 sm:px-6 scroll-mt-24" style={{ background: "var(--cream)" }}>
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-10 sm:mb-12">
+        <div className="text-center mb-7 sm:mb-10">
           <h2
             className="uppercase text-xl sm:text-2xl md:text-3xl"
             style={{ fontFamily: "Cinzel, serif", color: "var(--olive)", letterSpacing: "0.3em", fontWeight: 500 }}
