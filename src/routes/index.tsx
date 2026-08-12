@@ -1,28 +1,21 @@
-import { createFileRoute, ClientOnly } from "@tanstack/react-router";
-import { useEffect, lazy, Suspense } from "react";
-import { RsvpForm } from "@/components/RsvpForm";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { DecorativeDivider } from "@/components/DecorativeDivider";
 import { CountdownSection } from "@/components/CountdownSection";
-import { Header } from "@/components/Header";
 import { StorySection } from "@/components/StorySection";
-
 import { GiftsSection } from "@/components/GiftsSection";
 import { ThankYouSection } from "@/components/ThankYouSection";
 import { MemoriesSection } from "@/components/MemoriesSection";
 import { PublicGallerySection } from "@/components/PublicGallerySection";
 import { FaqSection } from "@/components/FaqSection";
 import { MessagesSection } from "@/components/MessagesSection";
-import { SiteFooter } from "@/components/SiteFooter";
-import { LiveAnnouncementBanner } from "@/components/LiveAnnouncementBanner";
-import { QuickAccessBar } from "@/components/QuickAccessBar";
-// Chat widget pulls in shiki/oniguruma (WASM) through streamdown — must never
-// enter the SSR/Worker import graph.
-const ChatWidget = lazy(() => import("@/components/ChatWidget"));
+import { EventSection } from "@/components/EventSection";
+import { InfoSection } from "@/components/InfoSection";
+import { RsvpSection } from "@/components/RsvpSection";
+import { PageShell } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
-import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider, useI18n } from "@/lib/i18n";
-import { MapPin, Clock, Hotel, Heart, Shirt, Car, Plane, ParkingCircle, ExternalLink } from "lucide-react";
-
+import { Heart, CalendarHeart, MapPin } from "lucide-react";
 
 const SITE_URL = "https://joanaediogo.com";
 
@@ -100,12 +93,8 @@ export const Route = createFileRoute("/")({
   ),
 });
 
-const MAPS_URL =
-  "https://www.google.com/maps/search/?api=1&query=Glic%C3%ADnia+Wedding+House+Freamunde";
-
-
 function Index() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
 
   // Always start at the top on load/reload
   useEffect(() => {
@@ -116,14 +105,7 @@ function Index() {
   }, []);
 
   return (
-    <>
-      <LiveAnnouncementBanner />
-      <div id="top" className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <Toaster position="top-center" />
-      <Header />
-
-
-      <main>
+    <PageShell>
       {/* HERO */}
       <section
         className="hero-bg hero-section relative flex flex-col items-center text-center overflow-hidden px-5 sm:px-6"
@@ -176,17 +158,13 @@ function Index() {
           </p>
         </div>
 
-        {/* BOTTOM THIRD: divider + buttons */}
+        {/* BOTTOM THIRD: divider */}
         <div className="relative z-10 flex flex-col items-center w-full max-w-2xl mx-auto">
-          <div
-            className="hero-text-anim-3 flex items-center justify-center"
-            style={{ marginBottom: 28 }}
-          >
+          <div className="hero-text-anim-3 flex items-center justify-center" style={{ marginBottom: 28 }}>
             <span aria-hidden style={{ width: "60px", borderTop: "1px dashed var(--olive)" }} />
             <Heart className="mx-3" size={14} strokeWidth={1.25} style={{ color: "var(--olive)" }} />
             <span aria-hidden style={{ width: "60px", borderTop: "1px dashed var(--olive)" }} />
           </div>
-
         </div>
       </section>
 
@@ -195,285 +173,68 @@ function Index() {
       {/* COUNTDOWN */}
       <Reveal><CountdownSection /></Reveal>
 
-      <DecorativeDivider />
-
-      {/* STORY */}
-      <Reveal><StorySection /></Reveal>
-
-      <DecorativeDivider />
-
-      {/* RSVP — moved up for priority */}
-      <section id="rsvp" className="py-12 sm:py-16 md:py-24 px-5 sm:px-6 bg-secondary/40 scroll-mt-24">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-7 sm:mb-10">
-            <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
-              {t("rsvp.subtitle")}
-            </p>
-            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-primary">{t("rsvp.title")}</h2>
-            <div className="divider-ornament mt-6 max-w-xs mx-auto">
-              <Heart className="w-3 h-3" strokeWidth={1} />
-            </div>
-          </div>
-          <RsvpForm />
-        </div>
-      </section>
-
-      <DecorativeDivider />
-
-      {/* EVENT */}
-      <section id="event" className="py-12 sm:py-16 md:py-24 px-5 sm:px-6 bg-secondary/40 scroll-mt-24">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-8 sm:mb-12">
-            <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
-              {t("event.kicker")}
-            </p>
-            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-primary">{t("event.title")}</h2>
-            <div className="divider-ornament mt-6 max-w-xs mx-auto">
-              <Heart className="w-3 h-3" strokeWidth={1} />
-            </div>
-          </div>
-
-          <div
-            className="mx-auto p-5 sm:p-8"
+      {/* MOBILE: atalhos principais — o resto do conteúdo vive nos separadores */}
+      <section className="md:hidden px-5 pt-2 pb-8">
+        <div className="flex flex-col gap-3 max-w-sm mx-auto">
+          <Link
+            to="/rsvp"
+            className="inline-flex items-center justify-center gap-2 uppercase"
             style={{
-              maxWidth: 900,
-              background: "var(--ivory)",
-              border: "1px solid var(--gold)",
-              borderRadius: 12,
-              boxShadow:
-                "0 1px 2px color-mix(in oklab, var(--olive) 8%, transparent), 0 18px 40px -22px color-mix(in oklab, var(--olive) 25%, transparent)",
+              fontFamily: "Cinzel, serif",
+              letterSpacing: "0.22em",
+              fontSize: "0.75rem",
+              minHeight: 48,
+              borderRadius: 10,
+              color: "var(--ivory)",
+              background: "var(--olive)",
             }}
           >
-            <div className="text-center">
-              <h3
-                className="uppercase text-base sm:text-lg md:text-xl"
-                style={{
-                  fontFamily: "Cinzel, serif",
-                  color: "var(--olive)",
-                  letterSpacing: "0.25em",
-                  fontWeight: 500,
-                }}
-              >
-                Glicínia Wedding House
-              </h3>
-
-              <div className="relative my-5 flex items-center justify-center max-w-xs mx-auto">
-                <span
-                  aria-hidden
-                  className="absolute left-0 right-0 top-1/2 -translate-y-1/2"
-                  style={{ borderTop: "1px dashed var(--olive)", opacity: 0.4 }}
-                />
-                <span
-                  className="relative inline-flex items-center justify-center px-3"
-                  style={{ background: "var(--ivory)" }}
-                >
-                  <Heart size={14} strokeWidth={1} fill="var(--gold)" style={{ color: "var(--gold)" }} />
-                </span>
-              </div>
-
-              <div className="flex items-center justify-center gap-2 mt-1 flex-wrap">
-                <Clock className="w-4 h-4" strokeWidth={1.5} style={{ color: "var(--olive)", opacity: 0.7 }} />
-                <p className="text-xs sm:text-sm" style={{ color: "var(--foreground)", opacity: 0.85 }}>
-                  {t("event.desc")} · {t("event.place")}
-                </p>
-              </div>
-            </div>
-
-            {/* Embedded interactive map */}
-            <div
-              className="mt-6 overflow-hidden"
-              style={{ borderRadius: 8, border: "1px solid color-mix(in oklab, var(--gold) 40%, transparent)" }}
-            >
-              <iframe
-                title="Glicínia Wedding House — mapa"
-                src="https://www.google.com/maps?q=Glic%C3%ADnia+Wedding+House+Freamunde&output=embed"
-                width="100%"
-                height="320"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="block w-full border-0 sm:h-[400px]"
-                style={{ height: 320 }}
-              />
-            </div>
-
-            {/* Travel cards */}
-            <div className="mt-8">
-              <p
-                className="text-center uppercase text-xs sm:text-sm mb-5"
-                style={{
-                  fontFamily: "Cinzel, serif",
-                  color: "var(--olive)",
-                  letterSpacing: "0.3em",
-                  fontWeight: 500,
-                }}
-              >
-                {t("travel.title")}
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                <TravelCard icon={<MapPin size={32} strokeWidth={1.5} />} title={t("travel.porto")} desc={t("travel.porto.desc")} />
-                <TravelCard icon={<MapPin size={32} strokeWidth={1.5} />} title={t("travel.aveiro")} desc={t("travel.aveiro.desc")} />
-                <TravelCard icon={<Plane size={32} strokeWidth={1.5} />} title={t("travel.airport")} desc={t("travel.airport.desc")} />
-                <TravelCard icon={<ParkingCircle size={32} strokeWidth={1.5} />} title={t("travel.parking")} desc={t("travel.parking.desc")} />
-              </div>
-            </div>
-
-            <div className="mt-8 flex justify-center">
-              <a
-                href={MAPS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 sm:px-7 py-3 uppercase transition-all hover:-translate-y-0.5"
-                style={{
-                  fontFamily: "Cinzel, serif",
-                  letterSpacing: "0.25em",
-                  fontSize: "0.75rem",
-                  color: "var(--gold)",
-                  border: "1px solid var(--gold)",
-                  borderRadius: 8,
-                  background: "transparent",
-                  minHeight: 44,
-                }}
-              >
-                <ExternalLink size={14} strokeWidth={1.5} />
-                {t("event.maps")}
-              </a>
-            </div>
-          </div>
+            <CalendarHeart size={16} strokeWidth={1.6} />
+            {lang === "en" ? "RSVP" : "Confirmar presença"}
+          </Link>
+          <Link
+            to="/evento"
+            className="inline-flex items-center justify-center gap-2 uppercase"
+            style={{
+              fontFamily: "Cinzel, serif",
+              letterSpacing: "0.22em",
+              fontSize: "0.75rem",
+              minHeight: 48,
+              borderRadius: 10,
+              color: "var(--gold)",
+              border: "1px solid var(--gold)",
+            }}
+          >
+            <MapPin size={16} strokeWidth={1.6} />
+            {lang === "en" ? "Event & venue" : "Evento e local"}
+          </Link>
         </div>
       </section>
 
-      <DecorativeDivider />
-
-      {/* INFORMATION */}
-      <section id="info" className="py-12 sm:py-16 md:py-24 px-5 sm:px-6 scroll-mt-24">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8 sm:mb-12">
-            <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
-              {t("info.kicker")}
-            </p>
-            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-primary">{t("info.title")}</h2>
-            <div className="divider-ornament mt-6 max-w-xs mx-auto">
-              <Heart className="w-3 h-3" strokeWidth={1} />
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-5 sm:gap-6">
-            <InfoCard icon={<Shirt className="w-6 h-6" strokeWidth={1.5} />} title={t("info.dress.title")} desc={t("info.dress.desc")} />
-            <InfoCard icon={<Hotel className="w-6 h-6" strokeWidth={1.5} />} title={t("info.hotel.title")} desc={t("info.hotel.desc")} />
-            <InfoCard icon={<Car className="w-6 h-6" strokeWidth={1.5} />} title={t("info.parking.title")} desc={t("info.parking.desc")} />
-          </div>
-        </div>
-      </section>
-
-      <DecorativeDivider />
-
-      {/* PHOTOS (shared album) */}
-      <Reveal><MemoriesSection /></Reveal>
-
-      <DecorativeDivider />
-
-      {/* GALERIA PÚBLICA (álbuns publicados) */}
-      <Reveal><PublicGallerySection /></Reveal>
-
-      <DecorativeDivider />
-
-      {/* FAQ */}
-      <Reveal><FaqSection /></Reveal>
-
-      <DecorativeDivider />
-
-      {/* MESSAGES */}
-      <Reveal><MessagesSection /></Reveal>
-
-      <DecorativeDivider />
-
-      {/* GIFTS */}
-      <Reveal><GiftsSection /></Reveal>
-
-      <DecorativeDivider />
-
-      {/* AGRADECIMENTO */}
-      <Reveal><ThankYouSection /></Reveal>
-
-      <DecorativeDivider />
-      </main>
-
-      {/* FOOTER */}
-      <SiteFooter />
+      {/* DESKTOP: página completa (em mobile o conteúdo está nos separadores) */}
+      <div className="hidden md:contents">
+        <DecorativeDivider />
+        <Reveal><StorySection /></Reveal>
+        <DecorativeDivider />
+        <RsvpSection />
+        <DecorativeDivider />
+        <EventSection />
+        <DecorativeDivider />
+        <InfoSection />
+        <DecorativeDivider />
+        <Reveal><MemoriesSection /></Reveal>
+        <DecorativeDivider />
+        <Reveal><PublicGallerySection /></Reveal>
+        <DecorativeDivider />
+        <Reveal><FaqSection /></Reveal>
+        <DecorativeDivider />
+        <Reveal><MessagesSection /></Reveal>
+        <DecorativeDivider />
+        <Reveal><GiftsSection /></Reveal>
+        <DecorativeDivider />
+        <Reveal><ThankYouSection /></Reveal>
+        <DecorativeDivider />
       </div>
-
-      {/* FLOATING ACTIONS */}
-      <QuickAccessBar />
-      <ClientOnly fallback={null}>
-        <Suspense fallback={null}>
-          <ChatWidget />
-        </Suspense>
-      </ClientOnly>
-    </>
-  );
-}
-
-function InfoCard({
-  icon,
-  title,
-  desc,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  desc: string;
-}) {
-  return (
-    <div className="card-gold p-6 sm:p-8">
-      <div className="text-primary mb-4">{icon}</div>
-      <h3 className="font-display text-base sm:text-lg mb-3 text-primary break-words" style={{ letterSpacing: "0.18em" }}>{title}</h3>
-      <p className="text-sm leading-relaxed text-foreground/75">{desc}</p>
-    </div>
-  );
-}
-
-function TravelCard({
-  icon,
-  title,
-  desc,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  desc: string;
-}) {
-  return (
-    <div
-      className="travel-card text-center transition-all"
-      style={{
-        background: "var(--ivory)",
-        border: "1px solid color-mix(in oklab, var(--gold) 55%, transparent)",
-        borderRadius: 8,
-        padding: "20px 16px",
-      }}
-    >
-      <div className="flex justify-center" style={{ color: "var(--olive)" }}>
-        {icon}
-      </div>
-      <p
-        className="uppercase mt-3 text-xs"
-        style={{
-          fontFamily: "Cinzel, serif",
-          color: "var(--olive)",
-          letterSpacing: "0.2em",
-          fontWeight: 500,
-        }}
-      >
-        {title}
-      </p>
-      <p
-        className="mt-1 text-sm"
-        style={{
-          fontFamily: "Lato, sans-serif",
-          color: "var(--gold)",
-          fontWeight: 400,
-        }}
-      >
-        {desc}
-      </p>
-    </div>
+    </PageShell>
   );
 }
