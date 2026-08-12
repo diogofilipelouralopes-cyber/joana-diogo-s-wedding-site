@@ -303,17 +303,19 @@ export function Header() {
             <div key={g.labelPt} className="drawer-group">
               <p className="drawer-group-label">{lang === "en" ? g.labelEn : g.labelPt}</p>
               {g.items.map((l) => (
-                <a
-                  key={l.id}
-                  href={`#${l.id}`}
+                <Link
+                  key={`${l.to}-${l.hash ?? ""}-${l.key}`}
+                  to={l.to}
+                  hash={l.hash}
                   onClick={() => setOpen(false)}
-                  data-active={active === l.id ? "true" : "false"}
                   className="drawer-item"
+                  activeProps={{ "data-active": "true" }}
                 >
                   <span className="drawer-item-icon">{l.icon}</span>
                   <span className="drawer-item-text">{t(l.key)}</span>
-                </a>
+                </Link>
               ))}
+
             </div>
           ))}
         </nav>
