@@ -12,7 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ConnectRouteImport } from './routes/connect'
+import { Route as EventoRouteImport } from './routes/evento'
+import { Route as FotosRouteImport } from './routes/fotos'
+import { Route as MaisRouteImport } from './routes/mais'
 import { Route as McpRouteImport } from './routes/mcp'
+import { Route as RsvpRouteImport } from './routes/rsvp'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
@@ -49,9 +53,29 @@ const ConnectRoute = ConnectRouteImport.update({
   path: '/connect',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EventoRoute = EventoRouteImport.update({
+  id: '/evento',
+  path: '/evento',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FotosRoute = FotosRouteImport.update({
+  id: '/fotos',
+  path: '/fotos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MaisRoute = MaisRouteImport.update({
+  id: '/mais',
+  path: '/mais',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RsvpRoute = RsvpRouteImport.update({
+  id: '/rsvp',
+  path: '/rsvp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignupRoute = SignupRouteImport.update({
@@ -166,7 +190,11 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/connect': typeof ConnectRoute
+  '/evento': typeof EventoRoute
+  '/fotos': typeof FotosRoute
+  '/mais': typeof MaisRoute
   '/mcp': typeof McpRoute
+  '/rsvp': typeof RsvpRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/unsubscribe': typeof UnsubscribeRoute
@@ -192,7 +220,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/connect': typeof ConnectRoute
+  '/evento': typeof EventoRoute
+  '/fotos': typeof FotosRoute
+  '/mais': typeof MaisRoute
   '/mcp': typeof McpRoute
+  '/rsvp': typeof RsvpRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/unsubscribe': typeof UnsubscribeRoute
@@ -219,7 +251,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/connect': typeof ConnectRoute
+  '/evento': typeof EventoRoute
+  '/fotos': typeof FotosRoute
+  '/mais': typeof MaisRoute
   '/mcp': typeof McpRoute
+  '/rsvp': typeof RsvpRoute
   '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/unsubscribe': typeof UnsubscribeRoute
@@ -247,7 +283,11 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/connect'
+    | '/evento'
+    | '/fotos'
+    | '/mais'
     | '/mcp'
+    | '/rsvp'
     | '/signup'
     | '/sitemap.xml'
     | '/unsubscribe'
@@ -273,7 +313,11 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/connect'
+    | '/evento'
+    | '/fotos'
+    | '/mais'
     | '/mcp'
+    | '/rsvp'
     | '/signup'
     | '/sitemap.xml'
     | '/unsubscribe'
@@ -299,7 +343,11 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/connect'
+    | '/evento'
+    | '/fotos'
+    | '/mais'
     | '/mcp'
+    | '/rsvp'
     | '/signup'
     | '/sitemap.xml'
     | '/unsubscribe'
@@ -326,7 +374,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   ConnectRoute: typeof ConnectRoute
+  EventoRoute: typeof EventoRoute
+  FotosRoute: typeof FotosRoute
+  MaisRoute: typeof MaisRoute
   McpRoute: typeof McpRoute
+  RsvpRoute: typeof RsvpRoute
   SignupRoute: typeof SignupRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   UnsubscribeRoute: typeof UnsubscribeRoute
@@ -368,11 +420,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConnectRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/evento': {
+      id: '/evento'
+      path: '/evento'
+      fullPath: '/evento'
+      preLoaderRoute: typeof EventoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fotos': {
+      id: '/fotos'
+      path: '/fotos'
+      fullPath: '/fotos'
+      preLoaderRoute: typeof FotosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mais': {
+      id: '/mais'
+      path: '/mais'
+      fullPath: '/mais'
+      preLoaderRoute: typeof MaisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/mcp': {
       id: '/mcp'
       path: '/mcp'
       fullPath: '/mcp'
       preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rsvp': {
+      id: '/rsvp'
+      path: '/rsvp'
+      fullPath: '/rsvp'
+      preLoaderRoute: typeof RsvpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/signup': {
@@ -538,7 +618,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   ConnectRoute: ConnectRoute,
+  EventoRoute: EventoRoute,
+  FotosRoute: FotosRoute,
+  MaisRoute: MaisRoute,
   McpRoute: McpRoute,
+  RsvpRoute: RsvpRoute,
   SignupRoute: SignupRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   UnsubscribeRoute: UnsubscribeRoute,
