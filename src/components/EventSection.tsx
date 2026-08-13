@@ -136,7 +136,7 @@ function TravelCard({
       style={{
         background: "var(--ivory)",
         border: "1px solid color-mix(in oklab, var(--gold) 55%, transparent)",
-        borderRadius: 8,
+        borderRadius: 14,
         padding: "16px 12px",
       }}
     >

@@ -37,7 +37,7 @@ function InfoCard({
   desc: string;
 }) {
   return (
-    <div className="card-gold p-5 sm:p-8">
+    <div className="card-gold p-5 sm:p-7">
       <div className="text-primary mb-3">{icon}</div>
       <h3 className="font-display text-base sm:text-lg mb-2 text-primary break-words" style={{ letterSpacing: "0.18em" }}>
         {title}
