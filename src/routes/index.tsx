@@ -158,13 +158,35 @@ function Index() {
           </p>
         </div>
 
-        {/* BOTTOM THIRD: divider */}
+        {/* BOTTOM THIRD: data, local e divisor */}
         <div className="relative z-10 flex flex-col items-center w-full max-w-2xl mx-auto">
-          <div className="hero-text-anim-3 flex items-center justify-center" style={{ marginBottom: 28 }}>
+          <div className="hero-text-anim-3 flex items-center justify-center" style={{ marginBottom: 18 }}>
             <span aria-hidden style={{ width: "60px", borderTop: "1px dashed var(--olive)" }} />
             <Heart className="mx-3" size={14} strokeWidth={1.25} style={{ color: "var(--olive)" }} />
             <span aria-hidden style={{ width: "60px", borderTop: "1px dashed var(--olive)" }} />
           </div>
+
+          <p
+            className="hero-text-anim-3 hero-text-shadow uppercase text-sm sm:text-base"
+            style={{
+              fontFamily: "Cinzel, serif",
+              color: "var(--olive)",
+              letterSpacing: "0.32em",
+              fontWeight: 500,
+            }}
+          >
+            19 · 09 · 2026
+          </p>
+          <p
+            className="hero-text-anim-4 hero-text-shadow mt-2 text-xs sm:text-sm"
+            style={{
+              fontFamily: "Lato, sans-serif",
+              color: "color-mix(in oklab, var(--olive) 82%, transparent)",
+              letterSpacing: "0.06em",
+            }}
+          >
+            Glicínia Wedding House · {t("event.place")}
+          </p>
         </div>
       </section>
 
@@ -174,42 +196,19 @@ function Index() {
       <Reveal><CountdownSection /></Reveal>
 
       {/* MOBILE: atalhos principais — o resto do conteúdo vive nos separadores */}
-      <section className="md:hidden px-5 pt-2 pb-8">
+      <section className="md:hidden px-5 pt-1 pb-6">
         <div className="flex flex-col gap-3 max-w-sm mx-auto">
-          <Link
-            to="/rsvp"
-            className="inline-flex items-center justify-center gap-2 uppercase"
-            style={{
-              fontFamily: "Cinzel, serif",
-              letterSpacing: "0.22em",
-              fontSize: "0.75rem",
-              minHeight: 48,
-              borderRadius: 10,
-              color: "var(--ivory)",
-              background: "var(--olive)",
-            }}
-          >
-            <CalendarHeart size={16} strokeWidth={1.6} />
+          <Link to="/rsvp" className="btn-pill btn-pill-solid">
+            <CalendarHeart size={16} strokeWidth={1.5} />
             {lang === "en" ? "RSVP" : "Confirmar presença"}
           </Link>
-          <Link
-            to="/evento"
-            className="inline-flex items-center justify-center gap-2 uppercase"
-            style={{
-              fontFamily: "Cinzel, serif",
-              letterSpacing: "0.22em",
-              fontSize: "0.75rem",
-              minHeight: 48,
-              borderRadius: 10,
-              color: "var(--gold)",
-              border: "1px solid var(--gold)",
-            }}
-          >
-            <MapPin size={16} strokeWidth={1.6} />
+          <Link to="/evento" className="btn-pill btn-pill-ghost">
+            <MapPin size={16} strokeWidth={1.5} />
             {lang === "en" ? "Event & venue" : "Evento e local"}
           </Link>
         </div>
       </section>
+
 
       {/* DESKTOP: página completa (em mobile o conteúdo está nos separadores) */}
       <div className="hidden md:contents">
