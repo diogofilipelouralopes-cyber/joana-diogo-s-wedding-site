@@ -1042,3 +1042,8 @@ section.py-10 { padding-top: 2rem; padding-bottom: 2rem; }
   -webkit-backdrop-filter: blur(14px) saturate(130%);
 }
 .btn-pill-inline { width: auto; }
+
+/* Hero: espaço para a barra de separadores em mobile */
+@media (max-width: 767px) {
+  .hero-section { padding-bottom: 112px !important; }
+}
