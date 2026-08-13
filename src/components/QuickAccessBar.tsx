@@ -205,14 +205,11 @@ export function QuickAccessBar() {
           width: min(420px, calc(100vw - 24px));
           transition: transform 0.28s ease, opacity 0.28s ease;
         }
-        /* Em mobile a navegação passa a ser a MobileTabBar */
-        @media (max-width: 767px) { .quick-access-bar { display: none; } }
         .quick-access-bar.qa-hidden {
           transform: translateX(-50%) translateY(140%);
           opacity: 0;
           pointer-events: none;
         }
-
         /* Esconder a barra quando o menu lateral OU o lightbox estão abertos */
         body.drawer-open .quick-access-bar,
         body.lightbox-open .quick-access-bar {

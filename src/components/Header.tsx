@@ -25,45 +25,40 @@ const links = [
   { id: "gifts", key: "nav.gifts" as const, icon: <Gift className="w-4 h-4" strokeWidth={1.5} /> },
 ];
 
-/** Grupos do menu mobile (drawer) — em mobile o site é uma app com separadores,
- *  por isso cada item navega para a sua rota. Desktop continua a usar âncoras. */
-type MobileItem = {
-  to: "/" | "/evento" | "/rsvp" | "/fotos" | "/mais";
-  hash?: string;
-  key: (typeof links)[number]["key"];
-  icon: React.ReactNode;
-};
-
-const mobileGroups: { labelPt: string; labelEn: string; items: MobileItem[] }[] = [
+/** Grupos do menu mobile (drawer). Desktop continua a usar `links`. */
+const mobileGroups: {
+  labelPt: string;
+  labelEn: string;
+  items: { id: string; key: (typeof links)[number]["key"]; icon: React.ReactNode }[];
+}[] = [
   {
     labelPt: "Casamento",
     labelEn: "Wedding",
     items: [
-      { to: "/", key: "nav.home", icon: <Home className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
-      { to: "/mais", hash: "story", key: "nav.story", icon: <BookHeart className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
-      { to: "/rsvp", key: "nav.rsvp", icon: <CalendarCheck className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
-      { to: "/evento", key: "nav.event", icon: <MapPin className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
-      { to: "/evento", hash: "info", key: "nav.info", icon: <Info className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+      { id: "top", key: "nav.home", icon: <Home className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+      { id: "story", key: "nav.story", icon: <BookHeart className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+      { id: "rsvp", key: "nav.rsvp", icon: <CalendarCheck className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+      { id: "event", key: "nav.event", icon: <MapPin className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+      { id: "info", key: "nav.info", icon: <Info className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
     ],
   },
   {
     labelPt: "Convidados",
     labelEn: "Guests",
     items: [
-      { to: "/fotos", key: "nav.photos", icon: <Camera className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+      { id: "fotos", key: "nav.photos", icon: <Camera className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
     ],
   },
   {
     labelPt: "Mais",
     labelEn: "More",
     items: [
-      { to: "/mais", hash: "faq", key: "nav.faq", icon: <HelpCircle className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
-      { to: "/mais", hash: "mensagens", key: "nav.messages", icon: <MessageCircleHeart className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
-      { to: "/mais", hash: "gifts", key: "nav.gifts", icon: <Gift className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+      { id: "faq", key: "nav.faq", icon: <HelpCircle className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+      { id: "mensagens", key: "nav.messages", icon: <MessageCircleHeart className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+      { id: "gifts", key: "nav.gifts", icon: <Gift className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
     ],
   },
 ];
-
 
 export function Header() {
   const { t, lang, setLang } = useI18n();
@@ -303,19 +298,17 @@ export function Header() {
             <div key={g.labelPt} className="drawer-group">
               <p className="drawer-group-label">{lang === "en" ? g.labelEn : g.labelPt}</p>
               {g.items.map((l) => (
-                <Link
-                  key={`${l.to}-${l.hash ?? ""}-${l.key}`}
-                  to={l.to}
-                  hash={l.hash}
+                <a
+                  key={l.id}
+                  href={`#${l.id}`}
                   onClick={() => setOpen(false)}
+                  data-active={active === l.id ? "true" : "false"}
                   className="drawer-item"
-                  activeProps={{ "data-active": "true" }}
                 >
                   <span className="drawer-item-icon">{l.icon}</span>
                   <span className="drawer-item-text">{t(l.key)}</span>
-                </Link>
+                </a>
               ))}
-
             </div>
           ))}
         </nav>

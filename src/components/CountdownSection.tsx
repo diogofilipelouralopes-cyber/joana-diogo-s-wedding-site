@@ -28,7 +28,7 @@ export function CountdownSection() {
   return (
     <section
       className="w-full px-5 sm:px-6"
-      style={{ backgroundColor: "var(--cream)", paddingTop: 36, paddingBottom: 36 }}
+      style={{ backgroundColor: "var(--cream)", paddingTop: 44, paddingBottom: 44 }}
     >
       <div className="max-w-5xl mx-auto text-center">
         <h2
@@ -55,7 +55,7 @@ export function CountdownSection() {
         </p>
 
         {/* Decorative divider with plane */}
-        <div className="relative my-6 flex items-center justify-center max-w-sm mx-auto">
+        <div className="relative my-8 flex items-center justify-center max-w-sm mx-auto">
           <span
             aria-hidden
             className="absolute left-0 right-0 top-1/2 -translate-y-1/2"
@@ -81,7 +81,7 @@ export function CountdownSection() {
             {t("count.over")}
           </p>
         ) : (
-          <div className="mt-7 grid grid-cols-4 gap-2 sm:gap-3 justify-items-center">
+          <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3 justify-items-center">
             <Card value={time.days} label={t("count.days")} />
             <Card value={time.hours} label={t("count.hours")} />
             <Card value={time.mins} label={t("count.mins")} />
@@ -98,33 +98,33 @@ function Card({ value, label }: { value: number; label: string }) {
     <div
       className="flex flex-col items-center justify-center w-full"
       style={{
-        maxWidth: 132,
-        padding: "14px 6px",
+        maxWidth: 104,
+        padding: "14px 10px",
         background: "var(--ivory)",
-        border: "1px solid color-mix(in oklab, var(--gold) 45%, transparent)",
-        borderRadius: 12,
+        border: "1px solid var(--gold)",
+        borderRadius: 8,
         boxShadow:
-          "0 1px 2px color-mix(in oklab, var(--olive) 4%, transparent), 0 10px 26px -24px color-mix(in oklab, var(--olive) 20%, transparent)",
+          "0 1px 2px color-mix(in oklab, var(--olive) 6%, transparent), 0 10px 24px -18px color-mix(in oklab, var(--olive) 22%, transparent)",
       }}
     >
       <span
         suppressHydrationWarning
-        className="text-[1.7rem] sm:text-3xl md:text-4xl"
+        className="text-2xl sm:text-3xl md:text-4xl"
         style={{
           fontFamily: "Cinzel, serif",
-          fontWeight: 500,
-          color: "var(--olive)",
+          fontWeight: 700,
+          color: "var(--gold)",
           lineHeight: 1,
         }}
       >
         {String(value).padStart(2, "0")}
       </span>
       <span
-        className="uppercase mt-2 text-[0.55rem] sm:text-[0.68rem] md:text-xs"
+        className="uppercase mt-3 text-[0.7rem] sm:text-xs md:text-sm"
         style={{
           fontFamily: "Cinzel, serif",
-          color: "color-mix(in oklab, var(--olive) 70%, transparent)",
-          letterSpacing: "0.18em",
+          color: "var(--olive)",
+          letterSpacing: "0.2em",
         }}
       >
         {label}

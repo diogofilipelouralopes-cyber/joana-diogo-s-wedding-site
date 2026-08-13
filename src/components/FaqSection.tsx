@@ -37,16 +37,16 @@ export function FaqSection() {
                 key={k}
                 style={{
                   background: "var(--cream)",
-                  border: "1px solid color-mix(in oklab, var(--gold) 30%, transparent)",
-                  borderRadius: 12,
-                  marginBottom: 8,
+                  borderBottom: "1px solid color-mix(in oklab, var(--gold) 50%, transparent)",
+                  borderRadius: 4,
+                  marginBottom: 6,
                 }}
               >
                 <button
                   onClick={() => setOpen(isOpen ? null : i)}
                   className="w-full flex items-center justify-between text-left gap-4 transition-colors"
                   style={{
-                    padding: "16px 20px",
+                    padding: "20px 24px",
                     minHeight: 44,
                     fontFamily: "Cinzel, serif",
                     color: "var(--olive)",
@@ -78,7 +78,7 @@ export function FaqSection() {
                   <div style={{ overflow: "hidden" }}>
                     <p
                       style={{
-                        padding: "0 20px 18px",
+                        padding: "0 24px 22px",
                         fontFamily: "Lato, sans-serif",
                         color: "var(--olive)",
                         fontSize: "0.95rem",
