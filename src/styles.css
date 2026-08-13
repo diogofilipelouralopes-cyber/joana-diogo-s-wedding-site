@@ -1041,3 +1041,4 @@ section.py-10 { padding-top: 2rem; padding-bottom: 2rem; }
   backdrop-filter: blur(14px) saturate(130%);
   -webkit-backdrop-filter: blur(14px) saturate(130%);
 }
+.btn-pill-inline { width: auto; }

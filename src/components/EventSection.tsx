@@ -26,7 +26,7 @@ export function EventSection() {
             maxWidth: 900,
             background: "var(--ivory)",
             border: "1px solid var(--gold)",
-            borderRadius: 12,
+            borderRadius: 14,
             boxShadow:
               "0 1px 2px color-mix(in oklab, var(--olive) 8%, transparent), 0 18px 40px -22px color-mix(in oklab, var(--olive) 25%, transparent)",
           }}
@@ -69,7 +69,7 @@ export function EventSection() {
           {/* Embedded interactive map */}
           <div
             className="mt-6 overflow-hidden"
-            style={{ borderRadius: 8, border: "1px solid color-mix(in oklab, var(--gold) 40%, transparent)" }}
+            style={{ borderRadius: 12, border: "1px solid color-mix(in oklab, var(--gold) 35%, transparent)" }}
           >
             <iframe
               title="Glicínia Wedding House — mapa"
@@ -109,17 +109,7 @@ export function EventSection() {
               href={MAPS_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 sm:px-7 py-3 uppercase transition-all hover:-translate-y-0.5"
-              style={{
-                fontFamily: "Cinzel, serif",
-                letterSpacing: "0.25em",
-                fontSize: "0.75rem",
-                color: "var(--gold)",
-                border: "1px solid var(--gold)",
-                borderRadius: 8,
-                background: "transparent",
-                minHeight: 44,
-              }}
+              className="btn-pill btn-pill-ghost btn-pill-inline px-7"
             >
               <ExternalLink size={14} strokeWidth={1.5} />
               {t("event.maps")}
