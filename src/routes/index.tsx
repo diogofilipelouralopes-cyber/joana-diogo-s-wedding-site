@@ -2,8 +2,8 @@ import { createFileRoute, ClientOnly } from "@tanstack/react-router";
 import { useEffect, lazy, Suspense } from "react";
 import { RsvpForm } from "@/components/RsvpForm";
 import { DecorativeDivider } from "@/components/DecorativeDivider";
-import { CountdownSection } from "@/components/CountdownSection";
 import { Header } from "@/components/Header";
+import { HeroCountdown } from "@/components/HeroCountdown";
 import { StorySection } from "@/components/StorySection";
 
 import { GiftsSection } from "@/components/GiftsSection";
