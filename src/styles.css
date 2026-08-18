@@ -726,11 +726,22 @@ body { padding-top: 0; }
 
 /* --- Hamburger animado --- */
 .burger-btn {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   color: var(--olive);
   position: relative;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--gold) 28%, transparent);
+  background: color-mix(in oklab, var(--ivory) 70%, transparent);
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
 }
+.burger-btn:hover,
+.burger-btn[data-open="true"] {
+  color: var(--gold);
+  border-color: color-mix(in oklab, var(--gold) 55%, transparent);
+  background: color-mix(in oklab, var(--gold) 10%, transparent);
+}
+
 .burger-icon {
   position: relative;
   display: block;
