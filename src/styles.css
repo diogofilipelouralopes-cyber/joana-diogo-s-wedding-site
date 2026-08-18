@@ -188,6 +188,39 @@
 .hero-text-anim-1 { animation: hero-text-in 0.9s ease-out 0.6s both; }
 .hero-text-anim-2 { animation: hero-text-in 0.9s ease-out 0.9s both; }
 .hero-text-anim-3 { animation: hero-text-in 0.9s ease-out 1.2s both; }
+
+.hero-directions-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 26px;
+  border-radius: 999px;
+  font-family: "Cinzel", serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--gold) 70%, #4a3d1c);
+  background: color-mix(in oklab, var(--ivory, var(--background)) 88%, transparent);
+  backdrop-filter: blur(12px) saturate(130%);
+  border: 1px solid color-mix(in oklab, var(--gold) 45%, transparent);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.14);
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.hero-directions-btn:hover,
+.hero-directions-btn:focus-visible {
+  transform: translateY(-1px);
+  background: color-mix(in oklab, var(--gold) 18%, var(--ivory, var(--background)));
+  outline: none;
+}
+@media (max-width: 768px) {
+  .hero-directions-btn {
+    width: 100%;
+    max-width: 320px;
+    padding: 14px 20px;
+    font-size: 0.78rem;
+  }
+}
 .hero-text-anim-4 { animation: hero-text-in 0.9s ease-out 1.5s both; }
 
 /* Aged-paper / stylized map background for hero */
