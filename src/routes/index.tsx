@@ -176,11 +176,13 @@ function Index() {
           </p>
         </div>
 
-        {/* BOTTOM THIRD: divider + buttons */}
+        {/* BOTTOM THIRD: countdown + divider + buttons */}
         <div className="relative z-10 flex flex-col items-center w-full max-w-2xl mx-auto">
+          <HeroCountdown />
+
           <div
             className="hero-text-anim-3 flex items-center justify-center"
-            style={{ marginBottom: 28 }}
+            style={{ marginTop: 18, marginBottom: 18 }}
           >
             <span aria-hidden style={{ width: "60px", borderTop: "1px dashed var(--olive)" }} />
             <Heart className="mx-3" size={14} strokeWidth={1.25} style={{ color: "var(--olive)" }} />
