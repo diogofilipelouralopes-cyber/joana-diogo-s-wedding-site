@@ -480,27 +480,36 @@ body.drawer-open .install-btn { opacity: 0; pointer-events: none; }
 .lang-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--ivory) 80%, transparent);
+  border: 1px solid color-mix(in oklab, var(--gold) 30%, transparent);
+  box-shadow: inset 0 1px 2px color-mix(in oklab, var(--olive) 6%, transparent);
   font-family: "Cinzel", serif;
 }
-.lang-sep { color: color-mix(in oklab, var(--olive) 50%, transparent); font-size: 0.75rem; }
+.lang-sep { display: none; }
 .lang-btn {
   font-family: "Cinzel", serif;
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--olive);
-  padding: 6px 10px;
-  border-radius: 4px;
-  transition: all 0.25s ease;
-  min-width: 36px;
-  min-height: 36px;
+  color: color-mix(in oklab, var(--olive) 75%, transparent);
+  padding: 5px 12px;
+  border-radius: 999px;
+  transition: background-color 0.28s ease, color 0.28s ease, box-shadow 0.28s ease;
+  min-width: 0;
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .lang-btn[data-active="true"] {
-  background-color: var(--gold);
-  color: var(--cream);
+  background-color: color-mix(in oklab, var(--gold) 88%, var(--ivory));
+  color: var(--ivory);
+  box-shadow: 0 1px 6px -2px color-mix(in oklab, var(--gold) 70%, transparent);
 }
-.lang-btn:hover:not([data-active="true"]) { color: var(--gold); }
+.lang-btn:hover:not([data-active="true"]) { color: var(--gold); background: color-mix(in oklab, var(--gold) 10%, transparent); }
 
 .header-logo {
   transition: transform 0.35s ease;
@@ -508,6 +517,7 @@ body.drawer-open .install-btn { opacity: 0; pointer-events: none; }
 .header-logo:hover {
   transform: rotate(5deg) scale(1.05);
 }
+
 
 .header-link {
   position: relative;
@@ -716,11 +726,22 @@ body { padding-top: 0; }
 
 /* --- Hamburger animado --- */
 .burger-btn {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   color: var(--olive);
   position: relative;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--gold) 28%, transparent);
+  background: color-mix(in oklab, var(--ivory) 70%, transparent);
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
 }
+.burger-btn:hover,
+.burger-btn[data-open="true"] {
+  color: var(--gold);
+  border-color: color-mix(in oklab, var(--gold) 55%, transparent);
+  background: color-mix(in oklab, var(--gold) 10%, transparent);
+}
+
 .burger-icon {
   position: relative;
   display: block;
@@ -951,3 +972,43 @@ body.has-announcement .hero-section { padding-top: 184px; }
   background: color-mix(in oklab, var(--gold) 12%, transparent);
   color: color-mix(in oklab, var(--gold) 60%, #000);
 }
+
+/* === Refinamento visual da linha da data no header === */
+.header-date-row {
+  gap: 14px;
+  padding-top: 8px;
+  margin-top: 8px;
+  border-top: 1px solid color-mix(in oklab, var(--gold) 18%, transparent);
+}
+.header-date-row::before,
+.header-date-row::after {
+  content: "";
+  height: 1px;
+  width: clamp(24px, 12vw, 96px);
+  background: linear-gradient(to right, transparent, color-mix(in oklab, var(--gold) 55%, transparent), transparent);
+}
+.header-date-label {
+  font-size: 0.66rem;
+  letter-spacing: 0.32em;
+  color: color-mix(in oklab, var(--olive) 88%, var(--gold));
+}
+@media (min-width: 768px) {
+  .header-date-label { font-size: 0.72rem; letter-spacing: 0.38em; }
+}
+.header-date-btn {
+  position: relative;
+  padding-bottom: 2px;
+}
+.header-date-btn::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: color-mix(in oklab, var(--gold) 70%, transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.35s ease;
+}
+.header-date-btn:hover::after { transform: scaleX(1); }
