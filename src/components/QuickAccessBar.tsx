@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useI18n } from "@/lib/i18n";
 import { createPortal } from "react-dom";
 import { MapPin, Camera, CalendarHeart, ExternalLink, MessageCircleHeart } from "lucide-react";
+import { ALBUM_URL } from "@/components/MemoriesSection";
 import {
   Popover,
   PopoverContent,
@@ -120,16 +121,17 @@ export function QuickAccessBar() {
           </Popover>
         </li>
 
-        {/* Fotos */}
+        {/* Fotos — álbum partilhado do Google Fotos */}
         <li className="qa-item">
-          <button
-            type="button"
-            onClick={() => scrollToId("fotos")}
+          <a
+            href={ALBUM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="qa-btn"
-            aria-label={lang === "en" ? "Photos" : "Fotos"}
+            aria-label={lang === "en" ? "Open shared photo album" : "Abrir álbum partilhado de fotos"}
           >
             <Camera size={22} strokeWidth={1.6} />
-          </button>
+          </a>
         </li>
 
         {/* Confirmar Presença */}
