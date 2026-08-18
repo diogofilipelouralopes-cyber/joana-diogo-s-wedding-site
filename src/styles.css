@@ -972,3 +972,43 @@ body.has-announcement .hero-section { padding-top: 184px; }
   background: color-mix(in oklab, var(--gold) 12%, transparent);
   color: color-mix(in oklab, var(--gold) 60%, #000);
 }
+
+/* === Refinamento visual da linha da data no header === */
+.header-date-row {
+  gap: 14px;
+  padding-top: 8px;
+  margin-top: 8px;
+  border-top: 1px solid color-mix(in oklab, var(--gold) 18%, transparent);
+}
+.header-date-row::before,
+.header-date-row::after {
+  content: "";
+  height: 1px;
+  width: clamp(24px, 12vw, 96px);
+  background: linear-gradient(to right, transparent, color-mix(in oklab, var(--gold) 55%, transparent), transparent);
+}
+.header-date-label {
+  font-size: 0.66rem;
+  letter-spacing: 0.32em;
+  color: color-mix(in oklab, var(--olive) 88%, var(--gold));
+}
+@media (min-width: 768px) {
+  .header-date-label { font-size: 0.72rem; letter-spacing: 0.38em; }
+}
+.header-date-btn {
+  position: relative;
+  padding-bottom: 2px;
+}
+.header-date-btn::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: color-mix(in oklab, var(--gold) 70%, transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.35s ease;
+}
+.header-date-btn:hover::after { transform: scaleX(1); }
