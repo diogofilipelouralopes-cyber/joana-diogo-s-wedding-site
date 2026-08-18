@@ -105,7 +105,7 @@ const MAPS_URL =
 
 
 function Index() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
 
   // Always start at the top on load/reload
   useEffect(() => {
