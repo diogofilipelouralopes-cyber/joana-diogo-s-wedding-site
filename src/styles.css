@@ -480,27 +480,36 @@ body.drawer-open .install-btn { opacity: 0; pointer-events: none; }
 .lang-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--ivory) 80%, transparent);
+  border: 1px solid color-mix(in oklab, var(--gold) 30%, transparent);
+  box-shadow: inset 0 1px 2px color-mix(in oklab, var(--olive) 6%, transparent);
   font-family: "Cinzel", serif;
 }
-.lang-sep { color: color-mix(in oklab, var(--olive) 50%, transparent); font-size: 0.75rem; }
+.lang-sep { display: none; }
 .lang-btn {
   font-family: "Cinzel", serif;
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--olive);
-  padding: 6px 10px;
-  border-radius: 4px;
-  transition: all 0.25s ease;
-  min-width: 36px;
-  min-height: 36px;
+  color: color-mix(in oklab, var(--olive) 75%, transparent);
+  padding: 5px 12px;
+  border-radius: 999px;
+  transition: background-color 0.28s ease, color 0.28s ease, box-shadow 0.28s ease;
+  min-width: 0;
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .lang-btn[data-active="true"] {
-  background-color: var(--gold);
-  color: var(--cream);
+  background-color: color-mix(in oklab, var(--gold) 88%, var(--ivory));
+  color: var(--ivory);
+  box-shadow: 0 1px 6px -2px color-mix(in oklab, var(--gold) 70%, transparent);
 }
-.lang-btn:hover:not([data-active="true"]) { color: var(--gold); }
+.lang-btn:hover:not([data-active="true"]) { color: var(--gold); background: color-mix(in oklab, var(--gold) 10%, transparent); }
 
 .header-logo {
   transition: transform 0.35s ease;
@@ -508,6 +517,7 @@ body.drawer-open .install-btn { opacity: 0; pointer-events: none; }
 .header-logo:hover {
   transform: rotate(5deg) scale(1.05);
 }
+
 
 .header-link {
   position: relative;
