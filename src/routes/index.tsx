@@ -203,11 +203,6 @@ function Index() {
 
       <DecorativeDivider />
 
-      {/* COUNTDOWN */}
-      <Reveal><CountdownSection /></Reveal>
-
-      <DecorativeDivider />
-
       {/* STORY */}
       <Reveal><StorySection /></Reveal>
 
