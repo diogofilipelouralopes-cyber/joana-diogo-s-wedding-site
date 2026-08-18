@@ -228,9 +228,9 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 10px 16px;
+  padding: 8px 14px;
   border-radius: 999px;
-  background: color-mix(in oklab, var(--ivory) 82%, transparent);
+  background: color-mix(in oklab, var(--ivory) 68%, transparent);
   backdrop-filter: blur(10px) saturate(130%);
   border: 1px solid color-mix(in oklab, var(--gold) 35%, transparent);
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
