@@ -221,6 +221,71 @@
     font-size: 0.78rem;
   }
 }
+
+/* Compact inline countdown inside the hero */
+.hero-countdown {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--ivory) 68%, transparent);
+  backdrop-filter: blur(10px) saturate(130%);
+  border: 1px solid color-mix(in oklab, var(--gold) 35%, transparent);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+}
+.hero-countdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 42px;
+  padding: 0 4px;
+}
+.hero-countdown-item:not(:last-child) {
+  border-right: 1px solid color-mix(in oklab, var(--gold) 25%, transparent);
+}
+.hero-countdown-value {
+  font-family: "Cinzel", serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--gold);
+}
+.hero-countdown-label {
+  font-family: "Cinzel", serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--olive);
+  margin-top: 3px;
+  opacity: 0.9;
+}
+.hero-countdown-over {
+  font-family: "Cinzel", serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+@media (min-width: 640px) {
+  .hero-countdown {
+    gap: 10px;
+    padding: 12px 22px;
+  }
+  .hero-countdown-item {
+    min-width: 54px;
+    padding: 0 6px;
+  }
+  .hero-countdown-value {
+    font-size: 1.35rem;
+  }
+  .hero-countdown-label {
+    font-size: 0.65rem;
+    margin-top: 4px;
+  }
+}
+
 .hero-text-anim-4 { animation: hero-text-in 0.9s ease-out 1.5s both; }
 
 /* Aged-paper / stylized map background for hero */

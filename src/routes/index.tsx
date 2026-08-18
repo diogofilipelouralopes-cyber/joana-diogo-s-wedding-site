@@ -2,8 +2,8 @@ import { createFileRoute, ClientOnly } from "@tanstack/react-router";
 import { useEffect, lazy, Suspense } from "react";
 import { RsvpForm } from "@/components/RsvpForm";
 import { DecorativeDivider } from "@/components/DecorativeDivider";
-import { CountdownSection } from "@/components/CountdownSection";
 import { Header } from "@/components/Header";
+import { HeroCountdown } from "@/components/HeroCountdown";
 import { StorySection } from "@/components/StorySection";
 
 import { GiftsSection } from "@/components/GiftsSection";
@@ -176,11 +176,13 @@ function Index() {
           </p>
         </div>
 
-        {/* BOTTOM THIRD: divider + buttons */}
+        {/* BOTTOM THIRD: countdown + divider + buttons */}
         <div className="relative z-10 flex flex-col items-center w-full max-w-2xl mx-auto">
+          <HeroCountdown />
+
           <div
             className="hero-text-anim-3 flex items-center justify-center"
-            style={{ marginBottom: 28 }}
+            style={{ marginTop: 18, marginBottom: 18 }}
           >
             <span aria-hidden style={{ width: "60px", borderTop: "1px dashed var(--olive)" }} />
             <Heart className="mx-3" size={14} strokeWidth={1.25} style={{ color: "var(--olive)" }} />
@@ -198,11 +200,6 @@ function Index() {
           </a>
         </div>
       </section>
-
-      <DecorativeDivider />
-
-      {/* COUNTDOWN */}
-      <Reveal><CountdownSection /></Reveal>
 
       <DecorativeDivider />
 
