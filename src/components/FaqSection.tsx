@@ -3,10 +3,20 @@ import { ChevronDown, HelpCircle } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
 const KEYS = [1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
+// Ordem para a versão curta: chegada, dress code, acompanhante, restrições.
+const COMPACT_KEYS = [1, 3, 2, 8] as const;
 
-export function FaqSection() {
+export function FaqSection({ compact = false }: { compact?: boolean }) {
   const { t } = useI18n();
   const [open, setOpen] = useState<number | null>(0);
+  const [expanded, setExpanded] = useState(false);
+
+  const keys: readonly number[] =
+    compact && !expanded
+      ? COMPACT_KEYS
+      : compact
+        ? [...COMPACT_KEYS, ...KEYS.filter((k) => !COMPACT_KEYS.includes(k as never))]
+        : KEYS;
 
   return (
     <section id="faq" className="py-8 sm:py-18 px-4 sm:px-6 scroll-mt-24" style={{ background: "var(--ivory)" }}>
@@ -30,7 +40,8 @@ export function FaqSection() {
         </div>
 
         <div className="mx-auto" style={{ maxWidth: 820 }}>
-          {KEYS.map((k, i) => {
+          {keys.map((k, i) => {
+
             const isOpen = open === i;
             return (
               <div
@@ -88,7 +99,28 @@ export function FaqSection() {
               </div>
             );
           })}
+
+          {compact && !expanded && (
+            <button
+              type="button"
+              onClick={() => setExpanded(true)}
+              className="w-full mt-3 uppercase"
+              style={{
+                minHeight: 44,
+                borderRadius: 8,
+                border: "1px dashed color-mix(in oklab, var(--gold) 70%, transparent)",
+                fontFamily: "Cinzel, serif",
+                fontSize: "0.7rem",
+                letterSpacing: "0.2em",
+                color: "var(--gold)",
+                background: "transparent",
+              }}
+            >
+              {t("faq.seeAll")}
+            </button>
+          )}
         </div>
+
       </div>
     </section>
   );
