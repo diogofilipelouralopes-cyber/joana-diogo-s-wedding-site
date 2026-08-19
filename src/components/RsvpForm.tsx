@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { z } from "zod";
-import { User, Mail, Phone, Music, Heart, X, Plane, Send } from "lucide-react";
+import { User, Mail, Phone, Music, Heart, X, Plane, Send, CheckCircle2, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
