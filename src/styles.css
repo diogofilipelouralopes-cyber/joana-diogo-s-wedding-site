@@ -1130,10 +1130,66 @@ body.has-announcement .hero-section { padding-top: 184px; }
   }
 }
 
-/* Evita qualquer scroll horizontal em mobile */
+/* === Auditoria mobile: sem scroll horizontal nem micro-saltos === */
 @media (max-width: 767px) {
   html,
   body {
-    overflow-x: hidden;
+    overflow-x: clip;
+  }
+
+  /* Media e embeds nunca ultrapassam o viewport */
+  img,
+  svg,
+  video,
+  iframe,
+  canvas,
+  table {
+    max-width: 100%;
+  }
+
+  /* Texto longo (emails, URLs) quebra em vez de esticar o layout */
+  p,
+  a,
+  span,
+  li,
+  h1,
+  h2,
+  h3,
+  h4,
+  input,
+  textarea,
+  button {
+    overflow-wrap: anywhere;
+  }
+
+  /* Filhos de flex/grid podem encolher */
+  main :where(.flex, .grid) > * {
+    min-width: 0;
+  }
+
+  /* Elementos off-canvas não geram scroll */
+  .mobile-drawer,
+  .quick-access-bar,
+  .chat-panel {
+    max-width: 100vw;
+  }
+
+  /* Botões e cards nunca excedem a coluna */
+  main button,
+  main a[class*="btn"],
+  .card-gold,
+  .travel-card {
+    max-width: 100%;
   }
 }
+
+/* Evita micro-saltos com a barra de endereço do browser */
+.hero-section {
+  min-height: 100svh;
+}
+@supports not (height: 100svh) {
+  .hero-section {
+    min-height: 100vh;
+  }
+}
+
