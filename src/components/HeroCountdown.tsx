@@ -1,54 +1,54 @@
 import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n";
 
-const TARGET = new Date("2026-09-19T14:00:00+01:00").getTime();
+// Contagem em dias completos: recomeça à meia-noite do dia atual.
+// O "grande dia" é 19 de setembro de 2026; a contagem termina quando
+// o calendário muda para essa data (meia-noite), não à hora do evento.
+const TARGET = new Date("2026-09-19T00:00:00+01:00").getTime();
+const MS_PER_DAY = 86_400_000;
 
-function diff(now: number) {
-  const d = Math.max(0, TARGET - now);
+function midnightTimestamp(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+}
+
+function diffDays(now: number) {
+  const todayMidnight = midnightTimestamp(new Date(now));
+  const targetMidnight = midnightTimestamp(new Date(TARGET));
+  const days = Math.round((targetMidnight - todayMidnight) / MS_PER_DAY);
   return {
-    days: Math.floor(d / 86400000),
-    hours: Math.floor((d / 3600000) % 24),
-    mins: Math.floor((d / 60000) % 60),
-    secs: Math.floor((d / 1000) % 60),
-    over: d <= 0,
+    days: Math.max(0, days),
+    isToday: days <= 0,
   };
 }
 
 export function HeroCountdown() {
   const { t } = useI18n();
-  const [time, setTime] = useState(() => diff(Date.now()));
+  const [state, setState] = useState(() => diffDays(Date.now()));
 
   useEffect(() => {
-    setTime(diff(Date.now()));
-    const id = setInterval(() => setTime(diff(Date.now())), 1000);
+    setState(diffDays(Date.now()));
+    // Atualiza a cada minuto; a mudança de dia acontece naturalmente à meia-noite.
+    const id = setInterval(() => setState(diffDays(Date.now())), 60_000);
     return () => clearInterval(id);
   }, []);
 
-  if (time.over) {
+  if (state.isToday) {
     return (
-      <div className="hero-countdown hero-text-anim-3" aria-live="polite">
-        <span className="hero-countdown-over">{t("count.over")}</span>
+      <div className="hero-countdown hero-countdown-today hero-text-anim-3" aria-live="polite">
+        <span className="hero-countdown-today-text">{t("count.today")}</span>
       </div>
     );
   }
 
-  const items = [
-    { value: time.days, label: t("count.days") },
-    { value: time.hours, label: t("count.hours") },
-    { value: time.mins, label: t("count.mins") },
-    { value: time.secs, label: t("count.secs") },
-  ];
-
   return (
-    <div className="hero-countdown hero-text-anim-3" aria-live="polite">
-      {items.map((item) => (
-        <div key={item.label} className="hero-countdown-item">
-          <span suppressHydrationWarning className="hero-countdown-value">
-            {String(item.value).padStart(2, "0")}
-          </span>
-          <span className="hero-countdown-label">{item.label}</span>
-        </div>
-      ))}
+    <div className="hero-countdown hero-countdown-days hero-text-anim-3" aria-live="polite">
+      <span className="hero-countdown-lead">{t("count.daysLeft")}</span>
+      <span suppressHydrationWarning className="hero-countdown-value">
+        {state.days}
+      </span>
+      <span className="hero-countdown-label">
+        {state.days === 1 ? t("count.day") : t("count.days")}
+      </span>
     </div>
   );
 }
