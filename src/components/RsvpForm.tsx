@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { z } from "zod";
-import { User, Mail, Phone, Music, Heart, X, Plane, Send, CheckCircle2, RotateCcw } from "lucide-react";
+import { User, Mail, Phone, Music, Heart, X, Plane, Send, CheckCircle2, RotateCcw, ChevronLeft, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
@@ -426,134 +426,158 @@ export function RsvpForm() {
           {t("rsvp.title")}
         </h3>
 
-        <div className="relative my-6 flex items-center justify-center">
-          <span
-            className="absolute left-1/2 -translate-x-1/2 right-0 top-1/2 -translate-y-1/2"
-            style={{ borderTop: "1px dashed var(--olive)", opacity: 0.4, width: "80%" }}
-          />
-          <span
-            className="relative inline-flex items-center justify-center px-3"
-            style={{ background: "var(--ivory)" }}
+        <div className="mt-5 mb-6">
+          <div className="flex items-center justify-center gap-2">
+            {[0, 1, 2].map((i) => (
+              <span
+                key={i}
+                className="h-1.5 rounded-full transition-all"
+                style={{
+                  width: i === step ? 28 : 14,
+                  background: i <= step ? "var(--gold)" : "color-mix(in oklab, var(--olive) 25%, transparent)",
+                }}
+              />
+            ))}
+          </div>
+          <p
+            className="mt-3 text-center"
+            style={{
+              fontFamily: "Cinzel, serif",
+              color: "var(--olive)",
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              fontSize: "0.65rem",
+            }}
           >
-            <Heart size={14} strokeWidth={1} fill="var(--gold)" style={{ color: "var(--gold)" }} />
-          </span>
+            {t("rsvp.step")} {step + 1} {t("rsvp.of")} {totalSteps} · {t(`rsvp.step${step + 1}` as never)}
+          </p>
         </div>
 
-        <form onSubmit={onSubmit} className="space-y-6 sm:space-y-7" noValidate>
-          <FloatingField id="rsvp-name" label={t("rsvp.name")} icon={User} value={name} onChange={setName} error={errors.name} required />
-          <FloatingField id="rsvp-email" label={t("rsvp.email")} icon={Mail} type="email" inputMode="email" value={email} onChange={setEmail} error={errors.email} required />
-          <FloatingField
-            id="rsvp-phone"
-            label={t("rsvp.phone")}
-            icon={Phone}
-            type="tel"
-            inputMode="numeric"
-            value={phone}
-            onChange={(v) => setPhone(v.replace(/[^\d]/g, "").slice(0, 9))}
-            error={errors.phone}
-            required
-          />
+        <form onSubmit={onSubmit} className="space-y-6" noValidate>
+          {step === 0 && (
+            <>
+              <div>
+                <p
+                  className="mb-3"
+                  style={{
+                    fontFamily: "Cinzel, serif",
+                    color: "var(--olive)",
+                    letterSpacing: "0.2em",
+                    textTransform: "uppercase",
+                    fontSize: "0.7rem",
+                  }}
+                >
+                  {t("rsvp.attend")} *
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setAttending("yes")}
+                    className="flex items-center justify-center gap-2 py-4 px-4 rounded-md transition-all"
+                    style={{
+                      background: attending === "yes" ? "var(--olive)" : "transparent",
+                      color: attending === "yes" ? "var(--ivory)" : "var(--olive)",
+                      border: "1px solid var(--olive)",
+                      fontFamily: "Cinzel, serif",
+                      letterSpacing: "0.15em",
+                      fontSize: "0.8rem",
+                      textTransform: "uppercase",
+                      minHeight: 44,
+                    }}
+                  >
+                    <Heart size={16} strokeWidth={1.5} fill={attending === "yes" ? "var(--gold)" : "transparent"} />
+                    {t("rsvp.yes")}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setAttending("no")}
+                    className="flex items-center justify-center gap-2 py-4 px-4 rounded-md transition-all"
+                    style={{
+                      background: attending === "no" ? "var(--olive)" : "transparent",
+                      color: attending === "no" ? "var(--ivory)" : "var(--olive)",
+                      border: "1px solid var(--olive)",
+                      fontFamily: "Cinzel, serif",
+                      letterSpacing: "0.15em",
+                      fontSize: "0.8rem",
+                      textTransform: "uppercase",
+                      minHeight: 44,
+                    }}
+                  >
+                    <X size={16} strokeWidth={1.5} />
+                    {t("rsvp.no")}
+                  </button>
+                </div>
+                {errors.attending && (
+                  <p className="mt-2 text-xs text-[color:var(--destructive)]">{errors.attending}</p>
+                )}
+              </div>
 
-          <div>
-            <label
-              htmlFor="rsvp-guests"
-              className="block mb-2"
-              style={{
-                fontFamily: "Cinzel, serif",
-                color: "var(--olive)",
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                fontSize: "0.7rem",
-              }}
-            >
-              {t("rsvp.guests")} *
-            </label>
-            <div className="relative">
-              <select
-                id="rsvp-guests"
-                value={guests}
-                onChange={(e) => setGuests(Number(e.target.value))}
-                className="w-full bg-transparent appearance-none py-3 pr-8 outline-none text-base sm:text-[0.95rem] text-[color:var(--foreground)]"
-                style={{ borderBottom: "1px solid var(--olive)", minHeight: 44 }}
-              >
-                {[1, 2, 3, 4, 5].map((n) => (
-                  <option key={n} value={n}>
-                    {n} {n === 1 ? t("rsvp.guests.one") : t("rsvp.guests.many")}
-                  </option>
-                ))}
-              </select>
-              <span
-                aria-hidden="true"
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-[color:var(--olive)] opacity-70"
-              >
-                ▾
-              </span>
-            </div>
-          </div>
+              {attending === "yes" && (
+                <div>
+                  <label
+                    htmlFor="rsvp-guests"
+                    className="block mb-2"
+                    style={{
+                      fontFamily: "Cinzel, serif",
+                      color: "var(--olive)",
+                      letterSpacing: "0.2em",
+                      textTransform: "uppercase",
+                      fontSize: "0.7rem",
+                    }}
+                  >
+                    {t("rsvp.guests")} *
+                  </label>
+                  <div className="relative">
+                    <select
+                      id="rsvp-guests"
+                      value={guests}
+                      onChange={(e) => setGuests(Number(e.target.value))}
+                      className="w-full bg-transparent appearance-none py-3 pr-8 outline-none text-base sm:text-[0.95rem] text-[color:var(--foreground)]"
+                      style={{ borderBottom: "1px solid var(--olive)", minHeight: 44 }}
+                    >
+                      {[1, 2, 3, 4, 5].map((n) => (
+                        <option key={n} value={n}>
+                          {n} {n === 1 ? t("rsvp.guests.one") : t("rsvp.guests.many")}
+                        </option>
+                      ))}
+                    </select>
+                    <span
+                      aria-hidden="true"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 text-[color:var(--olive)] opacity-70"
+                    >
+                      ▾
+                    </span>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
 
-          <div>
-            <p
-              className="mb-3"
-              style={{
-                fontFamily: "Cinzel, serif",
-                color: "var(--olive)",
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                fontSize: "0.7rem",
-              }}
-            >
-              {t("rsvp.attend")} *
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => setAttending("yes")}
-                className="flex items-center justify-center gap-2 py-4 px-4 rounded-md transition-all"
-                style={{
-                  background: attending === "yes" ? "var(--olive)" : "transparent",
-                  color: attending === "yes" ? "var(--ivory)" : "var(--olive)",
-                  border: "1px solid var(--olive)",
-                  fontFamily: "Cinzel, serif",
-                  letterSpacing: "0.15em",
-                  fontSize: "0.8rem",
-                  textTransform: "uppercase",
-                  minHeight: 44,
-                }}
-              >
-                <Heart
-                  size={16}
-                  strokeWidth={1.5}
-                  fill={attending === "yes" ? "var(--gold)" : "transparent"}
-                />
-                {t("rsvp.yes")}
-              </button>
-              <button
-                type="button"
-                onClick={() => setAttending("no")}
-                className="flex items-center justify-center gap-2 py-4 px-4 rounded-md transition-all"
-                style={{
-                  background: attending === "no" ? "var(--olive)" : "transparent",
-                  color: attending === "no" ? "var(--ivory)" : "var(--olive)",
-                  border: "1px solid var(--olive)",
-                  fontFamily: "Cinzel, serif",
-                  letterSpacing: "0.15em",
-                  fontSize: "0.8rem",
-                  textTransform: "uppercase",
-                  minHeight: 44,
-                }}
-              >
-                <X size={16} strokeWidth={1.5} />
-                {t("rsvp.no")}
-              </button>
-            </div>
-            {errors.attending && (
-              <p className="mt-2 text-xs text-[color:var(--destructive)]">{errors.attending}</p>
-            )}
-          </div>
+          {step === 1 && (
+            <>
+              <FloatingField id="rsvp-name" label={t("rsvp.name")} icon={User} value={name} onChange={setName} error={errors.name} required />
+              <FloatingField id="rsvp-email" label={t("rsvp.email")} icon={Mail} type="email" inputMode="email" value={email} onChange={setEmail} error={errors.email} required />
+              <FloatingField
+                id="rsvp-phone"
+                label={t("rsvp.phone")}
+                icon={Phone}
+                type="tel"
+                inputMode="numeric"
+                value={phone}
+                onChange={(v) => setPhone(v.replace(/[^\d]/g, "").slice(0, 9))}
+                error={errors.phone}
+                required
+              />
+            </>
+          )}
 
-          <FloatingField id="rsvp-allergies" label={t("rsvp.allergies")} value={allergies} onChange={setAllergies} error={errors.allergies} multiline rows={2} />
-          <FloatingField id="rsvp-song" label={t("rsvp.song")} icon={Music} value={song} onChange={setSong} error={errors.song} />
-          <FloatingField id="rsvp-message" label={t("rsvp.message")} value={message} onChange={setMessage} error={errors.message} multiline rows={3} />
+          {step === 2 && (
+            <>
+              <FloatingField id="rsvp-allergies" label={t("rsvp.allergies")} value={allergies} onChange={setAllergies} error={errors.allergies} multiline rows={2} />
+              <FloatingField id="rsvp-song" label={t("rsvp.song")} icon={Music} value={song} onChange={setSong} error={errors.song} />
+              <FloatingField id="rsvp-message" label={t("rsvp.message")} value={message} onChange={setMessage} error={errors.message} multiline rows={3} />
+            </>
+          )}
 
           {submitError && (
             <p className="text-sm text-center" style={{ color: "var(--destructive)" }} role="alert">
@@ -561,33 +585,79 @@ export function RsvpForm() {
             </p>
           )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 disabled:opacity-60"
-            style={{
-              padding: "16px 28px",
-              background: "var(--olive)",
-              color: "var(--cream)",
-              borderRadius: 8,
-              fontFamily: "Cinzel, serif",
-              letterSpacing: "0.25em",
-              fontSize: "0.85rem",
-              textTransform: "uppercase",
-              border: "none",
-              minHeight: 44,
-              boxShadow: "0 6px 18px -10px color-mix(in oklab, var(--olive) 70%, transparent)",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.background = "var(--gold)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.background = "var(--olive)";
-            }}
-          >
-            <Send size={16} strokeWidth={1.5} />
-            {loading ? t("rsvp.sending") : t("rsvp.send")}
-          </button>
+          <div className="flex gap-3 pt-1">
+            {step > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  setErrors({});
+                  setStep((s) => s - 1);
+                }}
+                className="inline-flex items-center justify-center gap-2 transition-all"
+                style={{
+                  flex: "0 0 auto",
+                  padding: "14px 20px",
+                  background: "transparent",
+                  color: "var(--olive)",
+                  borderRadius: 8,
+                  fontFamily: "Cinzel, serif",
+                  letterSpacing: "0.15em",
+                  fontSize: "0.75rem",
+                  textTransform: "uppercase",
+                  border: "1px solid var(--olive)",
+                  minHeight: 44,
+                }}
+              >
+                <ChevronLeft size={16} strokeWidth={1.5} />
+                {t("rsvp.back")}
+              </button>
+            )}
+
+            {step < totalSteps - 1 ? (
+              <button
+                type="button"
+                onClick={goNext}
+                className="flex-1 inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5"
+                style={{
+                  padding: "16px 24px",
+                  background: "var(--olive)",
+                  color: "var(--cream)",
+                  borderRadius: 8,
+                  fontFamily: "Cinzel, serif",
+                  letterSpacing: "0.2em",
+                  fontSize: "0.8rem",
+                  textTransform: "uppercase",
+                  border: "none",
+                  minHeight: 44,
+                }}
+              >
+                {t("rsvp.next")}
+                <ChevronRight size={16} strokeWidth={1.5} />
+              </button>
+            ) : (
+              <button
+                type="submit"
+                disabled={loading}
+                className="flex-1 inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 disabled:opacity-60"
+                style={{
+                  padding: "16px 24px",
+                  background: "var(--olive)",
+                  color: "var(--cream)",
+                  borderRadius: 8,
+                  fontFamily: "Cinzel, serif",
+                  letterSpacing: "0.2em",
+                  fontSize: "0.8rem",
+                  textTransform: "uppercase",
+                  border: "none",
+                  minHeight: 44,
+                  boxShadow: "0 6px 18px -10px color-mix(in oklab, var(--olive) 70%, transparent)",
+                }}
+              >
+                <Send size={16} strokeWidth={1.5} />
+                {loading ? t("rsvp.sending") : t("rsvp.send")}
+              </button>
+            )}
+          </div>
         </form>
       </div>
     </div>
