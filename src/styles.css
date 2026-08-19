@@ -1193,10 +1193,3 @@ body.has-announcement .hero-section { padding-top: 184px; }
   }
 }
 
-
-/* === App em separadores: espaço para o header fixo === */
-.app-main { padding-top: 108px; }
-@media (min-width: 768px) {
-  .app-main { padding-top: 128px; }
-}
-body.has-announcement .app-main { padding-top: 142px; }
