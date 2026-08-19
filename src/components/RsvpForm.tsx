@@ -365,6 +365,8 @@ export function RsvpForm() {
             setSong("");
             setMessage("");
             setFadingOut(false);
+            setStep(0);
+
           }}
           className="mt-6 w-full inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5"
           style={{
