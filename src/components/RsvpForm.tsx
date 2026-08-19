@@ -638,7 +638,9 @@ export function RsvpForm() {
               </button>
             ) : (
               <button
+                key="rsvp-submit"
                 type="submit"
+
                 disabled={loading}
                 className="flex-1 inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 disabled:opacity-60"
                 style={{
