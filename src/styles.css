@@ -222,67 +222,73 @@
   }
 }
 
-/* Compact inline countdown inside the hero */
+/* Compact inline countdown inside the hero — now in whole days only.
+   The count resets at midnight and flips to "Today is the big day" on the wedding date. */
 .hero-countdown {
   display: inline-flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: center;
   gap: 6px;
-  padding: 8px 14px;
+  padding: 8px 18px;
   border-radius: 999px;
   background: color-mix(in oklab, var(--ivory) 68%, transparent);
   backdrop-filter: blur(10px) saturate(130%);
   border: 1px solid color-mix(in oklab, var(--gold) 35%, transparent);
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
 }
-.hero-countdown-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 42px;
-  padding: 0 4px;
-}
-.hero-countdown-item:not(:last-child) {
-  border-right: 1px solid color-mix(in oklab, var(--gold) 25%, transparent);
+.hero-countdown-lead {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--olive);
+  opacity: 0.9;
 }
 .hero-countdown-value {
-  font-family: "Cinzel", serif;
-  font-size: 1.05rem;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
   line-height: 1;
   color: var(--gold);
 }
 .hero-countdown-label {
-  font-family: "Cinzel", serif;
-  font-size: 0.55rem;
-  letter-spacing: 0.12em;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--olive);
-  margin-top: 3px;
   opacity: 0.9;
 }
-.hero-countdown-over {
-  font-family: "Cinzel", serif;
+.hero-countdown-today {
+  align-items: center;
+  padding: 10px 22px;
+}
+.hero-countdown-today-text {
+  font-family: var(--font-display);
   font-size: 0.85rem;
-  letter-spacing: 0.15em;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gold);
 }
 @media (min-width: 640px) {
   .hero-countdown {
-    gap: 10px;
-    padding: 12px 22px;
+    gap: 8px;
+    padding: 10px 24px;
   }
-  .hero-countdown-item {
-    min-width: 54px;
-    padding: 0 6px;
+  .hero-countdown-lead {
+    font-size: 0.85rem;
   }
   .hero-countdown-value {
-    font-size: 1.35rem;
+    font-size: 2rem;
   }
   .hero-countdown-label {
-    font-size: 0.65rem;
-    margin-top: 4px;
+    font-size: 0.8rem;
+  }
+  .hero-countdown-today-text {
+    font-size: 1rem;
   }
 }
 
