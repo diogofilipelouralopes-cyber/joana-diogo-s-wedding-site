@@ -9,22 +9,22 @@ export function FaqSection() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="py-12 sm:py-18 px-5 sm:px-6 scroll-mt-24" style={{ background: "var(--ivory)" }}>
+    <section id="faq" className="py-8 sm:py-18 px-4 sm:px-6 scroll-mt-24" style={{ background: "var(--ivory)" }}>
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-7 sm:mb-10">
+        <div className="text-center mb-4 sm:mb-10">
           <h2
-            className="uppercase text-xl sm:text-2xl md:text-3xl"
+            className="uppercase text-lg sm:text-2xl md:text-3xl"
             style={{ fontFamily: "Cinzel, serif", color: "var(--olive)", letterSpacing: "0.3em", fontWeight: 500 }}
           >
             {t("faq.title")}
           </h2>
           <p
-            className="italic mt-3 text-3xl sm:text-4xl"
+            className="italic mt-1 sm:mt-3 text-2xl sm:text-4xl"
             style={{ fontFamily: "Allura, 'Great Vibes', cursive", color: "var(--gold)", lineHeight: 1.1 }}
           >
             {t("faq.subtitle")}
           </p>
-          <div className="divider-ornament mt-6 max-w-xs mx-auto">
+          <div className="divider-ornament mt-3 sm:mt-6 max-w-xs mx-auto">
             <HelpCircle className="w-4 h-4" strokeWidth={1.25} />
           </div>
         </div>
@@ -39,18 +39,16 @@ export function FaqSection() {
                   background: "var(--cream)",
                   borderBottom: "1px solid color-mix(in oklab, var(--gold) 50%, transparent)",
                   borderRadius: 4,
-                  marginBottom: 6,
+                  marginBottom: 4,
                 }}
               >
                 <button
                   onClick={() => setOpen(isOpen ? null : i)}
-                  className="w-full flex items-center justify-between text-left gap-4 transition-colors"
+                  className="w-full flex items-center justify-between text-left gap-3 transition-colors px-4 py-3 sm:px-6 sm:py-5 text-[0.85rem] sm:text-base"
                   style={{
-                    padding: "20px 24px",
                     minHeight: 44,
                     fontFamily: "Cinzel, serif",
                     color: "var(--olive)",
-                    fontSize: "1rem",
                     letterSpacing: "0.05em",
                     background: "transparent",
                   }}
@@ -77,12 +75,10 @@ export function FaqSection() {
                 >
                   <div style={{ overflow: "hidden" }}>
                     <p
+                      className="px-4 pb-3 sm:px-6 sm:pb-5 text-[0.82rem] sm:text-[0.95rem] leading-snug sm:leading-relaxed"
                       style={{
-                        padding: "0 24px 22px",
                         fontFamily: "Lato, sans-serif",
                         color: "var(--olive)",
-                        fontSize: "0.95rem",
-                        lineHeight: 1.7,
                       }}
                     >
                       {t(`faq.a${k}` as never)}

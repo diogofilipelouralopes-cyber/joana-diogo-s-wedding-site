@@ -40,8 +40,7 @@ export function DecorativeDivider() {
       ref={ref}
       role="presentation"
       aria-hidden="true"
-      className="relative w-full"
-      style={{ height: "50px", marginTop: "60px", marginBottom: "60px" }}
+      className="relative w-full decorative-divider"
     >
       {/* Dotted line */}
       <div
@@ -52,7 +51,7 @@ export function DecorativeDivider() {
         }}
       />
       {/* Icon row */}
-      <div className="absolute inset-0 flex items-center justify-center gap-8">
+      <div className="absolute inset-0 flex items-center justify-center gap-6 sm:gap-8">
         <span
           className={visible ? "decor-icon-in decor-plane-loop" : "decor-icon-hidden"}
           style={{ ...iconStyle, padding: "0 10px", animationDelay: visible ? "0s" : undefined }}

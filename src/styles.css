@@ -1116,3 +1116,26 @@ body.has-announcement .hero-section { padding-top: 184px; }
   transition: transform 0.35s ease;
 }
 .header-date-btn:hover::after { transform: scaleX(1); }
+
+/* --- Compactação mobile: separadores decorativos --- */
+.decorative-divider {
+  height: 36px;
+  margin-top: 26px;
+  margin-bottom: 26px;
+}
+
+@media (min-width: 768px) {
+  .decorative-divider {
+    height: 50px;
+    margin-top: 60px;
+    margin-bottom: 60px;
+  }
+}
+
+/* Evita qualquer scroll horizontal em mobile */
+@media (max-width: 767px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+}

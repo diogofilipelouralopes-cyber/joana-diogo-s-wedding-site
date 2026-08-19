@@ -209,14 +209,11 @@ function Index() {
       <DecorativeDivider />
 
       {/* RSVP — moved up for priority */}
-      <section id="rsvp" className="py-12 sm:py-16 md:py-24 px-5 sm:px-6 bg-secondary/40 scroll-mt-24">
+      <section id="rsvp" className="py-8 sm:py-16 md:py-24 px-4 sm:px-6 bg-secondary/40 scroll-mt-24">
         <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-7 sm:mb-10">
-            <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
-              {t("rsvp.subtitle")}
-            </p>
-            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-primary">{t("rsvp.title")}</h2>
-            <div className="divider-ornament mt-6 max-w-xs mx-auto">
+          <div className="text-center mb-5 sm:mb-10">
+            <h2 className="font-display text-3xl sm:text-5xl md:text-6xl text-primary">{t("rsvp.title")}</h2>
+            <div className="divider-ornament mt-3 sm:mt-6 max-w-xs mx-auto">
               <Heart className="w-3 h-3" strokeWidth={1} />
             </div>
           </div>
@@ -227,20 +224,20 @@ function Index() {
       <DecorativeDivider />
 
       {/* EVENT */}
-      <section id="event" className="py-12 sm:py-16 md:py-24 px-5 sm:px-6 bg-secondary/40 scroll-mt-24">
+      <section id="event" className="py-8 sm:py-16 md:py-24 px-4 sm:px-6 bg-secondary/40 scroll-mt-24">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-8 sm:mb-12">
-            <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
+          <div className="text-center mb-5 sm:mb-12">
+            <p className="text-[0.6rem] sm:text-xs uppercase tracking-[0.35em] text-muted-foreground mb-2">
               {t("event.kicker")}
             </p>
-            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-primary">{t("event.title")}</h2>
-            <div className="divider-ornament mt-6 max-w-xs mx-auto">
+            <h2 className="font-display text-3xl sm:text-5xl md:text-6xl text-primary">{t("event.title")}</h2>
+            <div className="divider-ornament mt-3 sm:mt-6 max-w-xs mx-auto">
               <Heart className="w-3 h-3" strokeWidth={1} />
             </div>
           </div>
 
           <div
-            className="mx-auto p-5 sm:p-8"
+            className="mx-auto p-4 sm:p-8"
             style={{
               maxWidth: 900,
               background: "var(--ivory)",
@@ -263,7 +260,7 @@ function Index() {
                 Glicínia Wedding House
               </h3>
 
-              <div className="relative my-5 flex items-center justify-center max-w-xs mx-auto">
+              <div className="relative my-3 sm:my-5 flex items-center justify-center max-w-xs mx-auto">
                 <span
                   aria-hidden
                   className="absolute left-0 right-0 top-1/2 -translate-y-1/2"
@@ -287,7 +284,7 @@ function Index() {
 
             {/* Embedded interactive map */}
             <div
-              className="mt-6 overflow-hidden"
+              className="mt-4 sm:mt-6 overflow-hidden"
               style={{ borderRadius: 8, border: "1px solid color-mix(in oklab, var(--gold) 40%, transparent)" }}
             >
               <iframe
@@ -297,15 +294,14 @@ function Index() {
                 height="320"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                className="block w-full border-0 sm:h-[400px]"
-                style={{ height: 320 }}
+                className="block w-full border-0 h-[180px] sm:h-[400px]"
               />
             </div>
 
             {/* Travel cards */}
-            <div className="mt-8">
+            <div className="mt-5 sm:mt-8">
               <p
-                className="text-center uppercase text-xs sm:text-sm mb-5"
+                className="text-center uppercase text-xs sm:text-sm mb-3 sm:mb-5"
                 style={{
                   fontFamily: "Cinzel, serif",
                   color: "var(--olive)",
@@ -315,15 +311,15 @@ function Index() {
               >
                 {t("travel.title")}
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                <TravelCard icon={<MapPin size={32} strokeWidth={1.5} />} title={t("travel.porto")} desc={t("travel.porto.desc")} />
-                <TravelCard icon={<MapPin size={32} strokeWidth={1.5} />} title={t("travel.aveiro")} desc={t("travel.aveiro.desc")} />
-                <TravelCard icon={<Plane size={32} strokeWidth={1.5} />} title={t("travel.airport")} desc={t("travel.airport.desc")} />
-                <TravelCard icon={<ParkingCircle size={32} strokeWidth={1.5} />} title={t("travel.parking")} desc={t("travel.parking.desc")} />
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
+                <TravelCard icon={<MapPin size={24} strokeWidth={1.5} />} title={t("travel.porto")} desc={t("travel.porto.desc")} />
+                <TravelCard icon={<MapPin size={24} strokeWidth={1.5} />} title={t("travel.aveiro")} desc={t("travel.aveiro.desc")} />
+                <TravelCard icon={<Plane size={24} strokeWidth={1.5} />} title={t("travel.airport")} desc={t("travel.airport.desc")} />
+                <TravelCard icon={<ParkingCircle size={24} strokeWidth={1.5} />} title={t("travel.parking")} desc={t("travel.parking.desc")} />
               </div>
             </div>
 
-            <div className="mt-8 flex justify-center">
+            <div className="mt-5 sm:mt-8 flex justify-center">
               <a
                 href={MAPS_URL}
                 target="_blank"
@@ -351,19 +347,19 @@ function Index() {
       <DecorativeDivider />
 
       {/* INFORMATION */}
-      <section id="info" className="py-12 sm:py-16 md:py-24 px-5 sm:px-6 scroll-mt-24">
+      <section id="info" className="py-8 sm:py-16 md:py-24 px-4 sm:px-6 scroll-mt-24">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8 sm:mb-12">
-            <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
+          <div className="text-center mb-5 sm:mb-12">
+            <p className="text-[0.6rem] sm:text-xs uppercase tracking-[0.35em] text-muted-foreground mb-2">
               {t("info.kicker")}
             </p>
-            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl text-primary">{t("info.title")}</h2>
-            <div className="divider-ornament mt-6 max-w-xs mx-auto">
+            <h2 className="font-display text-3xl sm:text-5xl md:text-6xl text-primary">{t("info.title")}</h2>
+            <div className="divider-ornament mt-3 sm:mt-6 max-w-xs mx-auto">
               <Heart className="w-3 h-3" strokeWidth={1} />
             </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-5 sm:gap-6">
+          <div className="grid md:grid-cols-3 gap-3 sm:gap-6">
             <InfoCard icon={<Shirt className="w-6 h-6" strokeWidth={1.5} />} title={t("info.dress.title")} desc={t("info.dress.desc")} />
             <InfoCard icon={<Hotel className="w-6 h-6" strokeWidth={1.5} />} title={t("info.hotel.title")} desc={t("info.hotel.desc")} />
             <InfoCard icon={<Car className="w-6 h-6" strokeWidth={1.5} />} title={t("info.parking.title")} desc={t("info.parking.desc")} />
@@ -429,10 +425,12 @@ function InfoCard({
   desc: string;
 }) {
   return (
-    <div className="card-gold p-6 sm:p-8">
-      <div className="text-primary mb-4">{icon}</div>
-      <h3 className="font-display text-base sm:text-lg mb-3 text-primary break-words" style={{ letterSpacing: "0.18em" }}>{title}</h3>
-      <p className="text-sm leading-relaxed text-foreground/75">{desc}</p>
+    <div className="card-gold p-4 sm:p-8">
+      <div className="flex items-center gap-3 mb-2 sm:block">
+        <div className="text-primary shrink-0 sm:mb-4">{icon}</div>
+        <h3 className="font-display text-sm sm:text-lg sm:mb-3 text-primary break-words min-w-0" style={{ letterSpacing: "0.16em" }}>{title}</h3>
+      </div>
+      <p className="text-[0.82rem] sm:text-sm leading-snug sm:leading-relaxed text-foreground/75">{desc}</p>
     </div>
   );
 }
@@ -448,19 +446,18 @@ function TravelCard({
 }) {
   return (
     <div
-      className="travel-card text-center transition-all"
+      className="travel-card text-center transition-all p-3 sm:p-5"
       style={{
         background: "var(--ivory)",
         border: "1px solid color-mix(in oklab, var(--gold) 55%, transparent)",
         borderRadius: 8,
-        padding: "20px 16px",
       }}
     >
       <div className="flex justify-center" style={{ color: "var(--olive)" }}>
         {icon}
       </div>
       <p
-        className="uppercase mt-3 text-xs"
+        className="uppercase mt-2 text-[0.68rem] sm:text-xs"
         style={{
           fontFamily: "Cinzel, serif",
           color: "var(--olive)",
@@ -471,7 +468,7 @@ function TravelCard({
         {title}
       </p>
       <p
-        className="mt-1 text-sm"
+        className="mt-0.5 text-[0.8rem] sm:text-sm"
         style={{
           fontFamily: "Lato, sans-serif",
           color: "var(--gold)",
