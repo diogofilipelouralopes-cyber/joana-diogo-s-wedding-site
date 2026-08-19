@@ -615,8 +615,10 @@ export function RsvpForm() {
 
             {step < totalSteps - 1 ? (
               <button
+                key="rsvp-next"
                 type="button"
                 onClick={goNext}
+
                 className="flex-1 inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5"
                 style={{
                   padding: "16px 24px",
