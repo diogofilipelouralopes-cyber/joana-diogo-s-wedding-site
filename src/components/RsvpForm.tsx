@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { z } from "zod";
-import { User, Mail, Phone, Music, Heart, X, Plane, Send } from "lucide-react";
+import { User, Mail, Phone, Music, Heart, X, Plane, Send, CheckCircle2, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
@@ -137,6 +137,7 @@ export function RsvpForm() {
   const [done, setDone] = useState(false);
   const [fadingOut, setFadingOut] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState<z.infer<typeof schema> | null>(null);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -209,6 +210,7 @@ export function RsvpForm() {
         },
       }).catch((err: unknown) => console.error("Envio de email falhou (não bloqueante):", err));
 
+      setSubmitted(parsed.data);
       setFadingOut(true);
       setTimeout(() => setDone(true), 450);
     } catch {
@@ -229,56 +231,132 @@ export function RsvpForm() {
   }
 
   /* ----------- Confirmation view ----------- */
-  if (done) {
+  if (done && submitted) {
+    const data = submitted;
+    const attendingLabel = data.attending === "yes" ? t("rsvp.confirm.attending.yes") : t("rsvp.confirm.attending.no");
+
+    function Row({ label, value, icon: Icon }: { label: string; value: string; icon?: React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }> }) {
+      return (
+        <div className="flex items-start gap-3 py-2.5 border-b border-[color:var(--gold)]/20 last:border-0">
+          {Icon && <Icon size={16} strokeWidth={1.5} className="shrink-0 mt-0.5 text-[color:var(--olive)] opacity-70" />}
+          <div className="min-w-0 flex-1 text-left">
+            <p className="text-[0.6rem] sm:text-[0.65rem] uppercase tracking-[0.2em] text-[color:var(--olive)] opacity-70 font-[Cinzel]">
+              {label}
+            </p>
+            <p className="mt-0.5 text-sm sm:text-base break-words" style={{ fontFamily: "Lato, sans-serif", color: "var(--foreground)" }}>
+              {value || t("rsvp.confirm.notProvided")}
+            </p>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div
-        className="rsvp-confirm mx-auto text-center"
+        className="rsvp-confirm mx-auto"
         style={{
           maxWidth: 600,
           background: "var(--ivory)",
           border: "1px solid var(--gold)",
           borderRadius: 12,
-          padding: "48px 24px",
+          padding: "40px 20px",
           boxShadow:
             "0 1px 2px color-mix(in oklab, var(--olive) 8%, transparent), 0 18px 40px -22px color-mix(in oklab, var(--olive) 25%, transparent)",
         }}
       >
-        <div className="rsvp-plane-track" aria-hidden="true">
-          <Plane size={36} strokeWidth={1.25} className="rsvp-plane" style={{ color: "var(--gold)" }} />
+        <div className="text-center">
+          <div className="rsvp-plane-track mx-auto" aria-hidden="true">
+            <Plane size={32} strokeWidth={1.25} className="rsvp-plane" style={{ color: "var(--gold)" }} />
+          </div>
+
+          <p
+            className="font-script text-4xl sm:text-5xl mt-2"
+            style={{
+              fontFamily: "Allura, 'Great Vibes', cursive",
+              color: "var(--gold)",
+              lineHeight: 1.1,
+            }}
+          >
+            {t("rsvp.thanks")}
+          </p>
+
+          <p
+            className="mt-3 max-w-md mx-auto text-sm sm:text-base"
+            style={{
+              fontFamily: "Lato, sans-serif",
+              color: "var(--foreground)",
+              lineHeight: 1.6,
+            }}
+          >
+            {t("rsvp.thanksDesc")}
+          </p>
         </div>
 
-        <p
-          className="font-script text-5xl sm:text-6xl"
-          style={{
-            fontFamily: "Allura, 'Great Vibes', cursive",
-            color: "var(--gold)",
-            lineHeight: 1,
-            marginTop: 8,
-          }}
+        <div
+          className="mt-6 rounded-lg p-4 sm:p-5"
+          style={{ background: "color-mix(in oklab, var(--gold) 8%, transparent)", border: "1px solid color-mix(in oklab, var(--gold) 30%, transparent)" }}
         >
-          {t("rsvp.thanks")}
-        </p>
+          <div className="flex items-center gap-2 mb-3">
+            <CheckCircle2 size={18} strokeWidth={1.5} style={{ color: "var(--olive)" }} />
+            <p className="text-xs sm:text-sm uppercase tracking-[0.2em] font-[Cinzel]" style={{ color: "var(--olive)" }}>
+              {t("rsvp.confirm.subtitle")}
+            </p>
+          </div>
 
-        <p
-          className="mt-6 max-w-md mx-auto text-sm sm:text-base"
-          style={{
-            fontFamily: "Lato, sans-serif",
-            color: "var(--foreground)",
-            lineHeight: 1.7,
-          }}
-        >
-          {t("rsvp.thanksDesc")}
-        </p>
-
-        <div className="mt-6 flex justify-center">
-          <Heart
-            size={22}
-            strokeWidth={1}
-            fill="var(--gold)"
-            className="rsvp-heart-pulse"
-            style={{ color: "var(--gold)" }}
+          <Row label={t("rsvp.name")} value={data.name} icon={User} />
+          <Row label={t("rsvp.email")} value={data.email} icon={Mail} />
+          <Row label={t("rsvp.phone")} value={data.phone} icon={Phone} />
+          <Row
+            label={t("rsvp.guests")}
+            value={`${data.guests} ${data.guests === 1 ? t("rsvp.guests.one") : t("rsvp.guests.many")}`}
+            icon={Heart}
           />
+          <Row label={t("rsvp.attend")} value={attendingLabel} icon={data.attending === "yes" ? Heart : X} />
+          <Row label={t("rsvp.allergies")} value={data.allergies || ""} />
+          <Row label={t("rsvp.song")} value={data.song || ""} icon={Music} />
+          <Row label={t("rsvp.message")} value={data.message || ""} />
         </div>
+
+        <button
+          type="button"
+          onClick={() => {
+            setDone(false);
+            setSubmitted(null);
+            setName("");
+            setEmail("");
+            setPhone("");
+            setGuests(1);
+            setAttending(null);
+            setAllergies("");
+            setSong("");
+            setMessage("");
+            setFadingOut(false);
+          }}
+          className="mt-6 w-full inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5"
+          style={{
+            padding: "14px 24px",
+            background: "transparent",
+            color: "var(--olive)",
+            borderRadius: 8,
+            fontFamily: "Cinzel, serif",
+            letterSpacing: "0.2em",
+            fontSize: "0.8rem",
+            textTransform: "uppercase",
+            border: "1px solid var(--olive)",
+            minHeight: 44,
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.background = "var(--olive)";
+            (e.currentTarget as HTMLButtonElement).style.color = "var(--ivory)";
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.background = "transparent";
+            (e.currentTarget as HTMLButtonElement).style.color = "var(--olive)";
+          }}
+        >
+          <RotateCcw size={16} strokeWidth={1.5} />
+          {t("rsvp.confirm.another")}
+        </button>
       </div>
     );
   }
