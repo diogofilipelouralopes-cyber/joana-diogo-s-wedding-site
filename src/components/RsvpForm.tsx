@@ -175,7 +175,12 @@ export function RsvpForm() {
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (step < totalSteps - 1) {
+      goNext();
+      return;
+    }
     setSubmitError(null);
+
 
     const parsed = schema.safeParse({
       name,
@@ -615,8 +620,10 @@ export function RsvpForm() {
 
             {step < totalSteps - 1 ? (
               <button
+                key="rsvp-next"
                 type="button"
                 onClick={goNext}
+
                 className="flex-1 inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5"
                 style={{
                   padding: "16px 24px",
@@ -636,7 +643,9 @@ export function RsvpForm() {
               </button>
             ) : (
               <button
+                key="rsvp-submit"
                 type="submit"
+
                 disabled={loading}
                 className="flex-1 inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 disabled:opacity-60"
                 style={{
