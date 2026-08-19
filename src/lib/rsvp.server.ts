@@ -25,3 +25,20 @@ export async function forwardToSheet(row: SheetRow): Promise<{ ok: boolean }> {
     return { ok: false };
   }
 }
+
+
+export async function findExistingRsvp(email: string, phone: string): Promise<{ exists: boolean; name?: string }> {
+  const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
+  const digits = phone.replace(/\D/g, '');
+  const { data, error } = await supabaseAdmin
+    .from('rsvps')
+    .select('name, email, phone')
+    .limit(500);
+  if (error || !data) return { exists: false };
+  const match = data.find(
+    (r) =>
+      (r.email ?? '').trim().toLowerCase() === email.trim().toLowerCase() ||
+      (digits.length >= 6 && (r.phone ?? '').replace(/\D/g, '').endsWith(digits.slice(-9))),
+  );
+  return match ? { exists: true, name: match.name ?? undefined } : { exists: false };
+}

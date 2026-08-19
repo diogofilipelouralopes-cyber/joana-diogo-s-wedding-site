@@ -38,3 +38,15 @@ export const sendRsvpEmails = createServerFn({ method: 'POST' })
     return result;
   });
 
+
+const duplicateSchema = z.object({
+  email: z.string().trim().email().max(255),
+  phone: z.string().trim().max(30),
+});
+
+export const checkRsvpDuplicate = createServerFn({ method: 'POST' })
+  .inputValidator((data: unknown) => duplicateSchema.parse(data))
+  .handler(async ({ data }) => {
+    const { findExistingRsvp } = await import('./rsvp.server');
+    return findExistingRsvp(data.email, data.phone);
+  });
