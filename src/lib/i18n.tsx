@@ -253,10 +253,13 @@ const dict = {
 
     "count.title": "The Countdown Has Begun",
     "count.subtitle": "to our big day",
-    "count.days": "Days",
+    "count.days": "days",
+    "count.day": "day",
+    "count.daysLeft": "Only",
     "count.hours": "Hours",
     "count.mins": "Minutes",
     "count.secs": "Seconds",
+    "count.today": "Today is the Big Day! 💍",
     "count.over": "The day is here! 💍",
 
     "story.kicker": "2020 — 2026",
