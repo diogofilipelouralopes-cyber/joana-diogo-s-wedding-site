@@ -10,7 +10,7 @@ RSVP: feito na secção "Confirmar Presença" do site (botão flutuante ou menu)
 ACOMPANHANTES: falar diretamente com os noivos para organizar.
 DRESS CODE: confortáveis e elegantes; branco reservado à noiva; cores alegres bem-vindas.
 ESTACIONAMENTO: parque privativo e gratuito no local.
-ALOJAMENTO: a Quinta Glicínia tem alojamento no próprio local, check-in a partir das 15h00; reservas diretamente com os noivos. O hotel tem piscina — traz fato de banho se ficares hospedado.
+ALOJAMENTO: a Quinta Glicínia tem alojamento no próprio local, check-in a partir das 15h00, preferencialmente logo após a cerimónia; reservas diretamente com os noivos. O hotel tem piscina — traz fato de banho se ficares hospedado.
 FOTOGRAFIAS: durante a cerimónia pede-se que não se tirem fotos (fica ao fotógrafo); depois à vontade, e há álbum partilhado no site.
 PRESENTES: a presença é o maior presente; quem quiser contribuir encontra os dados na secção "Presentes".
 CONTACTOS: Joana +351 912 633 104 (WhatsApp https://wa.me/351912633104), Diogo +32 493 945 581 (WhatsApp https://wa.me/32493945581).
