@@ -162,6 +162,7 @@ const dict = {
     "rsvp.err.email": "Email inválido.",
     "rsvp.err.phone": "Indica 9 dígitos (ex: 912345678).",
     "rsvp.err.attending": "Indica se vais estar presente.",
+    "rsvp.err.duplicate": "Já estás inscrito para o grande dia! Encontrámos uma confirmação com este email ou telemóvel. Se precisares de alterar algo, fala connosco.",
     "rsvp.err.submit": "Algo correu mal. Por favor tenta novamente ou contacta-nos diretamente.",
 
     "gifts.kicker": "Com gratidão",
@@ -339,6 +340,7 @@ const dict = {
     "rsvp.err.email": "Invalid email.",
     "rsvp.err.phone": "Enter 9 digits (e.g. 912345678).",
     "rsvp.err.attending": "Please let us know if you'll attend.",
+    "rsvp.err.duplicate": "You're already signed up for the big day! We found an RSVP with this email or phone number. Contact us if you need to change anything.",
     "rsvp.err.submit": "Something went wrong. Please try again or contact us directly.",
 
     "gifts.kicker": "With gratitude",

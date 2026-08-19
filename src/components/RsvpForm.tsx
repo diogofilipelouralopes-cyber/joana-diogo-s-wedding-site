@@ -4,7 +4,7 @@ import { User, Mail, Phone, Music, Heart, X, Plane, Send, CheckCircle2, RotateCc
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
-import { syncRsvpToSheet, sendRsvpEmails } from "@/lib/rsvp.functions";
+import { syncRsvpToSheet, sendRsvpEmails, checkRsvpDuplicate } from "@/lib/rsvp.functions";
 
 
 type FormErrors = Partial<
@@ -205,6 +205,30 @@ export function RsvpForm() {
     }
     setErrors({});
     setLoading(true);
+
+    // Bloqueia inscrições repetidas (mesmo email ou telemóvel).
+    try {
+      const dup = await checkRsvpDuplicate({
+        data: { email: parsed.data.email, phone: parsed.data.phone },
+      });
+      if (dup?.exists) {
+        const msg = t("rsvp.err.duplicate");
+        setSubmitError(msg);
+        setLoading(false);
+        toast.error(msg, {
+          style: {
+            background: "var(--ivory)",
+            border: "1px solid var(--gold)",
+            color: "var(--olive)",
+            fontFamily: "Cinzel, serif",
+            letterSpacing: "0.08em",
+          },
+        });
+        return;
+      }
+    } catch (err) {
+      console.error("Verificação de duplicados falhou (não bloqueante):", err);
+    }
 
     // Google Sheet sync goes through a server function that re-validates the
     // payload; the webhook URL never reaches the client bundle.
