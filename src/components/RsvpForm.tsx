@@ -210,6 +210,7 @@ export function RsvpForm() {
         },
       }).catch((err: unknown) => console.error("Envio de email falhou (não bloqueante):", err));
 
+      setSubmitted(parsed.data);
       setFadingOut(true);
       setTimeout(() => setDone(true), 450);
     } catch {
