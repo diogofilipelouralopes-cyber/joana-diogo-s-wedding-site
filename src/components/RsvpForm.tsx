@@ -137,6 +137,7 @@ export function RsvpForm() {
   const [done, setDone] = useState(false);
   const [fadingOut, setFadingOut] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState<z.infer<typeof schema> | null>(null);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
