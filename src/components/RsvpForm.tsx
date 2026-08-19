@@ -138,6 +138,40 @@ export function RsvpForm() {
   const [fadingOut, setFadingOut] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState<z.infer<typeof schema> | null>(null);
+  const [step, setStep] = useState(0);
+  const totalSteps = 3;
+
+  function goNext() {
+    if (step === 0) {
+      if (!attending) {
+        setErrors({ attending: t("rsvp.err.attending") });
+        return;
+      }
+      setErrors({});
+      setStep(1);
+      return;
+    }
+    if (step === 1) {
+      const partial = z.object({
+        name: schema.shape.name,
+        email: schema.shape.email,
+        phone: schema.shape.phone,
+      });
+      const res = partial.safeParse({ name, email, phone: phone.replace(/\s+/g, "") });
+      if (!res.success) {
+        const errs: FormErrors = {};
+        for (const issue of res.error.issues) {
+          const k = issue.path[0] as keyof FormErrors;
+          if (!errs[k]) errs[k] = issue.message;
+        }
+        setErrors(errs);
+        return;
+      }
+      setErrors({});
+      setStep(2);
+    }
+  }
+
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
