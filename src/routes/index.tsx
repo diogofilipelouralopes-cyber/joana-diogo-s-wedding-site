@@ -446,19 +446,18 @@ function TravelCard({
 }) {
   return (
     <div
-      className="travel-card text-center transition-all"
+      className="travel-card text-center transition-all p-3 sm:p-5"
       style={{
         background: "var(--ivory)",
         border: "1px solid color-mix(in oklab, var(--gold) 55%, transparent)",
         borderRadius: 8,
-        padding: "20px 16px",
       }}
     >
       <div className="flex justify-center" style={{ color: "var(--olive)" }}>
         {icon}
       </div>
       <p
-        className="uppercase mt-3 text-xs"
+        className="uppercase mt-2 text-[0.68rem] sm:text-xs"
         style={{
           fontFamily: "Cinzel, serif",
           color: "var(--olive)",
@@ -469,7 +468,7 @@ function TravelCard({
         {title}
       </p>
       <p
-        className="mt-1 text-sm"
+        className="mt-0.5 text-[0.8rem] sm:text-sm"
         style={{
           fontFamily: "Lato, sans-serif",
           color: "var(--gold)",

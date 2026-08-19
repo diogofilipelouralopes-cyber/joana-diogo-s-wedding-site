@@ -36,28 +36,36 @@ function QRCodeClient({ value, size }: { value: string; size: number }) {
 
 export function MemoriesSection() {
   const { t } = useI18n();
+  const [qrSize, setQrSize] = useState(140);
+
+  useEffect(() => {
+    const update = () => setQrSize(window.innerWidth < 768 ? 140 : 220);
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   return (
-    <section id="fotos" className="py-12 sm:py-20 px-5 sm:px-6 scroll-mt-24" style={{ background: "var(--ivory)" }}>
+    <section id="fotos" className="py-8 sm:py-20 px-4 sm:px-6 scroll-mt-24" style={{ background: "var(--ivory)" }}>
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-8 sm:mb-10">
+        <div className="text-center mb-4 sm:mb-10">
           <h2
-            className="uppercase text-xl sm:text-2xl md:text-3xl"
+            className="uppercase text-lg sm:text-2xl md:text-3xl"
             style={{ fontFamily: "Cinzel, serif", color: "var(--olive)", letterSpacing: "0.3em", fontWeight: 500 }}
           >
             {t("memories.title")}
           </h2>
           <p
-            className="italic mt-3 text-3xl sm:text-4xl"
+            className="italic mt-1 sm:mt-3 text-2xl sm:text-4xl"
             style={{ fontFamily: "Allura, 'Great Vibes', cursive", color: "var(--gold)", lineHeight: 1.1 }}
           >
             {t("memories.subtitle")}
           </p>
-          <div className="divider-ornament mt-6 max-w-xs mx-auto">
+          <div className="divider-ornament mt-3 sm:mt-6 max-w-xs mx-auto">
             <Camera className="w-4 h-4" strokeWidth={1.25} />
           </div>
           <p
-            className="mt-6 mx-auto text-sm sm:text-base leading-relaxed"
+            className="mt-3 sm:mt-6 mx-auto text-[0.85rem] sm:text-base leading-snug sm:leading-relaxed"
             style={{ color: "var(--olive)", opacity: 0.9, maxWidth: 560 }}
           >
             {t("memories.desc")}
@@ -65,7 +73,7 @@ export function MemoriesSection() {
         </div>
 
         <div
-          className="mx-auto p-8 sm:p-12 relative"
+          className="mx-auto p-4 sm:p-12 relative"
           style={{
             maxWidth: 780,
             background: "var(--cream)",
@@ -87,30 +95,30 @@ export function MemoriesSection() {
             }}
           />
 
-          <div className="grid md:grid-cols-2 gap-7 items-center relative">
+          <div className="grid md:grid-cols-2 gap-4 sm:gap-7 items-center relative">
             {/* QR */}
             <div className="flex justify-center order-2 md:order-1">
               <div
+                className="p-3 sm:p-5"
                 style={{
-                  padding: 20,
                   background: "var(--cream)",
                   border: "1px solid var(--gold)",
                   borderRadius: 12,
                 }}
               >
-                <QRCodeClient value={ALBUM_URL} size={220} />
+                <QRCodeClient value={ALBUM_URL} size={qrSize} />
               </div>
             </div>
 
             {/* Steps */}
             <div className="order-1 md:order-2">
               <p
-                className="uppercase text-base mb-5"
+                className="uppercase text-sm sm:text-base mb-3 sm:mb-5"
                 style={{ fontFamily: "Cinzel, serif", color: "var(--olive)", letterSpacing: "0.2em", fontWeight: 500 }}
               >
                 {t("memories.stepsTitle")}
               </p>
-              <ol className="space-y-4">
+              <ol className="space-y-2.5 sm:space-y-4">
                 <Step n={1} icon={<Smartphone size={18} strokeWidth={1.5} />} text={t("memories.step1")} />
                 <Step n={2} icon={<Heart size={18} strokeWidth={1.5} />} text={t("memories.step2")} />
                 <Step n={3} icon={<Sparkles size={18} strokeWidth={1.5} />} text={t("memories.step3")} />
@@ -119,21 +127,21 @@ export function MemoriesSection() {
           </div>
 
           {/* CTAs */}
-          <div className="mt-9 grid sm:grid-cols-2 gap-3 relative">
+          <div className="mt-4 sm:mt-9 grid grid-cols-2 gap-2 sm:gap-3 relative">
             <a
               href={ALBUM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 uppercase transition-all hover:-translate-y-0.5"
+              className="w-full inline-flex items-center justify-center gap-2 px-3 sm:px-6 py-3 sm:py-4 uppercase transition-all hover:-translate-y-0.5 text-center"
               style={{
                 fontFamily: "Cinzel, serif",
-                letterSpacing: "0.22em",
-                fontSize: "0.78rem",
+                letterSpacing: "0.14em",
+                fontSize: "0.68rem",
                 background: "var(--olive)",
                 color: "var(--cream)",
                 border: "1px solid var(--olive)",
                 borderRadius: 8,
-                minHeight: 54,
+                minHeight: 46,
               }}
             >
               <Camera size={18} strokeWidth={1.5} />
@@ -143,16 +151,16 @@ export function MemoriesSection() {
               href={ALBUM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 uppercase transition-all hover:-translate-y-0.5"
+              className="w-full inline-flex items-center justify-center gap-2 px-3 sm:px-6 py-3 sm:py-4 uppercase transition-all hover:-translate-y-0.5 text-center"
               style={{
                 fontFamily: "Cinzel, serif",
-                letterSpacing: "0.22em",
-                fontSize: "0.78rem",
+                letterSpacing: "0.14em",
+                fontSize: "0.68rem",
                 background: "transparent",
                 color: "var(--olive)",
                 border: "1px solid var(--gold)",
                 borderRadius: 8,
-                minHeight: 54,
+                minHeight: 46,
               }}
             >
               <ImagePlus size={18} strokeWidth={1.5} />
@@ -161,7 +169,7 @@ export function MemoriesSection() {
           </div>
         </div>
 
-        <p className="text-center italic mt-6 text-sm" style={{ color: "var(--olive)", opacity: 0.85 }}>
+        <p className="text-center italic mt-3 sm:mt-6 text-[0.8rem] sm:text-sm" style={{ color: "var(--olive)", opacity: 0.85 }}>
           {t("memories.note")}
         </p>
       </div>
@@ -171,12 +179,12 @@ export function MemoriesSection() {
 
 function Step({ n, icon, text }: { n: number; icon: React.ReactNode; text: string }) {
   return (
-    <li className="flex items-start gap-3">
+    <li className="flex items-start gap-2.5">
       <span
         className="shrink-0 inline-flex items-center justify-center"
         style={{
-          width: 32,
-          height: 32,
+          width: 28,
+          height: 28,
           borderRadius: 999,
           background: "var(--ivory)",
           border: "1px solid var(--gold)",
@@ -192,7 +200,7 @@ function Step({ n, icon, text }: { n: number; icon: React.ReactNode; text: strin
         >
           {String(n).padStart(2, "0")}
         </p>
-        <p className="text-sm leading-relaxed" style={{ color: "var(--olive)" }}>
+        <p className="text-[0.82rem] sm:text-sm leading-snug sm:leading-relaxed" style={{ color: "var(--olive)" }}>
           {text}
         </p>
       </div>
