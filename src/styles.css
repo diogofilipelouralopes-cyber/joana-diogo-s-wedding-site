@@ -955,16 +955,14 @@ body { padding-top: 0; }
 /* === Mobile sticky RSVP — keep above WhatsApp FAB === */
 @media (max-width: 640px) {
   .sticky-rsvp-btn { bottom: 1rem; right: 1rem; padding: 0.7rem 1.1rem; font-size: 0.7rem; }
-/* === Mobile sticky RSVP — keep above WhatsApp FAB === */
-@media (max-width: 640px) {
-  .sticky-rsvp-btn { bottom: 1rem; right: 1rem; padding: 0.7rem 1.1rem; font-size: 0.7rem; }
   body:has(.quick-access-bar) .sticky-rsvp-btn { bottom: 6.5rem; }
   body:has(.quick-access-bar) .install-btn { bottom: 10rem; }
   body:has(.quick-access-bar) .whatsapp-fab { bottom: 6.5rem; }
-}}
+}
 
 /* Prevent any element from causing horizontal overflow */
-html, body { overflow-x: hidden; max-width: 100vw; }
+html, body { overflow-x: clip; max-width: 100%; }
+
 
 /* Playlist CTA hover (olive -> gold) */
 .playlist-cta:hover,
