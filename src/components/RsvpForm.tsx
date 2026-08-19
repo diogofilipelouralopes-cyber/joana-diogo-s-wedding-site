@@ -175,7 +175,12 @@ export function RsvpForm() {
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (step < totalSteps - 1) {
+      goNext();
+      return;
+    }
     setSubmitError(null);
+
 
     const parsed = schema.safeParse({
       name,
