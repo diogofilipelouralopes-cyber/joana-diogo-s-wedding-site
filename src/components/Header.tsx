@@ -66,26 +66,6 @@ export function Header() {
   const [active, setActive] = useState<string>("top");
   const navigate = useNavigate();
 
-  // Instalação PWA (adicionar ao ecrã principal)
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
-  const [isIOS, setIsIOS] = useState(false);
-  const [showIOSHelp, setShowIOSHelp] = useState(false);
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const ua = window.navigator.userAgent;
-    setIsIOS(/iPad|iPhone|iPod/.test(ua));
-    const onBIP = (e: Event) => { e.preventDefault(); setDeferredPrompt(e); };
-    window.addEventListener("beforeinstallprompt", onBIP);
-    return () => window.removeEventListener("beforeinstallprompt", onBIP);
-  }, []);
-  const handleInstall = async () => {
-    if (isIOS) { setShowIOSHelp(true); return; }
-    if (deferredPrompt) {
-      await deferredPrompt.prompt();
-      setDeferredPrompt(null);
-      setOpen(false);
-    }
-  };
 
   // Toque/clique triplo no logo abre o /admin (atalho discreto)
   const tapCount = useRef(0);
