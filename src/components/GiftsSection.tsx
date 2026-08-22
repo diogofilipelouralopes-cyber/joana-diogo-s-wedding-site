@@ -1,4 +1,4 @@
-import { Heart, Copy, Smartphone } from "lucide-react";
+import { Copy, Smartphone } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 
