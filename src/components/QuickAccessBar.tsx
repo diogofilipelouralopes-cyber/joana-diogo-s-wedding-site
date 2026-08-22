@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useI18n } from "@/lib/i18n";
 import { createPortal } from "react-dom";
-import { MapPin, Camera, CalendarHeart, ExternalLink, MessageCircleHeart } from "lucide-react";
+import { MapPin, Camera, CalendarHeart, ExternalLink } from "lucide-react";
 import { ALBUM_URL } from "@/components/MemoriesSection";
 import {
   Popover,
