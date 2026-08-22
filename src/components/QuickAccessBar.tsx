@@ -146,17 +146,6 @@ export function QuickAccessBar() {
           </button>
         </li>
 
-        {/* Chat / FAQ */}
-        <li className="qa-item">
-          <button
-            type="button"
-            onClick={() => window.dispatchEvent(new CustomEvent("wedding-chat:toggle"))}
-            className="qa-btn"
-            aria-label={lang === "en" ? "Chat" : "Assistente"}
-          >
-            <MessageCircleHeart size={22} strokeWidth={1.6} />
-          </button>
-        </li>
 
         {/* Contactos (WhatsApp) */}
         <li className="qa-item">
