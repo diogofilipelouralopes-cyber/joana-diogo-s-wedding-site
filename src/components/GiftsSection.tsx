@@ -100,17 +100,18 @@ function GiftCard({
   copyLabel: string;
 }) {
   return (
-    <div className="card-gold p-4 sm:p-8">
-      <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.2em] text-muted-foreground mb-1">{label}</p>
-      <p className="font-display text-base sm:text-xl text-primary mb-2">{owner}</p>
-      <div className="flex items-center justify-between gap-3 flex-wrap">
-        <p className="font-mono text-xs sm:text-sm md:text-base text-foreground/85 tracking-wider break-all">
+    <div className="card-gold p-3 sm:p-5">
+      <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.2em] text-muted-foreground mb-0.5">
+        {label} · <span className="normal-case tracking-normal">{owner}</span>
+      </p>
+      <div className="flex items-center justify-between gap-2 flex-wrap">
+        <p className="font-mono text-xs sm:text-sm text-foreground/85 tracking-wider break-all">
           {value}
         </p>
         <button
           onClick={onCopy}
-          className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-primary hover:text-primary/70 transition-colors border border-primary/40 px-4 py-2 hover:bg-primary/5 rounded"
-          style={{ minHeight: 44 }}
+          className="inline-flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.18em] text-primary hover:text-primary/70 transition-colors border border-primary/40 px-3 py-1.5 hover:bg-primary/5 rounded"
+          style={{ minHeight: 40 }}
         >
           <Copy className="w-3.5 h-3.5" />
           {copyLabel}
