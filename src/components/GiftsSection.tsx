@@ -59,22 +59,21 @@ export function GiftsSection() {
             onCopy={() => copyIban(ibanRev)}
             copyLabel={t("gifts.copy.iban")}
           />
-          <div className="card-gold p-4 sm:p-8">
-            <div className="flex items-center gap-2 mb-2">
-              <Smartphone className="w-4 h-4 text-primary" strokeWidth={1.5} />
-              <h3 className="font-display text-base sm:text-xl text-primary">{t("gifts.mbway")}</h3>
+          <div className="card-gold p-3 sm:p-5">
+            <div className="flex items-center gap-2 mb-0.5">
+              <Smartphone className="w-3.5 h-3.5 text-primary" strokeWidth={1.5} />
+              <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                {t("gifts.mbway")} · Joana Nora
+              </p>
             </div>
-            <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.2em] text-muted-foreground mb-1">
-              Joana Nora
-            </p>
-            <div className="flex items-center justify-between gap-3 flex-wrap">
-              <p className="font-display text-xl sm:text-2xl" style={{ color: "var(--gold)" }}>
+            <div className="flex items-center justify-between gap-2 flex-wrap">
+              <p className="font-display text-lg sm:text-xl" style={{ color: "var(--gold)" }}>
                 {mbwayNumber}
               </p>
               <button
                 onClick={copyNumber}
-                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-primary hover:text-primary/70 transition-colors border border-primary/40 px-4 py-2 hover:bg-primary/5 rounded"
-                style={{ minHeight: 44 }}
+                className="inline-flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.18em] text-primary hover:text-primary/70 transition-colors border border-primary/40 px-3 py-1.5 hover:bg-primary/5 rounded"
+                style={{ minHeight: 40 }}
               >
                 <Copy className="w-3.5 h-3.5" />
                 {t("gifts.copy.number")}
