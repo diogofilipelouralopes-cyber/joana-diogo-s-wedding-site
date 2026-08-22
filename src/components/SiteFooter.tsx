@@ -108,8 +108,6 @@ export function SiteFooter() {
           19 · 09 · 2026
         </p>
 
-        <GoldDivider />
-
         <p
           className="italic text-xs sm:text-sm"
           style={{
@@ -118,56 +116,10 @@ export function SiteFooter() {
             opacity: 0.85,
           }}
         >
-          {t("footer.made")}
+          {lang === "en"
+            ? "Thank you for being part of our day."
+            : "Obrigado por fazerem parte do nosso dia."}
         </p>
-
-        <TooltipProvider delayDuration={150}>
-          <div className="flex items-center gap-4 mt-2">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  to="/connect"
-                  aria-label="Ligar assistente AI"
-                  className="inline-flex items-center justify-center transition-colors duration-300"
-                  style={{ color: "#F5EFE4", opacity: 0.2 }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color = "var(--gold)";
-                    e.currentTarget.style.opacity = "1";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color = "#F5EFE4";
-                    e.currentTarget.style.opacity = "0.2";
-                  }}
-                >
-                  <Bot size={14} strokeWidth={1.25} />
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="top">Ligar assistente AI</TooltipContent>
-            </Tooltip>
-
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  to="/admin"
-                  aria-label="Admin"
-                  className="inline-flex items-center justify-center transition-colors duration-300"
-                  style={{ color: "#F5EFE4", opacity: 0.2 }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color = "var(--gold)";
-                    e.currentTarget.style.opacity = "1";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color = "#F5EFE4";
-                    e.currentTarget.style.opacity = "0.2";
-                  }}
-                >
-                  <Lock size={14} strokeWidth={1.25} />
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="top">Admin</TooltipContent>
-            </Tooltip>
-          </div>
-        </TooltipProvider>
       </div>
     </footer>
   );
