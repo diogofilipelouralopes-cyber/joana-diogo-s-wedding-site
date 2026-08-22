@@ -325,9 +325,19 @@ export function Header() {
             <span className="drawer-item-icon"><Share2 className="w-[18px] h-[18px]" strokeWidth={1.5} /></span>
             <span className="drawer-item-text">{lang === "en" ? "Share" : "Partilhar"}</span>
           </a>
-          <button type="button" onClick={handleInstall} className="drawer-action">
-            <span className="drawer-item-icon"><Smartphone className="w-[18px] h-[18px]" strokeWidth={1.5} /></span>
-            <span className="drawer-item-text">{lang === "en" ? "Add to Home Screen" : "Adicionar ao ecrã"}</span>
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false);
+              setTimeout(
+                () => window.dispatchEvent(new CustomEvent("wedding-chat:toggle")),
+                250,
+              );
+            }}
+            className="drawer-action"
+          >
+            <span className="drawer-item-icon"><Bot className="w-[18px] h-[18px]" strokeWidth={1.5} /></span>
+            <span className="drawer-item-text">{lang === "en" ? "Chatbot" : "Chatbot"}</span>
           </button>
         </div>
 
