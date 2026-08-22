@@ -1,9 +1,16 @@
 import { useState } from "react";
 import { z } from "zod";
-import { MessageCircleHeart, User, Send, Heart, Loader2 } from "lucide-react";
+import { MessageCircleHeart, Send, Heart, Loader2, ArrowLeft, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const schema = z.object({
   nome: z.string().trim().min(2).max(100),
@@ -11,18 +18,24 @@ const schema = z.object({
 });
 
 export function MessagesSection() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
+  const [open, setOpen] = useState(false);
+  const [step, setStep] = useState(0);
   const [nome, setNome] = useState("");
   const [mensagem, setMensagem] = useState("");
-  const [honeypot, setHoneypot] = useState(""); // bot trap
+  const [honeypot, setHoneypot] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
-  const [fadingOut, setFadingOut] = useState(false);
-  const [showAgain, setShowAgain] = useState(false);
 
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (honeypot) return; // bot
+  function resetAll() {
+    setStep(0);
+    setNome("");
+    setMensagem("");
+    setDone(false);
+  }
+
+  async function submit() {
+    if (honeypot) return;
     const parsed = schema.safeParse({ nome, mensagem });
     if (!parsed.success) {
       toast.error(t("msg.err.invalid"));
@@ -38,301 +51,239 @@ export function MessagesSection() {
       toast.error(t("msg.err.submit"));
       return;
     }
-    setFadingOut(true);
-    setTimeout(() => {
-      setDone(true);
-      setFadingOut(false);
-    }, 500);
-    setTimeout(() => setShowAgain(true), 6000);
+    setDone(true);
   }
 
-  function reset() {
-    setNome("");
-    setMensagem("");
-    setDone(false);
-    setShowAgain(false);
-  }
+  const inputStyle: React.CSSProperties = {
+    width: "100%",
+    borderRadius: 10,
+    border: "1px solid color-mix(in oklab, var(--gold) 45%, transparent)",
+    background: "var(--ivory)",
+    padding: "12px 14px",
+    fontFamily: "Lato, sans-serif",
+    color: "var(--foreground)",
+    outline: "none",
+  };
 
-  const charCount = mensagem.length;
+  const primaryBtn: React.CSSProperties = {
+    background: "var(--olive)",
+    color: "var(--cream)",
+    fontFamily: "Cinzel, serif",
+    fontSize: "0.75rem",
+    letterSpacing: "0.22em",
+    minHeight: 46,
+    padding: "12px 22px",
+    borderRadius: 8,
+  };
 
   return (
     <section
       id="mensagens"
       className="px-5 sm:px-6 scroll-mt-24"
-      style={{ background: "var(--cream)", paddingTop: 100, paddingBottom: 100 }}
+      style={{ background: "var(--cream)", paddingTop: 28, paddingBottom: 28 }}
     >
-      <div className="max-w-5xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-7">
-          <h2
-            className="uppercase text-xl sm:text-2xl md:text-3xl"
-            style={{
-              fontFamily: "Cinzel, serif",
-              color: "var(--olive)",
-              letterSpacing: "0.3em",
-              fontWeight: 500,
-            }}
-          >
-            {t("msg.title")}
-          </h2>
-          <p
-            className="italic mt-3 text-3xl sm:text-4xl"
-            style={{
-              fontFamily: "Allura, 'Great Vibes', cursive",
-              color: "var(--gold)",
-              lineHeight: 1.1,
-            }}
-          >
-            {t("msg.subtitle")}
-          </p>
-          <div className="divider-ornament mt-6 max-w-xs mx-auto">
-            <MessageCircleHeart className="w-4 h-4" strokeWidth={1.25} />
-          </div>
-        </div>
-
-        {/* Card */}
-        <div
-          className="mx-auto"
+      <div className="max-w-xl mx-auto text-center">
+        <h2
+          className="uppercase text-base sm:text-xl"
           style={{
-            maxWidth: 600,
-            background: "var(--ivory)",
-            border: "1px solid color-mix(in oklab, var(--gold) 55%, transparent)",
-            borderRadius: 12,
-            padding: "clamp(28px, 5vw, 50px)",
-            boxShadow:
-              "0 1px 2px color-mix(in oklab, var(--olive) 8%, transparent), 0 18px 40px -22px color-mix(in oklab, var(--olive) 25%, transparent)",
+            fontFamily: "Cinzel, serif",
+            color: "var(--olive)",
+            letterSpacing: "0.28em",
+            fontWeight: 500,
           }}
         >
-          {!done ? (
-            <div
-              style={{
-                transition: "opacity 500ms ease",
-                opacity: fadingOut ? 0 : 1,
-              }}
+          {t("msg.title")}
+        </h2>
+        <p
+          className="italic mt-1 text-xl sm:text-2xl"
+          style={{
+            fontFamily: "Allura, 'Great Vibes', cursive",
+            color: "var(--gold)",
+            lineHeight: 1.1,
+          }}
+        >
+          {t("msg.subtitle")}
+        </p>
+
+        <Dialog
+          open={open}
+          onOpenChange={(v) => {
+            setOpen(v);
+            if (!v) resetAll();
+          }}
+        >
+          <DialogTrigger asChild>
+            <button
+              type="button"
+              className="mt-3 inline-flex items-center justify-center gap-2 uppercase transition-transform hover:-translate-y-0.5"
+              style={primaryBtn}
             >
-              <p
-                className="text-center text-base mb-7"
+              <MessageCircleHeart className="w-4 h-4" strokeWidth={1.5} />
+              {t("msg.send")}
+            </button>
+          </DialogTrigger>
+
+          <DialogContent
+            className="sm:max-w-md"
+            style={{
+              background: "var(--ivory)",
+              border: "1px solid color-mix(in oklab, var(--gold) 50%, transparent)",
+            }}
+          >
+            <DialogHeader>
+              <DialogTitle
+                className="uppercase text-sm"
                 style={{
-                  fontFamily: "Lato, sans-serif",
+                  fontFamily: "Cinzel, serif",
                   color: "var(--olive)",
-                  lineHeight: 1.6,
+                  letterSpacing: "0.2em",
                 }}
               >
-                {t("msg.intro")}
-              </p>
+                {t("msg.title")}
+              </DialogTitle>
+            </DialogHeader>
 
-              <form onSubmit={onSubmit} className="space-y-6" noValidate>
-                {/* Honeypot */}
-                <input
-                  type="text"
-                  tabIndex={-1}
-                  autoComplete="off"
-                  value={honeypot}
-                  onChange={(e) => setHoneypot(e.target.value)}
-                  aria-hidden="true"
-                  style={{
-                    position: "absolute",
-                    left: "-9999px",
-                    width: 1,
-                    height: 1,
-                    opacity: 0,
-                    pointerEvents: "none",
-                  }}
+            {/* Honeypot */}
+            <input
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+              aria-hidden="true"
+              style={{ position: "absolute", left: "-9999px", width: 1, height: 1, opacity: 0 }}
+            />
+
+            {done ? (
+              <div className="text-center py-3">
+                <Heart
+                  className="mx-auto"
+                  size={44}
+                  strokeWidth={1.25}
+                  fill="var(--gold)"
+                  style={{ color: "var(--gold)" }}
                 />
-
-                {/* Nome */}
-                <FloatingField
-                  id="msg-nome"
-                  label={t("msg.field.name")}
-                  icon={User}
-                  value={nome}
-                  onChange={setNome}
-                />
-
-                {/* Mensagem */}
-                <FloatingField
-                  id="msg-text"
-                  label=""
-                  value={mensagem}
-                  onChange={(v) => setMensagem(v.slice(0, 1000))}
-                  multiline
-                  placeholder={t("msg.placeholder")}
-                  counter={`${charCount} / 1000`}
-                />
-
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="w-full inline-flex items-center justify-center gap-2 uppercase transition-all hover:-translate-y-0.5"
+                <p
+                  className="italic mt-2"
                   style={{
-                    background: "var(--olive)",
-                    color: "var(--cream)",
-                    fontFamily: "Cinzel, serif",
-                    fontSize: "0.8rem",
-                    letterSpacing: "0.25em",
-                    minHeight: 52,
-                    padding: "16px 32px",
-                    borderRadius: 8,
-                    boxShadow: "0 4px 16px rgba(107, 122, 79, 0.3)",
-                    opacity: submitting ? 0.7 : 1,
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!submitting) e.currentTarget.style.background = "var(--gold)";
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!submitting) e.currentTarget.style.background = "var(--olive)";
-                  }}
-                >
-                  {submitting ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      {t("msg.sending")}
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-4 h-4" strokeWidth={1.5} />
-                      {t("msg.send")}
-                    </>
-                  )}
-                </button>
-              </form>
-            </div>
-          ) : (
-            <div className="text-center py-6 rsvp-confirm">
-              <Heart
-                className="mx-auto rsvp-heart-pulse"
-                size={56}
-                strokeWidth={1.25}
-                fill="var(--gold)"
-                style={{ color: "var(--gold)" }}
-              />
-              <p
-                className="italic mt-4"
-                style={{
-                  fontFamily: "Allura, 'Great Vibes', cursive",
-                  color: "var(--gold)",
-                  fontSize: "2.5rem",
-                  lineHeight: 1.1,
-                }}
-              >
-                {t("msg.thanks")}
-              </p>
-              <p
-                className="mt-3 text-base"
-                style={{
-                  fontFamily: "Lato, sans-serif",
-                  color: "var(--olive)",
-                  lineHeight: 1.6,
-                }}
-              >
-                {t("msg.thanksDesc")}
-              </p>
-              {showAgain && (
-                <button
-                  onClick={reset}
-                  className="mt-7 inline-flex items-center gap-2 px-6 py-3 uppercase transition-all hover:-translate-y-0.5"
-                  style={{
-                    fontFamily: "Cinzel, serif",
-                    fontSize: "0.75rem",
-                    letterSpacing: "0.25em",
+                    fontFamily: "Allura, 'Great Vibes', cursive",
                     color: "var(--gold)",
-                    border: "1px solid var(--gold)",
-                    borderRadius: 8,
-                    background: "transparent",
+                    fontSize: "2rem",
+                    lineHeight: 1.1,
                   }}
                 >
-                  {t("msg.another")}
-                </button>
-              )}
-            </div>
-          )}
-        </div>
+                  {t("msg.thanks")}
+                </p>
+                <p
+                  className="mt-1 text-sm"
+                  style={{ fontFamily: "Lato, sans-serif", color: "var(--olive)" }}
+                >
+                  {t("msg.thanksDesc")}
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <p className="text-[11px] uppercase tracking-[0.2em]" style={{ color: "var(--gold)" }}>
+                  {lang === "en" ? `Step ${step + 1} of 2` : `Passo ${step + 1} de 2`}
+                </p>
+
+                {step === 0 ? (
+                  <div className="space-y-2 text-left">
+                    <label
+                      htmlFor="msg-nome"
+                      className="text-[11px] uppercase tracking-[0.2em]"
+                      style={{ fontFamily: "Cinzel, serif", color: "var(--olive)" }}
+                    >
+                      {t("msg.field.name")}
+                    </label>
+                    <input
+                      id="msg-nome"
+                      value={nome}
+                      onChange={(e) => setNome(e.target.value)}
+                      style={inputStyle}
+                    />
+                  </div>
+                ) : (
+                  <div className="space-y-2 text-left">
+                    <label
+                      htmlFor="msg-text"
+                      className="text-[11px] uppercase tracking-[0.2em]"
+                      style={{ fontFamily: "Cinzel, serif", color: "var(--olive)" }}
+                    >
+                      {t("msg.field.message")}
+                    </label>
+                    <textarea
+                      id="msg-text"
+                      rows={5}
+                      value={mensagem}
+                      onChange={(e) => setMensagem(e.target.value.slice(0, 1000))}
+                      placeholder={t("msg.placeholder")}
+                      style={{ ...inputStyle, resize: "vertical" }}
+                    />
+                    <p className="text-right text-[11px]" style={{ color: "var(--olive)", opacity: 0.6 }}>
+                      {mensagem.length} / 1000
+                    </p>
+                  </div>
+                )}
+
+                <div className="flex items-center justify-between gap-3">
+                  {step === 1 ? (
+                    <button
+                      type="button"
+                      onClick={() => setStep(0)}
+                      className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em]"
+                      style={{ fontFamily: "Cinzel, serif", color: "var(--olive)", minHeight: 44 }}
+                    >
+                      <ArrowLeft className="w-4 h-4" />
+                      {lang === "en" ? "Back" : "Voltar"}
+                    </button>
+                  ) : (
+                    <span />
+                  )}
+
+                  {step === 0 ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (nome.trim().length < 2) {
+                          toast.error(t("msg.err.invalid"));
+                          return;
+                        }
+                        setStep(1);
+                      }}
+                      className="inline-flex items-center gap-2 uppercase"
+                      style={primaryBtn}
+                    >
+                      {lang === "en" ? "Continue" : "Continuar"}
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={submit}
+                      disabled={submitting}
+                      className="inline-flex items-center gap-2 uppercase"
+                      style={{ ...primaryBtn, opacity: submitting ? 0.7 : 1 }}
+                    >
+                      {submitting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          {t("msg.sending")}
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-4 h-4" strokeWidth={1.5} />
+                          {t("msg.send")}
+                        </>
+                      )}
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </section>
-  );
-}
-
-function FloatingField({
-  id,
-  label,
-  icon: Icon,
-  value,
-  onChange,
-  multiline,
-  placeholder,
-  counter,
-}: {
-  id: string;
-  label: string;
-  icon?: React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>;
-  value: string;
-  onChange: (v: string) => void;
-  multiline?: boolean;
-  placeholder?: string;
-  counter?: string;
-}) {
-  const inputCls =
-    "peer w-full outline-none text-base sm:text-[0.95rem] py-3 placeholder:italic placeholder:text-[color:var(--olive)]/40 " +
-    (Icon ? "pl-8 " : "pl-0 ") +
-    "pr-0 text-[color:var(--foreground)] bg-slate-50 text-slate-800";
-  const hasValue = value.length > 0;
-  return (
-    <div className="relative">
-      <div className="relative">
-        {Icon && (
-          <Icon
-            size={16}
-            strokeWidth={1.5}
-            className="absolute left-0 top-3.5 text-[color:var(--olive)] opacity-70"
-          />
-        )}
-        {multiline ? (
-          <textarea
-            id={id}
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder={placeholder ?? " "}
-            rows={6}
-            style={{ minHeight: 180 }}
-            className={inputCls + " resize-y"}
-          />
-        ) : (
-          <input
-            id={id}
-            type="text"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder=" "
-            className={inputCls}
-          />
-        )}
-        <label
-          htmlFor={id}
-          className={
-            "pointer-events-none absolute left-0 transition-all " +
-            (Icon ? "ml-8 " : "") +
-            (hasValue
-              ? "top-0 text-[10px] tracking-[0.2em] uppercase text-[color:var(--olive)]/70"
-              : "top-3 text-[color:var(--olive)]/60")
-          }
-          style={{ fontFamily: "Cinzel, serif" }}
-        >
-          {label}
-        </label>
-        <div
-          aria-hidden
-          className="absolute left-0 right-0 bottom-0"
-          style={{ borderBottom: "1px solid color-mix(in oklab, var(--olive) 30%, transparent)" }}
-        />
-      </div>
-      {counter && (
-        <div
-          className="text-right text-[11px] mt-1"
-          style={{ color: "var(--olive)", opacity: 0.6 }}
-        >
-          {counter}
-        </div>
-      )}
-    </div>
   );
 }
