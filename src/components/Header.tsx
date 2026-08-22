@@ -321,39 +321,6 @@ export function Header() {
           </button>
         </div>
 
-        {showIOSHelp && (
-          <div
-            className="install-modal-backdrop"
-            onClick={() => setShowIOSHelp(false)}
-            role="dialog"
-            aria-modal="true"
-          >
-            <div className="install-modal" onClick={(e) => e.stopPropagation()}>
-              <button
-                className="install-modal-close"
-                onClick={() => setShowIOSHelp(false)}
-                aria-label="Fechar"
-              >
-                <X className="w-5 h-5" strokeWidth={1.5} />
-              </button>
-              <h3 className="install-modal-title">
-                {lang === "en" ? "Add to Home Screen" : "Adicionar ao Ecrã Principal"}
-              </h3>
-              <p className="install-modal-text">
-                {lang === "en" ? (
-                  <>Tap the <Share className="inline w-4 h-4 align-text-bottom mx-1" strokeWidth={1.5} /> <strong>Share</strong> icon and then <strong>Add to Home Screen</strong> <Plus className="inline w-4 h-4 align-text-bottom mx-1" strokeWidth={1.5} />.</>
-                ) : (
-                  <>Toca no ícone <Share className="inline w-4 h-4 align-text-bottom mx-1" strokeWidth={1.5} /> <strong>Partilhar</strong> e depois em <strong>Adicionar ao Ecrã Principal</strong> <Plus className="inline w-4 h-4 align-text-bottom mx-1" strokeWidth={1.5} />.</>
-                )}
-              </p>
-              <div className="install-modal-illustration">
-                <Share className="w-6 h-6" strokeWidth={1.5} />
-                <span>→</span>
-                <Plus className="w-6 h-6" strokeWidth={1.5} />
-              </div>
-            </div>
-          </div>
-        )}
       </aside>
     </header>
   );
