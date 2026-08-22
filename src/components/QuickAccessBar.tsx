@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useI18n } from "@/lib/i18n";
 import { createPortal } from "react-dom";
-import { MapPin, Camera, CalendarHeart, ExternalLink, MessageCircleHeart } from "lucide-react";
+import { MapPin, Camera, CalendarHeart, ExternalLink } from "lucide-react";
 import { ALBUM_URL } from "@/components/MemoriesSection";
 import {
   Popover,
@@ -146,17 +146,6 @@ export function QuickAccessBar() {
           </button>
         </li>
 
-        {/* Chat / FAQ */}
-        <li className="qa-item">
-          <button
-            type="button"
-            onClick={() => window.dispatchEvent(new CustomEvent("wedding-chat:toggle"))}
-            className="qa-btn"
-            aria-label={lang === "en" ? "Chat" : "Assistente"}
-          >
-            <MessageCircleHeart size={22} strokeWidth={1.6} />
-          </button>
-        </li>
 
         {/* Contactos (WhatsApp) */}
         <li className="qa-item">

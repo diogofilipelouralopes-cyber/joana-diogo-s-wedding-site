@@ -1,4 +1,4 @@
-import { Heart, Copy, Smartphone } from "lucide-react";
+import { Copy, Smartphone } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 
@@ -34,20 +34,17 @@ export function GiftsSection() {
   };
 
   return (
-    <section id="gifts" className="py-8 sm:py-16 md:py-24 px-4 sm:px-6 bg-secondary/40 scroll-mt-24">
-      <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-5 sm:mb-8">
-          <p className="text-[0.6rem] sm:text-xs uppercase tracking-[0.35em] text-muted-foreground mb-2">
+    <section id="gifts" className="py-6 sm:py-10 px-4 sm:px-6 bg-secondary/40 scroll-mt-24">
+      <div className="max-w-2xl mx-auto">
+        <div className="text-center mb-3 sm:mb-5">
+          <p className="text-[0.6rem] sm:text-xs uppercase tracking-[0.35em] text-muted-foreground mb-1">
             {t("gifts.kicker")}
           </p>
-          <h2 className="font-display text-3xl sm:text-5xl md:text-6xl text-primary">{t("gifts.title")}</h2>
-          <div className="divider-ornament mt-3 sm:mt-6 max-w-xs mx-auto">
-            <Heart className="w-3 h-3" strokeWidth={1} />
-          </div>
-          <p className="mt-3 sm:mt-6 text-foreground/75 max-w-xl mx-auto text-[0.85rem] sm:text-base leading-snug sm:leading-relaxed">{t("gifts.desc")}</p>
+          <h2 className="font-display text-2xl sm:text-4xl text-primary">{t("gifts.title")}</h2>
+          <p className="mt-2 text-foreground/75 max-w-xl mx-auto text-[0.8rem] sm:text-sm leading-snug">{t("gifts.desc")}</p>
         </div>
 
-        <div className="grid sm:grid-cols-1 gap-3 sm:gap-5">
+        <div className="grid sm:grid-cols-1 gap-2 sm:gap-3">
           <GiftCard
             label={t("gifts.pt")}
             owner="Joana Maria Dias Nora"
@@ -62,22 +59,21 @@ export function GiftsSection() {
             onCopy={() => copyIban(ibanRev)}
             copyLabel={t("gifts.copy.iban")}
           />
-          <div className="card-gold p-4 sm:p-8">
-            <div className="flex items-center gap-2 mb-2">
-              <Smartphone className="w-4 h-4 text-primary" strokeWidth={1.5} />
-              <h3 className="font-display text-base sm:text-xl text-primary">{t("gifts.mbway")}</h3>
+          <div className="card-gold p-3 sm:p-5">
+            <div className="flex items-center gap-2 mb-0.5">
+              <Smartphone className="w-3.5 h-3.5 text-primary" strokeWidth={1.5} />
+              <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                {t("gifts.mbway")} · Joana Nora
+              </p>
             </div>
-            <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.2em] text-muted-foreground mb-1">
-              Joana Nora
-            </p>
-            <div className="flex items-center justify-between gap-3 flex-wrap">
-              <p className="font-display text-xl sm:text-2xl" style={{ color: "var(--gold)" }}>
+            <div className="flex items-center justify-between gap-2 flex-wrap">
+              <p className="font-display text-lg sm:text-xl" style={{ color: "var(--gold)" }}>
                 {mbwayNumber}
               </p>
               <button
                 onClick={copyNumber}
-                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-primary hover:text-primary/70 transition-colors border border-primary/40 px-4 py-2 hover:bg-primary/5 rounded"
-                style={{ minHeight: 44 }}
+                className="inline-flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.18em] text-primary hover:text-primary/70 transition-colors border border-primary/40 px-3 py-1.5 hover:bg-primary/5 rounded"
+                style={{ minHeight: 40 }}
               >
                 <Copy className="w-3.5 h-3.5" />
                 {t("gifts.copy.number")}
@@ -104,17 +100,18 @@ function GiftCard({
   copyLabel: string;
 }) {
   return (
-    <div className="card-gold p-4 sm:p-8">
-      <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.2em] text-muted-foreground mb-1">{label}</p>
-      <p className="font-display text-base sm:text-xl text-primary mb-2">{owner}</p>
-      <div className="flex items-center justify-between gap-3 flex-wrap">
-        <p className="font-mono text-xs sm:text-sm md:text-base text-foreground/85 tracking-wider break-all">
+    <div className="card-gold p-3 sm:p-5">
+      <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.2em] text-muted-foreground mb-0.5">
+        {label} · <span className="normal-case tracking-normal">{owner}</span>
+      </p>
+      <div className="flex items-center justify-between gap-2 flex-wrap">
+        <p className="font-mono text-xs sm:text-sm text-foreground/85 tracking-wider break-all">
           {value}
         </p>
         <button
           onClick={onCopy}
-          className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-primary hover:text-primary/70 transition-colors border border-primary/40 px-4 py-2 hover:bg-primary/5 rounded"
-          style={{ minHeight: 44 }}
+          className="inline-flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.18em] text-primary hover:text-primary/70 transition-colors border border-primary/40 px-3 py-1.5 hover:bg-primary/5 rounded"
+          style={{ minHeight: 40 }}
         >
           <Copy className="w-3.5 h-3.5" />
           {copyLabel}
