@@ -1,7 +1,4 @@
-import { Plane, Heart, MapPin, Lock, Bot } from "lucide-react";
-import { Link } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 function MonogramSimple({ size = 100 }: { size?: number }) {
   const initialsSize = `${size * 0.6}px`;
