@@ -73,31 +73,18 @@ function GoldDivider() {
 }
 
 export function SiteFooter() {
-  const { t } = useI18n();
+  const { lang } = useI18n();
   return (
     <footer
       className="text-center px-5 sm:px-6"
       style={{
         backgroundColor: "#6B7A4F",
         color: "#F5EFE4",
-        paddingTop: "64px",
-        paddingBottom: "64px",
+        paddingTop: "28px",
+        paddingBottom: "calc(28px + env(safe-area-inset-bottom, 0px))",
       }}
     >
-      <div className="max-w-2xl mx-auto flex flex-col items-center gap-5 sm:gap-6">
-        <MonogramSimple size={90} />
-
-        <p
-          className="italic text-xl sm:text-2xl"
-          style={{
-            fontFamily: "Allura, 'Great Vibes', cursive",
-            color: "var(--gold)",
-            lineHeight: 1,
-          }}
-        >
-          {t("footer.tagline")}
-        </p>
-
+      <div className="max-w-2xl mx-auto flex flex-col items-center gap-2">
         <p
           className="uppercase text-base sm:text-xl"
           style={{
