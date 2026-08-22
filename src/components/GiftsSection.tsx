@@ -34,20 +34,17 @@ export function GiftsSection() {
   };
 
   return (
-    <section id="gifts" className="py-8 sm:py-16 md:py-24 px-4 sm:px-6 bg-secondary/40 scroll-mt-24">
-      <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-5 sm:mb-8">
-          <p className="text-[0.6rem] sm:text-xs uppercase tracking-[0.35em] text-muted-foreground mb-2">
+    <section id="gifts" className="py-6 sm:py-10 px-4 sm:px-6 bg-secondary/40 scroll-mt-24">
+      <div className="max-w-2xl mx-auto">
+        <div className="text-center mb-3 sm:mb-5">
+          <p className="text-[0.6rem] sm:text-xs uppercase tracking-[0.35em] text-muted-foreground mb-1">
             {t("gifts.kicker")}
           </p>
-          <h2 className="font-display text-3xl sm:text-5xl md:text-6xl text-primary">{t("gifts.title")}</h2>
-          <div className="divider-ornament mt-3 sm:mt-6 max-w-xs mx-auto">
-            <Heart className="w-3 h-3" strokeWidth={1} />
-          </div>
-          <p className="mt-3 sm:mt-6 text-foreground/75 max-w-xl mx-auto text-[0.85rem] sm:text-base leading-snug sm:leading-relaxed">{t("gifts.desc")}</p>
+          <h2 className="font-display text-2xl sm:text-4xl text-primary">{t("gifts.title")}</h2>
+          <p className="mt-2 text-foreground/75 max-w-xl mx-auto text-[0.8rem] sm:text-sm leading-snug">{t("gifts.desc")}</p>
         </div>
 
-        <div className="grid sm:grid-cols-1 gap-3 sm:gap-5">
+        <div className="grid sm:grid-cols-1 gap-2 sm:gap-3">
           <GiftCard
             label={t("gifts.pt")}
             owner="Joana Maria Dias Nora"
