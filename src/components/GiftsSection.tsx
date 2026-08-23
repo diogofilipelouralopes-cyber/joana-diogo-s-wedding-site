@@ -1,4 +1,5 @@
-import { Copy, Smartphone } from "lucide-react";
+import { useState } from "react";
+import { Copy, Check, ChevronDown, Landmark, Smartphone, CreditCard } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 
@@ -6,11 +7,56 @@ const ibanPT = "PT50 0035 0836 0068 8932 0308 1";
 const ibanRev = "BE66 6502 5539 2943";
 const mbwayNumber = "+351 912 633 104";
 
+type Entry = {
+  id: string;
+  icon: typeof Landmark;
+  label: string;
+  owner: string;
+  value: string;
+  copyLabel: string;
+  copiedLabel: string;
+};
+
 export function GiftsSection() {
   const { t } = useI18n();
+  const [openId, setOpenId] = useState<string | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  const goldToast = (msg: string) =>
-    toast(msg, {
+  const entries: Entry[] = [
+    {
+      id: "pt",
+      icon: Landmark,
+      label: t("gifts.pt"),
+      owner: "Joana Maria Dias Nora",
+      value: ibanPT,
+      copyLabel: t("gifts.copy.iban"),
+      copiedLabel: t("gifts.copied.iban"),
+    },
+    {
+      id: "rev",
+      icon: CreditCard,
+      label: t("gifts.rev"),
+      owner: "Diogo Lopes & Joana Nora",
+      value: ibanRev,
+      copyLabel: t("gifts.copy.iban"),
+      copiedLabel: t("gifts.copied.iban"),
+    },
+    {
+      id: "mbway",
+      icon: Smartphone,
+      label: t("gifts.mbway"),
+      owner: "Joana Nora",
+      value: mbwayNumber,
+      copyLabel: t("gifts.copy.number"),
+      copiedLabel: t("gifts.copied.number"),
+    },
+  ];
+
+  const copy = (entry: Entry) => {
+    navigator.clipboard.writeText(entry.value.replace(/\s/g, ""));
+    setCopiedId(entry.id);
+    window.setTimeout(() => setCopiedId((c) => (c === entry.id ? null : c)), 2000);
+    toast(entry.copiedLabel, {
       style: {
         background: "var(--gold)",
         color: "var(--ivory)",
@@ -22,101 +68,75 @@ export function GiftsSection() {
       },
       duration: 2000,
     });
-
-  const copyIban = (value: string) => {
-    navigator.clipboard.writeText(value.replace(/\s/g, ""));
-    goldToast(t("gifts.copied.iban"));
-  };
-
-  const copyNumber = () => {
-    navigator.clipboard.writeText(mbwayNumber.replace(/\s/g, ""));
-    goldToast(t("gifts.copied.number"));
   };
 
   return (
     <section id="gifts" className="py-6 sm:py-10 px-4 sm:px-6 bg-secondary/40 scroll-mt-24">
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-md mx-auto">
         <div className="text-center mb-3 sm:mb-5">
           <p className="text-[0.6rem] sm:text-xs uppercase tracking-[0.35em] text-muted-foreground mb-1">
             {t("gifts.kicker")}
           </p>
           <h2 className="font-display text-2xl sm:text-4xl text-primary">{t("gifts.title")}</h2>
-          <p className="mt-2 text-foreground/75 max-w-xl mx-auto text-[0.8rem] sm:text-sm leading-snug">{t("gifts.desc")}</p>
+          <p className="mt-2 text-foreground/75 text-[0.8rem] sm:text-sm leading-snug">
+            {t("gifts.desc")}
+          </p>
         </div>
 
-        <div className="grid sm:grid-cols-1 gap-2 sm:gap-3">
-          <GiftCard
-            label={t("gifts.pt")}
-            owner="Joana Maria Dias Nora"
-            value={ibanPT}
-            onCopy={() => copyIban(ibanPT)}
-            copyLabel={t("gifts.copy.iban")}
-          />
-          <GiftCard
-            label={t("gifts.rev")}
-            owner="Diogo Lopes & Joana Nora"
-            value={ibanRev}
-            onCopy={() => copyIban(ibanRev)}
-            copyLabel={t("gifts.copy.iban")}
-          />
-          <div className="card-gold p-3 sm:p-5">
-            <div className="flex items-center gap-2 mb-0.5">
-              <Smartphone className="w-3.5 h-3.5 text-primary" strokeWidth={1.5} />
-              <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                {t("gifts.mbway")} · Joana Nora
-              </p>
-            </div>
-            <div className="flex items-center justify-between gap-2 flex-wrap">
-              <p className="font-display text-lg sm:text-xl" style={{ color: "var(--gold)" }}>
-                {mbwayNumber}
-              </p>
-              <button
-                onClick={copyNumber}
-                className="inline-flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.18em] text-primary hover:text-primary/70 transition-colors border border-primary/40 px-3 py-1.5 hover:bg-primary/5 rounded"
-                style={{ minHeight: 40 }}
-              >
-                <Copy className="w-3.5 h-3.5" />
-                {t("gifts.copy.number")}
-              </button>
-            </div>
-          </div>
+        <div className="card-gold overflow-hidden divide-y divide-primary/15">
+          {entries.map((entry) => {
+            const Icon = entry.icon;
+            const isOpen = openId === entry.id;
+            return (
+              <div key={entry.id}>
+                <button
+                  type="button"
+                  onClick={() => setOpenId(isOpen ? null : entry.id)}
+                  aria-expanded={isOpen}
+                  className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-primary/5"
+                  style={{ minHeight: 52 }}
+                >
+                  <Icon className="w-4 h-4 shrink-0 text-primary" strokeWidth={1.5} />
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-[0.7rem] sm:text-xs uppercase tracking-[0.2em] text-primary">
+                      {entry.label}
+                    </span>
+                    <span className="block truncate text-[0.7rem] text-muted-foreground">
+                      {entry.owner}
+                    </span>
+                  </span>
+                  <ChevronDown
+                    className="w-4 h-4 shrink-0 text-primary/70 transition-transform"
+                    style={{ transform: isOpen ? "rotate(180deg)" : undefined }}
+                    strokeWidth={1.5}
+                  />
+                </button>
+
+                {isOpen && (
+                  <div className="flex items-center justify-between gap-2 px-4 pb-3 flex-wrap">
+                    <p className="font-mono text-xs sm:text-sm text-foreground/85 tracking-wider break-all">
+                      {entry.value}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => copy(entry)}
+                      className="inline-flex items-center gap-2 rounded border border-primary/40 px-3 py-1.5 text-[0.7rem] uppercase tracking-[0.18em] text-primary transition-colors hover:bg-primary/5"
+                      style={{ minHeight: 40 }}
+                    >
+                      {copiedId === entry.id ? (
+                        <Check className="w-3.5 h-3.5" />
+                      ) : (
+                        <Copy className="w-3.5 h-3.5" />
+                      )}
+                      {entry.copyLabel}
+                    </button>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
-  );
-}
-
-function GiftCard({
-  label,
-  owner,
-  value,
-  onCopy,
-  copyLabel,
-}: {
-  label: string;
-  owner: string;
-  value: string;
-  onCopy: () => void;
-  copyLabel: string;
-}) {
-  return (
-    <div className="card-gold p-3 sm:p-5">
-      <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.2em] text-muted-foreground mb-0.5">
-        {label} · <span className="normal-case tracking-normal">{owner}</span>
-      </p>
-      <div className="flex items-center justify-between gap-2 flex-wrap">
-        <p className="font-mono text-xs sm:text-sm text-foreground/85 tracking-wider break-all">
-          {value}
-        </p>
-        <button
-          onClick={onCopy}
-          className="inline-flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.18em] text-primary hover:text-primary/70 transition-colors border border-primary/40 px-3 py-1.5 hover:bg-primary/5 rounded"
-          style={{ minHeight: 40 }}
-        >
-          <Copy className="w-3.5 h-3.5" />
-          {copyLabel}
-        </button>
-      </div>
-    </div>
   );
 }
