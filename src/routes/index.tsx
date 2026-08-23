@@ -7,20 +7,19 @@ import { HeroCountdown } from "@/components/HeroCountdown";
 import { StorySection } from "@/components/StorySection";
 
 import { GiftsSection } from "@/components/GiftsSection";
-import { MemoriesSection } from "@/components/MemoriesSection";
+import { MemoriesSection, ALBUM_URL } from "@/components/MemoriesSection";
 import { PublicGallerySection } from "@/components/PublicGallerySection";
 import { FaqSection } from "@/components/FaqSection";
 import { MessagesSection } from "@/components/MessagesSection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { LiveAnnouncementBanner } from "@/components/LiveAnnouncementBanner";
-import { QuickAccessBar } from "@/components/QuickAccessBar";
 // Chat widget pulls in shiki/oniguruma (WASM) through streamdown — must never
 // enter the SSR/Worker import graph.
 const ChatWidget = lazy(() => import("@/components/ChatWidget"));
 import { Reveal } from "@/components/Reveal";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider, useI18n } from "@/lib/i18n";
-import { MapPin, Clock, Hotel, Heart, Shirt, Car, Plane, ParkingCircle, ExternalLink } from "lucide-react";
+import { Camera, MapPin, Clock, Hotel, Heart, Shirt, Car, Plane, ParkingCircle, ExternalLink } from "lucide-react";
 
 
 const SITE_URL = "https://joanaediogo.com";
@@ -187,15 +186,28 @@ function Index() {
             <span aria-hidden style={{ width: "60px", borderTop: "1px dashed var(--olive)" }} />
           </div>
 
-          <a
-            href="https://www.google.com/maps/search/?api=1&query=Glic%C3%ADnia+Wedding+House+Freamunde"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hero-directions-btn hero-text-anim-3"
-          >
-            <MapPin size={17} strokeWidth={1.6} />
-            <span>{lang === "en" ? "How to get there" : "Como chegar"}</span>
-          </a>
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Glic%C3%ADnia+Wedding+House+Freamunde"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-directions-btn hero-text-anim-3"
+            >
+              <MapPin size={17} strokeWidth={1.6} />
+              <span>{lang === "en" ? "How to get there" : "Como chegar"}</span>
+            </a>
+
+            <a
+              href={ALBUM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-directions-btn hero-text-anim-3"
+            >
+              <Camera size={17} strokeWidth={1.6} />
+              <span>{lang === "en" ? "Photos" : "Fotografias"}</span>
+            </a>
+          </div>
+
         </div>
       </section>
 
@@ -370,8 +382,6 @@ function Index() {
       {/* PHOTOS (shared album) */}
       <Reveal><MemoriesSection /></Reveal>
 
-      <DecorativeDivider />
-
       {/* GALERIA PÚBLICA (álbuns publicados) */}
       <Reveal><PublicGallerySection /></Reveal>
 
@@ -380,21 +390,12 @@ function Index() {
       {/* FAQ */}
       <Reveal><FaqSection /></Reveal>
 
-      <DecorativeDivider />
-
       {/* MESSAGES */}
       <Reveal><MessagesSection /></Reveal>
-
-      <DecorativeDivider />
 
       {/* GIFTS */}
       <Reveal><GiftsSection /></Reveal>
 
-      <DecorativeDivider />
-
-      {/* AGRADECIMENTO */}
-
-      <DecorativeDivider />
       </main>
 
       {/* FOOTER */}
@@ -402,7 +403,7 @@ function Index() {
       </div>
 
       {/* FLOATING ACTIONS */}
-      <QuickAccessBar />
+
       <ClientOnly fallback={null}>
         <Suspense fallback={null}>
           <ChatWidget />
