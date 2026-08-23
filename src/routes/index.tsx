@@ -391,7 +391,7 @@ function Index() {
       </div>
 
       {/* FLOATING ACTIONS */}
-      <QuickAccessBar />
+
       <ClientOnly fallback={null}>
         <Suspense fallback={null}>
           <ChatWidget />
