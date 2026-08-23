@@ -370,8 +370,6 @@ function Index() {
       {/* PHOTOS (shared album) */}
       <Reveal><MemoriesSection /></Reveal>
 
-      <DecorativeDivider />
-
       {/* GALERIA PÚBLICA (álbuns publicados) */}
       <Reveal><PublicGallerySection /></Reveal>
 
@@ -380,21 +378,12 @@ function Index() {
       {/* FAQ */}
       <Reveal><FaqSection /></Reveal>
 
-      <DecorativeDivider />
-
       {/* MESSAGES */}
       <Reveal><MessagesSection /></Reveal>
-
-      <DecorativeDivider />
 
       {/* GIFTS */}
       <Reveal><GiftsSection /></Reveal>
 
-      <DecorativeDivider />
-
-      {/* AGRADECIMENTO */}
-
-      <DecorativeDivider />
       </main>
 
       {/* FOOTER */}
