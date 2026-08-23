@@ -7,7 +7,6 @@ import { HeroCountdown } from "@/components/HeroCountdown";
 import { StorySection } from "@/components/StorySection";
 
 import { GiftsSection } from "@/components/GiftsSection";
-import { ThankYouSection } from "@/components/ThankYouSection";
 import { MemoriesSection } from "@/components/MemoriesSection";
 import { PublicGallerySection } from "@/components/PublicGallerySection";
 import { FaqSection } from "@/components/FaqSection";
@@ -394,7 +393,6 @@ function Index() {
       <DecorativeDivider />
 
       {/* AGRADECIMENTO */}
-      <Reveal><ThankYouSection /></Reveal>
 
       <DecorativeDivider />
       </main>
