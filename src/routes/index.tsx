@@ -186,25 +186,28 @@ function Index() {
             <span aria-hidden style={{ width: "60px", borderTop: "1px dashed var(--olive)" }} />
           </div>
 
-          <a
-            href="https://www.google.com/maps/search/?api=1&query=Glic%C3%ADnia+Wedding+House+Freamunde"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hero-directions-btn hero-text-anim-3"
-          >
-            <MapPin size={17} strokeWidth={1.6} />
-            <span>{lang === "en" ? "How to get there" : "Como chegar"}</span>
-          </a>
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Glic%C3%ADnia+Wedding+House+Freamunde"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-directions-btn hero-text-anim-3"
+            >
+              <MapPin size={17} strokeWidth={1.6} />
+              <span>{lang === "en" ? "How to get there" : "Como chegar"}</span>
+            </a>
 
-          <a
-            href={ALBUM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hero-directions-btn hero-text-anim-3"
-          >
-            <Camera size={17} strokeWidth={1.6} />
-            <span>{lang === "en" ? "Photos" : "Fotografias"}</span>
-          </a>
+            <a
+              href={ALBUM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-directions-btn hero-text-anim-3"
+            >
+              <Camera size={17} strokeWidth={1.6} />
+              <span>{lang === "en" ? "Photos" : "Fotografias"}</span>
+            </a>
+          </div>
+
         </div>
       </section>
 
