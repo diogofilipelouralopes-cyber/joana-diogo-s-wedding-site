@@ -2,6 +2,7 @@ import type { ComponentType } from 'react'
 import { template as rsvpConfirmation } from './rsvp-confirmation'
 import { template as rsvpNotification } from './rsvp-notification'
 import { template as oneMonthReminder } from './one-month-reminder'
+import { template as oneWeekReminder } from './one-week-reminder'
 
 
 
