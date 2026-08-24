@@ -27,5 +27,6 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'rsvp-confirmation': rsvpConfirmation,
   'rsvp-notification': rsvpNotification,
   'one-month-reminder': oneMonthReminder,
+  'one-week-reminder': oneWeekReminder,
 }
 
