@@ -295,6 +295,34 @@ export function Header() {
 
         {/* Ações */}
         <div className="drawer-actions">
+          <button
+            type="button"
+            onClick={() => setContactsOpen((o) => !o)}
+            className="drawer-action"
+            aria-expanded={contactsOpen}
+          >
+            <span className="drawer-item-icon"><MessageCircleHeart className="w-[18px] h-[18px]" strokeWidth={1.5} /></span>
+            <span className="drawer-item-text">{lang === "en" ? "Contact us" : "Fala connosco"}</span>
+          </button>
+
+          {contactsOpen && (
+            <div className="flex flex-col gap-1 pl-1">
+              {CONTACTS.map((c) => (
+                <a
+                  key={c.name}
+                  href={c.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setOpen(false)}
+                  className="drawer-action"
+                >
+                  <span className="drawer-item-icon"><Phone className="w-[18px] h-[18px]" strokeWidth={1.5} /></span>
+                  <span className="drawer-item-text">{c.name} · {c.phone}</span>
+                </a>
+              ))}
+            </div>
+          )}
+
           <a
             href={WA_SHARE_URL}
             target="_blank"
@@ -320,6 +348,7 @@ export function Header() {
             <span className="drawer-item-text">{lang === "en" ? "Chatbot" : "Chatbot"}</span>
           </button>
         </div>
+
 
       </aside>
     </header>
