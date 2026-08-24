@@ -219,7 +219,7 @@ function Index() {
       <DecorativeDivider />
 
       {/* RSVP — moved up for priority */}
-      <section id="rsvp" className="py-8 sm:py-16 md:py-24 px-4 sm:px-6 bg-secondary/40 scroll-mt-24">
+      <section id="rsvp" className="py-6 sm:py-14 md:py-20 px-4 sm:px-6 bg-secondary/40 scroll-mt-24">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-5 sm:mb-10">
             <h2 className="font-display text-3xl sm:text-5xl md:text-6xl text-primary">{t("rsvp.title")}</h2>
@@ -234,7 +234,7 @@ function Index() {
       <DecorativeDivider />
 
       {/* EVENT */}
-      <section id="event" className="py-8 sm:py-16 md:py-24 px-4 sm:px-6 bg-secondary/40 scroll-mt-24">
+      <section id="event" className="py-6 sm:py-14 md:py-20 px-4 sm:px-6 bg-secondary/40 scroll-mt-24">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-5 sm:mb-12">
             <p className="text-[0.6rem] sm:text-xs uppercase tracking-[0.35em] text-muted-foreground mb-2">
@@ -357,7 +357,7 @@ function Index() {
       <DecorativeDivider />
 
       {/* INFORMATION */}
-      <section id="info" className="py-8 sm:py-16 md:py-24 px-4 sm:px-6 scroll-mt-24">
+      <section id="info" className="py-6 sm:py-14 md:py-20 px-4 sm:px-6 scroll-mt-24">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-5 sm:mb-12">
             <p className="text-[0.6rem] sm:text-xs uppercase tracking-[0.35em] text-muted-foreground mb-2">
