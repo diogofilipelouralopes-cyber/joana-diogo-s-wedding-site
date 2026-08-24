@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { X, Camera, MessageCircleHeart, Gift, Home, BookHeart, CalendarCheck, MapPin, Info, HelpCircle, Share2, Bot } from "lucide-react";
+import { X, Camera, MessageCircleHeart, Gift, Home, BookHeart, CalendarCheck, MapPin, Info, HelpCircle, Share2, Bot, Phone } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -11,6 +11,11 @@ const SITE_URL = "https://joanaediogo-com.lovable.app";
 const WA_SHARE_URL = `https://wa.me/?text=${encodeURIComponent(
   "Joana & Diogo - 19 Setembro 2026 🌿 " + "https://joanaediogo-com.lovable.app"
 )}`;
+
+const CONTACTS = [
+  { name: "Joana", phone: "+351 912 633 104", url: "https://wa.me/351912633104" },
+  { name: "Diogo", phone: "+32 493 945 581", url: "https://wa.me/32493945581" },
+];
 
 const links = [
   { id: "top", key: "nav.home" as const, icon: <Home className="w-4 h-4" strokeWidth={1.5} /> },
@@ -64,6 +69,7 @@ export function Header() {
   const { t, lang, setLang } = useI18n();
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>("top");
+  const [contactsOpen, setContactsOpen] = useState(false);
   const navigate = useNavigate();
 
 
@@ -295,6 +301,34 @@ export function Header() {
 
         {/* Ações */}
         <div className="drawer-actions">
+          <button
+            type="button"
+            onClick={() => setContactsOpen((o) => !o)}
+            className="drawer-action"
+            aria-expanded={contactsOpen}
+          >
+            <span className="drawer-item-icon"><MessageCircleHeart className="w-[18px] h-[18px]" strokeWidth={1.5} /></span>
+            <span className="drawer-item-text">{lang === "en" ? "Contact us" : "Fala connosco"}</span>
+          </button>
+
+          {contactsOpen && (
+            <div className="flex flex-col gap-1 pl-1">
+              {CONTACTS.map((c) => (
+                <a
+                  key={c.name}
+                  href={c.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setOpen(false)}
+                  className="drawer-action"
+                >
+                  <span className="drawer-item-icon"><Phone className="w-[18px] h-[18px]" strokeWidth={1.5} /></span>
+                  <span className="drawer-item-text">{c.name} · {c.phone}</span>
+                </a>
+              ))}
+            </div>
+          )}
+
           <a
             href={WA_SHARE_URL}
             target="_blank"
@@ -320,6 +354,7 @@ export function Header() {
             <span className="drawer-item-text">{lang === "en" ? "Chatbot" : "Chatbot"}</span>
           </button>
         </div>
+
 
       </aside>
     </header>
