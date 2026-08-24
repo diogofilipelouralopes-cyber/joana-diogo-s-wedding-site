@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { X, Camera, MessageCircleHeart, Gift, Home, BookHeart, CalendarCheck, MapPin, Info, HelpCircle, Share2, Bot } from "lucide-react";
+import { X, Camera, MessageCircleHeart, Gift, Home, BookHeart, CalendarCheck, MapPin, Info, HelpCircle, Share2, Bot, Phone } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -11,6 +11,11 @@ const SITE_URL = "https://joanaediogo-com.lovable.app";
 const WA_SHARE_URL = `https://wa.me/?text=${encodeURIComponent(
   "Joana & Diogo - 19 Setembro 2026 🌿 " + "https://joanaediogo-com.lovable.app"
 )}`;
+
+const CONTACTS = [
+  { name: "Joana", phone: "+351 912 633 104", url: "https://wa.me/351912633104" },
+  { name: "Diogo", phone: "+32 493 945 581", url: "https://wa.me/32493945581" },
+];
 
 const links = [
   { id: "top", key: "nav.home" as const, icon: <Home className="w-4 h-4" strokeWidth={1.5} /> },
@@ -64,6 +69,7 @@ export function Header() {
   const { t, lang, setLang } = useI18n();
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>("top");
+  const [contactsOpen, setContactsOpen] = useState(false);
   const navigate = useNavigate();
 
 
