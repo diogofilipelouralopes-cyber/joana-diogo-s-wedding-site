@@ -17,7 +17,12 @@ export interface EmailContentInput {
   signature: string;
 }
 
-const KEYS = ['rsvp-confirmation', 'rsvp-notification', 'one-month-reminder'];
+const KEYS = [
+  'rsvp-confirmation',
+  'rsvp-notification',
+  'one-month-reminder',
+  'one-week-reminder',
+];
 
 function str(value: unknown, max = 4000): string {
   return typeof value === 'string' ? value.slice(0, max) : '';
