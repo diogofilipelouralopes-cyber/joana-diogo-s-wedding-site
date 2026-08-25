@@ -8,14 +8,16 @@ import { ocupacaoMesas, semConteudo, type RsvpRow } from "@/lib/rsvp-lists";
 
 const COLUNAS = "id, name, guests, attending, allergies, song_suggestion, message, table_number";
 
-export function AdminMesas() {
-  const [rows, setRows] = useState<RsvpRow[]>([]);
-  const [loading, setLoading] = useState(true);
+export function AdminMesas({ rowsParaTeste }: { rowsParaTeste?: RsvpRow[] } = {}) {
+  const [rows, setRows] = useState<RsvpRow[]>(rowsParaTeste ?? []);
+  const [loading, setLoading] = useState(!rowsParaTeste);
   const [busca, setBusca] = useState("");
   const [soSemMesa, setSoSemMesa] = useState(false);
   const [aGravar, setAGravar] = useState<string | null>(null);
 
   useEffect(() => {
+    // Com dados injectados (pré-visualização local) não se consulta a base de dados.
+    if (rowsParaTeste) return;
     supabase
       .from("rsvps")
       .select(COLUNAS)
@@ -26,7 +28,7 @@ export function AdminMesas() {
         else setRows((data ?? []) as unknown as RsvpRow[]);
         setLoading(false);
       });
-  }, []);
+  }, [rowsParaTeste]);
 
   const mesas = useMemo(() => ocupacaoMesas(rows), [rows]);
 
@@ -49,6 +51,11 @@ export function AdminMesas() {
 
   async function guardarMesa(id: string, valor: string) {
     const limpo = valor.trim();
+    // Em pré-visualização local não se escreve na base de dados de produção.
+    if (rowsParaTeste) {
+      setRows((prev) => prev.map((r) => (r.id === id ? { ...r, table_number: limpo || null } : r)));
+      return;
+    }
     setAGravar(id);
     const { error } = await supabase
       .from("rsvps")

@@ -24,12 +24,14 @@ import {
 
 const COLUNAS = "id, name, guests, attending, allergies, song_suggestion, message, table_number";
 
-export function AdminListas() {
-  const [rows, setRows] = useState<RsvpRow[]>([]);
-  const [loading, setLoading] = useState(true);
+export function AdminListas({ rowsParaTeste }: { rowsParaTeste?: RsvpRow[] } = {}) {
+  const [rows, setRows] = useState<RsvpRow[]>(rowsParaTeste ?? []);
+  const [loading, setLoading] = useState(!rowsParaTeste);
   const [copiado, setCopiado] = useState<string | null>(null);
 
   useEffect(() => {
+    // Com dados injectados (pré-visualização local) não se consulta a base de dados.
+    if (rowsParaTeste) return;
     supabase
       .from("rsvps")
       .select(COLUNAS)
@@ -39,7 +41,7 @@ export function AdminListas() {
         else setRows((data ?? []) as unknown as RsvpRow[]);
         setLoading(false);
       });
-  }, []);
+  }, [rowsParaTeste]);
 
   const restricoes = useMemo(() => listaRestricoes(rows), [rows]);
   const suspeitas = useMemo(() => restricoesSuspeitas(rows), [rows]);
