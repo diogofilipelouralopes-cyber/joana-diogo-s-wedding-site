@@ -14,6 +14,12 @@ export type Database = {
   }
   public: {
     Tables: {
+      prendas: {
+        Row: { agradecido: boolean; created_at: string; data: string | null; de_quem: string; descricao: string | null; id: string; notas: string | null; tipo: string; valor: number }
+        Insert: { agradecido?: boolean; created_at?: string; data?: string | null; de_quem: string; descricao?: string | null; id?: string; notas?: string | null; tipo?: string; valor?: number }
+        Update: { agradecido?: boolean; created_at?: string; data?: string | null; de_quem?: string; descricao?: string | null; id?: string; notas?: string | null; tipo?: string; valor?: number }
+        Relationships: []
+      }
       despesas: {
         Row: { a_pagar: number; atividade: string; created_at: string; descricao: string | null; estimado: number; id: string; notas: string | null; ordem: number | null; pago: number }
         Insert: { a_pagar?: number; atividade: string; created_at?: string; descricao?: string | null; estimado?: number; id?: string; notas?: string | null; ordem?: number | null; pago?: number }

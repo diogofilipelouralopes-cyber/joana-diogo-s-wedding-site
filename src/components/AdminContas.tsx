@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Loader2, AlertTriangle, TrendingUp, Gift } from "lucide-react";
+import { Loader2, AlertTriangle, TrendingUp, Plus, Trash2, RefreshCw } from "lucide-react";
 import {
   resumo as calcResumo,
   estadoDa,
@@ -25,14 +26,18 @@ export function AdminContas({
   const [despesas, setDespesas] = useState<Despesa[]>(despesasParaTeste ?? []);
   const [entradas, setEntradas] = useState<Entrada[]>(entradasParaTeste ?? []);
   const [loading, setLoading] = useState(!despesasParaTeste);
+  const [prendasDinheiro, setPrendasDinheiro] = useState(0);
 
   useEffect(() => {
     if (despesasParaTeste) return;
     (async () => {
-      const [d, e] = await Promise.all([
+      const [d, e, pr] = await Promise.all([
         supabase.from("despesas").select("*").order("ordem"),
         supabase.from("entradas").select("*").order("ordem"),
+        supabase.from("prendas").select("valor").eq("tipo", "dinheiro"),
       ]);
+      if (!pr.error)
+        setPrendasDinheiro((pr.data ?? []).reduce((s, x) => s + (Number(x.valor) || 0), 0));
       if (d.error || e.error) toast.error("Não foi possível carregar as contas.");
       else {
         setDespesas((d.data ?? []) as unknown as Despesa[]);
@@ -43,12 +48,77 @@ export function AdminContas({
   }, [despesasParaTeste]);
 
   const r = useMemo(() => calcResumo(despesas, entradas), [despesas, entradas]);
+  const linhaPrendas = despesas.find((d) => d.atividade.trim().toLowerCase() === "prendas") ?? null;
+  const creditoPrendas = Number(linhaPrendas?.estimado ?? 0);
+  const desfasado = Math.abs(prendasDinheiro - Math.abs(creditoPrendas)) > 0.01;
 
   async function guardar(id: string, campos: Partial<Despesa>) {
     setDespesas((prev) => prev.map((d) => (d.id === id ? { ...d, ...campos } : d)));
     if (despesasParaTeste) return;
     const { error } = await supabase.from("despesas").update(campos).eq("id", id);
     if (error) toast.error("Não foi possível guardar.");
+  }
+
+  async function novaDespesa() {
+    const nova = {
+      atividade: "Nova despesa",
+      estimado: 0,
+      a_pagar: 0,
+      pago: 0,
+      ordem: despesas.length + 1,
+    };
+    if (despesasParaTeste) {
+      setDespesas((prev) => [
+        ...prev,
+        { id: `tmp${prev.length}`, descricao: null, notas: null, ...nova } as Despesa,
+      ]);
+      return;
+    }
+    const { data, error } = await supabase.from("despesas").insert(nova).select().single();
+    if (error || !data) return toast.error("Não foi possível acrescentar.");
+    setDespesas((prev) => [...prev, data as unknown as Despesa]);
+  }
+
+  async function apagarDespesa(id: string, nome: string) {
+    if (!confirm(`Apagar «${nome}»? Não dá para desfazer.`)) return;
+    setDespesas((prev) => prev.filter((d) => d.id !== id));
+    if (despesasParaTeste) return;
+    const { error } = await supabase.from("despesas").delete().eq("id", id);
+    if (error) toast.error("Não foi possível apagar.");
+  }
+
+  async function novaEntrada() {
+    const nova = {
+      descricao: "Nova entrada",
+      valor: 0,
+      tipo: "entrada",
+      ordem: entradas.length + 1,
+    };
+    if (entradasParaTeste) {
+      setEntradas((prev) => [
+        ...prev,
+        { id: `tmpe${prev.length}`, data: null, notas: null, ...nova } as Entrada,
+      ]);
+      return;
+    }
+    const { data, error } = await supabase.from("entradas").insert(nova).select().single();
+    if (error || !data) return toast.error("Não foi possível acrescentar.");
+    setEntradas((prev) => [...prev, data as unknown as Entrada]);
+  }
+
+  async function guardarEntrada(id: string, campos: Partial<Entrada>) {
+    setEntradas((prev) => prev.map((e) => (e.id === id ? { ...e, ...campos } : e)));
+    if (entradasParaTeste) return;
+    const { error } = await supabase.from("entradas").update(campos).eq("id", id);
+    if (error) toast.error("Não foi possível guardar.");
+  }
+
+  async function apagarEntrada(id: string, nome: string) {
+    if (!confirm(`Apagar «${nome}»? Não dá para desfazer.`)) return;
+    setEntradas((prev) => prev.filter((e) => e.id !== id));
+    if (entradasParaTeste) return;
+    const { error } = await supabase.from("entradas").delete().eq("id", id);
+    if (error) toast.error("Não foi possível apagar.");
   }
 
   if (loading) {
@@ -104,7 +174,12 @@ export function AdminContas({
       </div>
 
       <section className="rounded-xl border bg-card p-4 sm:p-6">
-        <h3 className="font-medium mb-4">Despesas ({despesas.length})</h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-medium">Despesas ({despesas.length})</h3>
+          <Button size="sm" variant="outline" onClick={novaDespesa}>
+            <Plus className="w-4 h-4 mr-2" /> Acrescentar
+          </Button>
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -113,7 +188,8 @@ export function AdminContas({
                 <th className="pb-2 pr-3">Estado</th>
                 <th className="pb-2 pr-3 text-right">Estimado</th>
                 <th className="pb-2 pr-3 text-right">Pago</th>
-                <th className="pb-2 text-right">Falta</th>
+                <th className="pb-2 pr-3 text-right">Falta</th>
+                <th className="pb-2" />
               </tr>
             </thead>
             <tbody className="divide-y">
@@ -168,7 +244,8 @@ export function AdminContas({
                 </td>
                 <td className="pt-3 text-right">{euros(r.estimado)}</td>
                 <td className="pt-3 text-right pr-3">{euros(r.pago)}</td>
-                <td className="pt-3 text-right">{euros(r.faltaPagar)}</td>
+                <td className="pt-3 text-right pr-3">{euros(r.faltaPagar)}</td>
+                <td />
               </tr>
             </tfoot>
           </table>
@@ -180,19 +257,46 @@ export function AdminContas({
 
       <div className="grid md:grid-cols-2 gap-6">
         <section className="rounded-xl border bg-card p-4 sm:p-6">
-          <h3 className="font-medium mb-3">Entradas ({receitas.length})</h3>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-medium">Entradas ({receitas.length})</h3>
+            <Button size="sm" variant="outline" onClick={novaEntrada}>
+              <Plus className="w-4 h-4 mr-2" /> Acrescentar
+            </Button>
+          </div>
           <ul className="divide-y text-sm">
             {receitas.map((e) => (
-              <li key={e.id} className="py-2 flex justify-between gap-3">
-                <span className="min-w-0">
-                  <span className="block truncate">{e.descricao}</span>
-                  {e.data && (
-                    <span className="text-xs text-muted-foreground">
-                      {new Date(e.data).toLocaleDateString("pt-PT")}
-                    </span>
-                  )}
-                </span>
-                <span className="whitespace-nowrap">{euros(Number(e.valor))}</span>
+              <li key={e.id} className="py-2 flex items-center gap-2">
+                <div className="min-w-0 flex-1 space-y-1">
+                  <Input
+                    defaultValue={e.descricao}
+                    placeholder="Descrição"
+                    onBlur={(ev) =>
+                      ev.target.value !== e.descricao &&
+                      guardarEntrada(e.id, { descricao: ev.target.value })
+                    }
+                  />
+                  <Input
+                    type="date"
+                    className="text-xs"
+                    defaultValue={e.data ?? ""}
+                    onBlur={(ev) =>
+                      (ev.target.value || null) !== e.data &&
+                      guardarEntrada(e.id, { data: ev.target.value || null })
+                    }
+                  />
+                </div>
+                <Input
+                  className="w-24 text-right"
+                  defaultValue={String(e.valor)}
+                  onBlur={(ev) => {
+                    const v = Number(ev.target.value.replace(",", "."));
+                    if (!Number.isNaN(v) && v !== Number(e.valor))
+                      guardarEntrada(e.id, { valor: v });
+                  }}
+                />
+                <Button size="sm" variant="ghost" onClick={() => apagarEntrada(e.id, e.descricao)}>
+                  <Trash2 className="w-4 h-4" style={{ color: "#B85C5C" }} />
+                </Button>
               </li>
             ))}
             <li className="py-2 flex justify-between font-medium">
@@ -203,27 +307,39 @@ export function AdminContas({
         </section>
 
         <section className="rounded-xl border bg-card p-4 sm:p-6">
-          <h3 className="flex items-center gap-2 font-medium mb-3">
-            <Gift className="w-4 h-4" /> Prendas em espécie ({prendas.length})
-          </h3>
+          <h3 className="font-medium mb-3">Prendas e crédito nas despesas</h3>
           <ul className="divide-y text-sm">
-            {prendas.map((e) => (
-              <li key={e.id} className="py-2 flex justify-between gap-3">
-                <span className="min-w-0">
-                  <span className="block truncate">{e.descricao}</span>
-                  {e.notas && <span className="text-xs text-muted-foreground">de {e.notas}</span>}
-                </span>
-                <span className="whitespace-nowrap">{euros(Number(e.valor))}</span>
-              </li>
-            ))}
+            <li className="py-2 flex justify-between">
+              <span>Prendas em dinheiro recebidas</span>
+              <span>{euros(prendasDinheiro)}</span>
+            </li>
+            <li className="py-2 flex justify-between">
+              <span>Crédito lançado nas despesas</span>
+              <span>{euros(Math.abs(creditoPrendas))}</span>
+            </li>
             <li className="py-2 flex justify-between font-medium">
-              <span>Total</span>
-              <span>{euros(r.prendas)}</span>
+              <span>Diferença</span>
+              <span style={{ color: desfasado ? "#B85C5C" : undefined }}>
+                {euros(prendasDinheiro - Math.abs(creditoPrendas))}
+              </span>
             </li>
           </ul>
+          {desfasado && linhaPrendas && (
+            <Button
+              size="sm"
+              variant="outline"
+              className="mt-3"
+              onClick={() =>
+                guardar(linhaPrendas.id, { estimado: -prendasDinheiro, a_pagar: -prendasDinheiro })
+              }
+            >
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Acertar o crédito às prendas
+            </Button>
+          )}
           <p className="text-xs text-muted-foreground mt-3">
-            Coisas oferecidas por terceiros. Não entram nas contas acima porque não passaram pela
-            vossa conta.
+            As prendas geridas no separador «Prendas» abatem ao orçamento através desta linha de
+            crédito. Se acrescentares uma prenda, isto avisa-te que a linha ficou desactualizada.
           </p>
         </section>
       </div>
