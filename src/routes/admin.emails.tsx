@@ -142,17 +142,30 @@ function AdminEmailsPage() {
           </Button>
         </div>
 
-        <div className="mb-6 flex flex-wrap gap-2">
-          {emails.map((row) => (
-            <Button
-              key={row.key}
-              variant={row.key === selectedKey ? "default" : "outline"}
-              size="sm"
-              onClick={() => select(row)}
-            >
-              {row.display_name}
-            </Button>
-          ))}
+        <div className="mb-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+          {emails.map((row) => {
+            const active = row.key === selectedKey;
+            return (
+              <button
+                key={row.key}
+                type="button"
+                onClick={() => select(row)}
+                aria-pressed={active}
+                className={`rounded-lg border p-3 text-left transition-colors ${
+                  active
+                    ? "border-primary bg-primary/10"
+                    : "border-border bg-card hover:border-primary/50"
+                }`}
+              >
+                <span className="block text-sm font-medium">
+                  {row.display_name || row.key}
+                </span>
+                <span className="mt-1 block truncate text-xs text-muted-foreground">
+                  {row.subject}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
         {draft && (
