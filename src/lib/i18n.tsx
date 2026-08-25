@@ -119,14 +119,8 @@ const dict = {
     "info.parking.desc": "A quinta possui um grande parque de estacionamento privativo e gratuito para todos os convidados.",
 
     "travel.title": "Como Chegar",
-    "travel.porto": "Porto",
-    "travel.porto.desc": "30 min de carro",
-    "travel.aveiro": "Aveiro",
-    "travel.aveiro.desc": "1h00 de carro",
-    "travel.airport": "Aeroporto Porto",
-    "travel.airport.desc": "35 min de carro",
-    "travel.parking": "Estacionamento",
-    "travel.parking.desc": "Gratuito no local",
+    "travel.summary": "30 min do Porto · 35 min do Aeroporto · 1h de Aveiro",
+    "travel.parking.note": "Estacionamento gratuito no local",
 
     "rsvp.title": "Confirmar Presença",
     "rsvp.subtitle": "Por favor responde até 1 de Agosto de 2026",
@@ -297,14 +291,8 @@ const dict = {
     "info.parking.desc": "The venue has a large, free private parking lot for all guests.",
 
     "travel.title": "How to Get There",
-    "travel.porto": "Porto",
-    "travel.porto.desc": "30 min by car",
-    "travel.aveiro": "Aveiro",
-    "travel.aveiro.desc": "1h by car",
-    "travel.airport": "Porto Airport",
-    "travel.airport.desc": "35 min by car",
-    "travel.parking": "Parking",
-    "travel.parking.desc": "Free on-site",
+    "travel.summary": "30 min from Porto · 35 min from the Airport · 1h from Aveiro",
+    "travel.parking.note": "Free parking on site",
 
     "rsvp.title": "Confirm Attendance",
     "rsvp.subtitle": "Please reply by August 1, 2026",

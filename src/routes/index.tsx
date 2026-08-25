@@ -19,7 +19,7 @@ const ChatWidget = lazy(() => import("@/components/ChatWidget"));
 import { Reveal } from "@/components/Reveal";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider, useI18n } from "@/lib/i18n";
-import { Camera, MapPin, Clock, Hotel, Heart, Shirt, Car, Plane, ParkingCircle, ExternalLink } from "lucide-react";
+import { Camera, MapPin, Clock, Hotel, Heart, Shirt, Car, ParkingCircle, ExternalLink } from "lucide-react";
 
 
 const SITE_URL = "https://joanaediogo.com";
@@ -272,22 +272,6 @@ function Index() {
               </div>
             </div>
 
-            {/* Embedded interactive map */}
-            <div
-              className="mt-4 sm:mt-6 overflow-hidden"
-              style={{ borderRadius: 8, border: "1px solid color-mix(in oklab, var(--gold) 40%, transparent)" }}
-            >
-              <iframe
-                title="Glicínia Wedding House — mapa"
-                src="https://www.google.com/maps?q=Glic%C3%ADnia+Wedding+House+Freamunde&output=embed"
-                width="100%"
-                height="320"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="block w-full border-0 h-[180px] sm:h-[400px]"
-              />
-            </div>
-
             {/* Travel cards */}
             <div className="mt-5 sm:mt-8">
               <p
@@ -301,11 +285,26 @@ function Index() {
               >
                 {t("travel.title")}
               </p>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
-                <TravelCard icon={<MapPin size={24} strokeWidth={1.5} />} title={t("travel.porto")} desc={t("travel.porto.desc")} />
-                <TravelCard icon={<MapPin size={24} strokeWidth={1.5} />} title={t("travel.aveiro")} desc={t("travel.aveiro.desc")} />
-                <TravelCard icon={<Plane size={24} strokeWidth={1.5} />} title={t("travel.airport")} desc={t("travel.airport.desc")} />
-                <TravelCard icon={<ParkingCircle size={24} strokeWidth={1.5} />} title={t("travel.parking")} desc={t("travel.parking.desc")} />
+              <p
+                className="text-center text-sm sm:text-base leading-relaxed"
+                style={{ color: "var(--foreground)", opacity: 0.85 }}
+              >
+                {/* quebra entre destinos, nunca dentro de um */}
+                {t("travel.summary")
+                  .split(" · ")
+                  .map((destino, i) => (
+                    <span key={destino}>
+                      {i > 0 ? " · " : ""}
+                      <span className="whitespace-nowrap">{destino}</span>
+                    </span>
+                  ))}
+              </p>
+
+              <div className="mt-3 flex items-center justify-center gap-2">
+                <ParkingCircle size={16} strokeWidth={1.5} style={{ color: "var(--olive)", opacity: 0.7 }} />
+                <p className="text-xs sm:text-sm" style={{ color: "var(--foreground)", opacity: 0.7 }}>
+                  {t("travel.parking.note")}
+                </p>
               </div>
             </div>
 
@@ -433,52 +432,6 @@ function InfoCard({
         <h3 className="font-display text-sm sm:text-lg sm:mb-3 text-primary break-words min-w-0" style={{ letterSpacing: "0.16em" }}>{title}</h3>
       </div>
       <p className="text-[0.82rem] sm:text-sm leading-snug sm:leading-relaxed text-foreground/75">{desc}</p>
-    </div>
-  );
-}
-
-function TravelCard({
-  icon,
-  title,
-  desc,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  desc: string;
-}) {
-  return (
-    <div
-      className="travel-card text-center transition-all p-3 sm:p-5"
-      style={{
-        background: "var(--ivory)",
-        border: "1px solid color-mix(in oklab, var(--gold) 55%, transparent)",
-        borderRadius: 8,
-      }}
-    >
-      <div className="flex justify-center" style={{ color: "var(--olive)" }}>
-        {icon}
-      </div>
-      <p
-        className="uppercase mt-2 text-[0.68rem] sm:text-xs"
-        style={{
-          fontFamily: "Cinzel, serif",
-          color: "var(--olive)",
-          letterSpacing: "0.2em",
-          fontWeight: 500,
-        }}
-      >
-        {title}
-      </p>
-      <p
-        className="mt-0.5 text-[0.8rem] sm:text-sm"
-        style={{
-          fontFamily: "Lato, sans-serif",
-          color: "var(--gold)",
-          fontWeight: 400,
-        }}
-      >
-        {desc}
-      </p>
     </div>
   );
 }
