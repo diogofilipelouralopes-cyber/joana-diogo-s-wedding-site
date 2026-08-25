@@ -30,6 +30,7 @@ export const EMAIL_KEYS = [
   'rsvp-confirmation',
   'rsvp-notification',
   'one-month-reminder',
+  'one-week-reminder',
 ] as const;
 
 export type EmailKey = (typeof EMAIL_KEYS)[number];

@@ -1193,3 +1193,8 @@ body.has-announcement .hero-section { padding-top: 184px; }
   }
 }
 
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}

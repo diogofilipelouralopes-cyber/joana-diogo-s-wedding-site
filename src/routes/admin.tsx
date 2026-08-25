@@ -368,7 +368,7 @@ function AdminPage() {
     <div className="min-h-screen bg-background">
       <Toaster position="top-center" />
       <header className="border-b border-border bg-card">
-        <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
               Painel
@@ -385,36 +385,36 @@ function AdminPage() {
                       : "Avisos"}
             </h1>
           </div>
-          <div className="flex gap-2 items-center">
+          <div className="flex flex-wrap gap-2 items-center">
             <Link
               to="/"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-[0.2em] rounded-md border border-border hover:border-primary hover:text-primary transition-colors"
+              className="inline-flex shrink-0 items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-[0.15em] whitespace-nowrap rounded-md border border-border hover:border-primary hover:text-primary transition-colors"
               title="Voltar ao site"
             >
-              <Home className="w-3.5 h-3.5" /> Site
+              <Home className="w-3.5 h-3.5 shrink-0" /> Site
             </Link>
             <Link
               to="/admin/galeria"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-[0.2em] rounded-md border border-border hover:border-primary hover:text-primary transition-colors"
+              className="inline-flex shrink-0 items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-[0.15em] whitespace-nowrap rounded-md border border-border hover:border-primary hover:text-primary transition-colors"
               title="Galeria privada"
             >
-              <ImageIcon className="w-3.5 h-3.5" /> Galeria
+              <ImageIcon className="w-3.5 h-3.5 shrink-0" /> Galeria
             </Link>
             <Link
               to="/admin/emails"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-[0.2em] rounded-md border border-border hover:border-primary hover:text-primary transition-colors"
+              className="inline-flex shrink-0 items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-[0.15em] whitespace-nowrap rounded-md border border-border hover:border-primary hover:text-primary transition-colors"
               title="Editar emails"
             >
-              <Mail className="w-3.5 h-3.5" /> Emails
+              <Mail className="w-3.5 h-3.5 shrink-0" /> Emails
             </Link>
-            <Button variant="ghost" size="sm" onClick={logout}>
-              <LogOut className="w-4 h-4 mr-2" /> Sair
+            <Button variant="ghost" size="sm" onClick={logout} className="shrink-0">
+              <LogOut className="w-4 h-4 mr-2 shrink-0" /> Sair
             </Button>
           </div>
         </div>
         {/* Tabs */}
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex gap-1 -mb-px overflow-x-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex gap-1 -mb-px overflow-x-auto no-scrollbar">
             <TabButton
               active={tab === "rsvps"}
               onClick={() => setTab("rsvps")}
@@ -451,7 +451,7 @@ function AdminPage() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-10">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
         {tab === "mensagens" ? (
           <AdminMensagens />
         ) : tab === "avisos" ? (
@@ -858,7 +858,7 @@ function TabButton({
   return (
     <button
       onClick={onClick}
-      className="inline-flex items-center gap-2 px-4 py-3 text-xs uppercase tracking-[0.2em] border-b-2 transition-colors"
+      className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap px-3 sm:px-4 py-3 text-[11px] sm:text-xs uppercase tracking-[0.15em] border-b-2 transition-colors"
       style={{
         borderBottomColor: active ? "var(--gold)" : "transparent",
         color: active ? "var(--gold)" : "var(--muted-foreground)",
