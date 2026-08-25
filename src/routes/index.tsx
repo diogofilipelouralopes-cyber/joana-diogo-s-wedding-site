@@ -19,7 +19,7 @@ const ChatWidget = lazy(() => import("@/components/ChatWidget"));
 import { Reveal } from "@/components/Reveal";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider, useI18n } from "@/lib/i18n";
-import { Camera, MapPin, Clock, Hotel, Heart, Shirt, Car, ParkingCircle, ExternalLink } from "lucide-react";
+import { Camera, MapPin, Clock, Hotel, Heart, Shirt, ParkingCircle, ExternalLink } from "lucide-react";
 
 
 const SITE_URL = "https://joanaediogo.com";
@@ -330,28 +330,12 @@ function Index() {
               </a>
             </div>
           </div>
-        </div>
-      </section>
 
-      <DecorativeDivider />
-
-      {/* INFORMATION */}
-      <section id="info" className="py-6 sm:py-14 md:py-20 px-4 sm:px-6 scroll-mt-24">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-5 sm:mb-12">
-            <p className="text-[0.6rem] sm:text-xs uppercase tracking-[0.35em] text-muted-foreground mb-2">
-              {t("info.kicker")}
-            </p>
-            <h2 className="font-display text-3xl sm:text-5xl md:text-6xl text-primary">{t("info.title")}</h2>
-            <div className="divider-ornament mt-3 sm:mt-6 max-w-xs mx-auto">
-              <Heart className="w-3 h-3" strokeWidth={1} />
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-3 sm:gap-6">
+          {/* Dress code e hospedagem — antes numa secção "Informações" à parte.
+              O estacionamento saiu: já está dito na linha do "Como Chegar". */}
+          <div className="mx-auto mt-4 sm:mt-6 grid sm:grid-cols-2 gap-3 sm:gap-6" style={{ maxWidth: 900 }}>
             <InfoCard icon={<Shirt className="w-6 h-6" strokeWidth={1.5} />} title={t("info.dress.title")} desc={t("info.dress.desc")} />
             <InfoCard icon={<Hotel className="w-6 h-6" strokeWidth={1.5} />} title={t("info.hotel.title")} desc={t("info.hotel.desc")} />
-            <InfoCard icon={<Car className="w-6 h-6" strokeWidth={1.5} />} title={t("info.parking.title")} desc={t("info.parking.desc")} />
           </div>
         </div>
       </section>

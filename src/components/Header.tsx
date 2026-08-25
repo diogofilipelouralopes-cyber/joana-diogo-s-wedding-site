@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { X, Camera, MessageCircleHeart, Gift, Home, BookHeart, MapPin, Info, HelpCircle, Share2, Bot, Phone } from "lucide-react";
+import { X, Camera, MessageCircleHeart, Gift, Home, BookHeart, MapPin, HelpCircle, Share2, Bot, Phone } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -20,7 +20,6 @@ const CONTACTS = [
 const links = [
   { id: "top", key: "nav.home" as const, icon: <Home className="w-4 h-4" strokeWidth={1.5} /> },
   { id: "event", key: "nav.event" as const, icon: <MapPin className="w-4 h-4" strokeWidth={1.5} /> },
-  { id: "info", key: "nav.info" as const, icon: <Info className="w-4 h-4" strokeWidth={1.5} /> },
   { id: "faq", key: "nav.faq" as const, icon: <HelpCircle className="w-4 h-4" strokeWidth={1.5} /> },
   { id: "story", key: "nav.story" as const, icon: <BookHeart className="w-4 h-4" strokeWidth={1.5} /> },
   { id: "fotos", key: "nav.photos" as const, icon: <Camera className="w-4 h-4" strokeWidth={1.5} /> },
@@ -41,7 +40,6 @@ const mobileGroups: {
     items: [
       { id: "top", key: "nav.home", icon: <Home className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
       { id: "event", key: "nav.event", icon: <MapPin className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
-      { id: "info", key: "nav.info", icon: <Info className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
       { id: "faq", key: "nav.faq", icon: <HelpCircle className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
     ],
   },
