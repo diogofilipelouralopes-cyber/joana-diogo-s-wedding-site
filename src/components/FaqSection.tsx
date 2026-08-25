@@ -9,7 +9,7 @@ export function FaqSection() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="py-8 sm:py-18 px-4 sm:px-6 scroll-mt-24" style={{ background: "var(--ivory)" }}>
+    <section id="faq" className="section section-ivory">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-4 sm:mb-10">
           <h2
@@ -38,7 +38,7 @@ export function FaqSection() {
                 style={{
                   background: "var(--cream)",
                   borderBottom: "1px solid color-mix(in oklab, var(--gold) 50%, transparent)",
-                  borderRadius: 4,
+                  borderRadius: "var(--card-radius)",
                   marginBottom: 4,
                 }}
               >

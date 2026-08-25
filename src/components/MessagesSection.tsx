@@ -56,7 +56,7 @@ export function MessagesSection() {
 
   const inputStyle: React.CSSProperties = {
     width: "100%",
-    borderRadius: 10,
+    borderRadius: "var(--card-radius)",
     border: "1px solid color-mix(in oklab, var(--gold) 45%, transparent)",
     background: "var(--ivory)",
     padding: "12px 14px",
@@ -65,23 +65,10 @@ export function MessagesSection() {
     outline: "none",
   };
 
-  const primaryBtn: React.CSSProperties = {
-    background: "var(--olive)",
-    color: "var(--cream)",
-    fontFamily: "Cinzel, serif",
-    fontSize: "0.75rem",
-    letterSpacing: "0.22em",
-    minHeight: 46,
-    padding: "12px 22px",
-    borderRadius: 8,
-  };
-
   return (
     <section
       id="mensagens"
-      className="px-5 sm:px-6 scroll-mt-24"
-      style={{ background: "var(--cream)", paddingTop: 28, paddingBottom: 28 }}
-    >
+      className="section section-ivory">
       <div className="max-w-xl mx-auto text-center">
         <h2
           className="uppercase text-base sm:text-xl"
@@ -115,8 +102,7 @@ export function MessagesSection() {
           <DialogTrigger asChild>
             <button
               type="button"
-              className="mt-3 inline-flex items-center justify-center gap-2 uppercase transition-transform hover:-translate-y-0.5"
-              style={primaryBtn}
+              className="btn btn-primary mt-3"
             >
               <MessageCircleHeart className="w-4 h-4" strokeWidth={1.5} />
               {t("msg.send")}
@@ -251,8 +237,8 @@ export function MessagesSection() {
                         }
                         setStep(1);
                       }}
-                      className="inline-flex items-center gap-2 uppercase"
-                      style={primaryBtn}
+                      className="btn btn-primary"
+                     
                     >
                       {lang === "en" ? "Continue" : "Continuar"}
                       <ArrowRight className="w-4 h-4" />
@@ -262,8 +248,8 @@ export function MessagesSection() {
                       type="button"
                       onClick={submit}
                       disabled={submitting}
-                      className="inline-flex items-center gap-2 uppercase"
-                      style={{ ...primaryBtn, opacity: submitting ? 0.7 : 1 }}
+                      className="btn btn-primary"
+                     
                     >
                       {submitting ? (
                         <>

@@ -117,9 +117,7 @@ export function PublicGallerySection() {
     return (
       <section
         id="galeria"
-        className="py-10 sm:py-14 px-5 sm:px-6 scroll-mt-24"
-        style={{ background: "var(--cream)" }}
-      >
+        className="section section-cream">
         <div className="max-w-md mx-auto text-center">
           <h2
             className="uppercase text-base sm:text-xl"
@@ -138,7 +136,7 @@ export function PublicGallerySection() {
             style={{
               background: "var(--ivory)",
               border: "1px dashed var(--gold)",
-              borderRadius: 12,
+              borderRadius: "var(--card-radius)",
             }}
           >
             <Camera
@@ -171,7 +169,7 @@ export function PublicGallerySection() {
   const subtitle = lang === "en" ? "moments we want to share" : "momentos que queremos partilhar";
 
   return (
-    <section id="galeria" className="py-12 sm:py-18 px-5 sm:px-6 scroll-mt-24" style={{ background: "var(--cream)" }}>
+    <section id="galeria" className="section section-cream">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-7 sm:mb-10">
           <h2

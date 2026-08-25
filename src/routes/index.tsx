@@ -184,14 +184,15 @@ function Index() {
             <span aria-hidden style={{ width: "60px", borderTop: "1px dashed var(--olive)" }} />
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+          {/* Empilhados no telemóvel ficam com a mesma largura; lado a lado no desktop. */}
+          <div className="grid w-full max-w-xs mx-auto gap-2 sm:flex sm:w-auto sm:max-w-none sm:items-center sm:justify-center sm:gap-3">
             <a
               href="https://www.google.com/maps/search/?api=1&query=Glic%C3%ADnia+Wedding+House+Freamunde"
               target="_blank"
               rel="noopener noreferrer"
-              className="hero-directions-btn hero-text-anim-3"
+              className="btn btn-secondary hero-text-anim-3"
             >
-              <MapPin size={17} strokeWidth={1.6} />
+              <MapPin size={16} strokeWidth={1.5} />
               <span>{lang === "en" ? "How to get there" : "Como chegar"}</span>
             </a>
 
@@ -199,9 +200,9 @@ function Index() {
               href={ALBUM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="hero-directions-btn hero-text-anim-3"
+              className="btn btn-secondary hero-text-anim-3"
             >
-              <Camera size={17} strokeWidth={1.6} />
+              <Camera size={16} strokeWidth={1.5} />
               <span>{lang === "en" ? "Photos" : "Fotografias"}</span>
             </a>
           </div>
@@ -212,7 +213,7 @@ function Index() {
       <DecorativeDivider />
 
       {/* EVENT */}
-      <section id="event" className="py-6 sm:py-14 md:py-20 px-4 sm:px-6 bg-secondary/40 scroll-mt-24">
+      <section id="event" className="section section-cream">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-5 sm:mb-12">
             <p className="text-[0.6rem] sm:text-xs uppercase tracking-[0.35em] text-muted-foreground mb-2">
@@ -230,7 +231,7 @@ function Index() {
               maxWidth: 900,
               background: "var(--ivory)",
               border: "1px solid var(--gold)",
-              borderRadius: 12,
+              borderRadius: "var(--card-radius)",
               boxShadow:
                 "0 1px 2px color-mix(in oklab, var(--olive) 8%, transparent), 0 18px 40px -22px color-mix(in oklab, var(--olive) 25%, transparent)",
             }}
@@ -311,19 +312,9 @@ function Index() {
                 href={MAPS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 sm:px-7 py-3 uppercase transition-all hover:-translate-y-0.5"
-                style={{
-                  fontFamily: "Cinzel, serif",
-                  letterSpacing: "0.25em",
-                  fontSize: "0.75rem",
-                  color: "var(--gold)",
-                  border: "1px solid var(--gold)",
-                  borderRadius: 8,
-                  background: "transparent",
-                  minHeight: 44,
-                }}
+                className="btn btn-secondary"
               >
-                <ExternalLink size={14} strokeWidth={1.5} />
+                <ExternalLink size={16} strokeWidth={1.5} />
                 {t("event.maps")}
               </a>
             </div>
@@ -369,7 +360,7 @@ function Index() {
       <DecorativeDivider />
 
       {/* RSVP — no fim: todos confirmados, fica para alterações de última hora */}
-      <section id="rsvp" className="py-6 sm:py-14 md:py-20 px-4 sm:px-6 bg-secondary/40 scroll-mt-24">
+      <section id="rsvp" className="section section-ivory">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-5 sm:mb-10">
             <h2 className="font-display text-3xl sm:text-5xl md:text-6xl text-primary">{t("rsvp.title")}</h2>

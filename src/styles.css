@@ -45,11 +45,11 @@
      Olive #6B7A4F · Old Gold #B8935A · Cream #F5EFE4
      Off-white #FBF8F1 · Light Sage #A8B89A
   */
-  --olive: oklch(0.51 0.045 120);        /* #6B7A4F */
-  --gold: oklch(0.66 0.075 70);          /* #B8935A */
-  --cream: oklch(0.95 0.018 80);         /* #F5EFE4 */
-  --ivory: oklch(0.97 0.012 85);         /* #FBF8F1 */
-  --sage: oklch(0.76 0.035 130);         /* #A8B89A */
+  --olive: oklch(0.51 0.045 120); /* #6B7A4F */
+  --gold: oklch(0.66 0.075 70); /* #B8935A */
+  --cream: oklch(0.95 0.018 80); /* #F5EFE4 */
+  --ivory: oklch(0.97 0.012 85); /* #FBF8F1 */
+  --sage: oklch(0.76 0.035 130); /* #A8B89A */
 
   --background: var(--cream);
   --foreground: oklch(0.36 0.035 120);
@@ -84,10 +84,26 @@
 
   /* Subtle aged-paper / watercolor texture (data-URL SVG, very faint) */
   --paper-texture:
-    radial-gradient(at 20% 10%, color-mix(in oklab, var(--gold) 8%, transparent) 0, transparent 45%),
-    radial-gradient(at 80% 30%, color-mix(in oklab, var(--sage) 10%, transparent) 0, transparent 50%),
-    radial-gradient(at 70% 85%, color-mix(in oklab, var(--gold) 6%, transparent) 0, transparent 55%),
-    radial-gradient(at 15% 80%, color-mix(in oklab, var(--sage) 8%, transparent) 0, transparent 50%),
+    radial-gradient(
+      at 20% 10%,
+      color-mix(in oklab, var(--gold) 8%, transparent) 0,
+      transparent 45%
+    ),
+    radial-gradient(
+      at 80% 30%,
+      color-mix(in oklab, var(--sage) 10%, transparent) 0,
+      transparent 50%
+    ),
+    radial-gradient(
+      at 70% 85%,
+      color-mix(in oklab, var(--gold) 6%, transparent) 0,
+      transparent 55%
+    ),
+    radial-gradient(
+      at 15% 80%,
+      color-mix(in oklab, var(--sage) 8%, transparent) 0,
+      transparent 50%
+    ),
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='7'/><feColorMatrix values='0 0 0 0 0.72  0 0 0 0 0.58  0 0 0 0 0.35  0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
@@ -104,7 +120,12 @@
     background-color: var(--color-background);
     background-image: var(--paper-texture);
     background-attachment: fixed;
-    background-size: auto, auto, auto, auto, 220px 220px;
+    background-size:
+      auto,
+      auto,
+      auto,
+      auto,
+      220px 220px;
     color: var(--color-foreground);
     font-family: var(--font-sans);
     font-weight: 300;
@@ -112,7 +133,10 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-family: var(--font-display);
     font-weight: 400;
     text-transform: uppercase;
@@ -130,15 +154,20 @@
 }
 
 @layer components {
-  .font-display { font-family: var(--font-display); letter-spacing: 0.25em; text-transform: uppercase; }
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
 
   /* Cards de destaque com fina borda dourada */
   .card-gold {
     background-color: var(--ivory);
     border: 1px solid color-mix(in oklab, var(--gold) 55%, transparent);
-    border-radius: 8px;
-    box-shadow: 0 1px 2px color-mix(in oklab, var(--olive) 6%, transparent),
-                0 8px 24px -16px color-mix(in oklab, var(--olive) 18%, transparent);
+    border-radius: var(--card-radius);
+    box-shadow:
+      0 1px 2px color-mix(in oklab, var(--olive) 6%, transparent),
+      0 8px 24px -16px color-mix(in oklab, var(--olive) 18%, transparent);
   }
 
   .divider-ornament {
@@ -170,72 +199,87 @@
 
 /* === Hero animations & decorative pieces === */
 @keyframes hero-mono-in {
-  0%   { opacity: 0; transform: scale(0.9); }
-  100% { opacity: 1; transform: scale(1); }
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 @keyframes hero-text-in {
-  0%   { opacity: 0; transform: translateY(14px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 @keyframes plane-fly {
-  0%   { offset-distance: 0%;   opacity: 0; }
-  8%   { opacity: 1; }
-  92%  { opacity: 1; }
-  100% { offset-distance: 100%; opacity: 0; }
-}
-
-.hero-mono-anim   { animation: hero-mono-in 1.2s ease-out both; }
-.hero-text-anim-1 { animation: hero-text-in 0.9s ease-out 0.6s both; }
-.hero-text-anim-2 { animation: hero-text-in 0.9s ease-out 0.9s both; }
-.hero-text-anim-3 { animation: hero-text-in 0.9s ease-out 1.2s both; }
-
-.hero-directions-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 26px;
-  border-radius: 999px;
-  font-family: "Cinzel", serif;
-  font-size: 0.82rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: color-mix(in oklab, var(--gold) 70%, #4a3d1c);
-  background: color-mix(in oklab, var(--ivory, var(--background)) 88%, transparent);
-  backdrop-filter: blur(12px) saturate(130%);
-  border: 1px solid color-mix(in oklab, var(--gold) 45%, transparent);
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.14);
-  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
-}
-.hero-directions-btn:hover,
-.hero-directions-btn:focus-visible {
-  transform: translateY(-1px);
-  background: color-mix(in oklab, var(--gold) 18%, var(--ivory, var(--background)));
-  outline: none;
-}
-@media (max-width: 768px) {
-  .hero-directions-btn {
-    width: 100%;
-    max-width: 320px;
-    padding: 14px 20px;
-    font-size: 0.78rem;
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
   }
 }
 
+.hero-mono-anim {
+  animation: hero-mono-in 1.2s ease-out both;
+}
+.hero-text-anim-1 {
+  animation: hero-text-in 0.9s ease-out 0.6s both;
+}
+.hero-text-anim-2 {
+  animation: hero-text-in 0.9s ease-out 0.9s both;
+}
+.hero-text-anim-3 {
+  animation: hero-text-in 0.9s ease-out 1.2s both;
+}
 /* Compact inline countdown inside the hero — now in whole days only.
    The count resets at midnight and flips to "Today is the big day" on the wedding date. */
-.hero-text-anim-4 { animation: hero-text-in 0.9s ease-out 1.5s both; }
+.hero-text-anim-4 {
+  animation: hero-text-in 0.9s ease-out 1.5s both;
+}
 
 /* Aged-paper / stylized map background for hero */
 .hero-map-bg {
   background-color: var(--cream);
   background-image:
-    radial-gradient(ellipse at 18% 22%, color-mix(in oklab, var(--sage) 22%, transparent) 0, transparent 40%),
-    radial-gradient(ellipse at 82% 78%, color-mix(in oklab, var(--gold) 18%, transparent) 0, transparent 45%),
-    radial-gradient(ellipse at 50% 50%, color-mix(in oklab, var(--ivory) 80%, transparent) 0, transparent 60%),
+    radial-gradient(
+      ellipse at 18% 22%,
+      color-mix(in oklab, var(--sage) 22%, transparent) 0,
+      transparent 40%
+    ),
+    radial-gradient(
+      ellipse at 82% 78%,
+      color-mix(in oklab, var(--gold) 18%, transparent) 0,
+      transparent 45%
+    ),
+    radial-gradient(
+      ellipse at 50% 50%,
+      color-mix(in oklab, var(--ivory) 80%, transparent) 0,
+      transparent 60%
+    ),
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'><g fill='none' stroke='%236B7A4F' stroke-width='0.6' opacity='0.18'><path d='M0,420 C120,380 200,460 320,400 C440,340 520,420 600,380'/><path d='M0,300 C140,260 240,340 360,280 C480,220 540,300 600,260'/><path d='M0,180 C100,140 220,220 340,160 C460,100 540,180 600,140'/><circle cx='120' cy='420' r='3'/><circle cx='320' cy='400' r='3'/><circle cx='520' cy='380' r='3'/><circle cx='240' cy='280' r='3'/><circle cx='460' cy='180' r='3'/></g><g fill='%23B8935A' opacity='0.25'><circle cx='120' cy='420' r='2'/><circle cx='460' cy='180' r='2'/></g></svg>"),
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='9'/><feColorMatrix values='0 0 0 0 0.72  0 0 0 0 0.58  0 0 0 0 0.35  0 0 0 0.07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  background-size: auto, auto, auto, 600px 600px, 200px 200px;
+  background-size:
+    auto,
+    auto,
+    auto,
+    600px 600px,
+    200px 200px;
   background-repeat: no-repeat, no-repeat, no-repeat, repeat, repeat;
 }
 
@@ -268,12 +312,23 @@
 
 /* === Decorative Divider === */
 @keyframes decor-fade-up {
-  0%   { opacity: 0; transform: translateY(8px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 @keyframes decor-plane-shift {
-  0%, 100% { transform: translateX(-5px); }
-  50%      { transform: translateX(5px); }
+  0%,
+  100% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
 }
 .decor-icon-hidden {
   opacity: 0;
@@ -294,8 +349,13 @@
 
 /* === QuickNav === */
 @keyframes quick-bounce {
-  0%, 100% { transform: scale(1.1) translateY(0); }
-  50%      { transform: scale(1.1) translateY(-4px); }
+  0%,
+  100% {
+    transform: scale(1.1) translateY(0);
+  }
+  50% {
+    transform: scale(1.1) translateY(-4px);
+  }
 }
 .quick-nav-item .quick-nav-icon {
   color: var(--olive);
@@ -312,25 +372,57 @@
 
 /* === Save the Date card === */
 @keyframes std-fade-up {
-  0%   { opacity: 0; transform: translateY(28px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-.std-card-hidden { opacity: 0; transform: translateY(28px); }
-.std-card-in     { animation: std-fade-up 1s ease-out both; }
+.std-card-hidden {
+  opacity: 0;
+  transform: translateY(28px);
+}
+.std-card-in {
+  animation: std-fade-up 1s ease-out both;
+}
 
 /* === RSVP confirmation animations === */
 @keyframes rsvp-plane-fly {
-  0%   { transform: translateX(-120%) translateY(0) rotate(-4deg); opacity: 0; }
-  15%  { opacity: 1; }
-  50%  { transform: translateX(0%) translateY(-6px) rotate(0deg); }
-  85%  { opacity: 1; }
-  100% { transform: translateX(120%) translateY(0) rotate(4deg); opacity: 0; }
+  0% {
+    transform: translateX(-120%) translateY(0) rotate(-4deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(0%) translateY(-6px) rotate(0deg);
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(120%) translateY(0) rotate(4deg);
+    opacity: 0;
+  }
 }
 @keyframes rsvp-heart-pulse {
-  0%, 100% { transform: scale(1);   opacity: 0.85; }
-  50%      { transform: scale(1.18); opacity: 1; }
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.18);
+    opacity: 1;
+  }
 }
-.rsvp-confirm { animation: std-fade-up 0.7s ease-out both; }
+.rsvp-confirm {
+  animation: std-fade-up 0.7s ease-out both;
+}
 .rsvp-plane-track {
   position: relative;
   width: 100%;
@@ -353,41 +445,9 @@
   margin-left: -18px;
   animation: rsvp-plane-fly 2.4s ease-in-out 0.1s both;
 }
-.rsvp-heart-pulse { animation: rsvp-heart-pulse 1.4s ease-in-out infinite; }
-
-/* === Sticky RSVP floating button === */
-.sticky-rsvp-btn {
-  position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  z-index: 50;
-  padding: 0.85rem 1.4rem;
-  background-color: var(--olive);
-  color: var(--cream);
-  font-family: "Cinzel", serif;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  border-radius: 999px;
-  box-shadow: 0 10px 28px -10px color-mix(in oklab, var(--olive) 60%, transparent);
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(16px);
-  transition: opacity 0.4s ease, transform 0.4s ease, background-color 0.25s ease, color 0.25s ease;
+.rsvp-heart-pulse {
+  animation: rsvp-heart-pulse 1.4s ease-in-out infinite;
 }
-.sticky-rsvp-btn[data-visible="true"] {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-body.drawer-open .sticky-rsvp-btn { opacity: 0 !important; pointer-events: none !important; }
-.sticky-rsvp-btn:hover,
-.sticky-rsvp-btn:focus-visible {
-  background-color: var(--gold);
-  color: var(--ivory);
-  outline: none;
-}
-
 /* === Install (Add to Home Screen) button === */
 .install-btn {
   position: fixed;
@@ -408,7 +468,10 @@ body.drawer-open .sticky-rsvp-btn { opacity: 0 !important; pointer-events: none 
   letter-spacing: 0.18em;
   border-radius: 999px;
   box-shadow: 0 12px 30px -12px color-mix(in oklab, var(--olive) 50%, transparent);
-  transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
 }
 .install-btn:hover,
 .install-btn:focus-visible {
@@ -416,10 +479,17 @@ body.drawer-open .sticky-rsvp-btn { opacity: 0 !important; pointer-events: none 
   color: var(--cream);
   outline: none;
 }
-body.drawer-open .install-btn { opacity: 0; pointer-events: none; }
+body.drawer-open .install-btn {
+  opacity: 0;
+  pointer-events: none;
+}
 
 @media (max-width: 640px) {
-  .install-btn { bottom: 5.25rem; font-size: 0.65rem; padding: 0.65rem 1rem; }
+  .install-btn {
+    bottom: 5.25rem;
+    font-size: 0.65rem;
+    padding: 0.65rem 1rem;
+  }
 }
 
 .install-modal-backdrop {
@@ -441,7 +511,7 @@ body.drawer-open .install-btn { opacity: 0; pointer-events: none; }
   color: var(--olive);
   border-radius: 1rem;
   padding: 1.75rem 1.5rem 1.5rem;
-  box-shadow: 0 30px 60px -20px rgba(0,0,0,0.4);
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.4);
   text-align: center;
 }
 .install-modal-close {
@@ -477,9 +547,14 @@ body.drawer-open .install-btn { opacity: 0; pointer-events: none; }
   border-radius: 999px;
   color: var(--olive);
 }
-@keyframes fade-in { from { opacity: 0 } to { opacity: 1 } }
-
-
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
 /* === Sticky Header === */
 .site-header {
@@ -496,21 +571,40 @@ body.drawer-open .install-btn { opacity: 0; pointer-events: none; }
   border-bottom: 1px solid color-mix(in oklab, var(--gold) 50%, transparent);
 }
 @media (min-width: 768px) {
-  .site-header { padding-top: 20px; padding-bottom: 20px; }
+  .site-header {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
 }
 
 /* Header responsive show/hide (CSS-only, no JS flash) */
-.header-nav-desktop { display: none; }
-.header-logo-desktop { display: none; }
-.header-logo-mobile { display: inline-flex; }
-.header-hamburger { display: inline-flex; }
+.header-nav-desktop {
+  display: none;
+}
+.header-logo-desktop {
+  display: none;
+}
+.header-logo-mobile {
+  display: inline-flex;
+}
+.header-hamburger {
+  display: inline-flex;
+}
 @media (min-width: 768px) {
-  .header-logo-desktop { display: inline-flex; }
-  .header-logo-mobile { display: none; }
+  .header-logo-desktop {
+    display: inline-flex;
+  }
+  .header-logo-mobile {
+    display: none;
+  }
 }
 @media (min-width: 1280px) {
-  .header-nav-desktop { display: flex; }
-  .header-hamburger { display: none; }
+  .header-nav-desktop {
+    display: flex;
+  }
+  .header-hamburger {
+    display: none;
+  }
 }
 
 .lang-toggle {
@@ -524,7 +618,9 @@ body.drawer-open .install-btn { opacity: 0; pointer-events: none; }
   box-shadow: inset 0 1px 2px color-mix(in oklab, var(--olive) 6%, transparent);
   font-family: "Cinzel", serif;
 }
-.lang-sep { display: none; }
+.lang-sep {
+  display: none;
+}
 .lang-btn {
   font-family: "Cinzel", serif;
   font-size: 0.66rem;
@@ -533,7 +629,10 @@ body.drawer-open .install-btn { opacity: 0; pointer-events: none; }
   color: color-mix(in oklab, var(--olive) 75%, transparent);
   padding: 5px 12px;
   border-radius: 999px;
-  transition: background-color 0.28s ease, color 0.28s ease, box-shadow 0.28s ease;
+  transition:
+    background-color 0.28s ease,
+    color 0.28s ease,
+    box-shadow 0.28s ease;
   min-width: 0;
   min-height: 30px;
   display: inline-flex;
@@ -545,7 +644,10 @@ body.drawer-open .install-btn { opacity: 0; pointer-events: none; }
   color: var(--ivory);
   box-shadow: 0 1px 6px -2px color-mix(in oklab, var(--gold) 70%, transparent);
 }
-.lang-btn:hover:not([data-active="true"]) { color: var(--gold); background: color-mix(in oklab, var(--gold) 10%, transparent); }
+.lang-btn:hover:not([data-active="true"]) {
+  color: var(--gold);
+  background: color-mix(in oklab, var(--gold) 10%, transparent);
+}
 
 .header-logo {
   transition: transform 0.35s ease;
@@ -553,7 +655,6 @@ body.drawer-open .install-btn { opacity: 0; pointer-events: none; }
 .header-logo:hover {
   transform: rotate(5deg) scale(1.05);
 }
-
 
 .header-link {
   position: relative;
@@ -564,14 +665,22 @@ body.drawer-open .install-btn { opacity: 0; pointer-events: none; }
   color: var(--olive);
   padding: 8px 2px;
   white-space: nowrap;
-  transition: transform 0.3s ease, color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease;
   display: inline-block;
 }
 @media (min-width: 1024px) {
-  .header-link { font-size: 0.74rem; letter-spacing: 0.18em; }
+  .header-link {
+    font-size: 0.74rem;
+    letter-spacing: 0.18em;
+  }
 }
 @media (min-width: 1280px) {
-  .header-link { font-size: 0.8rem; letter-spacing: 0.22em; }
+  .header-link {
+    font-size: 0.8rem;
+    letter-spacing: 0.22em;
+  }
 }
 .header-link::after {
   content: "";
@@ -598,8 +707,12 @@ body.drawer-open .install-btn { opacity: 0; pointer-events: none; }
 }
 
 /* Push page content below the fixed header */
-body { padding-top: 0; }
-#top { padding-top: 0; }
+body {
+  padding-top: 0;
+}
+#top {
+  padding-top: 0;
+}
 
 /* === Mobile drawer === */
 .mobile-drawer-backdrop {
@@ -612,7 +725,10 @@ body { padding-top: 0; }
   transition: opacity 0.3s ease;
   z-index: 60;
 }
-.mobile-drawer-backdrop.is-open { opacity: 1; pointer-events: auto; }
+.mobile-drawer-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
 
 .mobile-drawer {
   position: fixed;
@@ -635,7 +751,9 @@ body { padding-top: 0; }
   overscroll-behavior: contain;
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
-.mobile-drawer.is-open { transform: translateX(0); }
+.mobile-drawer.is-open {
+  transform: translateX(0);
+}
 
 /* --- Cabeçalho do drawer --- */
 .drawer-head {
@@ -654,9 +772,13 @@ body { padding-top: 0; }
   justify-content: center;
   border-radius: 999px;
   color: var(--olive);
-  transition: background 0.2s ease, color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 }
-.drawer-close:active { background: color-mix(in oklab, var(--gold) 14%, transparent); }
+.drawer-close:active {
+  background: color-mix(in oklab, var(--gold) 14%, transparent);
+}
 .drawer-brand {
   display: flex;
   flex-direction: column;
@@ -702,7 +824,11 @@ body { padding-top: 0; }
   flex-direction: column;
   gap: 12px;
 }
-.drawer-group { display: flex; flex-direction: column; gap: 2px; }
+.drawer-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
 .drawer-group-label {
   font-family: "Cinzel", serif;
   font-size: 0.58rem;
@@ -725,7 +851,10 @@ body { padding-top: 0; }
   font-size: 0.86rem;
   letter-spacing: 0.1em;
   color: var(--olive);
-  transition: background 0.22s ease, transform 0.16s ease, color 0.22s ease;
+  transition:
+    background 0.22s ease,
+    transform 0.16s ease,
+    color 0.22s ease;
 }
 .drawer-item:active,
 .drawer-action:active {
@@ -745,7 +874,9 @@ body { padding-top: 0; }
   flex-shrink: 0;
   color: var(--gold);
 }
-.drawer-item-text { min-width: 0; }
+.drawer-item-text {
+  min-width: 0;
+}
 
 /* --- Ações no fundo --- */
 .drawer-actions {
@@ -769,7 +900,10 @@ body { padding-top: 0; }
   border-radius: 999px;
   border: 1px solid color-mix(in oklab, var(--gold) 28%, transparent);
   background: color-mix(in oklab, var(--ivory) 70%, transparent);
-  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
 }
 .burger-btn:hover,
 .burger-btn[data-open="true"] {
@@ -791,19 +925,39 @@ body { padding-top: 0; }
   height: 1.6px;
   border-radius: 2px;
   background: currentColor;
-  transition: transform 0.32s cubic-bezier(0.22, 0.9, 0.28, 1), opacity 0.2s ease, top 0.32s ease;
+  transition:
+    transform 0.32s cubic-bezier(0.22, 0.9, 0.28, 1),
+    opacity 0.2s ease,
+    top 0.32s ease;
 }
-.burger-bar-1 { top: 0; }
-.burger-bar-2 { top: 7.2px; }
-.burger-bar-3 { top: 14.4px; }
-.burger-btn[data-open="true"] .burger-bar-1 { top: 7.2px; transform: rotate(45deg); }
-.burger-btn[data-open="true"] .burger-bar-2 { opacity: 0; transform: scaleX(0.3); }
-.burger-btn[data-open="true"] .burger-bar-3 { top: 7.2px; transform: rotate(-45deg); }
+.burger-bar-1 {
+  top: 0;
+}
+.burger-bar-2 {
+  top: 7.2px;
+}
+.burger-bar-3 {
+  top: 14.4px;
+}
+.burger-btn[data-open="true"] .burger-bar-1 {
+  top: 7.2px;
+  transform: rotate(45deg);
+}
+.burger-btn[data-open="true"] .burger-bar-2 {
+  opacity: 0;
+  transform: scaleX(0.3);
+}
+.burger-btn[data-open="true"] .burger-bar-3 {
+  top: 7.2px;
+  transform: rotate(-45deg);
+}
 
 /* === Story images: dessaturated vintage feel === */
 .story-image {
   filter: saturate(0.6) sepia(0.15) brightness(1.02);
-  transition: filter 0.4s ease, transform 0.7s ease;
+  transition:
+    filter 0.4s ease,
+    transform 0.7s ease;
 }
 @media (hover: hover) {
   .story-image:hover {
@@ -855,7 +1009,7 @@ body { padding-top: 0; }
 }
 @media (max-width: 767px) {
   .hero-overlay {
-    background: rgba(245, 239, 228, 0.40);
+    background: rgba(245, 239, 228, 0.4);
   }
 }
 .hero-text-shadow {
@@ -875,26 +1029,23 @@ body { padding-top: 0; }
 }
 
 /* === Travel cards hover === */
-.travel-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 1px 2px color-mix(in oklab, var(--olive) 6%, transparent);
-}
-.travel-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 28px -16px color-mix(in oklab, var(--olive) 30%, transparent);
-}
 
 /* === Mobile sticky RSVP — keep above WhatsApp FAB === */
 @media (max-width: 640px) {
-  .sticky-rsvp-btn { bottom: 1rem; right: 1rem; padding: 0.7rem 1.1rem; font-size: 0.7rem; }
-  body:has(.quick-access-bar) .sticky-rsvp-btn { bottom: 6.5rem; }
-  body:has(.quick-access-bar) .install-btn { bottom: 10rem; }
-  body:has(.quick-access-bar) .whatsapp-fab { bottom: 6.5rem; }
+  body:has(.quick-access-bar) .install-btn {
+    bottom: 10rem;
+  }
+  body:has(.quick-access-bar) .whatsapp-fab {
+    bottom: 6.5rem;
+  }
 }
 
 /* Prevent any element from causing horizontal overflow */
-html, body { overflow-x: clip; max-width: 100%; }
-
+html,
+body {
+  overflow-x: clip;
+  max-width: 100%;
+}
 
 /* Playlist CTA hover (olive -> gold) */
 .playlist-cta:hover,
@@ -903,14 +1054,20 @@ html, body { overflow-x: clip; max-width: 100%; }
   border-color: var(--gold) !important;
   color: var(--ivory) !important;
 }
-/* Elevar botões flutuantes acima da QuickAccessBar */
-body:has(.quick-access-bar) .sticky-rsvp-btn { bottom: 6.5rem; }
-body:has(.quick-access-bar) .install-btn { bottom: 6.5rem; }
-body:has(.quick-access-bar) .whatsapp-fab { bottom: 6.5rem; }
+body:has(.quick-access-bar) .install-btn {
+  bottom: 6.5rem;
+}
+body:has(.quick-access-bar) .whatsapp-fab {
+  bottom: 6.5rem;
+}
 
 /* === Ticker de avisos: empurrar header para baixo quando ativo === */
-body.has-announcement .site-header { top: 34px; }
-body.has-announcement #top { scroll-padding-top: 34px; }
+body.has-announcement .site-header {
+  top: 34px;
+}
+body.has-announcement #top {
+  scroll-padding-top: 34px;
+}
 
 /* === Linha da data no header === */
 .header-date-row {
@@ -922,7 +1079,10 @@ body.has-announcement #top { scroll-padding-top: 34px; }
   justify-content: center;
   border-top: 1px solid color-mix(in oklab, var(--gold) 22%, transparent);
 }
-.header-date-spacer { width: 52px; flex-shrink: 0; }
+.header-date-spacer {
+  width: 52px;
+  flex-shrink: 0;
+}
 .header-date-label {
   font-family: "Cinzel", serif;
   font-size: 0.62rem;
@@ -947,7 +1107,9 @@ body.has-announcement #top { scroll-padding-top: 34px; }
   height: 28px;
   border-radius: 999px;
   color: color-mix(in oklab, var(--gold) 78%, #6b5a2e);
-  transition: background 0.2s ease, color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 }
 .header-date-icon-btn:hover {
   background: color-mix(in oklab, var(--gold) 14%, transparent);
@@ -955,20 +1117,34 @@ body.has-announcement #top { scroll-padding-top: 34px; }
 }
 
 /* Header mais compacto no topo para acomodar a linha da data */
-.site-header { padding-top: 10px; padding-bottom: 10px; }
+.site-header {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
 @media (min-width: 768px) {
-  .site-header { padding-top: 12px; padding-bottom: 12px; }
+  .site-header {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
 }
 
 /* Hero: dar mais espaço no topo para não colar ao header (que agora tem 2 linhas) */
-.hero-section { padding-top: 150px; }
+.hero-section {
+  padding-top: 150px;
+}
 @media (min-width: 768px) {
-  .hero-section { padding-top: 190px; }
+  .hero-section {
+    padding-top: 190px;
+  }
 }
 /* Quando o ticker de avisos está ativo, empurrar ainda mais */
-body.has-announcement .hero-section { padding-top: 184px; }
+body.has-announcement .hero-section {
+  padding-top: 184px;
+}
 @media (min-width: 768px) {
-  body.has-announcement .hero-section { padding-top: 224px; }
+  body.has-announcement .hero-section {
+    padding-top: 224px;
+  }
 }
 
 /* === Data clicável (adicionar ao calendário) + spacer ajustado === */
@@ -984,11 +1160,14 @@ body.has-announcement .hero-section { padding-top: 184px; }
   color: color-mix(in oklab, var(--gold) 70%, var(--olive));
 }
 /* Só há um ícone à direita agora — estreitar o spacer para centrar a data */
-.header-date-spacer { width: 28px; }
-.header-date-actions { width: 28px; }
+.header-date-spacer {
+  width: 28px;
+}
+.header-date-actions {
+  width: 28px;
+}
 
 /* Itens do menu lateral um pouco mais compactos */
-
 
 /* === Botão partilhar no header === */
 .header-share-btn {
@@ -999,7 +1178,9 @@ body.has-announcement .hero-section { padding-top: 184px; }
   height: 32px;
   border-radius: 999px;
   color: color-mix(in oklab, var(--gold) 80%, #6b5a2e);
-  transition: background 0.2s ease, color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
   flex-shrink: 0;
 }
 .header-share-btn:hover {
@@ -1019,7 +1200,12 @@ body.has-announcement .hero-section { padding-top: 184px; }
   content: "";
   height: 1px;
   width: clamp(24px, 12vw, 96px);
-  background: linear-gradient(to right, transparent, color-mix(in oklab, var(--gold) 55%, transparent), transparent);
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in oklab, var(--gold) 55%, transparent),
+    transparent
+  );
 }
 .header-date-label {
   font-size: 0.66rem;
@@ -1027,7 +1213,10 @@ body.has-announcement .hero-section { padding-top: 184px; }
   color: color-mix(in oklab, var(--olive) 88%, var(--gold));
 }
 @media (min-width: 768px) {
-  .header-date-label { font-size: 0.72rem; letter-spacing: 0.38em; }
+  .header-date-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.38em;
+  }
 }
 .header-date-btn {
   position: relative;
@@ -1045,7 +1234,9 @@ body.has-announcement .hero-section { padding-top: 184px; }
   transform-origin: center;
   transition: transform 0.35s ease;
 }
-.header-date-btn:hover::after { transform: scaleX(1); }
+.header-date-btn:hover::after {
+  transform: scaleX(1);
+}
 
 /* --- Compactação mobile: separadores decorativos --- */
 .decorative-divider {
@@ -1109,8 +1300,7 @@ body.has-announcement .hero-section { padding-top: 184px; }
   /* Botões e cards nunca excedem a coluna */
   main button,
   main a[class*="btn"],
-  .card-gold,
-  .travel-card {
+  .card-gold {
     max-width: 100%;
   }
 }
@@ -1125,10 +1315,11 @@ body.has-announcement .hero-section { padding-top: 184px; }
   }
 }
 
-
 @utility no-scrollbar {
   scrollbar-width: none;
-  &::-webkit-scrollbar { display: none; }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* ---- Cronómetro na faixa fixa do topo ---- */
@@ -1163,4 +1354,119 @@ body.has-announcement .hero-section { padding-top: 184px; }
   .header-swap > * {
     transition: none;
   }
+}
+
+/* =====================================================================
+   SISTEMA DE BOTÕES E SECÇÕES
+   Uma só forma, uma só altura, um só tamanho de texto, duas variantes
+   de cor. Qualquer botão novo deve usar .btn + .btn-primary|.btn-secondary
+   em vez de estilos próprios — é isso que mantém o site coerente.
+   ===================================================================== */
+:root {
+  --btn-radius: 999px;
+  /* Um raio único para todas as superfícies rectangulares: cartões, painéis,
+     campos de formulário. Botões são pílulas; tudo o resto usa isto. */
+  --card-radius: 12px;
+  --btn-min-h: 44px;
+  --btn-pad-y: 0.8rem;
+  --btn-pad-x: 1.6rem;
+  --btn-font-size: 0.75rem;
+  --btn-tracking: 0.18em;
+
+  /* Ritmo vertical único para todas as secções */
+  --section-pad-y: 2.75rem;
+  --section-pad-y-sm: 4.5rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: var(--btn-min-h);
+  padding: var(--btn-pad-y) var(--btn-pad-x);
+  border-radius: var(--btn-radius);
+  border: 1px solid transparent;
+  font-family: var(--font-display);
+  font-size: var(--btn-font-size);
+  font-weight: 500;
+  letter-spacing: var(--btn-tracking);
+  text-transform: uppercase;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+.btn:hover {
+  transform: translateY(-2px);
+}
+.btn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+.btn-block {
+  width: 100%;
+}
+
+/* Verde cheio: a acção principal de cada bloco. Só um por bloco. */
+.btn-primary {
+  background: var(--olive);
+  color: var(--cream);
+  border-color: var(--olive);
+  box-shadow: 0 6px 18px -10px color-mix(in oklab, var(--olive) 70%, transparent);
+}
+.btn-primary:hover {
+  box-shadow: 0 12px 26px -12px color-mix(in oklab, var(--olive) 75%, transparent);
+}
+
+/* Contorno translúcido: tudo o resto. Funciona sobre foto e sobre fundo liso. */
+.btn-secondary {
+  background: color-mix(in oklab, var(--ivory) 72%, transparent);
+  backdrop-filter: blur(10px) saturate(130%);
+  color: var(--olive);
+  border-color: color-mix(in oklab, var(--gold) 45%, transparent);
+  box-shadow: 0 6px 18px -12px rgba(0, 0, 0, 0.25);
+}
+.btn-secondary:hover {
+  background: color-mix(in oklab, var(--ivory) 88%, transparent);
+}
+
+/* Botão pequeno, para barras e cantos apertados (idioma, partilha, instalar) */
+.btn-sm {
+  --btn-min-h: 34px;
+  --btn-pad-y: 0.45rem;
+  --btn-pad-x: 1rem;
+  --btn-font-size: 0.65rem;
+  --btn-tracking: 0.14em;
+}
+
+/* ---- Secções: um ritmo vertical, dois tons alternados ---- */
+.section {
+  padding-top: var(--section-pad-y);
+  padding-bottom: var(--section-pad-y);
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  scroll-margin-top: 6rem;
+}
+@media (min-width: 640px) {
+  .section {
+    padding-top: var(--section-pad-y-sm);
+    padding-bottom: var(--section-pad-y-sm);
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+.section-cream {
+  background: var(--cream);
+}
+.section-ivory {
+  background: var(--ivory);
 }

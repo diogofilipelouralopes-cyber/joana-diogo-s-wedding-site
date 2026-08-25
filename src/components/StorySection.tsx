@@ -15,7 +15,7 @@ export function StorySection() {
   ];
 
   return (
-    <section id="story" className="py-12 sm:py-16 md:py-24 px-5 sm:px-6 scroll-mt-24">
+    <section id="story" className="section section-cream">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-10 sm:mb-14">
           <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
@@ -35,7 +35,7 @@ export function StorySection() {
                 i % 2 === 1 ? "md:[&>:first-child]:order-2" : ""
               }`}
             >
-              <div className="overflow-hidden rounded-sm">
+              <div className="overflow-hidden" style={{ borderRadius: "var(--card-radius)" }}>
                 <img
                   src={it.img}
                   alt={it.title}

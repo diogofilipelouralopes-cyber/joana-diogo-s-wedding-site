@@ -71,7 +71,7 @@ export function GiftsSection() {
   };
 
   return (
-    <section id="gifts" className="py-6 sm:py-10 px-4 sm:px-6 bg-secondary/40 scroll-mt-24">
+    <section id="gifts" className="section section-cream">
       <div className="max-w-md mx-auto">
         <div className="text-center mb-3 sm:mb-5">
           <p className="text-[0.6rem] sm:text-xs uppercase tracking-[0.35em] text-muted-foreground mb-1">
@@ -120,13 +120,12 @@ export function GiftsSection() {
                     <button
                       type="button"
                       onClick={() => copy(entry)}
-                      className="inline-flex items-center gap-2 rounded border border-primary/40 px-3 py-1.5 text-[0.7rem] uppercase tracking-[0.18em] text-primary transition-colors hover:bg-primary/5"
-                      style={{ minHeight: 40 }}
+                      className="btn btn-secondary btn-sm"
                     >
                       {copiedId === entry.id ? (
-                        <Check className="w-3.5 h-3.5" />
+                        <Check className="w-4 h-4" strokeWidth={1.5} />
                       ) : (
-                        <Copy className="w-3.5 h-3.5" />
+                        <Copy className="w-4 h-4" strokeWidth={1.5} />
                       )}
                       {entry.copyLabel}
                     </button>

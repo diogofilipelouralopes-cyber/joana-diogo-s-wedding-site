@@ -25,7 +25,7 @@ function QRCodeClient({ value, size }: { value: string; size: number }) {
           height: size,
           background: "#F5EFE4",
           border: "1px dashed var(--gold)",
-          borderRadius: 8,
+          borderRadius: "var(--card-radius)",
         }}
         aria-label="QR code loading"
       />
@@ -46,7 +46,7 @@ export function MemoriesSection() {
   }, []);
 
   return (
-    <section id="fotos" className="py-6 sm:py-12 px-4 sm:px-6 scroll-mt-24" style={{ background: "var(--ivory)" }}>
+    <section id="fotos" className="section section-ivory">
       <div className="max-w-md mx-auto text-center">
         <h2
           className="uppercase text-base sm:text-xl"
@@ -66,7 +66,7 @@ export function MemoriesSection() {
           style={{
             background: "var(--cream)",
             border: "1px solid var(--gold)",
-            borderRadius: 12,
+            borderRadius: "var(--card-radius)",
             boxShadow:
               "0 1px 2px color-mix(in oklab, var(--olive) 8%, transparent), 0 18px 36px -20px color-mix(in oklab, var(--olive) 24%, transparent)",
           }}
@@ -81,7 +81,7 @@ export function MemoriesSection() {
             style={{
               background: "var(--ivory)",
               border: "1px solid var(--gold)",
-              borderRadius: 10,
+              borderRadius: "var(--card-radius)",
             }}
           >
             <QRCodeClient value={ALBUM_URL} size={qrSize} />
@@ -99,17 +99,7 @@ export function MemoriesSection() {
               href={ALBUM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 uppercase transition-all hover:-translate-y-0.5"
-              style={{
-                fontFamily: "Cinzel, serif",
-                letterSpacing: "0.15em",
-                fontSize: "0.7rem",
-                background: "var(--olive)",
-                color: "var(--cream)",
-                border: "1px solid var(--olive)",
-                borderRadius: 8,
-                minHeight: 44,
-              }}
+              className="btn btn-primary btn-block"
             >
               <ImagePlus size={16} strokeWidth={1.5} />
               {t("memories.secondary")}

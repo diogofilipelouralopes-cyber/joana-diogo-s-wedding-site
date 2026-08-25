@@ -321,7 +321,7 @@ export function RsvpForm() {
           maxWidth: 600,
           background: "var(--ivory)",
           border: "1px solid var(--gold)",
-          borderRadius: 12,
+          borderRadius: "var(--card-radius)",
           padding: "40px 20px",
           boxShadow:
             "0 1px 2px color-mix(in oklab, var(--olive) 8%, transparent), 0 18px 40px -22px color-mix(in oklab, var(--olive) 25%, transparent)",
@@ -356,8 +356,8 @@ export function RsvpForm() {
         </div>
 
         <div
-          className="mt-6 rounded-lg p-4 sm:p-5"
-          style={{ background: "color-mix(in oklab, var(--gold) 8%, transparent)", border: "1px solid color-mix(in oklab, var(--gold) 30%, transparent)" }}
+          className="mt-6 p-4 sm:p-5"
+          style={{ background: "color-mix(in oklab, var(--gold) 8%, transparent)", border: "1px solid color-mix(in oklab, var(--gold) 30%, transparent)", borderRadius: "var(--card-radius)" }}
         >
           <div className="flex items-center gap-2 mb-3">
             <CheckCircle2 size={18} strokeWidth={1.5} style={{ color: "var(--olive)" }} />
@@ -397,27 +397,7 @@ export function RsvpForm() {
             setStep(0);
 
           }}
-          className="mt-6 w-full inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5"
-          style={{
-            padding: "14px 24px",
-            background: "transparent",
-            color: "var(--olive)",
-            borderRadius: 8,
-            fontFamily: "Cinzel, serif",
-            letterSpacing: "0.2em",
-            fontSize: "0.8rem",
-            textTransform: "uppercase",
-            border: "1px solid var(--olive)",
-            minHeight: 44,
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.background = "var(--olive)";
-            (e.currentTarget as HTMLButtonElement).style.color = "var(--ivory)";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.background = "transparent";
-            (e.currentTarget as HTMLButtonElement).style.color = "var(--olive)";
-          }}
+          className="btn btn-secondary btn-block mt-6"
         >
           <RotateCcw size={16} strokeWidth={1.5} />
           {t("rsvp.confirm.another")}
@@ -437,7 +417,7 @@ export function RsvpForm() {
         style={{
           background: "var(--ivory)",
           border: "1px solid var(--gold)",
-          borderRadius: 12,
+          borderRadius: "var(--card-radius)",
           boxShadow:
             "0 1px 2px color-mix(in oklab, var(--olive) 8%, transparent), 0 18px 40px -22px color-mix(in oklab, var(--olive) 25%, transparent)",
         }}
@@ -502,17 +482,8 @@ export function RsvpForm() {
                   <button
                     type="button"
                     onClick={() => setAttending("yes")}
-                    className="flex items-center justify-center gap-2 py-4 px-4 rounded-md transition-all"
-                    style={{
-                      background: attending === "yes" ? "var(--olive)" : "transparent",
-                      color: attending === "yes" ? "var(--ivory)" : "var(--olive)",
-                      border: "1px solid var(--olive)",
-                      fontFamily: "Cinzel, serif",
-                      letterSpacing: "0.15em",
-                      fontSize: "0.8rem",
-                      textTransform: "uppercase",
-                      minHeight: 44,
-                    }}
+                    aria-pressed={attending === "yes"}
+                    className={`btn ${attending === "yes" ? "btn-primary" : "btn-secondary"}`}
                   >
                     <Heart size={16} strokeWidth={1.5} fill={attending === "yes" ? "var(--gold)" : "transparent"} />
                     {t("rsvp.yes")}
@@ -520,17 +491,8 @@ export function RsvpForm() {
                   <button
                     type="button"
                     onClick={() => setAttending("no")}
-                    className="flex items-center justify-center gap-2 py-4 px-4 rounded-md transition-all"
-                    style={{
-                      background: attending === "no" ? "var(--olive)" : "transparent",
-                      color: attending === "no" ? "var(--ivory)" : "var(--olive)",
-                      border: "1px solid var(--olive)",
-                      fontFamily: "Cinzel, serif",
-                      letterSpacing: "0.15em",
-                      fontSize: "0.8rem",
-                      textTransform: "uppercase",
-                      minHeight: 44,
-                    }}
+                    aria-pressed={attending === "no"}
+                    className={`btn ${attending === "no" ? "btn-primary" : "btn-secondary"}`}
                   >
                     <X size={16} strokeWidth={1.5} />
                     {t("rsvp.no")}
@@ -622,20 +584,7 @@ export function RsvpForm() {
                   setErrors({});
                   setStep((s) => s - 1);
                 }}
-                className="inline-flex items-center justify-center gap-2 transition-all"
-                style={{
-                  flex: "0 0 auto",
-                  padding: "14px 20px",
-                  background: "transparent",
-                  color: "var(--olive)",
-                  borderRadius: 8,
-                  fontFamily: "Cinzel, serif",
-                  letterSpacing: "0.15em",
-                  fontSize: "0.75rem",
-                  textTransform: "uppercase",
-                  border: "1px solid var(--olive)",
-                  minHeight: 44,
-                }}
+                className="btn btn-secondary shrink-0"
               >
                 <ChevronLeft size={16} strokeWidth={1.5} />
                 {t("rsvp.back")}
@@ -648,19 +597,8 @@ export function RsvpForm() {
                 type="button"
                 onClick={goNext}
 
-                className="flex-1 inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5"
-                style={{
-                  padding: "16px 24px",
-                  background: "var(--olive)",
-                  color: "var(--cream)",
-                  borderRadius: 8,
-                  fontFamily: "Cinzel, serif",
-                  letterSpacing: "0.2em",
-                  fontSize: "0.8rem",
-                  textTransform: "uppercase",
-                  border: "none",
-                  minHeight: 44,
-                }}
+                className="btn btn-primary flex-1"
+
               >
                 {t("rsvp.next")}
                 <ChevronRight size={16} strokeWidth={1.5} />
@@ -671,20 +609,8 @@ export function RsvpForm() {
                 type="submit"
 
                 disabled={loading}
-                className="flex-1 inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 disabled:opacity-60"
-                style={{
-                  padding: "16px 24px",
-                  background: "var(--olive)",
-                  color: "var(--cream)",
-                  borderRadius: 8,
-                  fontFamily: "Cinzel, serif",
-                  letterSpacing: "0.2em",
-                  fontSize: "0.8rem",
-                  textTransform: "uppercase",
-                  border: "none",
-                  minHeight: 44,
-                  boxShadow: "0 6px 18px -10px color-mix(in oklab, var(--olive) 70%, transparent)",
-                }}
+                className="btn btn-primary flex-1"
+
               >
                 <Send size={16} strokeWidth={1.5} />
                 {loading ? t("rsvp.sending") : t("rsvp.send")}
