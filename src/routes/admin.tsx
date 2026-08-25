@@ -858,7 +858,7 @@ function TabButton({
   return (
     <button
       onClick={onClick}
-      className="inline-flex items-center gap-2 px-4 py-3 text-xs uppercase tracking-[0.2em] border-b-2 transition-colors"
+      className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap px-3 sm:px-4 py-3 text-[11px] sm:text-xs uppercase tracking-[0.15em] border-b-2 transition-colors"
       style={{
         borderBottomColor: active ? "var(--gold)" : "transparent",
         color: active ? "var(--gold)" : "var(--muted-foreground)",
