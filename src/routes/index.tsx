@@ -18,8 +18,7 @@ const ChatWidget = lazy(() => import("@/components/ChatWidget"));
 import { Reveal } from "@/components/Reveal";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider, useI18n } from "@/lib/i18n";
-import { Camera, MapPin, Clock, Hotel, Heart, Shirt, ParkingCircle, ExternalLink } from "lucide-react";
-
+import { Camera, MapPin, Clock, Heart, ParkingCircle, ExternalLink } from "lucide-react";
 
 const SITE_URL = "https://joanaediogo.com";
 
@@ -100,7 +99,6 @@ export const Route = createFileRoute("/")({
 const MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=Glic%C3%ADnia+Wedding+House+Freamunde";
 
-
 function Index() {
   const { t, lang } = useI18n();
 
@@ -118,7 +116,6 @@ function Index() {
       <div id="top" className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Toaster position="top-center" />
       <Header />
-
 
       <main>
       {/* HERO */}
@@ -361,12 +358,6 @@ function Index() {
             </p>
           </div>
 
-          {/* Dress code e hospedagem — antes numa secção "Informações" à parte.
-              O estacionamento saiu: já está dito na linha do "Como Chegar". */}
-          <div className="mx-auto mt-4 sm:mt-6 grid sm:grid-cols-2 gap-3 sm:gap-6" style={{ maxWidth: 900 }}>
-            <InfoCard icon={<Shirt className="w-6 h-6" strokeWidth={1.5} />} title={t("info.dress.title")} desc={t("info.dress.desc")} />
-            <InfoCard icon={<Hotel className="w-6 h-6" strokeWidth={1.5} />} title={t("info.hotel.title")} desc={t("info.hotel.desc")} />
-          </div>
         </div>
       </section>
 
@@ -430,22 +421,3 @@ function Index() {
   );
 }
 
-function InfoCard({
-  icon,
-  title,
-  desc,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  desc: string;
-}) {
-  return (
-    <div className="card-gold p-4 sm:p-8">
-      <div className="flex items-center gap-3 mb-2 sm:block">
-        <div className="text-primary shrink-0 sm:mb-4">{icon}</div>
-        <h3 className="font-display text-sm sm:text-lg sm:mb-3 text-primary break-words min-w-0" style={{ letterSpacing: "0.16em" }}>{title}</h3>
-      </div>
-      <p className="text-[0.82rem] sm:text-sm leading-snug sm:leading-relaxed text-foreground/75">{desc}</p>
-    </div>
-  );
-}

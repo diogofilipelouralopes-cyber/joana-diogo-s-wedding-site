@@ -108,11 +108,6 @@ const dict = {
     "event.desc": "Cerimónia e Recepção às 14h00",
     "event.maps": "Abrir no Google Maps",
 
-    "info.dress.title": "Dress Code",
-    "info.dress.desc": "Sintam-se confortáveis e incríveis! Guardem o branco apenas para a noiva. Cores alegres são ótimas opções.",
-    "info.hotel.title": "Hospedagem",
-    "info.hotel.desc": "A Quinta Glicínia dispõe de alojamento no local. Check-in a partir das 15h00, preferencialmente logo após a cerimónia. Para reservas, contactem-nos diretamente.",
-
     "schedule.kicker": "Programa do Dia",
     "schedule.soon": "em preparação",
     "schedule.desc": "Estamos a fechar os horários da cerimónia, do jantar e da festa. Assim que estiver definido, aparece aqui.",
@@ -277,11 +272,6 @@ const dict = {
     "event.place": "Freamunde, Portugal",
     "event.desc": "Ceremony and reception at 2:00 PM",
     "event.maps": "Open in Google Maps",
-
-    "info.dress.title": "Dress Code",
-    "info.dress.desc": "Feel comfortable and look amazing! Please leave white for the bride. Bright colors are very welcome.",
-    "info.hotel.title": "Accommodation",
-    "info.hotel.desc": "On-site accommodation available at the venue. Check-in from 3:00 PM, ideally right after the ceremony. For reservations, please contact us directly.",
 
     "schedule.kicker": "Schedule",
     "schedule.soon": "in the works",

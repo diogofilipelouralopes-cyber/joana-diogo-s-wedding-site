@@ -45,20 +45,16 @@ export function WeddingCountdown() {
   return (
     <span className="header-swap">
       <WeddingDateButton hidden={showCount} />
-      <CountdownText state={state} t={t} hidden={!showCount} />
+      <CountdownText state={state} hidden={!showCount} />
     </span>
   );
 }
 
-function CountdownText({
-  state,
-  t,
-  hidden,
-}: {
-  state: CountdownState;
-  t: (k: string) => string;
-  hidden: boolean;
-}) {
+/** Só as fases com contagem — a fase "over" é tratada pelo componente pai. */
+type FaseComContagem = Exclude<CountdownState, { phase: "over" }>;
+
+function CountdownText({ state, hidden }: { state: FaseComContagem; hidden: boolean }) {
+  const { t } = useI18n();
   const common = {
     "aria-hidden": hidden,
     "data-hidden": hidden,
