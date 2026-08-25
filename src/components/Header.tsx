@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { X, Camera, MessageCircleHeart, Gift, Home, BookHeart, CalendarCheck, MapPin, Info, HelpCircle, Share2, Bot, Phone } from "lucide-react";
+import { X, Camera, MessageCircleHeart, Gift, Home, BookHeart, MapPin, Info, HelpCircle, Share2, Bot, Phone } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -19,15 +19,14 @@ const CONTACTS = [
 
 const links = [
   { id: "top", key: "nav.home" as const, icon: <Home className="w-4 h-4" strokeWidth={1.5} /> },
-  { id: "story", key: "nav.story" as const, icon: <BookHeart className="w-4 h-4" strokeWidth={1.5} /> },
-  { id: "rsvp", key: "nav.rsvp" as const, icon: <CalendarCheck className="w-4 h-4" strokeWidth={1.5} /> },
   { id: "event", key: "nav.event" as const, icon: <MapPin className="w-4 h-4" strokeWidth={1.5} /> },
   { id: "info", key: "nav.info" as const, icon: <Info className="w-4 h-4" strokeWidth={1.5} /> },
-  { id: "fotos", key: "nav.photos" as const, icon: <Camera className="w-4 h-4" strokeWidth={1.5} /> },
-
   { id: "faq", key: "nav.faq" as const, icon: <HelpCircle className="w-4 h-4" strokeWidth={1.5} /> },
+  { id: "story", key: "nav.story" as const, icon: <BookHeart className="w-4 h-4" strokeWidth={1.5} /> },
+  { id: "fotos", key: "nav.photos" as const, icon: <Camera className="w-4 h-4" strokeWidth={1.5} /> },
   { id: "mensagens", key: "nav.messages" as const, icon: <MessageCircleHeart className="w-4 h-4" strokeWidth={1.5} /> },
   { id: "gifts", key: "nav.gifts" as const, icon: <Gift className="w-4 h-4" strokeWidth={1.5} /> },
+  // RSVP saiu do menu — todos confirmados. A secção continua no fim da página.
 ];
 
 /** Grupos do menu mobile (drawer). Desktop continua a usar `links`. */
@@ -41,10 +40,9 @@ const mobileGroups: {
     labelEn: "Wedding",
     items: [
       { id: "top", key: "nav.home", icon: <Home className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
-      { id: "story", key: "nav.story", icon: <BookHeart className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
-      { id: "rsvp", key: "nav.rsvp", icon: <CalendarCheck className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
       { id: "event", key: "nav.event", icon: <MapPin className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
       { id: "info", key: "nav.info", icon: <Info className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+      { id: "faq", key: "nav.faq", icon: <HelpCircle className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
     ],
   },
   {
@@ -58,7 +56,7 @@ const mobileGroups: {
     labelPt: "Mais",
     labelEn: "More",
     items: [
-      { id: "faq", key: "nav.faq", icon: <HelpCircle className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
+      { id: "story", key: "nav.story", icon: <BookHeart className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
       { id: "mensagens", key: "nav.messages", icon: <MessageCircleHeart className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
       { id: "gifts", key: "nav.gifts", icon: <Gift className="w-[18px] h-[18px]" strokeWidth={1.5} /> },
     ],

@@ -213,26 +213,6 @@ function Index() {
 
       <DecorativeDivider />
 
-      {/* STORY */}
-      <Reveal><StorySection /></Reveal>
-
-      <DecorativeDivider />
-
-      {/* RSVP — moved up for priority */}
-      <section id="rsvp" className="py-6 sm:py-14 md:py-20 px-4 sm:px-6 bg-secondary/40 scroll-mt-24">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-5 sm:mb-10">
-            <h2 className="font-display text-3xl sm:text-5xl md:text-6xl text-primary">{t("rsvp.title")}</h2>
-            <div className="divider-ornament mt-3 sm:mt-6 max-w-xs mx-auto">
-              <Heart className="w-3 h-3" strokeWidth={1} />
-            </div>
-          </div>
-          <RsvpForm />
-        </div>
-      </section>
-
-      <DecorativeDivider />
-
       {/* EVENT */}
       <section id="event" className="py-6 sm:py-14 md:py-20 px-4 sm:px-6 bg-secondary/40 scroll-mt-24">
         <div className="max-w-5xl mx-auto">
@@ -379,6 +359,16 @@ function Index() {
 
       <DecorativeDivider />
 
+      {/* FAQ */}
+      <Reveal><FaqSection /></Reveal>
+
+      <DecorativeDivider />
+
+      {/* STORY */}
+      <Reveal><StorySection /></Reveal>
+
+      <DecorativeDivider />
+
       {/* PHOTOS (shared album) */}
       <Reveal><MemoriesSection /></Reveal>
 
@@ -387,14 +377,28 @@ function Index() {
 
       <DecorativeDivider />
 
-      {/* FAQ */}
-      <Reveal><FaqSection /></Reveal>
-
       {/* MESSAGES */}
       <Reveal><MessagesSection /></Reveal>
 
+      <DecorativeDivider />
+
       {/* GIFTS */}
       <Reveal><GiftsSection /></Reveal>
+
+      <DecorativeDivider />
+
+      {/* RSVP — no fim: todos confirmados, fica para alterações de última hora */}
+      <section id="rsvp" className="py-6 sm:py-14 md:py-20 px-4 sm:px-6 bg-secondary/40 scroll-mt-24">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-5 sm:mb-10">
+            <h2 className="font-display text-3xl sm:text-5xl md:text-6xl text-primary">{t("rsvp.title")}</h2>
+            <div className="divider-ornament mt-3 sm:mt-6 max-w-xs mx-auto">
+              <Heart className="w-3 h-3" strokeWidth={1} />
+            </div>
+          </div>
+          <RsvpForm />
+        </div>
+      </section>
 
       </main>
 
