@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Camera, ImagePlus } from "lucide-react";
+import { ImagePlus } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
 export const ALBUM_URL = "https://photos.app.goo.gl/ZfRKu3pg8oHait6eA";
@@ -71,8 +71,13 @@ export function MemoriesSection() {
               "0 1px 2px color-mix(in oklab, var(--olive) 8%, transparent), 0 18px 36px -20px color-mix(in oklab, var(--olive) 24%, transparent)",
           }}
         >
-          <div
-            className="inline-flex p-2.5"
+          {/* O QR é clicável: quem está ao computador não consegue scanear o próprio ecrã */}
+          <a
+            href={ALBUM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t("memories.primary")}
+            className="inline-flex p-2.5 transition-all hover:-translate-y-0.5"
             style={{
               background: "var(--ivory)",
               border: "1px solid var(--gold)",
@@ -80,7 +85,7 @@ export function MemoriesSection() {
             }}
           >
             <QRCodeClient value={ALBUM_URL} size={qrSize} />
-          </div>
+          </a>
 
           <p
             className="mt-3 text-xs sm:text-sm"
@@ -89,40 +94,21 @@ export function MemoriesSection() {
             {t("memories.step1")}
           </p>
 
-          <div className="mt-4 grid grid-cols-2 gap-2 sm:gap-3">
+          <div className="mt-4">
             <a
               href={ALBUM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full inline-flex items-center justify-center gap-1.5 px-2 sm:px-4 py-2.5 sm:py-3 uppercase transition-all hover:-translate-y-0.5"
+              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 uppercase transition-all hover:-translate-y-0.5"
               style={{
                 fontFamily: "Cinzel, serif",
-                letterSpacing: "0.12em",
-                fontSize: "0.6rem",
+                letterSpacing: "0.15em",
+                fontSize: "0.7rem",
                 background: "var(--olive)",
                 color: "var(--cream)",
                 border: "1px solid var(--olive)",
                 borderRadius: 8,
-                minHeight: 40,
-              }}
-            >
-              <Camera size={16} strokeWidth={1.5} />
-              {t("memories.primary")}
-            </a>
-            <a
-              href={ALBUM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full inline-flex items-center justify-center gap-1.5 px-2 sm:px-4 py-2.5 sm:py-3 uppercase transition-all hover:-translate-y-0.5"
-              style={{
-                fontFamily: "Cinzel, serif",
-                letterSpacing: "0.12em",
-                fontSize: "0.6rem",
-                background: "transparent",
-                color: "var(--olive)",
-                border: "1px solid var(--gold)",
-                borderRadius: 8,
-                minHeight: 40,
+                minHeight: 44,
               }}
             >
               <ImagePlus size={16} strokeWidth={1.5} />

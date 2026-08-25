@@ -110,8 +110,62 @@ export function PublicGallerySection() {
     };
   }, [lightbox, closeLightbox, prev, next]);
 
-  // Se não há álbuns publicados, não mostra a secção de todo
-  if (!loading && albums.length === 0) return null;
+  // Antes do casamento ainda não há álbuns publicados: mostra o aviso de "em breve".
+  // Assim que o primeiro álbum for publicado, este bloco desaparece sozinho e
+  // dá lugar à galeria a sério — não é preciso remover nada à mão.
+  if (!loading && albums.length === 0) {
+    return (
+      <section
+        id="galeria"
+        className="py-10 sm:py-14 px-5 sm:px-6 scroll-mt-24"
+        style={{ background: "var(--cream)" }}
+      >
+        <div className="max-w-md mx-auto text-center">
+          <h2
+            className="uppercase text-base sm:text-xl"
+            style={{
+              fontFamily: "Cinzel, serif",
+              color: "var(--olive)",
+              letterSpacing: "0.25em",
+              fontWeight: 500,
+            }}
+          >
+            {lang === "en" ? "Our Gallery" : "A Nossa Galeria"}
+          </h2>
+
+          <div
+            className="mt-4 sm:mt-6 px-5 py-6 sm:py-8"
+            style={{
+              background: "var(--ivory)",
+              border: "1px dashed var(--gold)",
+              borderRadius: 12,
+            }}
+          >
+            <Camera
+              className="mx-auto w-6 h-6"
+              strokeWidth={1.25}
+              style={{ color: "var(--olive)", opacity: 0.7 }}
+            />
+            <p
+              className="italic mt-2 text-2xl sm:text-3xl"
+              style={{
+                fontFamily: "Allura, 'Great Vibes', cursive",
+                color: "var(--gold)",
+                lineHeight: 1.1,
+              }}
+            >
+              {lang === "en" ? "coming soon" : "em breve"}
+            </p>
+            <p className="mt-2 text-xs sm:text-sm" style={{ color: "var(--olive)", opacity: 0.8 }}>
+              {lang === "en"
+                ? "After the wedding, our favourite photos will be here."
+                : "Depois do casamento, as nossas fotografias preferidas ficam aqui."}
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   const title = lang === "en" ? "Our Gallery" : "A Nossa Galeria";
   const subtitle = lang === "en" ? "moments we want to share" : "momentos que queremos partilhar";

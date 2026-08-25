@@ -224,74 +224,6 @@
 
 /* Compact inline countdown inside the hero — now in whole days only.
    The count resets at midnight and flips to "Today is the big day" on the wedding date. */
-.hero-countdown {
-  display: inline-flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 6px;
-  padding: 8px 18px;
-  border-radius: 999px;
-  background: color-mix(in oklab, var(--ivory) 68%, transparent);
-  backdrop-filter: blur(10px) saturate(130%);
-  border: 1px solid color-mix(in oklab, var(--gold) 35%, transparent);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
-}
-.hero-countdown-lead {
-  font-family: var(--font-display);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--olive);
-  opacity: 0.9;
-}
-.hero-countdown-value {
-  font-family: var(--font-display);
-  font-size: 1.6rem;
-  font-weight: 700;
-  line-height: 1;
-  color: var(--gold);
-}
-.hero-countdown-label {
-  font-family: var(--font-display);
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--olive);
-  opacity: 0.9;
-}
-.hero-countdown-today {
-  align-items: center;
-  padding: 10px 22px;
-}
-.hero-countdown-today-text {
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-@media (min-width: 640px) {
-  .hero-countdown {
-    gap: 8px;
-    padding: 10px 24px;
-  }
-  .hero-countdown-lead {
-    font-size: 0.85rem;
-  }
-  .hero-countdown-value {
-    font-size: 2rem;
-  }
-  .hero-countdown-label {
-    font-size: 0.8rem;
-  }
-  .hero-countdown-today-text {
-    font-size: 1rem;
-  }
-}
-
 .hero-text-anim-4 { animation: hero-text-in 0.9s ease-out 1.5s both; }
 
 /* Aged-paper / stylized map background for hero */
@@ -1197,4 +1129,38 @@ body.has-announcement .hero-section { padding-top: 184px; }
 @utility no-scrollbar {
   scrollbar-width: none;
   &::-webkit-scrollbar { display: none; }
+}
+
+/* ---- Cronómetro na faixa fixa do topo ---- */
+.header-count-today {
+  color: var(--gold);
+}
+/* Números de largura fixa: os dígitos mudam a cada segundo sem mexer no resto
+   da faixa, e a altura do topo mantém-se igual à do texto normal. */
+.header-count-clock {
+  font-variant-numeric: tabular-nums;
+  color: var(--gold);
+}
+
+/* Alternância data <-> contagem.
+   Os dois ocupam a mesma célula da grelha: a faixa fica com a largura do mais
+   comprido e a altura de uma linha, por isso os ornamentos das pontas não
+   saltam de cada vez que o texto troca. */
+.header-swap {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}
+.header-swap > * {
+  grid-area: 1 / 1;
+  transition: opacity 0.7s ease;
+}
+.header-swap > [data-hidden="true"] {
+  opacity: 0;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .header-swap > * {
+    transition: none;
+  }
 }

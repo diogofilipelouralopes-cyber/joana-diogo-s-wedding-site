@@ -5,7 +5,7 @@ import { useI18n } from "@/lib/i18n";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { toast } from "sonner";
 import { Monogram } from "@/components/Monogram";
-import { downloadWeddingICS } from "@/lib/calendar";
+import { WeddingCountdown } from "@/components/WeddingCountdown";
 
 const SITE_URL = "https://joanaediogo-com.lovable.app";
 const WA_SHARE_URL = `https://wa.me/?text=${encodeURIComponent(
@@ -234,17 +234,9 @@ export function Header() {
         </div>
       </div>
 
-      {/* Thin date row */}
+      {/* Faixa fina: cronómetro. Depois do casamento volta a mostrar a data. */}
       <div className="header-date-row">
-        <button
-          type="button"
-          onClick={downloadWeddingICS}
-          className="header-date-label header-date-btn"
-          title={lang === "en" ? "Add to calendar" : "Adicionar ao calendário"}
-          aria-label={lang === "en" ? "Add to calendar" : "Adicionar ao calendário"}
-        >
-          {lang === "en" ? "September 19, 2026" : "19 de Setembro de 2026"}
-        </button>
+        <WeddingCountdown />
       </div>
       <div
         className={`mobile-drawer-backdrop ${open ? "is-open" : ""}`}
