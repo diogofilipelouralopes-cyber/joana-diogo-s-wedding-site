@@ -14,6 +14,87 @@ export type Database = {
   }
   public: {
     Tables: {
+      convidados: {
+        Row: {
+          cidade: string | null
+          created_at: string
+          grupo: string | null
+          id: string
+          lugar: number | null
+          mesa_id: string | null
+          nome: string
+          notas: string | null
+          presenca: string | null
+          quarto: string | null
+          rsvp_id: string | null
+        }
+        Insert: {
+          cidade?: string | null
+          created_at?: string
+          grupo?: string | null
+          id?: string
+          lugar?: number | null
+          mesa_id?: string | null
+          nome: string
+          notas?: string | null
+          presenca?: string | null
+          quarto?: string | null
+          rsvp_id?: string | null
+        }
+        Update: {
+          cidade?: string | null
+          created_at?: string
+          grupo?: string | null
+          id?: string
+          lugar?: number | null
+          mesa_id?: string | null
+          nome?: string
+          notas?: string | null
+          presenca?: string | null
+          quarto?: string | null
+          rsvp_id?: string | null
+        }
+        Relationships: []
+      }
+      mesas: {
+        Row: {
+          created_at: string
+          forma: string
+          id: string
+          juntada_com: string | null
+          lugares: number
+          nome: string
+          notas: string | null
+          ordem: number | null
+          pos_x: number
+          pos_y: number
+        }
+        Insert: {
+          created_at?: string
+          forma?: string
+          id?: string
+          juntada_com?: string | null
+          lugares?: number
+          nome: string
+          notas?: string | null
+          ordem?: number | null
+          pos_x?: number
+          pos_y?: number
+        }
+        Update: {
+          created_at?: string
+          forma?: string
+          id?: string
+          juntada_com?: string | null
+          lugares?: number
+          nome?: string
+          notas?: string | null
+          ordem?: number | null
+          pos_x?: number
+          pos_y?: number
+        }
+        Relationships: []
+      }
       admin_emails: {
         Row: {
           created_at: string

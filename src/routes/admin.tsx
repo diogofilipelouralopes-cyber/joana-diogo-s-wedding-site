@@ -31,7 +31,7 @@ import { AdminMensagens } from "@/components/AdminMensagens";
 import { AdminAvisos } from "@/components/AdminAvisos";
 import { AdminConvidados } from "@/components/AdminConvidados";
 import { AdminListas } from "@/components/AdminListas";
-import { AdminMesas } from "@/components/AdminMesas";
+import { AdminPlanoMesas } from "@/components/AdminPlanoMesas";
 import { listaRestricoes, pessoasComRestricao, semConteudo } from "@/lib/rsvp-lists";
 import { AdminComunicacoes } from "@/components/AdminComunicacoes";
 import {
@@ -271,16 +271,11 @@ function AdminPage() {
   const stats = useMemo(() => {
     const yes = rsvps.filter((r) => r.attending);
     const totalGuests = yes.reduce((sum, r) => sum + (r.guests || 0), 0);
-    // Pessoas confirmadas ainda sem mesa atribuída (crachá do separador "Mesas")
-    const porSentar = yes
-      .filter((r) => !(r.table_number ?? "").trim())
-      .reduce((sum, r) => sum + (r.guests || 1), 0);
     return {
       yes: yes.length,
       no: rsvps.length - yes.length,
       total: rsvps.length,
       totalGuests,
-      porSentar,
     };
   }, [rsvps]);
 
@@ -470,7 +465,6 @@ function AdminPage() {
               onClick={() => setTab("mesas")}
               icon={<Armchair className="w-4 h-4" />}
               label="Mesas"
-              badge={stats.porSentar > 0 ? stats.porSentar : undefined}
             />
             <TabButton
               active={tab === "listas"}
@@ -510,7 +504,7 @@ function AdminPage() {
         ) : tab === "convidados" ? (
           <AdminConvidados />
         ) : tab === "mesas" ? (
-          <AdminMesas />
+          <AdminPlanoMesas />
         ) : tab === "listas" ? (
           <AdminListas />
         ) : tab === "comunicacoes" ? (
