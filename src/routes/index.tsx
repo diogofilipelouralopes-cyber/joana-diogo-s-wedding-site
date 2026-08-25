@@ -320,6 +320,47 @@ function Index() {
             </div>
           </div>
 
+          {/* Programa do dia — marcador temporário.
+              Quando os horários estiverem fechados, este bloco dá lugar ao
+              programa a sério (cerimónia, jantar, festa). */}
+          <div
+            className="mx-auto mt-4 sm:mt-6 px-5 py-6 text-center"
+            style={{
+              background: "var(--ivory)",
+              border: "1px dashed var(--gold)",
+              borderRadius: "var(--card-radius)",
+              maxWidth: 900,
+            }}
+          >
+            <p
+              className="uppercase text-[0.68rem] sm:text-xs"
+              style={{
+                fontFamily: "Cinzel, serif",
+                color: "var(--olive)",
+                letterSpacing: "0.3em",
+                fontWeight: 500,
+              }}
+            >
+              {t("schedule.kicker")}
+            </p>
+            <p
+              className="italic mt-1 text-2xl sm:text-3xl"
+              style={{
+                fontFamily: "Allura, 'Great Vibes', cursive",
+                color: "var(--gold)",
+                lineHeight: 1.1,
+              }}
+            >
+              {t("schedule.soon")}
+            </p>
+            <p
+              className="mt-2 text-xs sm:text-sm mx-auto"
+              style={{ color: "var(--olive)", opacity: 0.8, maxWidth: "34rem" }}
+            >
+              {t("schedule.desc")}
+            </p>
+          </div>
+
           {/* Dress code e hospedagem — antes numa secção "Informações" à parte.
               O estacionamento saiu: já está dito na linha do "Como Chegar". */}
           <div className="mx-auto mt-4 sm:mt-6 grid sm:grid-cols-2 gap-3 sm:gap-6" style={{ maxWidth: 900 }}>

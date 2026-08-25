@@ -422,20 +422,8 @@ export function RsvpForm() {
             "0 1px 2px color-mix(in oklab, var(--olive) 8%, transparent), 0 18px 40px -22px color-mix(in oklab, var(--olive) 25%, transparent)",
         }}
       >
-        <h3
-          className="text-center text-lg sm:text-xl"
-          style={{
-            fontFamily: "Cinzel, serif",
-            color: "var(--olive)",
-            letterSpacing: "0.3em",
-            fontWeight: 500,
-            textTransform: "uppercase",
-          }}
-        >
-          {t("rsvp.title")}
-        </h3>
-
-        <div className="mt-5 mb-6">
+        {/* O título vive no cabeçalho da secção; repeti-lo aqui era redundante. */}
+        <div className="mb-6">
           <div className="flex items-center justify-center gap-2">
             {[0, 1, 2].map((i) => (
               <span

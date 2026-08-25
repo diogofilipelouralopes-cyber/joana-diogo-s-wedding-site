@@ -113,6 +113,9 @@ const dict = {
     "info.hotel.title": "Hospedagem",
     "info.hotel.desc": "A Quinta Glicínia dispõe de alojamento no local. Check-in a partir das 15h00, preferencialmente logo após a cerimónia. Para reservas, contactem-nos diretamente.",
 
+    "schedule.kicker": "Programa do Dia",
+    "schedule.soon": "em preparação",
+    "schedule.desc": "Estamos a fechar os horários da cerimónia, do jantar e da festa. Assim que estiver definido, aparece aqui.",
     "travel.title": "Como Chegar",
     "travel.summary": "30 min do Porto · 35 min do Aeroporto · 1h de Aveiro",
     "travel.parking.note": "Estacionamento gratuito no local",
@@ -280,6 +283,9 @@ const dict = {
     "info.hotel.title": "Accommodation",
     "info.hotel.desc": "On-site accommodation available at the venue. Check-in from 3:00 PM, ideally right after the ceremony. For reservations, please contact us directly.",
 
+    "schedule.kicker": "Schedule",
+    "schedule.soon": "in the works",
+    "schedule.desc": "We are finalising the timings for the ceremony, dinner and party. It will appear here as soon as it is set.",
     "travel.title": "How to Get There",
     "travel.summary": "30 min from Porto · 35 min from the Airport · 1h from Aveiro",
     "travel.parking.note": "Free parking on site",
