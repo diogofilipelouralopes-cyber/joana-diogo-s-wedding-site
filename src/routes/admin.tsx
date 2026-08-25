@@ -25,6 +25,7 @@ import {
   Home,
   Armchair,
   ClipboardList,
+  Wallet,
 } from "lucide-react";
 import { adminLogout } from "@/lib/admin-auth.functions";
 import { AdminMensagens } from "@/components/AdminMensagens";
@@ -32,6 +33,7 @@ import { AdminAvisos } from "@/components/AdminAvisos";
 import { AdminConvidados } from "@/components/AdminConvidados";
 import { AdminListas } from "@/components/AdminListas";
 import { AdminPlanoMesas } from "@/components/AdminPlanoMesas";
+import { AdminContas } from "@/components/AdminContas";
 import { listaRestricoes, pessoasComRestricao, semConteudo } from "@/lib/rsvp-lists";
 import { AdminComunicacoes } from "@/components/AdminComunicacoes";
 import {
@@ -110,7 +112,7 @@ function AdminPage() {
   const [editing, setEditing] = useState<Rsvp | null>(null);
   const [saving, setSaving] = useState(false);
   const [tab, setTab] = useState<
-    "rsvps" | "convidados" | "mesas" | "listas" | "comunicacoes" | "mensagens" | "avisos"
+    "rsvps" | "convidados" | "mesas" | "listas" | "contas" | "comunicacoes" | "mensagens" | "avisos"
   >("rsvps");
   const [unreadCount, setUnreadCount] = useState<number>(0);
   const [commStats, setCommStats] = useState({ emails: 0, whatsapps: 0 });
@@ -467,6 +469,12 @@ function AdminPage() {
               label="Mesas"
             />
             <TabButton
+              active={tab === "contas"}
+              onClick={() => setTab("contas")}
+              icon={<Wallet className="w-4 h-4" />}
+              label="Contas"
+            />
+            <TabButton
               active={tab === "listas"}
               onClick={() => setTab("listas")}
               icon={<ClipboardList className="w-4 h-4" />}
@@ -507,6 +515,8 @@ function AdminPage() {
           <AdminPlanoMesas />
         ) : tab === "listas" ? (
           <AdminListas />
+        ) : tab === "contas" ? (
+          <AdminContas />
         ) : tab === "comunicacoes" ? (
           <AdminComunicacoes />
         ) : (

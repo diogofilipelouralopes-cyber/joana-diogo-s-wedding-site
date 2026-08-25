@@ -14,6 +14,18 @@ export type Database = {
   }
   public: {
     Tables: {
+      despesas: {
+        Row: { a_pagar: number; atividade: string; created_at: string; descricao: string | null; estimado: number; id: string; notas: string | null; ordem: number | null; pago: number }
+        Insert: { a_pagar?: number; atividade: string; created_at?: string; descricao?: string | null; estimado?: number; id?: string; notas?: string | null; ordem?: number | null; pago?: number }
+        Update: { a_pagar?: number; atividade?: string; created_at?: string; descricao?: string | null; estimado?: number; id?: string; notas?: string | null; ordem?: number | null; pago?: number }
+        Relationships: []
+      }
+      entradas: {
+        Row: { created_at: string; data: string | null; descricao: string; id: string; notas: string | null; ordem: number | null; tipo: string; valor: number }
+        Insert: { created_at?: string; data?: string | null; descricao: string; id?: string; notas?: string | null; ordem?: number | null; tipo?: string; valor?: number }
+        Update: { created_at?: string; data?: string | null; descricao?: string; id?: string; notas?: string | null; ordem?: number | null; tipo?: string; valor?: number }
+        Relationships: []
+      }
       convidados: {
         Row: {
           cidade: string | null
