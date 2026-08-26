@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { Loader2, Plus, Trash2, Search, Gift, Check } from "lucide-react";
 import { useGuardar } from "@/lib/guardar";
 import { BarraGuardar } from "@/components/BarraGuardar";
+import { LinhaDeslizante } from "@/components/LinhaDeslizante";
 import { totais, euros, TIPOS, type Prenda } from "@/lib/prendas";
 
 export function AdminPrendas({ prendasParaTeste }: { prendasParaTeste?: Prenda[] } = {}) {
@@ -73,11 +74,12 @@ export function AdminPrendas({ prendasParaTeste }: { prendasParaTeste?: Prenda[]
   }
 
   async function apagar(id: string, quem: string) {
-    if (!confirm(`Apagar a prenda de ${quem || "(sem nome)"}? Não dá para desfazer.`)) return;
+    if (!confirm(`Apagar a prenda de ${quem || "(sem nome)"}? Não dá para desfazer.`)) return false;
     setPrendas((prev) => prev.filter((p) => p.id !== id));
-    if (prendasParaTeste) return;
+    if (prendasParaTeste) return true;
     const { error } = await supabase.from("prendas").delete().eq("id", id);
     if (error) toast.error("Não foi possível apagar.");
+    return true;
   }
 
   if (loading) {
@@ -257,86 +259,93 @@ export function AdminPrendas({ prendasParaTeste }: { prendasParaTeste?: Prenda[]
         {visiveis.length > 0 && (
           <div className="lg:hidden space-y-3">
             {visiveis.map((p) => (
-              <div key={p.id} className="rounded-xl border p-3 space-y-2">
-                <div className="flex items-center gap-2">
+              <LinhaDeslizante
+                key={p.id}
+                pega
+                className="border"
+                onApagar={() => apagar(p.id, p.de_quem)}
+              >
+                <div className="p-3 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Input
+                      className="font-medium"
+                      defaultValue={p.de_quem}
+                      placeholder="De quem"
+                      onBlur={(e) =>
+                        e.target.value !== p.de_quem && guardar(p.id, { de_quem: e.target.value })
+                      }
+                    />
+                    <Button size="sm" variant="ghost" onClick={() => apagar(p.id, p.de_quem)}>
+                      <Trash2 className="w-4 h-4" style={{ color: "#B85C5C" }} />
+                    </Button>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <select
+                      className="rounded-md border bg-background p-2 text-sm"
+                      value={p.tipo}
+                      onChange={(e) => guardar(p.id, { tipo: e.target.value })}
+                    >
+                      {TIPOS.map((x) => (
+                        <option key={x.valor} value={x.valor}>
+                          {x.rotulo}
+                        </option>
+                      ))}
+                    </select>
+                    <Input
+                      className="text-right"
+                      defaultValue={String(p.valor)}
+                      placeholder="Valor"
+                      onBlur={(e) => {
+                        const v = Number(e.target.value.replace(",", "."));
+                        if (!Number.isNaN(v) && v !== Number(p.valor)) guardar(p.id, { valor: v });
+                      }}
+                    />
+                  </div>
                   <Input
-                    className="font-medium"
-                    defaultValue={p.de_quem}
-                    placeholder="De quem"
+                    type="date"
+                    defaultValue={p.data ?? ""}
                     onBlur={(e) =>
-                      e.target.value !== p.de_quem && guardar(p.id, { de_quem: e.target.value })
+                      (e.target.value || null) !== p.data &&
+                      guardar(p.id, { data: e.target.value || null })
                     }
                   />
-                  <Button size="sm" variant="ghost" onClick={() => apagar(p.id, p.de_quem)}>
-                    <Trash2 className="w-4 h-4" style={{ color: "#B85C5C" }} />
-                  </Button>
-                </div>
-                <div className="grid grid-cols-2 gap-2">
+                  <Input
+                    defaultValue={p.descricao ?? ""}
+                    placeholder={p.tipo === "especie" ? "O que foi oferecido" : "Notas"}
+                    onBlur={(e) =>
+                      (e.target.value || null) !== p.descricao &&
+                      guardar(p.id, { descricao: e.target.value || null })
+                    }
+                  />
                   <select
-                    className="rounded-md border bg-background p-2 text-sm"
-                    value={p.tipo}
-                    onChange={(e) => guardar(p.id, { tipo: e.target.value })}
+                    className="w-full rounded-md border bg-background p-2 text-sm"
+                    value={p.convidado_id ?? ""}
+                    onChange={(e) => guardar(p.id, { convidado_id: e.target.value || null })}
                   >
-                    {TIPOS.map((x) => (
-                      <option key={x.valor} value={x.valor}>
-                        {x.rotulo}
+                    <option value="">— não ligado a convidado —</option>
+                    {convidados.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.nome}
+                        {c.grupo ? ` (${c.grupo})` : ""}
                       </option>
                     ))}
                   </select>
-                  <Input
-                    className="text-right"
-                    defaultValue={String(p.valor)}
-                    placeholder="Valor"
-                    onBlur={(e) => {
-                      const v = Number(e.target.value.replace(",", "."));
-                      if (!Number.isNaN(v) && v !== Number(p.valor)) guardar(p.id, { valor: v });
+                  <button
+                    type="button"
+                    aria-pressed={p.agradecido}
+                    onClick={() => guardar(p.id, { agradecido: !p.agradecido })}
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-md border py-2 text-sm"
+                    style={{
+                      background: p.agradecido ? "var(--olive)" : "transparent",
+                      color: p.agradecido ? "var(--cream)" : "var(--muted-foreground)",
+                      borderColor: p.agradecido ? "var(--olive)" : "var(--border)",
                     }}
-                  />
+                  >
+                    <Check className="w-4 h-4" />
+                    {p.agradecido ? "Já agradecido" : "Marcar como agradecido"}
+                  </button>
                 </div>
-                <Input
-                  type="date"
-                  defaultValue={p.data ?? ""}
-                  onBlur={(e) =>
-                    (e.target.value || null) !== p.data &&
-                    guardar(p.id, { data: e.target.value || null })
-                  }
-                />
-                <Input
-                  defaultValue={p.descricao ?? ""}
-                  placeholder={p.tipo === "especie" ? "O que foi oferecido" : "Notas"}
-                  onBlur={(e) =>
-                    (e.target.value || null) !== p.descricao &&
-                    guardar(p.id, { descricao: e.target.value || null })
-                  }
-                />
-                <select
-                  className="w-full rounded-md border bg-background p-2 text-sm"
-                  value={p.convidado_id ?? ""}
-                  onChange={(e) => guardar(p.id, { convidado_id: e.target.value || null })}
-                >
-                  <option value="">— não ligado a convidado —</option>
-                  {convidados.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.nome}
-                      {c.grupo ? ` (${c.grupo})` : ""}
-                    </option>
-                  ))}
-                </select>
-                <button
-                  type="button"
-                  aria-pressed={p.agradecido}
-                  onClick={() => guardar(p.id, { agradecido: !p.agradecido })}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-md border py-2 text-sm"
-                  style={{
-                    background: p.agradecido ? "var(--olive)" : "transparent",
-                    color: p.agradecido ? "var(--cream)" : "var(--muted-foreground)",
-                    borderColor: p.agradecido ? "var(--olive)" : "var(--border)",
-                  }}
-                >
-                  <Check className="w-4 h-4" />
-                  {p.agradecido ? "Já agradecido" : "Marcar como agradecido"}
-                </button>
-              </div>
+              </LinhaDeslizante>
             ))}
             <p className="flex justify-between font-medium text-sm pt-2 border-t">
               <span>Total</span>

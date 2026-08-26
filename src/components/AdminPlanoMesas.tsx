@@ -66,7 +66,10 @@ export function AdminPlanoMesas({
   const mesaSel = mesas.find((m) => m.id === selecionada) ?? null;
 
   const naMesa = useMemo(
-    () => (id: string) => convidados.filter((c) => c.mesa_id === id),
+    () => (id: string) =>
+      convidados
+        .filter((c) => c.mesa_id === id)
+        .sort((a, b) => (a.lugar ?? 9999) - (b.lugar ?? 9999)),
     [convidados],
   );
 
@@ -87,11 +90,51 @@ export function AdminPlanoMesas({
     if (error) toast.error("Não foi possível guardar.");
   }
 
-  /** Largar um nome noutra mesa muda-o de mesa; largar fora tira-o das mesas. */
-  function moverPara(convidadoId: string, mesaDestino: string | null) {
-    const actual = convidados.find((c) => c.id === convidadoId)?.mesa_id ?? null;
-    if (actual === mesaDestino) return;
-    guardarConvidado(convidadoId, mesaDestino);
+  /**
+   * Largar um nome: noutra mesa muda-o de mesa; na mesma mesa, sobre outro
+   * nome, troca a ordem dos lugares; fora de qualquer mesa, tira-o das mesas.
+   */
+  async function moverPara(
+    convidadoId: string,
+    mesaDestino: string | null,
+    sobreId: string | null,
+  ) {
+    const eu = convidados.find((c) => c.id === convidadoId);
+    if (!eu) return;
+
+    // Reordenar dentro da mesa
+    if (mesaDestino && sobreId && sobreId !== convidadoId && eu.mesa_id === mesaDestino) {
+      const lista = convidados
+        .filter((c) => c.mesa_id === mesaDestino)
+        .sort((a, b) => (a.lugar ?? 9999) - (b.lugar ?? 9999));
+      const de = lista.findIndex((c) => c.id === convidadoId);
+      const para = lista.findIndex((c) => c.id === sobreId);
+      if (de < 0 || para < 0) return;
+      const nova = [...lista];
+      nova.splice(para, 0, ...nova.splice(de, 1));
+      const comLugar = nova.map((c, i) => ({ ...c, lugar: i + 1 }));
+      setConvidados((prev) => prev.map((c) => comLugar.find((x) => x.id === c.id) ?? c));
+      if (convidadosParaTeste) return;
+      await Promise.all(
+        comLugar.map((c) => supabase.from("convidados").update({ lugar: c.lugar }).eq("id", c.id)),
+      );
+      return;
+    }
+
+    if ((eu.mesa_id ?? null) === mesaDestino) return;
+
+    // Mudar de mesa: entra no fim da mesa de destino
+    const ultimos = convidados.filter((c) => c.mesa_id === mesaDestino);
+    const lugar = mesaDestino ? Math.max(0, ...ultimos.map((c) => c.lugar ?? 0)) + 1 : null;
+    setConvidados((prev) =>
+      prev.map((c) => (c.id === convidadoId ? { ...c, mesa_id: mesaDestino, lugar } : c)),
+    );
+    if (convidadosParaTeste) return;
+    const { error } = await supabase
+      .from("convidados")
+      .update({ mesa_id: mesaDestino, lugar })
+      .eq("id", convidadoId);
+    if (error) toast.error("Não foi possível guardar.");
   }
 
   async function tirarQuemNaoVai() {
@@ -245,8 +288,10 @@ export function AdminPlanoMesas({
                   ) : (
                     <ol className="text-sm space-y-1">
                       {pessoas.map((c, i) => (
-                        <li key={c.id} className="group">
-                          <NomeArrastavel onLargarEm={(destino) => moverPara(c.id, destino)}>
+                        <li key={c.id} data-convidado={c.id} className="group">
+                          <NomeArrastavel
+                            onLargarEm={(destino, sobre) => moverPara(c.id, destino, sobre)}
+                          >
                             <span className="text-xs text-muted-foreground w-4 shrink-0 text-right">
                               {i + 1}
                             </span>
@@ -398,7 +443,7 @@ export function AdminPlanoMesas({
               {porSentar.map((c) => (
                 <li key={c.id} className="py-2">
                   <NomeArrastavel
-                    onLargarEm={(destino) => destino && guardarConvidado(c.id, destino)}
+                    onLargarEm={(destino, sobre) => destino && moverPara(c.id, destino, sobre)}
                   >
                     <div className="min-w-0 flex-1">
                       <p className="text-sm truncate">{c.nome}</p>

@@ -16,7 +16,8 @@ export function NomeArrastavel({
   className = "",
 }: {
   children: React.ReactNode;
-  onLargarEm: (mesaId: string | null) => void;
+  /** Recebe a mesa onde se largou e, se existir, o nome sobre o qual se largou. */
+  onLargarEm: (mesaId: string | null, sobreConvidadoId: string | null) => void;
   className?: string;
 }) {
   const arrastou = useRef(false);
@@ -47,7 +48,11 @@ export function NomeArrastavel({
           .elementsFromPoint(p.clientX, p.clientY)
           .filter((el) => !eu.current?.contains(el));
         const mesa = pilha.map((el) => el.closest("[data-mesa]")).find(Boolean) ?? null;
-        onLargarEm(mesa?.getAttribute("data-mesa") ?? null);
+        const sobre = pilha.map((el) => el.closest("[data-convidado]")).find(Boolean) ?? null;
+        onLargarEm(
+          mesa?.getAttribute("data-mesa") ?? null,
+          sobre?.getAttribute("data-convidado") ?? null,
+        );
         setTimeout(() => (arrastou.current = false), 0);
       }}
       className={`relative flex items-start gap-2 ${className}`}

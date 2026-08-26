@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
-import { motion, useMotionValue, animate } from "motion/react";
-import { Trash2, Check } from "lucide-react";
+import { motion, useMotionValue, animate, useDragControls } from "motion/react";
+import { Trash2, Check, GripVertical } from "lucide-react";
 
 /**
  * Linha de lista com gestos, para iPad e telemóvel.
@@ -16,6 +16,7 @@ export function LinhaDeslizante({
   rotuloSecundaria = "Feita",
   activaSecundaria = false,
   className = "",
+  pega = false,
 }: {
   children: React.ReactNode;
   onApagar?: () => boolean | void | Promise<boolean | void>;
@@ -23,10 +24,14 @@ export function LinhaDeslizante({
   rotuloSecundaria?: string;
   activaSecundaria?: boolean;
   className?: string;
+  /** Linhas cheias de campos de texto: o gesto só começa na pega da esquerda,
+   *  senão deslizar por cima de um campo entra em conflito com escrever. */
+  pega?: boolean;
 }) {
   const x = useMotionValue(0);
   const [aSair, setASair] = useState(false);
   const caixa = useRef<HTMLDivElement>(null);
+  const controlo = useDragControls();
   const LIMITE = 96;
 
   function aoLargar(_: unknown, info: { offset: { x: number }; velocity: { x: number } }) {
@@ -73,15 +78,28 @@ export function LinhaDeslizante({
         </span>
       </div>
 
+      {pega && (
+        <button
+          type="button"
+          aria-label="Arrastar para a esquerda para apagar"
+          onPointerDown={(e) => controlo.start(e)}
+          className="absolute right-0 inset-y-0 z-10 w-10 flex items-center justify-center"
+          style={{ touchAction: "none", cursor: "grab" }}
+        >
+          <GripVertical className="w-4 h-4 text-muted-foreground/60" />
+        </button>
+      )}
       <motion.div
         drag={onApagar || onSecundaria ? "x" : false}
+        dragListener={!pega}
+        dragControls={pega ? controlo : undefined}
         style={{ x, touchAction: "pan-y" }}
         dragDirectionLock
         dragElastic={0.12}
         dragConstraints={{ left: onApagar ? -160 : 0, right: onSecundaria ? 160 : 0 }}
         onDragEnd={aoLargar}
         animate={aSair ? { opacity: 0.4 } : { opacity: 1 }}
-        className="relative bg-card"
+        className={`relative bg-card ${pega ? "pr-10" : ""}`}
       >
         {children}
       </motion.div>

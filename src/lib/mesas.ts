@@ -20,6 +20,7 @@ export interface Convidado {
   presenca: string | null;
   quarto: string | null;
   mesa_id: string | null;
+  lugar: number | null;
   rsvp_id: string | null;
   notas: string | null;
 }

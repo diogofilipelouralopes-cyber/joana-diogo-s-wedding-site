@@ -8,6 +8,7 @@ import { semConteudo } from "@/lib/rsvp-lists";
 import { vaiAoCasamento, naoVai, porConfirmar, type Convidado } from "@/lib/mesas";
 import { useGuardar } from "@/lib/guardar";
 import { BarraGuardar } from "@/components/BarraGuardar";
+import { LinhaDeslizante } from "@/components/LinhaDeslizante";
 
 interface Linha extends Convidado {
   mesa: string | null;
@@ -143,11 +144,12 @@ export function AdminListaConvidados({ dadosParaTeste }: { dadosParaTeste?: Linh
   }
 
   async function apagar(id: string, nome: string) {
-    if (!confirm(`Apagar ${nome} da lista? Não dá para desfazer.`)) return;
+    if (!confirm(`Apagar ${nome} da lista? Não dá para desfazer.`)) return false;
     setPessoas((p) => p.filter((x) => x.id !== id));
-    if (dadosParaTeste) return;
+    if (dadosParaTeste) return true;
     const { error } = await supabase.from("convidados").delete().eq("id", id);
     if (error) toast.error("Não foi possível apagar.");
+    return true;
   }
 
   if (loading) {
@@ -212,87 +214,94 @@ export function AdminListaConvidados({ dadosParaTeste }: { dadosParaTeste?: Linh
       ) : (
         <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-3">
           {visiveis.map((p) => (
-            <div key={p.id} className="rounded-xl border bg-card p-3 space-y-2">
-              <div className="flex items-center gap-2">
-                <Input
-                  className="font-medium"
-                  defaultValue={p.nome}
-                  onBlur={(e) =>
-                    e.target.value !== p.nome && alterar(p.id, { nome: e.target.value })
-                  }
-                />
-                <Button size="sm" variant="ghost" onClick={() => apagar(p.id, p.nome)}>
-                  <Trash2 className="w-4 h-4" style={{ color: "#B85C5C" }} />
-                </Button>
-              </div>
+            <LinhaDeslizante
+              key={p.id}
+              pega
+              className="border"
+              onApagar={() => apagar(p.id, p.nome)}
+            >
+              <div className="bg-card p-3 space-y-2">
+                <div className="flex items-center gap-2">
+                  <Input
+                    className="font-medium"
+                    defaultValue={p.nome}
+                    onBlur={(e) =>
+                      e.target.value !== p.nome && alterar(p.id, { nome: e.target.value })
+                    }
+                  />
+                  <Button size="sm" variant="ghost" onClick={() => apagar(p.id, p.nome)}>
+                    <Trash2 className="w-4 h-4" style={{ color: "#B85C5C" }} />
+                  </Button>
+                </div>
 
-              <div className="grid grid-cols-2 gap-2">
-                <select
-                  className="rounded-md border bg-background p-2 text-sm"
-                  value={PRESENCAS.includes(p.presenca ?? "") ? (p.presenca as string) : ""}
-                  onChange={(e) => alterar(p.id, { presenca: e.target.value })}
-                >
-                  {!PRESENCAS.includes(p.presenca ?? "") && (
-                    <option value="">{p.presenca || "—"}</option>
+                <div className="grid grid-cols-2 gap-2">
+                  <select
+                    className="rounded-md border bg-background p-2 text-sm"
+                    value={PRESENCAS.includes(p.presenca ?? "") ? (p.presenca as string) : ""}
+                    onChange={(e) => alterar(p.id, { presenca: e.target.value })}
+                  >
+                    {!PRESENCAS.includes(p.presenca ?? "") && (
+                      <option value="">{p.presenca || "—"}</option>
+                    )}
+                    {PRESENCAS.map((x) => (
+                      <option key={x} value={x}>
+                        {x}
+                      </option>
+                    ))}
+                  </select>
+                  <Input
+                    defaultValue={p.grupo ?? ""}
+                    placeholder="Grupo"
+                    onBlur={(e) =>
+                      (e.target.value || null) !== p.grupo &&
+                      alterar(p.id, { grupo: e.target.value || null })
+                    }
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-2">
+                  <Input
+                    defaultValue={p.cidade ?? ""}
+                    placeholder="Cidade"
+                    onBlur={(e) =>
+                      (e.target.value || null) !== p.cidade &&
+                      alterar(p.id, { cidade: e.target.value || null })
+                    }
+                  />
+                  <Input
+                    defaultValue={p.quarto ?? ""}
+                    placeholder="Quarto"
+                    onBlur={(e) =>
+                      (e.target.value || null) !== p.quarto &&
+                      alterar(p.id, { quarto: e.target.value || null })
+                    }
+                  />
+                </div>
+
+                <p className="text-xs text-muted-foreground flex flex-wrap gap-x-3 gap-y-1">
+                  <span>{p.mesa ? `Mesa: ${p.mesa}` : "Sem mesa"}</span>
+                  {p.rsvp_id ? (
+                    <span className="inline-flex items-center gap-1">
+                      <Check className="w-3 h-3" /> respondeu no site
+                    </span>
+                  ) : (
+                    <span>não respondeu no site</span>
                   )}
-                  {PRESENCAS.map((x) => (
-                    <option key={x} value={x}>
-                      {x}
-                    </option>
-                  ))}
-                </select>
-                <Input
-                  defaultValue={p.grupo ?? ""}
-                  placeholder="Grupo"
-                  onBlur={(e) =>
-                    (e.target.value || null) !== p.grupo &&
-                    alterar(p.id, { grupo: e.target.value || null })
-                  }
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-2">
-                <Input
-                  defaultValue={p.cidade ?? ""}
-                  placeholder="Cidade"
-                  onBlur={(e) =>
-                    (e.target.value || null) !== p.cidade &&
-                    alterar(p.id, { cidade: e.target.value || null })
-                  }
-                />
-                <Input
-                  defaultValue={p.quarto ?? ""}
-                  placeholder="Quarto"
-                  onBlur={(e) =>
-                    (e.target.value || null) !== p.quarto &&
-                    alterar(p.id, { quarto: e.target.value || null })
-                  }
-                />
-              </div>
-
-              <p className="text-xs text-muted-foreground flex flex-wrap gap-x-3 gap-y-1">
-                <span>{p.mesa ? `Mesa: ${p.mesa}` : "Sem mesa"}</span>
-                {p.rsvp_id ? (
-                  <span className="inline-flex items-center gap-1">
-                    <Check className="w-3 h-3" /> respondeu no site
-                  </span>
-                ) : (
-                  <span>não respondeu no site</span>
-                )}
-                {p.email && <span className="truncate">{p.email}</span>}
-                {p.telefone && <span>{p.telefone}</span>}
-              </p>
-
-              {p.restricao && (
-                <p
-                  className="text-xs rounded-md p-2 flex items-start gap-1.5"
-                  style={{ background: "color-mix(in oklab, #C9A961 14%, transparent)" }}
-                >
-                  <Utensils className="w-3 h-3 shrink-0 mt-0.5" />
-                  <span>{p.restricao}</span>
+                  {p.email && <span className="truncate">{p.email}</span>}
+                  {p.telefone && <span>{p.telefone}</span>}
                 </p>
-              )}
-            </div>
+
+                {p.restricao && (
+                  <p
+                    className="text-xs rounded-md p-2 flex items-start gap-1.5"
+                    style={{ background: "color-mix(in oklab, #C9A961 14%, transparent)" }}
+                  >
+                    <Utensils className="w-3 h-3 shrink-0 mt-0.5" />
+                    <span>{p.restricao}</span>
+                  </p>
+                )}
+              </div>
+            </LinhaDeslizante>
           ))}
         </div>
       )}
