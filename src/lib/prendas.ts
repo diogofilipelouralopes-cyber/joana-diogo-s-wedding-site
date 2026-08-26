@@ -9,6 +9,7 @@ export interface Prenda {
   descricao: string | null;
   notas: string | null;
   agradecido: boolean;
+  convidado_id: string | null;
 }
 
 export const TIPOS = [

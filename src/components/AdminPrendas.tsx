@@ -11,6 +11,9 @@ export function AdminPrendas({ prendasParaTeste }: { prendasParaTeste?: Prenda[]
   const [loading, setLoading] = useState(!prendasParaTeste);
   const [busca, setBusca] = useState("");
   const [aGravar, setAGravar] = useState(false);
+  const [convidados, setConvidados] = useState<
+    { id: string; nome: string; grupo: string | null }[]
+  >([]);
 
   useEffect(() => {
     if (prendasParaTeste) return;
@@ -18,9 +21,11 @@ export function AdminPrendas({ prendasParaTeste }: { prendasParaTeste?: Prenda[]
       .from("prendas")
       .select("*")
       .order("data", { ascending: false })
-      .then(({ data, error }) => {
+      .then(async ({ data, error }) => {
         if (error) toast.error("Não foi possível carregar as prendas.");
         else setPrendas((data ?? []) as unknown as Prenda[]);
+        const c = await supabase.from("convidados").select("id, nome, grupo").order("nome");
+        if (!c.error) setConvidados(c.data ?? []);
         setLoading(false);
       });
   }, [prendasParaTeste]);
@@ -47,7 +52,7 @@ export function AdminPrendas({ prendasParaTeste }: { prendasParaTeste?: Prenda[]
 
   async function acrescentar() {
     setAGravar(true);
-    const nova = { de_quem: "", valor: 0, tipo: "dinheiro", agradecido: false };
+    const nova = { de_quem: "", valor: 0, tipo: "dinheiro", agradecido: false, convidado_id: null };
     if (prendasParaTeste) {
       setPrendas((prev) => [
         { id: `tmp${prev.length}`, data: null, descricao: null, notas: null, ...nova } as Prenda,
@@ -130,6 +135,7 @@ export function AdminPrendas({ prendasParaTeste }: { prendasParaTeste?: Prenda[]
                   <th className="pb-2 pr-3">Tipo</th>
                   <th className="pb-2 pr-3 text-right">Valor</th>
                   <th className="pb-2 pr-3">O quê / notas</th>
+                  <th className="pb-2 pr-3">Convidado</th>
                   <th className="pb-2 pr-3">Agradecido</th>
                   <th className="pb-2" />
                 </tr>
@@ -193,6 +199,21 @@ export function AdminPrendas({ prendasParaTeste }: { prendasParaTeste?: Prenda[]
                         }
                       />
                     </td>
+                    <td className="py-2 pr-3">
+                      <select
+                        className="rounded-md border bg-background p-2 text-sm max-w-[12rem]"
+                        value={p.convidado_id ?? ""}
+                        onChange={(e) => guardar(p.id, { convidado_id: e.target.value || null })}
+                      >
+                        <option value="">— não ligado —</option>
+                        {convidados.map((c) => (
+                          <option key={c.id} value={c.id}>
+                            {c.nome}
+                            {c.grupo ? ` (${c.grupo})` : ""}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
                     <td className="py-2 pr-3 text-center">
                       <button
                         type="button"
@@ -223,7 +244,7 @@ export function AdminPrendas({ prendasParaTeste }: { prendasParaTeste?: Prenda[]
                     Total
                   </td>
                   <td className="pt-3 text-right pr-3">{euros(t.total)}</td>
-                  <td colSpan={3} />
+                  <td colSpan={4} />
                 </tr>
               </tfoot>
             </table>

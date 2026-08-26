@@ -33,9 +33,9 @@ export type Database = {
         Relationships: []
       }
       prendas: {
-        Row: { agradecido: boolean; created_at: string; data: string | null; de_quem: string; descricao: string | null; id: string; notas: string | null; tipo: string; valor: number }
-        Insert: { agradecido?: boolean; created_at?: string; data?: string | null; de_quem: string; descricao?: string | null; id?: string; notas?: string | null; tipo?: string; valor?: number }
-        Update: { agradecido?: boolean; created_at?: string; data?: string | null; de_quem?: string; descricao?: string | null; id?: string; notas?: string | null; tipo?: string; valor?: number }
+        Row: { agradecido: boolean; created_at: string; convidado_id: string | null; data: string | null; de_quem: string; descricao: string | null; id: string; notas: string | null; tipo: string; valor: number }
+        Insert: { agradecido?: boolean; created_at?: string; convidado_id?: string | null; data?: string | null; de_quem: string; descricao?: string | null; id?: string; notas?: string | null; tipo?: string; valor?: number }
+        Update: { agradecido?: boolean; created_at?: string; convidado_id?: string | null; data?: string | null; de_quem?: string; descricao?: string | null; id?: string; notas?: string | null; tipo?: string; valor?: number }
         Relationships: []
       }
       despesas: {
