@@ -1501,3 +1501,24 @@ body.has-announcement .hero-section {
     margin: 16mm;
   }
 }
+
+/* ---- Painel de gestão em ecrãs de toque (iPad, iPhone) ----
+   Sem rato, um alvo de 36px falha-se com o dedo. A regra aplica-se só ao
+   painel: o site público já tem os seus próprios tamanhos. */
+@media (pointer: coarse) {
+  .painel input:not([type="checkbox"]):not([type="radio"]),
+  .painel select,
+  .painel textarea,
+  .painel button,
+  .painel a[class*="rounded-md"] {
+    min-height: 44px;
+  }
+  .painel textarea {
+    min-height: 6rem;
+  }
+  /* Espaço entre linhas de tabela, para não se tocar na errada */
+  .painel tbody tr td {
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+  }
+}

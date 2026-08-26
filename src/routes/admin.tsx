@@ -120,7 +120,18 @@ function AdminPage() {
   const [editing, setEditing] = useState<Rsvp | null>(null);
   const [saving, setSaving] = useState(false);
   const [tab, setTab] = useState<
-    "rsvps" | "convidados" | "mesas" | "dormidas" | "diad" | "folha" | "listas" | "contas" | "prendas" | "comunicacoes" | "mensagens" | "avisos"
+    | "rsvps"
+    | "convidados"
+    | "mesas"
+    | "dormidas"
+    | "diad"
+    | "folha"
+    | "listas"
+    | "contas"
+    | "prendas"
+    | "comunicacoes"
+    | "mensagens"
+    | "avisos"
   >("rsvps");
   const [unreadCount, setUnreadCount] = useState<number>(0);
   const [commStats, setCommStats] = useState({ emails: 0, whatsapps: 0 });
@@ -410,54 +421,65 @@ function AdminPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="painel min-h-screen bg-background">
       <Toaster position="top-center" />
       <header className="border-b border-border bg-card">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Painel</p>
-            <h1 className="font-display text-2xl text-primary">
-              {tab === "rsvps"
-                ? "Respostas RSVP"
-                : tab === "convidados"
-                  ? "Convidados"
-                  : tab === "comunicacoes"
-                    ? "Comunicações"
-                    : tab === "mensagens"
-                      ? "Mensagens"
-                      : "Avisos"}
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-3 justify-between">
+          <div className="min-w-0">
+            <p className="text-[10px] sm:text-[10px] uppercase tracking-[0.3em] text-muted-foreground whitespace-nowrap">
+              <span className="sm:hidden">Painel de gestão</span>
+              <span className="hidden sm:inline">Painel</span>
+            </p>
+            <h1 className="hidden sm:block font-display text-2xl text-primary leading-tight truncate">
+              {TITULOS[tab]}
             </h1>
           </div>
-          <div className="flex flex-wrap gap-2 items-center">
+          <div className="flex gap-1.5 sm:gap-2 items-center shrink-0">
             <Link
               to="/"
-              className="inline-flex shrink-0 items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-[0.15em] whitespace-nowrap rounded-md border border-border hover:border-primary hover:text-primary transition-colors"
+              className="inline-flex shrink-0 items-center gap-1.5 px-3 py-2.5 text-xs uppercase tracking-[0.15em] whitespace-nowrap rounded-md border border-border hover:border-primary hover:text-primary transition-colors"
               title="Voltar ao site"
             >
-              <Home className="w-3.5 h-3.5 shrink-0" /> Site
+              <Home className="w-3.5 h-3.5 shrink-0" />{" "}
+              <span className="hidden sm:inline">Site</span>
             </Link>
             <Link
               to="/admin/galeria"
-              className="inline-flex shrink-0 items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-[0.15em] whitespace-nowrap rounded-md border border-border hover:border-primary hover:text-primary transition-colors"
+              className="inline-flex shrink-0 items-center gap-1.5 px-3 py-2.5 text-xs uppercase tracking-[0.15em] whitespace-nowrap rounded-md border border-border hover:border-primary hover:text-primary transition-colors"
               title="Galeria privada"
             >
-              <ImageIcon className="w-3.5 h-3.5 shrink-0" /> Galeria
+              <ImageIcon className="w-3.5 h-3.5 shrink-0" />{" "}
+              <span className="hidden sm:inline">Galeria</span>
             </Link>
             <Link
               to="/admin/emails"
-              className="inline-flex shrink-0 items-center gap-1.5 px-3 py-1.5 text-xs uppercase tracking-[0.15em] whitespace-nowrap rounded-md border border-border hover:border-primary hover:text-primary transition-colors"
+              className="inline-flex shrink-0 items-center gap-1.5 px-3 py-2.5 text-xs uppercase tracking-[0.15em] whitespace-nowrap rounded-md border border-border hover:border-primary hover:text-primary transition-colors"
               title="Editar emails"
             >
-              <Mail className="w-3.5 h-3.5 shrink-0" /> Emails
+              <Mail className="w-3.5 h-3.5 shrink-0" />{" "}
+              <span className="hidden sm:inline">Emails</span>
             </Link>
             <Button variant="ghost" size="sm" onClick={logout} className="shrink-0">
-              <LogOut className="w-4 h-4 mr-2 shrink-0" /> Sair
+              <LogOut className="w-4 h-4 sm:mr-2 shrink-0" />{" "}
+              <span className="hidden sm:inline">Sair</span>
             </Button>
           </div>
         </div>
         {/* Tabs */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex gap-1 -mb-px overflow-x-auto no-scrollbar">
+          <select
+            className="sm:hidden w-full rounded-md border border-border bg-background px-3 py-3 text-sm mb-2"
+            value={tab}
+            onChange={(e) => setTab(e.target.value as typeof tab)}
+            aria-label="Secção do painel"
+          >
+            {Object.entries(TITULOS).map(([k, v]) => (
+              <option key={k} value={k}>
+                {v}
+              </option>
+            ))}
+          </select>
+          <div className="hidden sm:flex flex-wrap gap-x-1 gap-y-0 -mb-px">
             <TabButton
               active={tab === "rsvps"}
               onClick={() => setTab("rsvps")}
@@ -562,39 +584,39 @@ function AdminPage() {
         ) : (
           <div>
             {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-10">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-7 gap-2 sm:gap-3 mb-6">
               <StatCard
                 label="Respostas"
                 value={stats.total}
-                icon={<Users className="w-5 h-5" />}
+                icon={<Users className="w-4 h-4" />}
               />
               <StatCard
                 label="Confirmados"
                 value={stats.yes}
-                icon={<CheckCircle2 className="w-5 h-5" />}
+                icon={<CheckCircle2 className="w-4 h-4" />}
                 tone="positive"
               />
               <StatCard
                 label="Não vão"
                 value={stats.no}
-                icon={<XCircle className="w-5 h-5" />}
+                icon={<XCircle className="w-4 h-4" />}
                 tone="muted"
               />
               <StatCard
                 label="Total pessoas"
                 value={stats.totalGuests}
-                icon={<Users className="w-5 h-5" />}
+                icon={<Users className="w-4 h-4" />}
                 tone="positive"
               />
               <StatCard
                 label="Emails enviados"
                 value={commStats.emails}
-                icon={<Mail className="w-5 h-5" />}
+                icon={<Mail className="w-4 h-4" />}
               />
               <StatCard
                 label="WhatsApps"
                 value={commStats.whatsapps}
-                icon={<MessageCircleHeart className="w-5 h-5" />}
+                icon={<MessageCircleHeart className="w-4 h-4" />}
               />
               <StatCard
                 label="Restrições"
@@ -604,7 +626,7 @@ function AdminPage() {
                     ? `até ${counts.restrictionPeople} pessoas`
                     : undefined
                 }
-                icon={<Utensils className="w-5 h-5" />}
+                icon={<Utensils className="w-4 h-4" />}
                 tone="muted"
               />
             </div>
@@ -970,9 +992,11 @@ function StatCard({
   hint?: string;
 }) {
   return (
-    <div className="bg-card border border-border p-5">
-      <div className="flex items-center justify-between mb-2">
-        <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{label}</p>
+    <div className="bg-card border border-border p-3 sm:p-4">
+      <div className="flex items-center justify-between gap-2 mb-1">
+        <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-muted-foreground leading-tight">
+          {label}
+        </p>
         <div
           className={
             tone === "positive"
@@ -985,11 +1009,26 @@ function StatCard({
           {icon}
         </div>
       </div>
-      <p className="font-display text-4xl text-foreground">{value}</p>
+      <p className="font-display text-2xl sm:text-3xl text-foreground leading-none">{value}</p>
       {hint && <p className="text-[11px] text-muted-foreground mt-1">{hint}</p>}
     </div>
   );
 }
+
+const TITULOS: Record<string, string> = {
+  rsvps: "Respostas RSVP",
+  convidados: "Convidados",
+  mesas: "Plano de mesas",
+  dormidas: "Dormidas",
+  diad: "Ementa e contactos",
+  folha: "Folha para a quinta",
+  listas: "Listas",
+  contas: "Contas",
+  prendas: "Prendas",
+  comunicacoes: "Comunicações",
+  mensagens: "Mensagens",
+  avisos: "Avisos",
+};
 
 function TabButton({
   active,
@@ -1007,7 +1046,7 @@ function TabButton({
   return (
     <button
       onClick={onClick}
-      className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap px-3 sm:px-4 py-3 text-[11px] sm:text-xs uppercase tracking-[0.15em] border-b-2 transition-colors"
+      className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap px-2.5 sm:px-3 py-3 text-[10px] sm:text-[11px] uppercase tracking-[0.1em] border-b-2 transition-colors"
       style={{
         borderBottomColor: active ? "var(--gold)" : "transparent",
         color: active ? "var(--gold)" : "var(--muted-foreground)",
