@@ -3,7 +3,17 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { Loader2, Search, AlertTriangle, Link2, Link2Off, Plus, X } from "lucide-react";
+import {
+  Loader2,
+  Search,
+  AlertTriangle,
+  Link2,
+  Link2Off,
+  Plus,
+  X,
+  LayoutGrid,
+  Map,
+} from "lucide-react";
 import {
   avisos as calcAvisos,
   contagens,
@@ -27,6 +37,7 @@ export function AdminPlanoMesas({
   const [convidados, setConvidados] = useState<Convidado[]>(convidadosParaTeste ?? []);
   const [loading, setLoading] = useState(!mesasParaTeste);
   const [selecionada, setSelecionada] = useState<string | null>(null);
+  const [vista, setVista] = useState<"lista" | "mapa">("lista");
   const [busca, setBusca] = useState("");
   const [soConfirmados, setSoConfirmados] = useState(true);
   const arrastando = useRef<{ id: string; dx: number; dy: number } | null>(null);
@@ -126,76 +137,179 @@ export function AdminPlanoMesas({
         </div>
       )}
 
+      <div className="flex gap-2">
+        <Button
+          size="sm"
+          variant={vista === "lista" ? "default" : "outline"}
+          onClick={() => setVista("lista")}
+        >
+          <LayoutGrid className="w-4 h-4 mr-2" /> Lista
+        </Button>
+        <Button
+          size="sm"
+          variant={vista === "mapa" ? "default" : "outline"}
+          onClick={() => setVista("mapa")}
+        >
+          <Map className="w-4 h-4 mr-2" /> Mapa
+        </Button>
+      </div>
+
       <div className="grid lg:grid-cols-[1fr_20rem] gap-6">
-        {/* ---- mapa ---- */}
-        <div className="rounded-xl border bg-card p-4 overflow-auto">
-          <p className="text-xs text-muted-foreground mb-3">
-            Arrasta as mesas para as posicionares. Clica numa mesa para veres quem lá está.
-          </p>
-          <div
-            ref={tela}
-            className="relative"
-            style={{ width: largura, height: altura, minWidth: "100%" }}
-            onPointerMove={(e) => {
-              if (arrastando.current) e.preventDefault();
-            }}
-            onPointerUp={aoLargar}
-          >
+        {/* ---- mapa ou lista ---- */}
+        {vista === "lista" ? (
+          <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4 content-start">
             {mesas.map((m) => {
               const pessoas = naMesa(m.id);
               const lugares = lugaresDoGrupo(m, mesas);
               const ocupacao = ocupacaoDoGrupo(m, mesas, convidados);
               const excede = ocupacao > lugares;
-              const juntada = grupoDaMesa(m, mesas).length > 1;
+              const parceira = grupoDaMesa(m, mesas).find((x) => x.id !== m.id);
               const activa = selecionada === m.id;
               return (
-                <button
+                <div
                   key={m.id}
-                  onPointerDown={(e) => {
-                    const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
-                    arrastando.current = {
-                      id: m.id,
-                      dx: e.clientX - r.left,
-                      dy: e.clientY - r.top,
-                    };
-                  }}
-                  onClick={() => setSelecionada(activa ? null : m.id)}
-                  className="absolute flex flex-col items-center justify-center text-center transition-shadow"
+                  className="rounded-xl border bg-card p-4"
                   style={{
-                    left: m.pos_x,
-                    top: m.pos_y,
-                    width: RAIO * 2,
-                    height: RAIO * 2,
-                    borderRadius: m.forma === "comprida" ? 16 : "50%",
-                    border: `2px solid ${excede ? "#B85C5C" : activa ? "var(--primary)" : "color-mix(in oklab, var(--gold) 55%, transparent)"}`,
-                    background: activa
-                      ? "color-mix(in oklab, var(--primary) 10%, var(--card))"
-                      : "var(--card)",
-                    boxShadow: activa ? "0 8px 24px -12px rgba(0,0,0,.35)" : "none",
-                    cursor: "grab",
-                    touchAction: "none",
+                    borderColor: excede ? "#B85C5C" : activa ? "var(--primary)" : undefined,
+                    boxShadow: activa ? "0 6px 18px -12px rgba(0,0,0,.3)" : undefined,
                   }}
                 >
-                  <span className="text-sm font-medium">{m.nome}</span>
-                  <span
-                    className="text-xs"
-                    style={{ color: excede ? "#B85C5C" : "var(--muted-foreground)" }}
+                  <div className="flex items-baseline justify-between gap-2 mb-2">
+                    <button
+                      className="font-medium text-left"
+                      onClick={() => setSelecionada(activa ? null : m.id)}
+                    >
+                      {m.nome}
+                      {parceira && (
+                        <span className="text-xs text-muted-foreground font-normal">
+                          {" "}
+                          + {parceira.nome}
+                        </span>
+                      )}
+                    </button>
+                    <span
+                      className="text-xs whitespace-nowrap"
+                      style={{ color: excede ? "#B85C5C" : "var(--muted-foreground)" }}
+                    >
+                      {ocupacao} / {lugares}
+                    </span>
+                  </div>
+
+                  {pessoas.length === 0 ? (
+                    <p className="text-xs text-muted-foreground py-2">Mesa vazia.</p>
+                  ) : (
+                    <ol className="text-sm space-y-1">
+                      {pessoas.map((c, i) => (
+                        <li key={c.id} className="flex items-start gap-2 group">
+                          <span className="text-xs text-muted-foreground w-4 shrink-0 text-right">
+                            {i + 1}
+                          </span>
+                          <span className="min-w-0 flex-1">
+                            <span className="block truncate">{c.nome}</span>
+                            <span className="block text-[0.7rem] text-muted-foreground truncate">
+                              {c.grupo}
+                              {naoVai(c)
+                                ? " · disse que não vai"
+                                : porConfirmar(c)
+                                  ? " · por confirmar"
+                                  : ""}
+                              {c.quarto ? ` · quarto ${c.quarto}` : ""}
+                            </span>
+                          </span>
+                          <button
+                            onClick={() => guardarConvidado(c.id, null)}
+                            className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+                            title="Tirar da mesa"
+                          >
+                            <X className="w-3.5 h-3.5" style={{ color: "#B85C5C" }} />
+                          </button>
+                        </li>
+                      ))}
+                    </ol>
+                  )}
+
+                  <Button
+                    size="sm"
+                    variant={activa ? "default" : "outline"}
+                    className="w-full mt-3"
+                    onClick={() => setSelecionada(activa ? null : m.id)}
                   >
-                    {ocupacao} / {lugares}
-                  </span>
-                  {juntada && <Link2 className="w-3 h-3 mt-1 text-muted-foreground" />}
-                  <span className="text-[0.6rem] text-muted-foreground mt-1 px-2 leading-tight line-clamp-2">
-                    {pessoas
-                      .slice(0, 2)
-                      .map((p) => p.nome.split(" ")[0])
-                      .join(", ")}
-                    {pessoas.length > 2 ? "…" : ""}
-                  </span>
-                </button>
+                    {activa ? "A receber pessoas" : "Escolher esta mesa"}
+                  </Button>
+                </div>
               );
             })}
           </div>
-        </div>
+        ) : (
+          <div className="rounded-xl border bg-card p-4 overflow-auto">
+            <p className="text-xs text-muted-foreground mb-3">
+              Arrasta as mesas para as posicionares. Clica numa mesa para veres quem lá está.
+            </p>
+            <div
+              ref={tela}
+              className="relative"
+              style={{ width: largura, height: altura, minWidth: "100%" }}
+              onPointerMove={(e) => {
+                if (arrastando.current) e.preventDefault();
+              }}
+              onPointerUp={aoLargar}
+            >
+              {mesas.map((m) => {
+                const pessoas = naMesa(m.id);
+                const lugares = lugaresDoGrupo(m, mesas);
+                const ocupacao = ocupacaoDoGrupo(m, mesas, convidados);
+                const excede = ocupacao > lugares;
+                const juntada = grupoDaMesa(m, mesas).length > 1;
+                const activa = selecionada === m.id;
+                return (
+                  <button
+                    key={m.id}
+                    onPointerDown={(e) => {
+                      const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
+                      arrastando.current = {
+                        id: m.id,
+                        dx: e.clientX - r.left,
+                        dy: e.clientY - r.top,
+                      };
+                    }}
+                    onClick={() => setSelecionada(activa ? null : m.id)}
+                    className="absolute flex flex-col items-center justify-center text-center transition-shadow"
+                    style={{
+                      left: m.pos_x,
+                      top: m.pos_y,
+                      width: RAIO * 2,
+                      height: RAIO * 2,
+                      borderRadius: m.forma === "comprida" ? 16 : "50%",
+                      border: `2px solid ${excede ? "#B85C5C" : activa ? "var(--primary)" : "color-mix(in oklab, var(--gold) 55%, transparent)"}`,
+                      background: activa
+                        ? "color-mix(in oklab, var(--primary) 10%, var(--card))"
+                        : "var(--card)",
+                      boxShadow: activa ? "0 8px 24px -12px rgba(0,0,0,.35)" : "none",
+                      cursor: "grab",
+                      touchAction: "none",
+                    }}
+                  >
+                    <span className="text-sm font-medium">{m.nome}</span>
+                    <span
+                      className="text-xs"
+                      style={{ color: excede ? "#B85C5C" : "var(--muted-foreground)" }}
+                    >
+                      {ocupacao} / {lugares}
+                    </span>
+                    {juntada && <Link2 className="w-3 h-3 mt-1 text-muted-foreground" />}
+                    <span className="text-[0.6rem] text-muted-foreground mt-1 px-2 leading-tight line-clamp-2">
+                      {pessoas
+                        .slice(0, 2)
+                        .map((p) => p.nome.split(" ")[0])
+                        .join(", ")}
+                      {pessoas.length > 2 ? "…" : ""}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* ---- painel lateral ---- */}
         <div className="space-y-4">
