@@ -30,11 +30,13 @@ import {
   Printer,
   BedDouble,
   UtensilsCrossed,
+  ListTodo,
 } from "lucide-react";
 import { adminLogout } from "@/lib/admin-auth.functions";
 import { AdminMensagens } from "@/components/AdminMensagens";
 import { AdminAvisos } from "@/components/AdminAvisos";
 import { AdminListaConvidados } from "@/components/AdminListaConvidados";
+import { AdminTarefas } from "@/components/AdminTarefas";
 import { AdminListas } from "@/components/AdminListas";
 import { AdminPlanoMesas } from "@/components/AdminPlanoMesas";
 import { AdminContas } from "@/components/AdminContas";
@@ -121,6 +123,7 @@ function AdminPage() {
   const [saving, setSaving] = useState(false);
   const [tab, setTab] = useState<
     | "rsvps"
+    | "tarefas"
     | "convidados"
     | "mesas"
     | "dormidas"
@@ -487,6 +490,12 @@ function AdminPage() {
               label="RSVPs"
             />
             <TabButton
+              active={tab === "tarefas"}
+              onClick={() => setTab("tarefas")}
+              icon={<ListTodo className="w-4 h-4" />}
+              label="A fazer"
+            />
+            <TabButton
               active={tab === "convidados"}
               onClick={() => setTab("convidados")}
               icon={<Users className="w-4 h-4" />}
@@ -563,6 +572,8 @@ function AdminPage() {
           <AdminMensagens />
         ) : tab === "avisos" ? (
           <AdminAvisos />
+        ) : tab === "tarefas" ? (
+          <AdminTarefas />
         ) : tab === "convidados" ? (
           <AdminListaConvidados />
         ) : tab === "mesas" ? (
@@ -1017,6 +1028,7 @@ function StatCard({
 
 const TITULOS: Record<string, string> = {
   rsvps: "Respostas RSVP",
+  tarefas: "A fazer",
   convidados: "Convidados",
   mesas: "Plano de mesas",
   dormidas: "Dormidas",

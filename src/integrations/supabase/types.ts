@@ -14,6 +14,12 @@ export type Database = {
   }
   public: {
     Tables: {
+      tarefas: {
+        Row: { comentario: string | null; created_at: string; feita: boolean; grupo: string | null; id: string; ordem: number | null; texto: string; updated_at: string }
+        Insert: { comentario?: string | null; created_at?: string; feita?: boolean; grupo?: string | null; id?: string; ordem?: number | null; texto: string; updated_at?: string }
+        Update: { comentario?: string | null; created_at?: string; feita?: boolean; grupo?: string | null; id?: string; ordem?: number | null; texto?: string; updated_at?: string }
+        Relationships: []
+      }
       alojamentos: {
         Row: { capacidade: number | null; created_at: string; genero: string; id: string; nome: string; notas: string | null; ordem: number | null; sabado: string[]; sexta: string[]; tipo: string | null }
         Insert: { capacidade?: number | null; created_at?: string; genero?: string; id?: string; nome: string; notas?: string | null; ordem?: number | null; sabado?: string[]; sexta?: string[]; tipo?: string | null }
