@@ -14,6 +14,18 @@ export type Database = {
   }
   public: {
     Tables: {
+      menu: {
+        Row: { categoria: string; created_at: string; descricao: string | null; id: string; notas: string | null; ordem: number | null }
+        Insert: { categoria: string; created_at?: string; descricao?: string | null; id?: string; notas?: string | null; ordem?: number | null }
+        Update: { categoria?: string; created_at?: string; descricao?: string | null; id?: string; notas?: string | null; ordem?: number | null }
+        Relationships: []
+      }
+      fornecedores: {
+        Row: { categoria: string | null; created_at: string; id: string; nome: string; notas: string | null; ordem: number | null; telefone: string | null }
+        Insert: { categoria?: string | null; created_at?: string; id?: string; nome: string; notas?: string | null; ordem?: number | null; telefone?: string | null }
+        Update: { categoria?: string | null; created_at?: string; id?: string; nome?: string; notas?: string | null; ordem?: number | null; telefone?: string | null }
+        Relationships: []
+      }
       alojamentos: {
         Row: { capacidade: number | null; created_at: string; genero: string; id: string; nome: string; notas: string | null; ordem: number | null; sabado: string[]; sexta: string[]; tipo: string | null }
         Insert: { capacidade?: number | null; created_at?: string; genero?: string; id?: string; nome: string; notas?: string | null; ordem?: number | null; sabado?: string[]; sexta?: string[]; tipo?: string | null }

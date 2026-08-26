@@ -29,6 +29,7 @@ import {
   Gift,
   Printer,
   BedDouble,
+  UtensilsCrossed,
 } from "lucide-react";
 import { adminLogout } from "@/lib/admin-auth.functions";
 import { AdminMensagens } from "@/components/AdminMensagens";
@@ -40,6 +41,7 @@ import { AdminContas } from "@/components/AdminContas";
 import { AdminPrendas } from "@/components/AdminPrendas";
 import { AdminFolhaQuinta } from "@/components/AdminFolhaQuinta";
 import { AdminDormidas } from "@/components/AdminDormidas";
+import { AdminDiaD } from "@/components/AdminDiaD";
 import { listaRestricoes, pessoasComRestricao, semConteudo } from "@/lib/rsvp-lists";
 import { AdminComunicacoes } from "@/components/AdminComunicacoes";
 import {
@@ -118,7 +120,7 @@ function AdminPage() {
   const [editing, setEditing] = useState<Rsvp | null>(null);
   const [saving, setSaving] = useState(false);
   const [tab, setTab] = useState<
-    "rsvps" | "convidados" | "mesas" | "dormidas" | "folha" | "listas" | "contas" | "prendas" | "comunicacoes" | "mensagens" | "avisos"
+    "rsvps" | "convidados" | "mesas" | "dormidas" | "diad" | "folha" | "listas" | "contas" | "prendas" | "comunicacoes" | "mensagens" | "avisos"
   >("rsvps");
   const [unreadCount, setUnreadCount] = useState<number>(0);
   const [commStats, setCommStats] = useState({ emails: 0, whatsapps: 0 });
@@ -487,6 +489,12 @@ function AdminPage() {
               label="Dormidas"
             />
             <TabButton
+              active={tab === "diad"}
+              onClick={() => setTab("diad")}
+              icon={<UtensilsCrossed className="w-4 h-4" />}
+              label="Ementa e contactos"
+            />
+            <TabButton
               active={tab === "folha"}
               onClick={() => setTab("folha")}
               icon={<Printer className="w-4 h-4" />}
@@ -539,6 +547,8 @@ function AdminPage() {
           <AdminPlanoMesas />
         ) : tab === "dormidas" ? (
           <AdminDormidas />
+        ) : tab === "diad" ? (
+          <AdminDiaD />
         ) : tab === "folha" ? (
           <AdminFolhaQuinta />
         ) : tab === "listas" ? (
