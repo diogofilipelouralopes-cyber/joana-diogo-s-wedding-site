@@ -34,7 +34,7 @@ import {
 import { adminLogout } from "@/lib/admin-auth.functions";
 import { AdminMensagens } from "@/components/AdminMensagens";
 import { AdminAvisos } from "@/components/AdminAvisos";
-import { AdminConvidados } from "@/components/AdminConvidados";
+import { AdminListaConvidados } from "@/components/AdminListaConvidados";
 import { AdminListas } from "@/components/AdminListas";
 import { AdminPlanoMesas } from "@/components/AdminPlanoMesas";
 import { AdminContas } from "@/components/AdminContas";
@@ -564,7 +564,7 @@ function AdminPage() {
         ) : tab === "avisos" ? (
           <AdminAvisos />
         ) : tab === "convidados" ? (
-          <AdminConvidados />
+          <AdminListaConvidados />
         ) : tab === "mesas" ? (
           <AdminPlanoMesas />
         ) : tab === "dormidas" ? (
