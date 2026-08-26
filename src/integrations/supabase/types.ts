@@ -10,109 +10,10 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5"
+    PostgrestVersion: "14.17"
   }
   public: {
     Tables: {
-      prendas: {
-        Row: { agradecido: boolean; created_at: string; data: string | null; de_quem: string; descricao: string | null; id: string; notas: string | null; tipo: string; valor: number }
-        Insert: { agradecido?: boolean; created_at?: string; data?: string | null; de_quem: string; descricao?: string | null; id?: string; notas?: string | null; tipo?: string; valor?: number }
-        Update: { agradecido?: boolean; created_at?: string; data?: string | null; de_quem?: string; descricao?: string | null; id?: string; notas?: string | null; tipo?: string; valor?: number }
-        Relationships: []
-      }
-      despesas: {
-        Row: { a_pagar: number; atividade: string; created_at: string; descricao: string | null; estimado: number; id: string; notas: string | null; ordem: number | null; pago: number }
-        Insert: { a_pagar?: number; atividade: string; created_at?: string; descricao?: string | null; estimado?: number; id?: string; notas?: string | null; ordem?: number | null; pago?: number }
-        Update: { a_pagar?: number; atividade?: string; created_at?: string; descricao?: string | null; estimado?: number; id?: string; notas?: string | null; ordem?: number | null; pago?: number }
-        Relationships: []
-      }
-      entradas: {
-        Row: { created_at: string; data: string | null; descricao: string; id: string; notas: string | null; ordem: number | null; tipo: string; valor: number }
-        Insert: { created_at?: string; data?: string | null; descricao: string; id?: string; notas?: string | null; ordem?: number | null; tipo?: string; valor?: number }
-        Update: { created_at?: string; data?: string | null; descricao?: string; id?: string; notas?: string | null; ordem?: number | null; tipo?: string; valor?: number }
-        Relationships: []
-      }
-      convidados: {
-        Row: {
-          cidade: string | null
-          created_at: string
-          grupo: string | null
-          id: string
-          lugar: number | null
-          mesa_id: string | null
-          nome: string
-          notas: string | null
-          presenca: string | null
-          quarto: string | null
-          rsvp_id: string | null
-        }
-        Insert: {
-          cidade?: string | null
-          created_at?: string
-          grupo?: string | null
-          id?: string
-          lugar?: number | null
-          mesa_id?: string | null
-          nome: string
-          notas?: string | null
-          presenca?: string | null
-          quarto?: string | null
-          rsvp_id?: string | null
-        }
-        Update: {
-          cidade?: string | null
-          created_at?: string
-          grupo?: string | null
-          id?: string
-          lugar?: number | null
-          mesa_id?: string | null
-          nome?: string
-          notas?: string | null
-          presenca?: string | null
-          quarto?: string | null
-          rsvp_id?: string | null
-        }
-        Relationships: []
-      }
-      mesas: {
-        Row: {
-          created_at: string
-          forma: string
-          id: string
-          juntada_com: string | null
-          lugares: number
-          nome: string
-          notas: string | null
-          ordem: number | null
-          pos_x: number
-          pos_y: number
-        }
-        Insert: {
-          created_at?: string
-          forma?: string
-          id?: string
-          juntada_com?: string | null
-          lugares?: number
-          nome: string
-          notas?: string | null
-          ordem?: number | null
-          pos_x?: number
-          pos_y?: number
-        }
-        Update: {
-          created_at?: string
-          forma?: string
-          id?: string
-          juntada_com?: string | null
-          lugares?: number
-          nome?: string
-          notas?: string | null
-          ordem?: number | null
-          pos_x?: number
-          pos_y?: number
-        }
-        Relationships: []
-      }
       admin_emails: {
         Row: {
           created_at: string
@@ -173,6 +74,106 @@ export type Database = {
           message?: string
           message_en?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      convidados: {
+        Row: {
+          cidade: string | null
+          created_at: string
+          grupo: string | null
+          id: string
+          lugar: number | null
+          mesa_id: string | null
+          nome: string
+          notas: string | null
+          presenca: string | null
+          quarto: string | null
+          rsvp_id: string | null
+        }
+        Insert: {
+          cidade?: string | null
+          created_at?: string
+          grupo?: string | null
+          id?: string
+          lugar?: number | null
+          mesa_id?: string | null
+          nome: string
+          notas?: string | null
+          presenca?: string | null
+          quarto?: string | null
+          rsvp_id?: string | null
+        }
+        Update: {
+          cidade?: string | null
+          created_at?: string
+          grupo?: string | null
+          id?: string
+          lugar?: number | null
+          mesa_id?: string | null
+          nome?: string
+          notas?: string | null
+          presenca?: string | null
+          quarto?: string | null
+          rsvp_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "convidados_mesa_id_fkey"
+            columns: ["mesa_id"]
+            isOneToOne: false
+            referencedRelation: "mesas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "convidados_rsvp_id_fkey"
+            columns: ["rsvp_id"]
+            isOneToOne: false
+            referencedRelation: "rsvp_public_messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "convidados_rsvp_id_fkey"
+            columns: ["rsvp_id"]
+            isOneToOne: false
+            referencedRelation: "rsvps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      despesas: {
+        Row: {
+          a_pagar: number
+          atividade: string
+          created_at: string
+          descricao: string | null
+          estimado: number
+          id: string
+          notas: string | null
+          ordem: number | null
+          pago: number
+        }
+        Insert: {
+          a_pagar?: number
+          atividade: string
+          created_at?: string
+          descricao?: string | null
+          estimado?: number
+          id?: string
+          notas?: string | null
+          ordem?: number | null
+          pago?: number
+        }
+        Update: {
+          a_pagar?: number
+          atividade?: string
+          created_at?: string
+          descricao?: string | null
+          estimado?: number
+          id?: string
+          notas?: string | null
+          ordem?: number | null
+          pago?: number
         }
         Relationships: []
       }
@@ -305,6 +306,39 @@ export type Database = {
         }
         Relationships: []
       }
+      entradas: {
+        Row: {
+          created_at: string
+          data: string | null
+          descricao: string
+          id: string
+          notas: string | null
+          ordem: number | null
+          tipo: string
+          valor: number
+        }
+        Insert: {
+          created_at?: string
+          data?: string | null
+          descricao: string
+          id?: string
+          notas?: string | null
+          ordem?: number | null
+          tipo?: string
+          valor?: number
+        }
+        Update: {
+          created_at?: string
+          data?: string | null
+          descricao?: string
+          id?: string
+          notas?: string | null
+          ordem?: number | null
+          tipo?: string
+          valor?: number
+        }
+        Relationships: []
+      }
       guest_communications: {
         Row: {
           created_at: string
@@ -374,6 +408,89 @@ export type Database = {
           lida?: boolean
           mensagem?: string
           nome?: string
+        }
+        Relationships: []
+      }
+      mesas: {
+        Row: {
+          created_at: string
+          forma: string
+          id: string
+          juntada_com: string | null
+          lugares: number
+          nome: string
+          notas: string | null
+          ordem: number | null
+          pos_x: number
+          pos_y: number
+        }
+        Insert: {
+          created_at?: string
+          forma?: string
+          id?: string
+          juntada_com?: string | null
+          lugares?: number
+          nome: string
+          notas?: string | null
+          ordem?: number | null
+          pos_x?: number
+          pos_y?: number
+        }
+        Update: {
+          created_at?: string
+          forma?: string
+          id?: string
+          juntada_com?: string | null
+          lugares?: number
+          nome?: string
+          notas?: string | null
+          ordem?: number | null
+          pos_x?: number
+          pos_y?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mesas_juntada_com_fkey"
+            columns: ["juntada_com"]
+            isOneToOne: false
+            referencedRelation: "mesas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      prendas: {
+        Row: {
+          agradecido: boolean
+          created_at: string
+          data: string | null
+          de_quem: string
+          descricao: string | null
+          id: string
+          notas: string | null
+          tipo: string
+          valor: number
+        }
+        Insert: {
+          agradecido?: boolean
+          created_at?: string
+          data?: string | null
+          de_quem: string
+          descricao?: string | null
+          id?: string
+          notas?: string | null
+          tipo?: string
+          valor?: number
+        }
+        Update: {
+          agradecido?: boolean
+          created_at?: string
+          data?: string | null
+          de_quem?: string
+          descricao?: string | null
+          id?: string
+          notas?: string | null
+          tipo?: string
+          valor?: number
         }
         Relationships: []
       }
