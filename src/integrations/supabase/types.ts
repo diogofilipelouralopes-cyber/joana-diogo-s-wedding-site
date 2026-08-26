@@ -14,6 +14,12 @@ export type Database = {
   }
   public: {
     Tables: {
+      alojamentos: {
+        Row: { capacidade: number | null; created_at: string; genero: string; id: string; nome: string; notas: string | null; ordem: number | null; sabado: string[]; sexta: string[]; tipo: string | null }
+        Insert: { capacidade?: number | null; created_at?: string; genero?: string; id?: string; nome: string; notas?: string | null; ordem?: number | null; sabado?: string[]; sexta?: string[]; tipo?: string | null }
+        Update: { capacidade?: number | null; created_at?: string; genero?: string; id?: string; nome?: string; notas?: string | null; ordem?: number | null; sabado?: string[]; sexta?: string[]; tipo?: string | null }
+        Relationships: []
+      }
       prendas: {
         Row: { agradecido: boolean; created_at: string; data: string | null; de_quem: string; descricao: string | null; id: string; notas: string | null; tipo: string; valor: number }
         Insert: { agradecido?: boolean; created_at?: string; data?: string | null; de_quem: string; descricao?: string | null; id?: string; notas?: string | null; tipo?: string; valor?: number }
