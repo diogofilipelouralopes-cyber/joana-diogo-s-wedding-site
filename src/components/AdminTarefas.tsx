@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { Loader2, Plus, Trash2, Search, Check, ListTodo } from "lucide-react";
 import { useGuardar } from "@/lib/guardar";
 import { BarraGuardar } from "@/components/BarraGuardar";
+import { LinhaDeslizante } from "@/components/LinhaDeslizante";
 
 export interface Tarefa {
   id: string;
@@ -99,11 +100,12 @@ export function AdminTarefas({ dadosParaTeste }: { dadosParaTeste?: Tarefa[] } =
   }
 
   async function apagar(t: Tarefa) {
-    if (!confirm(`Apagar «${t.texto}»? Não dá para desfazer.`)) return;
+    if (!confirm(`Apagar «${t.texto}»? Não dá para desfazer.`)) return false;
     setTarefas((p) => p.filter((x) => x.id !== t.id));
-    if (dadosParaTeste) return;
+    if (dadosParaTeste) return true;
     const { error } = await supabase.from("tarefas").delete().eq("id", t.id);
     if (error) toast.error("Não foi possível apagar.");
+    return true;
   }
 
   if (loading) {
@@ -186,56 +188,69 @@ export function AdminTarefas({ dadosParaTeste }: { dadosParaTeste?: Tarefa[] } =
           {filtro === "por-fazer" ? "Não falta nada. 🎉" : "Nada aqui."}
         </p>
       ) : (
-        <ul className="space-y-2">
+        <ul className="space-y-2 list-none">
           {visiveis.map((t) => (
-            <li key={t.id} className="rounded-xl border bg-card p-3 flex items-start gap-3">
-              <button
-                type="button"
-                aria-pressed={t.feita}
-                onClick={() => riscar(t)}
-                title={t.feita ? "Marcar como por fazer" : "Marcar como feita"}
-                className="shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full border mt-0.5"
-                style={{
-                  background: t.feita ? "var(--olive)" : "transparent",
-                  color: t.feita ? "var(--cream)" : "var(--muted-foreground)",
-                  borderColor: t.feita ? "var(--olive)" : "var(--border)",
-                }}
-              >
-                <Check className="w-4 h-4" />
-              </button>
+            <LinhaDeslizante
+              key={t.id}
+              className="border"
+              onApagar={() => apagar(t)}
+              onSecundaria={() => riscar(t)}
+              activaSecundaria={t.feita}
+            >
+              <li className="p-3 flex items-start gap-3">
+                <button
+                  type="button"
+                  aria-pressed={t.feita}
+                  onClick={() => riscar(t)}
+                  title={t.feita ? "Marcar como por fazer" : "Marcar como feita"}
+                  className="shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full border mt-0.5"
+                  style={{
+                    background: t.feita ? "var(--olive)" : "transparent",
+                    color: t.feita ? "var(--cream)" : "var(--muted-foreground)",
+                    borderColor: t.feita ? "var(--olive)" : "var(--border)",
+                  }}
+                >
+                  <Check className="w-4 h-4" />
+                </button>
 
-              <div className="min-w-0 flex-1 space-y-2">
-                <Input
-                  defaultValue={t.texto}
-                  className={t.feita ? "line-through opacity-60" : ""}
-                  onBlur={(e) =>
-                    e.target.value !== t.texto && alterar(t.id, { texto: e.target.value })
-                  }
-                />
-                <Input
-                  defaultValue={t.comentario ?? ""}
-                  placeholder="Nota, ponto a falar, quem trata…"
-                  className="text-sm"
-                  onBlur={(e) =>
-                    (e.target.value || null) !== t.comentario &&
-                    alterar(t.id, { comentario: e.target.value || null })
-                  }
-                />
-                <Input
-                  defaultValue={t.grupo ?? ""}
-                  placeholder="Grupo (ex.: Reunião quinta)"
-                  className="text-xs"
-                  onBlur={(e) =>
-                    (e.target.value || null) !== t.grupo &&
-                    alterar(t.id, { grupo: e.target.value || null })
-                  }
-                />
-              </div>
+                <div className="min-w-0 flex-1 space-y-2">
+                  <Input
+                    defaultValue={t.texto}
+                    className={t.feita ? "line-through opacity-60" : ""}
+                    onBlur={(e) =>
+                      e.target.value !== t.texto && alterar(t.id, { texto: e.target.value })
+                    }
+                  />
+                  <Input
+                    defaultValue={t.comentario ?? ""}
+                    placeholder="Nota, ponto a falar, quem trata…"
+                    className="text-sm"
+                    onBlur={(e) =>
+                      (e.target.value || null) !== t.comentario &&
+                      alterar(t.id, { comentario: e.target.value || null })
+                    }
+                  />
+                  <Input
+                    defaultValue={t.grupo ?? ""}
+                    placeholder="Grupo (ex.: Reunião quinta)"
+                    className="text-xs"
+                    onBlur={(e) =>
+                      (e.target.value || null) !== t.grupo &&
+                      alterar(t.id, { grupo: e.target.value || null })
+                    }
+                  />
+                </div>
 
-              <Button size="sm" variant="ghost" className="shrink-0" onClick={() => apagar(t)}>
-                <Trash2 className="w-4 h-4" style={{ color: "#B85C5C" }} />
-              </Button>
-            </li>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="shrink-0 hidden sm:inline-flex"
+                  onClick={() => apagar(t)}
+                >
+                  <Trash2 className="w-4 h-4" style={{ color: "#B85C5C" }} />
+                </Button>
+              </li>
+            </LinhaDeslizante>
           ))}
         </ul>
       )}

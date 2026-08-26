@@ -15,6 +15,7 @@ import {
   Map,
   UserMinus,
 } from "lucide-react";
+import { NomeArrastavel } from "@/components/NomeArrastavel";
 import {
   avisos as calcAvisos,
   contagens,
@@ -84,6 +85,13 @@ export function AdminPlanoMesas({
     if (convidadosParaTeste) return;
     const { error } = await supabase.from("convidados").update({ mesa_id }).eq("id", id);
     if (error) toast.error("Não foi possível guardar.");
+  }
+
+  /** Largar um nome noutra mesa muda-o de mesa; largar fora tira-o das mesas. */
+  function moverPara(convidadoId: string, mesaDestino: string | null) {
+    const actual = convidados.find((c) => c.id === convidadoId)?.mesa_id ?? null;
+    if (actual === mesaDestino) return;
+    guardarConvidado(convidadoId, mesaDestino);
   }
 
   async function tirarQuemNaoVai() {
@@ -204,6 +212,7 @@ export function AdminPlanoMesas({
               return (
                 <div
                   key={m.id}
+                  data-mesa={m.id}
                   className="rounded-xl border bg-card p-4"
                   style={{
                     borderColor: excede ? "#B85C5C" : activa ? "var(--primary)" : undefined,
@@ -236,29 +245,31 @@ export function AdminPlanoMesas({
                   ) : (
                     <ol className="text-sm space-y-1">
                       {pessoas.map((c, i) => (
-                        <li key={c.id} className="flex items-start gap-2 group">
-                          <span className="text-xs text-muted-foreground w-4 shrink-0 text-right">
-                            {i + 1}
-                          </span>
-                          <span className="min-w-0 flex-1">
-                            <span className="block truncate">{c.nome}</span>
-                            <span className="block text-[0.7rem] text-muted-foreground truncate">
-                              {c.grupo}
-                              {naoVai(c)
-                                ? " · disse que não vai"
-                                : porConfirmar(c)
-                                  ? " · por confirmar"
-                                  : ""}
-                              {c.quarto ? ` · quarto ${c.quarto}` : ""}
+                        <li key={c.id} className="group">
+                          <NomeArrastavel onLargarEm={(destino) => moverPara(c.id, destino)}>
+                            <span className="text-xs text-muted-foreground w-4 shrink-0 text-right">
+                              {i + 1}
                             </span>
-                          </span>
-                          <button
-                            onClick={() => guardarConvidado(c.id, null)}
-                            className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
-                            title="Tirar da mesa"
-                          >
-                            <X className="w-3.5 h-3.5" style={{ color: "#B85C5C" }} />
-                          </button>
+                            <span className="min-w-0 flex-1">
+                              <span className="block truncate">{c.nome}</span>
+                              <span className="block text-[0.7rem] text-muted-foreground truncate">
+                                {c.grupo}
+                                {naoVai(c)
+                                  ? " · disse que não vai"
+                                  : porConfirmar(c)
+                                    ? " · por confirmar"
+                                    : ""}
+                                {c.quarto ? ` · quarto ${c.quarto}` : ""}
+                              </span>
+                            </span>
+                            <button
+                              onClick={() => guardarConvidado(c.id, null)}
+                              className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+                              title="Tirar da mesa"
+                            >
+                              <X className="w-3.5 h-3.5" style={{ color: "#B85C5C" }} />
+                            </button>
+                          </NomeArrastavel>
                         </li>
                       ))}
                     </ol>
@@ -385,23 +396,27 @@ export function AdminPlanoMesas({
             </label>
             <ul className="max-h-72 overflow-auto divide-y">
               {porSentar.map((c) => (
-                <li key={c.id} className="py-2 flex items-center gap-2">
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm truncate">{c.nome}</p>
-                    <p className="text-[0.7rem] text-muted-foreground truncate">
-                      {c.grupo}
-                      {porConfirmar(c) ? " · por confirmar" : ""}
-                    </p>
-                  </div>
-                  {mesaSel && (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => guardarConvidado(c.id, mesaSel.id)}
-                    >
-                      <Plus className="w-3 h-3" />
-                    </Button>
-                  )}
+                <li key={c.id} className="py-2">
+                  <NomeArrastavel
+                    onLargarEm={(destino) => destino && guardarConvidado(c.id, destino)}
+                  >
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm truncate">{c.nome}</p>
+                      <p className="text-[0.7rem] text-muted-foreground truncate">
+                        {c.grupo}
+                        {porConfirmar(c) ? " · por confirmar" : ""}
+                      </p>
+                    </div>
+                    {mesaSel && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => guardarConvidado(c.id, mesaSel.id)}
+                      >
+                        <Plus className="w-3 h-3" />
+                      </Button>
+                    )}
+                  </NomeArrastavel>
                 </li>
               ))}
               {porSentar.length === 0 && (

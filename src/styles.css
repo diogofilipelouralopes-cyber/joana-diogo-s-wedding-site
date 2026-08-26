@@ -1522,3 +1522,15 @@ body.has-announcement .hero-section {
     padding-bottom: 0.6rem;
   }
 }
+
+/* Enquanto se arrasta um nome, a página não rola nem selecciona texto */
+body.a-arrastar {
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+/* Mesa a receber um nome */
+.painel [data-mesa].alvo-activo {
+  outline: 2px dashed var(--gold);
+  outline-offset: 3px;
+}
