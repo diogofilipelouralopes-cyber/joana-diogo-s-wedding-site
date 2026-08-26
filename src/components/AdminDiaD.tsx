@@ -4,6 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Loader2, Plus, Trash2, UtensilsCrossed, Phone } from "lucide-react";
+import { useGuardar } from "@/lib/guardar";
+import { BarraGuardar } from "@/components/BarraGuardar";
 
 export interface LinhaMenu {
   id: string;
@@ -26,6 +28,7 @@ export function AdminDiaD({
   const [menu, setMenu] = useState<LinhaMenu[]>(menuParaTeste ?? []);
   const [forn, setForn] = useState<Fornecedor[]>(fornecedoresParaTeste ?? []);
   const [loading, setLoading] = useState(!menuParaTeste);
+  const { estado, quantas, marcar, guardar: gravar } = useGuardar();
 
   useEffect(() => {
     if (menuParaTeste) return;
@@ -55,14 +58,12 @@ export function AdminDiaD({
   async function gMenu(id: string, campos: Partial<LinhaMenu>) {
     setMenu((p) => p.map((x) => (x.id === id ? { ...x, ...campos } : x)));
     if (menuParaTeste) return;
-    const { error } = await supabase.from("menu").update(campos).eq("id", id);
-    if (error) toast.error("Não foi possível guardar.");
+    marcar("menu", id, campos as Record<string, unknown>);
   }
   async function gForn(id: string, campos: Partial<Fornecedor>) {
     setForn((p) => p.map((x) => (x.id === id ? { ...x, ...campos } : x)));
     if (fornecedoresParaTeste) return;
-    const { error } = await supabase.from("fornecedores").update(campos).eq("id", id);
-    if (error) toast.error("Não foi possível guardar.");
+    marcar("fornecedores", id, campos as Record<string, unknown>);
   }
   async function novoMenu() {
     const novo = { categoria: "Novo", descricao: "", ordem: menu.length + 1 };
@@ -191,6 +192,7 @@ export function AdminDiaD({
           A categoria é editável na base de dados; se quiseres reorganizar os grupos, diz-me.
         </p>
       </section>
+      <BarraGuardar estado={estado} quantas={quantas} onGuardar={gravar} />
     </div>
   );
 }

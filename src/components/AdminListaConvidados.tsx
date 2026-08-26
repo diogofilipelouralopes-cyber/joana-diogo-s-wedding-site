@@ -6,6 +6,8 @@ import { toast } from "sonner";
 import { Loader2, Search, Plus, Trash2, Utensils, Check } from "lucide-react";
 import { semConteudo } from "@/lib/rsvp-lists";
 import { vaiAoCasamento, naoVai, porConfirmar, type Convidado } from "@/lib/mesas";
+import { useGuardar } from "@/lib/guardar";
+import { BarraGuardar } from "@/components/BarraGuardar";
 
 interface Linha extends Convidado {
   mesa: string | null;
@@ -37,6 +39,7 @@ export function AdminListaConvidados({ dadosParaTeste }: { dadosParaTeste?: Linh
   const [filtro, setFiltro] = useState<Filtro>("confirmados");
   const [grupo, setGrupo] = useState("");
   const [busca, setBusca] = useState("");
+  const { estado, quantas, marcar, guardar } = useGuardar();
 
   useEffect(() => {
     if (dadosParaTeste) return;
@@ -97,11 +100,11 @@ export function AdminListaConvidados({ dadosParaTeste }: { dadosParaTeste?: Linh
     });
   }, [pessoas, filtro, grupo, busca]);
 
-  async function guardar(id: string, campos: Partial<Convidado>) {
+  // Escrever põe em espera; só grava ao carregar em «Guardar» (ou ao sair da app).
+  function alterar(id: string, campos: Partial<Convidado>) {
     setPessoas((prev) => prev.map((p) => (p.id === id ? { ...p, ...campos } : p)));
     if (dadosParaTeste) return;
-    const { error } = await supabase.from("convidados").update(campos).eq("id", id);
-    if (error) toast.error("Não foi possível guardar.");
+    marcar("convidados", id, campos as Record<string, unknown>);
   }
 
   async function acrescentar() {
@@ -215,7 +218,7 @@ export function AdminListaConvidados({ dadosParaTeste }: { dadosParaTeste?: Linh
                   className="font-medium"
                   defaultValue={p.nome}
                   onBlur={(e) =>
-                    e.target.value !== p.nome && guardar(p.id, { nome: e.target.value })
+                    e.target.value !== p.nome && alterar(p.id, { nome: e.target.value })
                   }
                 />
                 <Button size="sm" variant="ghost" onClick={() => apagar(p.id, p.nome)}>
@@ -227,7 +230,7 @@ export function AdminListaConvidados({ dadosParaTeste }: { dadosParaTeste?: Linh
                 <select
                   className="rounded-md border bg-background p-2 text-sm"
                   value={PRESENCAS.includes(p.presenca ?? "") ? (p.presenca as string) : ""}
-                  onChange={(e) => guardar(p.id, { presenca: e.target.value })}
+                  onChange={(e) => alterar(p.id, { presenca: e.target.value })}
                 >
                   {!PRESENCAS.includes(p.presenca ?? "") && (
                     <option value="">{p.presenca || "—"}</option>
@@ -243,7 +246,7 @@ export function AdminListaConvidados({ dadosParaTeste }: { dadosParaTeste?: Linh
                   placeholder="Grupo"
                   onBlur={(e) =>
                     (e.target.value || null) !== p.grupo &&
-                    guardar(p.id, { grupo: e.target.value || null })
+                    alterar(p.id, { grupo: e.target.value || null })
                   }
                 />
               </div>
@@ -254,7 +257,7 @@ export function AdminListaConvidados({ dadosParaTeste }: { dadosParaTeste?: Linh
                   placeholder="Cidade"
                   onBlur={(e) =>
                     (e.target.value || null) !== p.cidade &&
-                    guardar(p.id, { cidade: e.target.value || null })
+                    alterar(p.id, { cidade: e.target.value || null })
                   }
                 />
                 <Input
@@ -262,7 +265,7 @@ export function AdminListaConvidados({ dadosParaTeste }: { dadosParaTeste?: Linh
                   placeholder="Quarto"
                   onBlur={(e) =>
                     (e.target.value || null) !== p.quarto &&
-                    guardar(p.id, { quarto: e.target.value || null })
+                    alterar(p.id, { quarto: e.target.value || null })
                   }
                 />
               </div>
@@ -293,6 +296,8 @@ export function AdminListaConvidados({ dadosParaTeste }: { dadosParaTeste?: Linh
           ))}
         </div>
       )}
+
+      <BarraGuardar estado={estado} quantas={quantas} onGuardar={guardar} />
     </div>
   );
 }

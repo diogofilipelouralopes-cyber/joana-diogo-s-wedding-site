@@ -15,7 +15,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Loader2, Mail, MessageCircle, CheckCircle2, XCircle, Images, ExternalLink } from "lucide-react";
+import {
+  Loader2,
+  Mail,
+  MessageCircle,
+  CheckCircle2,
+  XCircle,
+  Images,
+  ExternalLink,
+} from "lucide-react";
 
 interface CommGuest {
   id: string;
@@ -68,11 +76,21 @@ export function AdminComunicacoes() {
   }, []);
 
   const sentEmails = useMemo(
-    () => new Set(comms.filter((c) => c.type === "email_1_month" && c.status === "sent").map((c) => c.guest_id)),
+    () =>
+      new Set(
+        comms
+          .filter((c) => c.type === "email_1_month" && c.status === "sent")
+          .map((c) => c.guest_id),
+      ),
     [comms],
   );
   const sentWhats = useMemo(
-    () => new Set(comms.filter((c) => c.type === "whatsapp_1_week" && c.status === "sent").map((c) => c.guest_id)),
+    () =>
+      new Set(
+        comms
+          .filter((c) => c.type === "whatsapp_1_week" && c.status === "sent")
+          .map((c) => c.guest_id),
+      ),
     [comms],
   );
 
@@ -80,7 +98,10 @@ export function AdminComunicacoes() {
     () => guests.filter((g) => g.attending && g.email && g.email.includes("@")),
     [guests],
   );
-  const pending = useMemo(() => eligible.filter((g) => !sentEmails.has(g.id)), [eligible, sentEmails]);
+  const pending = useMemo(
+    () => eligible.filter((g) => !sentEmails.has(g.id)),
+    [eligible, sentEmails],
+  );
 
   const whatsTargets = useMemo(
     () => guests.filter((g) => g.attending && g.phone && g.phone.trim().length >= 6),
@@ -158,8 +179,16 @@ export function AdminComunicacoes() {
           <Stat label="Por enviar" value={pending.length} />
         </div>
 
-        <Button className="mt-5 w-full sm:w-auto" disabled={sending || pending.length === 0} onClick={() => setConfirmOpen(true)}>
-          {sending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Mail className="w-4 h-4 mr-2" />}
+        <Button
+          className="mt-5 w-full sm:w-auto"
+          disabled={sending || pending.length === 0}
+          onClick={() => setConfirmOpen(true)}
+        >
+          {sending ? (
+            <Loader2 className="w-4 h-4 animate-spin mr-2" />
+          ) : (
+            <Mail className="w-4 h-4 mr-2" />
+          )}
           Enviar email 1 mês antes
         </Button>
         {pending.length === 0 && (
@@ -241,11 +270,17 @@ export function AdminComunicacoes() {
           <Images className="w-5 h-5 text-primary mt-0.5" />
           <div className="flex-1">
             <h3 className="font-display text-xl text-foreground">Álbum Google Fotos</h3>
-            <p className="text-sm text-muted-foreground mt-1">Link partilhado do álbum do casamento.</p>
+            <p className="text-sm text-muted-foreground mt-1">
+              Link partilhado do álbum do casamento.
+            </p>
           </div>
         </div>
         <div className="mt-4 flex flex-col sm:flex-row gap-3">
-          <Input value={photosUrl} onChange={(e) => setPhotosUrl(e.target.value)} placeholder="https://photos.app.goo.gl/..." />
+          <Input
+            value={photosUrl}
+            onChange={(e) => setPhotosUrl(e.target.value)}
+            placeholder="https://photos.app.goo.gl/..."
+          />
           <Button onClick={savePhotosUrl} disabled={savingUrl}>
             {savingUrl ? <Loader2 className="w-4 h-4 animate-spin" /> : "Guardar"}
           </Button>
@@ -257,13 +292,16 @@ export function AdminComunicacoes() {
           <AlertDialogHeader>
             <AlertDialogTitle>Confirmar envio</AlertDialogTitle>
             <AlertDialogDescription>
-              Vão ser enviados {pending.length} emails para convidados confirmados com email válido. Convidados que já
-              receberam esta comunicação são ignorados. Esta ação não pode ser revertida.
+              Vão ser enviados {pending.length} emails para convidados confirmados com email válido.
+              Convidados que já receberam esta comunicação são ignorados. Esta ação não pode ser
+              revertida.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={handleSend}>Enviar {pending.length} emails</AlertDialogAction>
+            <AlertDialogAction onClick={handleSend}>
+              Enviar {pending.length} emails
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

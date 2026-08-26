@@ -2,14 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import {
-  Heart,
-  Eye,
-  EyeOff,
-  Trash2,
-  Loader2,
-  MessageCircleHeart,
-} from "lucide-react";
+import { Heart, Eye, EyeOff, Trash2, Loader2, MessageCircleHeart } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,12 +13,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface Mensagem {
   id: string;
@@ -91,10 +79,7 @@ export function AdminMensagens() {
     const next = !m[field];
     setItems((prev) => prev.map((x) => (x.id === m.id ? { ...x, [field]: next } : x)));
     const patch = field === "lida" ? { lida: next } : { favorita: next };
-    const { error } = await supabase
-      .from("mensagens")
-      .update(patch)
-      .eq("id", m.id);
+    const { error } = await supabase.from("mensagens").update(patch).eq("id", m.id);
     if (error) {
       toast.error("Erro ao atualizar.");
       setItems((prev) => prev.map((x) => (x.id === m.id ? { ...x, [field]: !next } : x)));
@@ -135,7 +120,10 @@ export function AdminMensagens() {
       <p className="text-sm text-muted-foreground mb-4">
         <span className="font-medium text-foreground">{counts.all}</span> mensagens ·{" "}
         <span className="font-medium">{counts.unread}</span> não lidas ·{" "}
-        <span style={{ color: "var(--gold)" }} className="font-medium">{counts.favorite}</span> favoritas
+        <span style={{ color: "var(--gold)" }} className="font-medium">
+          {counts.favorite}
+        </span>{" "}
+        favoritas
       </p>
 
       <div className="flex flex-wrap gap-3 mb-6 items-center justify-between">
@@ -175,7 +163,10 @@ export function AdminMensagens() {
         </div>
       ) : visible.length === 0 ? (
         <div className="py-20 text-center text-muted-foreground flex flex-col items-center gap-3">
-          <MessageCircleHeart className="w-10 h-10" style={{ color: "var(--gold)", opacity: 0.5 }} />
+          <MessageCircleHeart
+            className="w-10 h-10"
+            style={{ color: "var(--gold)", opacity: 0.5 }}
+          />
           Sem mensagens.
         </div>
       ) : (
@@ -230,17 +221,10 @@ export function AdminMensagens() {
                 </p>
               </div>
 
-              <div
-                className="flex items-center justify-center my-3 max-w-xs mx-auto"
-                aria-hidden
-              >
-                <span
-                  style={{ flex: 1, borderTop: "1px dashed var(--olive)", opacity: 0.35 }}
-                />
+              <div className="flex items-center justify-center my-3 max-w-xs mx-auto" aria-hidden>
+                <span style={{ flex: 1, borderTop: "1px dashed var(--olive)", opacity: 0.35 }} />
                 <Heart size={12} className="mx-2" style={{ color: "var(--gold)" }} />
-                <span
-                  style={{ flex: 1, borderTop: "1px dashed var(--olive)", opacity: 0.35 }}
-                />
+                <span style={{ flex: 1, borderTop: "1px dashed var(--olive)", opacity: 0.35 }} />
               </div>
 
               <p
@@ -275,7 +259,9 @@ export function AdminMensagens() {
                         />
                       </button>
                     </TooltipTrigger>
-                    <TooltipContent>{m.favorita ? "Remover favorita" : "Marcar favorita"}</TooltipContent>
+                    <TooltipContent>
+                      {m.favorita ? "Remover favorita" : "Marcar favorita"}
+                    </TooltipContent>
                   </Tooltip>
                   <Tooltip>
                     <TooltipTrigger asChild>
@@ -292,7 +278,9 @@ export function AdminMensagens() {
                         )}
                       </button>
                     </TooltipTrigger>
-                    <TooltipContent>{m.lida ? "Marcar como não lida" : "Marcar como lida"}</TooltipContent>
+                    <TooltipContent>
+                      {m.lida ? "Marcar como não lida" : "Marcar como lida"}
+                    </TooltipContent>
                   </Tooltip>
                   <Tooltip>
                     <TooltipTrigger asChild>

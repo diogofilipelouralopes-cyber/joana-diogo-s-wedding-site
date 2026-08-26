@@ -4,11 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Loader2, Plus, Trash2, Search, Gift, Check } from "lucide-react";
+import { useGuardar } from "@/lib/guardar";
+import { BarraGuardar } from "@/components/BarraGuardar";
 import { totais, euros, TIPOS, type Prenda } from "@/lib/prendas";
 
 export function AdminPrendas({ prendasParaTeste }: { prendasParaTeste?: Prenda[] } = {}) {
   const [prendas, setPrendas] = useState<Prenda[]>(prendasParaTeste ?? []);
   const [loading, setLoading] = useState(!prendasParaTeste);
+  const { estado, quantas, marcar, guardar: gravar } = useGuardar();
   const [busca, setBusca] = useState("");
   const [aGravar, setAGravar] = useState(false);
   const [convidados, setConvidados] = useState<
@@ -46,8 +49,7 @@ export function AdminPrendas({ prendasParaTeste }: { prendasParaTeste?: Prenda[]
   async function guardar(id: string, campos: Partial<Prenda>) {
     setPrendas((prev) => prev.map((p) => (p.id === id ? { ...p, ...campos } : p)));
     if (prendasParaTeste) return;
-    const { error } = await supabase.from("prendas").update(campos).eq("id", id);
-    if (error) toast.error("Não foi possível guardar.");
+    marcar("prendas", id, campos as Record<string, unknown>);
   }
 
   async function acrescentar() {
@@ -348,6 +350,7 @@ export function AdminPrendas({ prendasParaTeste }: { prendasParaTeste?: Prenda[]
           Contas como crédito.
         </p>
       </section>
+      <BarraGuardar estado={estado} quantas={quantas} onGuardar={gravar} />
     </div>
   );
 }

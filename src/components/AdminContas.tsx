@@ -4,6 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Loader2, AlertTriangle, TrendingUp, Plus, Trash2, RefreshCw } from "lucide-react";
+import { useGuardar } from "@/lib/guardar";
+import { BarraGuardar } from "@/components/BarraGuardar";
 import {
   resumo as calcResumo,
   estadoDa,
@@ -26,6 +28,7 @@ export function AdminContas({
   const [despesas, setDespesas] = useState<Despesa[]>(despesasParaTeste ?? []);
   const [entradas, setEntradas] = useState<Entrada[]>(entradasParaTeste ?? []);
   const [loading, setLoading] = useState(!despesasParaTeste);
+  const { estado, quantas, marcar, guardar: gravar } = useGuardar();
   const [prendasDinheiro, setPrendasDinheiro] = useState(0);
 
   useEffect(() => {
@@ -55,8 +58,7 @@ export function AdminContas({
   async function guardar(id: string, campos: Partial<Despesa>) {
     setDespesas((prev) => prev.map((d) => (d.id === id ? { ...d, ...campos } : d)));
     if (despesasParaTeste) return;
-    const { error } = await supabase.from("despesas").update(campos).eq("id", id);
-    if (error) toast.error("Não foi possível guardar.");
+    marcar("despesas", id, campos as Record<string, unknown>);
   }
 
   async function novaDespesa() {
@@ -109,8 +111,7 @@ export function AdminContas({
   async function guardarEntrada(id: string, campos: Partial<Entrada>) {
     setEntradas((prev) => prev.map((e) => (e.id === id ? { ...e, ...campos } : e)));
     if (entradasParaTeste) return;
-    const { error } = await supabase.from("entradas").update(campos).eq("id", id);
-    if (error) toast.error("Não foi possível guardar.");
+    marcar("entradas", id, campos as Record<string, unknown>);
   }
 
   async function apagarEntrada(id: string, nome: string) {
@@ -343,6 +344,7 @@ export function AdminContas({
           </p>
         </section>
       </div>
+      <BarraGuardar estado={estado} quantas={quantas} onGuardar={gravar} />
     </div>
   );
 }

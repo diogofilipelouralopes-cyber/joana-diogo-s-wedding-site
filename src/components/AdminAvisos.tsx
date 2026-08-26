@@ -52,11 +52,7 @@ export function AdminAvisos() {
     if (id) {
       ({ error } = await supabase.from("announcements").update(payload).eq("id", id));
     } else {
-      const res = await supabase
-        .from("announcements")
-        .insert(payload)
-        .select("id")
-        .single();
+      const res = await supabase.from("announcements").insert(payload).select("id").single();
       error = res.error;
       if (res.data) setId((res.data as { id: string }).id);
     }
@@ -83,8 +79,8 @@ export function AdminAvisos() {
         <h2 className="font-display text-xl text-primary">Banner de avisos</h2>
       </div>
       <p className="text-sm text-muted-foreground">
-        Mensagem curta que aparece no topo do site (abaixo do menu). Atualiza em
-        direto para todos os visitantes.
+        Mensagem curta que aparece no topo do site (abaixo do menu). Atualiza em direto para todos
+        os visitantes.
       </p>
 
       {/* Português */}
@@ -112,17 +108,15 @@ export function AdminAvisos() {
           placeholder="Ex.: The ceremony starts at 2pm sharp. Bring a light jacket 🤍"
         />
         <p className="text-xs text-muted-foreground">
-          Cada linha (Enter) aparece como um aviso separado, dividido por ✦ no site.
-          Se deixares o inglês em branco, é usada a versão portuguesa.
+          Cada linha (Enter) aparece como um aviso separado, dividido por ✦ no site. Se deixares o
+          inglês em branco, é usada a versão portuguesa.
         </p>
       </div>
 
       <div className="flex items-center justify-between border border-border rounded-md px-4 py-3">
         <div>
           <p className="text-sm font-medium">Ativo</p>
-          <p className="text-xs text-muted-foreground">
-            Quando ligado, o banner aparece no site.
-          </p>
+          <p className="text-xs text-muted-foreground">Quando ligado, o banner aparece no site.</p>
         </div>
         <Switch checked={active} onCheckedChange={setActive} />
       </div>

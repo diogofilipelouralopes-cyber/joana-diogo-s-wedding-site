@@ -4,6 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Loader2, Plus, Trash2, AlertTriangle, BedDouble } from "lucide-react";
+import { useGuardar } from "@/lib/guardar";
+import { BarraGuardar } from "@/components/BarraGuardar";
 
 export interface Alojamento {
   id: string;
@@ -22,6 +24,7 @@ const GENEROS = ["quarto", "bungalô", "camarata"] as const;
 export function AdminDormidas({ dadosParaTeste }: { dadosParaTeste?: Alojamento[] } = {}) {
   const [sitios, setSitios] = useState<Alojamento[]>(dadosParaTeste ?? []);
   const [loading, setLoading] = useState(!dadosParaTeste);
+  const { estado, quantas, marcar, guardar: gravar } = useGuardar();
   const [noite, setNoite] = useState<"sexta" | "sabado">("sabado");
 
   useEffect(() => {
@@ -47,8 +50,7 @@ export function AdminDormidas({ dadosParaTeste }: { dadosParaTeste?: Alojamento[
   async function guardar(id: string, campos: Partial<Alojamento>) {
     setSitios((prev) => prev.map((a) => (a.id === id ? { ...a, ...campos } : a)));
     if (dadosParaTeste) return;
-    const { error } = await supabase.from("alojamentos").update(campos).eq("id", id);
-    if (error) toast.error("Não foi possível guardar.");
+    marcar("alojamentos", id, campos as Record<string, unknown>);
   }
 
   async function acrescentar() {
@@ -213,6 +215,7 @@ export function AdminDormidas({ dadosParaTeste }: { dadosParaTeste?: Alojamento[
         Um nome por linha. Não importei preços, pagamentos nem números de identificação — esses
         ficam só no teu planeador.
       </p>
+      <BarraGuardar estado={estado} quantas={quantas} onGuardar={gravar} />
     </div>
   );
 }
