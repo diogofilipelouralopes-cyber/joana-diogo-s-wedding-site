@@ -13,6 +13,7 @@ import {
   X,
   LayoutGrid,
   Map,
+  UserMinus,
 } from "lucide-react";
 import {
   avisos as calcAvisos,
@@ -85,6 +86,35 @@ export function AdminPlanoMesas({
     if (error) toast.error("Não foi possível guardar.");
   }
 
+  async function tirarQuemNaoVai() {
+    const alvos = convidados.filter((c) => naoVai(c) && c.mesa_id);
+    if (alvos.length === 0) return;
+    if (
+      !confirm(
+        alvos.length === 1
+          ? "Tirar das mesas 1 pessoa que disse que não vem? Podes voltar a sentá-la depois."
+          : `Tirar das mesas ${alvos.length} pessoas que disseram que não vêm? Podes voltar a sentá-las depois.`,
+      )
+    )
+      return;
+    setConvidados((prev) =>
+      prev.map((c) => (naoVai(c) && c.mesa_id ? { ...c, mesa_id: null } : c)),
+    );
+    if (convidadosParaTeste) return;
+    const { error } = await supabase
+      .from("convidados")
+      .update({ mesa_id: null })
+      .in(
+        "id",
+        alvos.map((c) => c.id),
+      );
+    if (error) toast.error("Não foi possível tirar das mesas.");
+    else
+      toast.success(
+        `${alvos.length} ${alvos.length === 1 ? "pessoa retirada" : "pessoas retiradas"} das mesas.`,
+      );
+  }
+
   async function guardarMesa(id: string, campos: Partial<Mesa>) {
     setMesas((prev) => prev.map((m) => (m.id === id ? { ...m, ...campos } : m)));
     if (mesasParaTeste) return;
@@ -152,12 +182,18 @@ export function AdminPlanoMesas({
         >
           <Map className="w-4 h-4 mr-2" /> Mapa
         </Button>
+        {convidados.some((c) => naoVai(c) && c.mesa_id) && (
+          <Button size="sm" variant="outline" className="ml-auto" onClick={tirarQuemNaoVai}>
+            <UserMinus className="w-4 h-4 mr-2" />
+            Tirar quem não vem ({convidados.filter((c) => naoVai(c) && c.mesa_id).length})
+          </Button>
+        )}
       </div>
 
-      <div className="grid lg:grid-cols-[1fr_20rem] gap-6">
+      <div className="grid md:grid-cols-[1fr_17rem] lg:grid-cols-[1fr_20rem] gap-4 lg:gap-6 items-start">
         {/* ---- mapa ou lista ---- */}
         {vista === "lista" ? (
-          <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4 content-start">
+          <div className="grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 lg:gap-4 content-start">
             {mesas.map((m) => {
               const pessoas = naMesa(m.id);
               const lugares = lugaresDoGrupo(m, mesas);
@@ -312,7 +348,7 @@ export function AdminPlanoMesas({
         )}
 
         {/* ---- painel lateral ---- */}
-        <div className="space-y-4">
+        <div className="space-y-4 md:sticky md:top-4">
           {mesaSel ? (
             <DetalheMesa
               mesa={mesaSel}
