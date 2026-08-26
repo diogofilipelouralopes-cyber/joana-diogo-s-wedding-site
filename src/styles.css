@@ -1470,3 +1470,34 @@ body.has-announcement .hero-section {
 .section-ivory {
   background: var(--ivory);
 }
+
+/* ---- Impressão: a folha para a quinta ---- */
+@media print {
+  /* Fora tudo o que não é a folha: cabeçalho do painel, separadores, botões */
+  body * {
+    visibility: hidden;
+  }
+  .folha,
+  .folha * {
+    visibility: visible;
+  }
+  .folha {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .break-inside-avoid {
+    break-inside: avoid;
+  }
+  @page {
+    margin: 16mm;
+  }
+}
