@@ -383,13 +383,15 @@ function Index() {
                 className="mx-auto mt-4 sm:mt-6 px-5 py-6 sm:py-8"
                 style={{
                   background: "var(--ivory)",
-                  border: "1px solid color-mix(in oklab, var(--gold) 45%, transparent)",
+                  border: "1px solid var(--gold)",
                   borderRadius: "var(--card-radius)",
+                  boxShadow:
+                    "0 1px 2px color-mix(in oklab, var(--olive) 8%, transparent), 0 18px 40px -22px color-mix(in oklab, var(--olive) 25%, transparent)",
                   maxWidth: 900,
                 }}
               >
                 <p
-                  className="text-center uppercase text-[0.68rem] sm:text-xs mb-5"
+                  className="text-center uppercase text-xs sm:text-sm mb-5"
                   style={{
                     fontFamily: "Cinzel, serif",
                     color: "var(--olive)",
