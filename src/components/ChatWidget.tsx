@@ -75,12 +75,14 @@ function loadStoredMessages(): UIMessage[] {
   }
 }
 
-export default function ChatWidget() {
+/** `aberturaInicial` serve para quando o chat so' e' carregado ao ser aberto:
+ *  nessa altura o evento de abertura ja' passou antes deste componente existir. */
+export default function ChatWidget({ aberturaInicial = false }: { aberturaInicial?: boolean }) {
   const { lang } = useI18n();
   const copy = COPY[lang === "en" ? "en" : "pt"];
 
   const [mounted, setMounted] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(aberturaInicial);
   const [input, setInput] = useState("");
   const [initialMessages] = useState<UIMessage[]>(() => loadStoredMessages());
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);

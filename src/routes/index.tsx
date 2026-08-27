@@ -1,5 +1,5 @@
 import { createFileRoute, ClientOnly } from "@tanstack/react-router";
-import { useEffect, lazy, Suspense } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import { RsvpForm } from "@/components/RsvpForm";
 import { DecorativeDivider } from "@/components/DecorativeDivider";
 import { Header } from "@/components/Header";
@@ -15,6 +15,26 @@ import { LiveAnnouncementBanner } from "@/components/LiveAnnouncementBanner";
 // Chat widget pulls in shiki/oniguruma (WASM) through streamdown — must never
 // enter the SSR/Worker import graph.
 const ChatWidget = lazy(() => import("@/components/ChatWidget"));
+
+/** O chat arrasta ~240 KB (streamdown traz uma copia do mermaid) e so' e'
+ *  usado por quem carrega no botao do cabecalho. Ate' la' nao se descarrega nada. */
+function ChatSobPedido() {
+  const [pedido, setPedido] = useState(false);
+
+  useEffect(() => {
+    const abrir = () => setPedido(true);
+    window.addEventListener("wedding-chat:toggle", abrir);
+    return () => window.removeEventListener("wedding-chat:toggle", abrir);
+  }, []);
+
+  if (!pedido) return null;
+
+  return (
+    <Suspense fallback={null}>
+      <ChatWidget aberturaInicial />
+    </Suspense>
+  );
+}
 import { Reveal } from "@/components/Reveal";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider, useI18n } from "@/lib/i18n";
@@ -533,9 +553,7 @@ function Index() {
       {/* FLOATING ACTIONS */}
 
       <ClientOnly fallback={null}>
-        <Suspense fallback={null}>
-          <ChatWidget />
-        </Suspense>
+        <ChatSobPedido />
       </ClientOnly>
     </>
   );
