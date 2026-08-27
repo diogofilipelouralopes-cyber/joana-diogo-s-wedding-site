@@ -26,14 +26,38 @@ const FAQ_JSONLD = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
   mainEntity: [
-    { q: "A que horas devo chegar?", a: "A cerimónia começa pontualmente às 14h00. Sugerimos chegar entre 15 a 30 minutos antes." },
-    { q: "Posso levar acompanhante?", a: "Fala connosco diretamente para que possamos organizar tudo da melhor forma." },
-    { q: "Qual é o dress code?", a: "Sintam-se confortáveis e incríveis. Guardem o branco apenas para a noiva." },
-    { q: "Há estacionamento no local?", a: "Sim, a Quinta Glicínia dispõe de estacionamento privativo e gratuito." },
-    { q: "Há alojamento próximo?", a: "A Quinta Glicínia dispõe de alojamento no local com check-in a partir das 15h00." },
-    { q: "Posso tirar fotografias durante a cerimónia?", a: "Pedimos que durante a cerimónia desfrutem do momento; após, à vontade." },
-    { q: "Como ofereço um presente?", a: "A vossa presença é o nosso maior presente. Vejam a secção 'Presentes'." },
-    { q: "Tenho restrições alimentares. O que faço?", a: "Indica todas as restrições no formulário RSVP e nós tratamos do resto." },
+    {
+      q: "A que horas devo chegar?",
+      a: "A cerimónia começa pontualmente às 14h00. Sugerimos chegar entre 15 a 30 minutos antes.",
+    },
+    {
+      q: "Posso levar acompanhante?",
+      a: "Fala connosco diretamente para que possamos organizar tudo da melhor forma.",
+    },
+    {
+      q: "Qual é o dress code?",
+      a: "Sintam-se confortáveis e incríveis. Guardem o branco apenas para a noiva.",
+    },
+    {
+      q: "Há estacionamento no local?",
+      a: "Sim, a Quinta Glicínia dispõe de estacionamento privativo e gratuito.",
+    },
+    {
+      q: "Há alojamento próximo?",
+      a: "A Quinta Glicínia dispõe de alojamento no local com check-in a partir das 15h00.",
+    },
+    {
+      q: "Posso tirar fotografias durante a cerimónia?",
+      a: "Pedimos que durante a cerimónia desfrutem do momento; após, à vontade.",
+    },
+    {
+      q: "Como ofereço um presente?",
+      a: "A vossa presença é o nosso maior presente. Vejam a secção 'Presentes'.",
+    },
+    {
+      q: "Tenho restrições alimentares. O que faço?",
+      a: "Indica todas as restrições no formulário RSVP e nós tratamos do resto.",
+    },
   ].map(({ q, a }) => ({
     "@type": "Question",
     name: q,
@@ -99,6 +123,17 @@ export const Route = createFileRoute("/")({
 const MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=Glic%C3%ADnia+Wedding+House+Freamunde";
 
+/** Programa do dia. A hora fica aqui; o nome de cada momento vem das traduções. */
+const HORARIO: [string, string][] = [
+  ["14:00", "schedule.h1"],
+  ["15:00", "schedule.h2"],
+  ["16:15", "schedule.h3"],
+  ["18:00", "schedule.h4"],
+  ["20:30", "schedule.h5"],
+  ["22:00", "schedule.h6"],
+  ["03:30", "schedule.h7"],
+];
+
 function Index() {
   const { t, lang } = useI18n();
 
@@ -114,300 +149,370 @@ function Index() {
     <>
       <LiveAnnouncementBanner />
       <div id="top" className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <Toaster position="top-center" />
-      <Header />
+        <Toaster position="top-center" />
+        <Header />
 
-      <main>
-      {/* HERO */}
-      <section
-        className="hero-bg hero-section relative flex flex-col items-center text-center overflow-hidden px-5 sm:px-6"
-        style={{
-          paddingBottom: 60,
-          justifyContent: "space-between",
-        }}
-      >
-        <picture className="hero-picture">
-          <source media="(max-width: 768px)" srcSet="/hero-mobile.jpg" />
-          <img
-            src="/hero-desktop.jpg"
-            alt="Joana e Diogo ao pôr do sol"
-            className="hero-image"
-            width={1920}
-            height={1280}
-            fetchPriority="high"
-            decoding="async"
-          />
-        </picture>
-        <div className="hero-overlay" aria-hidden="true" />
-
-        {/* TOP THIRD: text */}
-        <div className="relative z-10 flex flex-col items-center text-center max-w-2xl mx-auto w-full">
-          <h1 className="sr-only">Joana &amp; Diogo — Casamento 19 de setembro de 2026, Glicínia Wedding House</h1>
-
-          <p
-            className="hero-text-anim-1 hero-text-shadow uppercase text-[1.1rem] sm:text-xl"
+        <main>
+          {/* HERO */}
+          <section
+            className="hero-bg hero-section relative flex flex-col items-center text-center overflow-hidden px-5 sm:px-6"
             style={{
-              color: "var(--olive)",
-              letterSpacing: "0.25em",
-              fontFamily: "Cinzel, serif",
-              fontWeight: 500,
+              paddingBottom: 60,
+              justifyContent: "space-between",
             }}
           >
-            {t("hero.tagline")}
-          </p>
+            <picture className="hero-picture">
+              <source media="(max-width: 768px)" srcSet="/hero-mobile.jpg" />
+              <img
+                src="/hero-desktop.jpg"
+                alt="Joana e Diogo ao pôr do sol"
+                className="hero-image"
+                width={1920}
+                height={1280}
+                fetchPriority="high"
+                decoding="async"
+              />
+            </picture>
+            <div className="hero-overlay" aria-hidden="true" />
 
-          <p
-            className="hero-text-anim-2 hero-text-shadow italic text-[2.5rem] sm:text-6xl"
-            style={{
-              color: "var(--gold)",
-              fontFamily: "Allura, 'Great Vibes', cursive",
-              lineHeight: 1.1,
-              marginTop: 20,
-            }}
-          >
-            {t("hero.tagline.script")}
-          </p>
-        </div>
+            {/* TOP THIRD: text */}
+            <div className="relative z-10 flex flex-col items-center text-center max-w-2xl mx-auto w-full">
+              <h1 className="sr-only">
+                Joana &amp; Diogo — Casamento 19 de setembro de 2026, Glicínia Wedding House
+              </h1>
 
-        {/* BOTTOM THIRD: countdown + divider + buttons */}
-        <div className="relative z-10 flex flex-col items-center w-full max-w-2xl mx-auto">
-
-          <div
-            className="hero-text-anim-3 flex items-center justify-center"
-            style={{ marginTop: 18, marginBottom: 18 }}
-          >
-            <span aria-hidden style={{ width: "60px", borderTop: "1px dashed var(--olive)" }} />
-            <Heart className="mx-3" size={14} strokeWidth={1.25} style={{ color: "var(--olive)" }} />
-            <span aria-hidden style={{ width: "60px", borderTop: "1px dashed var(--olive)" }} />
-          </div>
-
-          {/* Empilhados no telemóvel ficam com a mesma largura; lado a lado no desktop. */}
-          <div className="grid w-full max-w-xs mx-auto gap-2 sm:flex sm:w-auto sm:max-w-none sm:items-center sm:justify-center sm:gap-3">
-            <a
-              href="https://www.google.com/maps/search/?api=1&query=Glic%C3%ADnia+Wedding+House+Freamunde"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-secondary hero-text-anim-3"
-            >
-              <MapPin size={16} strokeWidth={1.5} />
-              <span>{lang === "en" ? "How to get there" : "Como chegar"}</span>
-            </a>
-
-            <a
-              href={ALBUM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-secondary hero-text-anim-3"
-            >
-              <Camera size={16} strokeWidth={1.5} />
-              <span>{lang === "en" ? "Photos" : "Fotografias"}</span>
-            </a>
-          </div>
-
-        </div>
-      </section>
-
-      <DecorativeDivider />
-
-      {/* EVENT */}
-      <section id="event" className="section section-cream">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-5 sm:mb-12">
-            <p className="text-[0.6rem] sm:text-xs uppercase tracking-[0.35em] text-muted-foreground mb-2">
-              {t("event.kicker")}
-            </p>
-            <h2 className="font-display text-3xl sm:text-5xl md:text-6xl text-primary">{t("event.title")}</h2>
-            <div className="divider-ornament mt-3 sm:mt-6 max-w-xs mx-auto">
-              <Heart className="w-3 h-3" strokeWidth={1} />
-            </div>
-          </div>
-
-          <div
-            className="mx-auto p-4 sm:p-8"
-            style={{
-              maxWidth: 900,
-              background: "var(--ivory)",
-              border: "1px solid var(--gold)",
-              borderRadius: "var(--card-radius)",
-              boxShadow:
-                "0 1px 2px color-mix(in oklab, var(--olive) 8%, transparent), 0 18px 40px -22px color-mix(in oklab, var(--olive) 25%, transparent)",
-            }}
-          >
-            <div className="text-center">
-              <h3
-                className="uppercase text-base sm:text-lg md:text-xl"
+              <p
+                className="hero-text-anim-1 hero-text-shadow uppercase text-[1.1rem] sm:text-xl"
                 style={{
-                  fontFamily: "Cinzel, serif",
                   color: "var(--olive)",
                   letterSpacing: "0.25em",
-                  fontWeight: 500,
-                }}
-              >
-                Glicínia Wedding House
-              </h3>
-
-              <div className="relative my-3 sm:my-5 flex items-center justify-center max-w-xs mx-auto">
-                <span
-                  aria-hidden
-                  className="absolute left-0 right-0 top-1/2 -translate-y-1/2"
-                  style={{ borderTop: "1px dashed var(--olive)", opacity: 0.4 }}
-                />
-                <span
-                  className="relative inline-flex items-center justify-center px-3"
-                  style={{ background: "var(--ivory)" }}
-                >
-                  <Heart size={14} strokeWidth={1} fill="var(--gold)" style={{ color: "var(--gold)" }} />
-                </span>
-              </div>
-
-              <div className="flex items-center justify-center gap-2 mt-1 flex-wrap">
-                <Clock className="w-4 h-4" strokeWidth={1.5} style={{ color: "var(--olive)", opacity: 0.7 }} />
-                <p className="text-xs sm:text-sm" style={{ color: "var(--foreground)", opacity: 0.85 }}>
-                  {t("event.desc")} · {t("event.place")}
-                </p>
-              </div>
-            </div>
-
-            {/* Travel cards */}
-            <div className="mt-5 sm:mt-8">
-              <p
-                className="text-center uppercase text-xs sm:text-sm mb-3 sm:mb-5"
-                style={{
                   fontFamily: "Cinzel, serif",
-                  color: "var(--olive)",
-                  letterSpacing: "0.3em",
                   fontWeight: 500,
                 }}
               >
-                {t("travel.title")}
-              </p>
-              <p
-                className="text-center text-sm sm:text-base leading-relaxed"
-                style={{ color: "var(--foreground)", opacity: 0.85 }}
-              >
-                {/* quebra entre destinos, nunca dentro de um */}
-                {t("travel.summary")
-                  .split(" · ")
-                  .map((destino, i) => (
-                    <span key={destino}>
-                      {i > 0 ? " · " : ""}
-                      <span className="whitespace-nowrap">{destino}</span>
-                    </span>
-                  ))}
+                {t("hero.tagline")}
               </p>
 
-              <div className="mt-3 flex items-center justify-center gap-2">
-                <ParkingCircle size={16} strokeWidth={1.5} style={{ color: "var(--olive)", opacity: 0.7 }} />
-                <p className="text-xs sm:text-sm" style={{ color: "var(--foreground)", opacity: 0.7 }}>
-                  {t("travel.parking.note")}
-                </p>
+              <p
+                className="hero-text-anim-2 hero-text-shadow italic text-[2.5rem] sm:text-6xl"
+                style={{
+                  color: "var(--gold)",
+                  fontFamily: "Allura, 'Great Vibes', cursive",
+                  lineHeight: 1.1,
+                  marginTop: 20,
+                }}
+              >
+                {t("hero.tagline.script")}
+              </p>
+            </div>
+
+            {/* BOTTOM THIRD: countdown + divider + buttons */}
+            <div className="relative z-10 flex flex-col items-center w-full max-w-2xl mx-auto">
+              <div
+                className="hero-text-anim-3 flex items-center justify-center"
+                style={{ marginTop: 18, marginBottom: 18 }}
+              >
+                <span aria-hidden style={{ width: "60px", borderTop: "1px dashed var(--olive)" }} />
+                <Heart
+                  className="mx-3"
+                  size={14}
+                  strokeWidth={1.25}
+                  style={{ color: "var(--olive)" }}
+                />
+                <span aria-hidden style={{ width: "60px", borderTop: "1px dashed var(--olive)" }} />
+              </div>
+
+              {/* Empilhados no telemóvel ficam com a mesma largura; lado a lado no desktop. */}
+              <div className="grid w-full max-w-xs mx-auto gap-2 sm:flex sm:w-auto sm:max-w-none sm:items-center sm:justify-center sm:gap-3">
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Glic%C3%ADnia+Wedding+House+Freamunde"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-secondary hero-text-anim-3"
+                >
+                  <MapPin size={16} strokeWidth={1.5} />
+                  <span>{lang === "en" ? "How to get there" : "Como chegar"}</span>
+                </a>
+
+                <a
+                  href={ALBUM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-secondary hero-text-anim-3"
+                >
+                  <Camera size={16} strokeWidth={1.5} />
+                  <span>{lang === "en" ? "Photos" : "Fotografias"}</span>
+                </a>
               </div>
             </div>
+          </section>
 
-            <div className="mt-5 sm:mt-8 flex justify-center">
-              <a
-                href={MAPS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-secondary"
+          <DecorativeDivider />
+
+          {/* EVENT */}
+          <section id="event" className="section section-cream">
+            <div className="max-w-5xl mx-auto">
+              <div className="text-center mb-5 sm:mb-12">
+                <p className="text-[0.6rem] sm:text-xs uppercase tracking-[0.35em] text-muted-foreground mb-2">
+                  {t("event.kicker")}
+                </p>
+                <h2 className="font-display text-3xl sm:text-5xl md:text-6xl text-primary">
+                  {t("event.title")}
+                </h2>
+                <div className="divider-ornament mt-3 sm:mt-6 max-w-xs mx-auto">
+                  <Heart className="w-3 h-3" strokeWidth={1} />
+                </div>
+              </div>
+
+              <div
+                className="mx-auto p-4 sm:p-8"
+                style={{
+                  maxWidth: 900,
+                  background: "var(--ivory)",
+                  border: "1px solid var(--gold)",
+                  borderRadius: "var(--card-radius)",
+                  boxShadow:
+                    "0 1px 2px color-mix(in oklab, var(--olive) 8%, transparent), 0 18px 40px -22px color-mix(in oklab, var(--olive) 25%, transparent)",
+                }}
               >
-                <ExternalLink size={16} strokeWidth={1.5} />
-                {t("event.maps")}
-              </a>
+                <div className="text-center">
+                  <h3
+                    className="uppercase text-base sm:text-lg md:text-xl"
+                    style={{
+                      fontFamily: "Cinzel, serif",
+                      color: "var(--olive)",
+                      letterSpacing: "0.25em",
+                      fontWeight: 500,
+                    }}
+                  >
+                    Glicínia Wedding House
+                  </h3>
+
+                  <div className="relative my-3 sm:my-5 flex items-center justify-center max-w-xs mx-auto">
+                    <span
+                      aria-hidden
+                      className="absolute left-0 right-0 top-1/2 -translate-y-1/2"
+                      style={{ borderTop: "1px dashed var(--olive)", opacity: 0.4 }}
+                    />
+                    <span
+                      className="relative inline-flex items-center justify-center px-3"
+                      style={{ background: "var(--ivory)" }}
+                    >
+                      <Heart
+                        size={14}
+                        strokeWidth={1}
+                        fill="var(--gold)"
+                        style={{ color: "var(--gold)" }}
+                      />
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-center gap-2 mt-1 flex-wrap">
+                    <Clock
+                      className="w-4 h-4"
+                      strokeWidth={1.5}
+                      style={{ color: "var(--olive)", opacity: 0.7 }}
+                    />
+                    <p
+                      className="text-xs sm:text-sm"
+                      style={{ color: "var(--foreground)", opacity: 0.85 }}
+                    >
+                      {t("event.desc")} · {t("event.place")}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Travel cards */}
+                <div className="mt-5 sm:mt-8">
+                  <p
+                    className="text-center uppercase text-xs sm:text-sm mb-3 sm:mb-5"
+                    style={{
+                      fontFamily: "Cinzel, serif",
+                      color: "var(--olive)",
+                      letterSpacing: "0.3em",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {t("travel.title")}
+                  </p>
+                  <p
+                    className="text-center text-sm sm:text-base leading-relaxed"
+                    style={{ color: "var(--foreground)", opacity: 0.85 }}
+                  >
+                    {/* quebra entre destinos, nunca dentro de um */}
+                    {t("travel.summary")
+                      .split(" · ")
+                      .map((destino, i) => (
+                        <span key={destino}>
+                          {i > 0 ? " · " : ""}
+                          <span className="whitespace-nowrap">{destino}</span>
+                        </span>
+                      ))}
+                  </p>
+
+                  <div className="mt-3 flex items-center justify-center gap-2">
+                    <ParkingCircle
+                      size={16}
+                      strokeWidth={1.5}
+                      style={{ color: "var(--olive)", opacity: 0.7 }}
+                    />
+                    <p
+                      className="text-xs sm:text-sm"
+                      style={{ color: "var(--foreground)", opacity: 0.7 }}
+                    >
+                      {t("travel.parking.note")}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-5 sm:mt-8 flex justify-center">
+                  <a
+                    href={MAPS_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-secondary"
+                  >
+                    <ExternalLink size={16} strokeWidth={1.5} />
+                    {t("event.maps")}
+                  </a>
+                </div>
+              </div>
+
+              {/* Programa do dia */}
+              <div
+                className="mx-auto mt-4 sm:mt-6 px-5 py-6 sm:py-8"
+                style={{
+                  background: "var(--ivory)",
+                  border: "1px solid color-mix(in oklab, var(--gold) 45%, transparent)",
+                  borderRadius: "var(--card-radius)",
+                  maxWidth: 900,
+                }}
+              >
+                <p
+                  className="text-center uppercase text-[0.68rem] sm:text-xs mb-5"
+                  style={{
+                    fontFamily: "Cinzel, serif",
+                    color: "var(--olive)",
+                    letterSpacing: "0.3em",
+                    fontWeight: 500,
+                  }}
+                >
+                  {t("schedule.kicker")}
+                </p>
+
+                <ol className="mx-auto" style={{ maxWidth: "22rem" }}>
+                  {HORARIO.map(([hora, chave], i) => (
+                    <li key={hora} className="flex gap-4">
+                      {/* linha vertical a unir os momentos */}
+                      <div className="flex flex-col items-center shrink-0">
+                        <span
+                          aria-hidden
+                          style={{
+                            width: 9,
+                            height: 9,
+                            borderRadius: "50%",
+                            background: "var(--gold)",
+                            marginTop: 6,
+                          }}
+                        />
+                        {i < HORARIO.length - 1 && (
+                          <span
+                            aria-hidden
+                            className="flex-1"
+                            style={{
+                              width: 1,
+                              minHeight: 26,
+                              background: "color-mix(in oklab, var(--gold) 45%, transparent)",
+                            }}
+                          />
+                        )}
+                      </div>
+
+                      <div className="pb-4 flex items-baseline gap-3 min-w-0">
+                        <span
+                          className="tabular-nums text-sm sm:text-base shrink-0"
+                          style={{
+                            fontFamily: "Cinzel, serif",
+                            color: "var(--gold)",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {hora}
+                        </span>
+                        <span
+                          className="text-sm sm:text-base"
+                          style={{ color: "var(--foreground)" }}
+                        >
+                          {t(chave as never)}
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
             </div>
-          </div>
+          </section>
 
-          {/* Programa do dia — marcador temporário.
-              Quando os horários estiverem fechados, este bloco dá lugar ao
-              programa a sério (cerimónia, jantar, festa). */}
-          <div
-            className="mx-auto mt-4 sm:mt-6 px-5 py-6 text-center"
-            style={{
-              background: "var(--ivory)",
-              border: "1px dashed var(--gold)",
-              borderRadius: "var(--card-radius)",
-              maxWidth: 900,
-            }}
-          >
-            <p
-              className="uppercase text-[0.68rem] sm:text-xs"
-              style={{
-                fontFamily: "Cinzel, serif",
-                color: "var(--olive)",
-                letterSpacing: "0.3em",
-                fontWeight: 500,
-              }}
-            >
-              {t("schedule.kicker")}
-            </p>
-            <p
-              className="italic mt-1 text-2xl sm:text-3xl"
-              style={{
-                fontFamily: "Allura, 'Great Vibes', cursive",
-                color: "var(--gold)",
-                lineHeight: 1.1,
-              }}
-            >
-              {t("schedule.soon")}
-            </p>
-            <p
-              className="mt-2 text-xs sm:text-sm mx-auto"
-              style={{ color: "var(--olive)", opacity: 0.8, maxWidth: "34rem" }}
-            >
-              {t("schedule.desc")}
-            </p>
-          </div>
+          <DecorativeDivider />
 
-        </div>
-      </section>
+          {/* FAQ */}
+          <Reveal>
+            <FaqSection />
+          </Reveal>
 
-      <DecorativeDivider />
+          <DecorativeDivider />
 
-      {/* FAQ */}
-      <Reveal><FaqSection /></Reveal>
+          {/* STORY */}
+          <Reveal>
+            <StorySection />
+          </Reveal>
 
-      <DecorativeDivider />
+          <DecorativeDivider />
 
-      {/* STORY */}
-      <Reveal><StorySection /></Reveal>
+          {/* PHOTOS (shared album) */}
+          <Reveal>
+            <MemoriesSection />
+          </Reveal>
 
-      <DecorativeDivider />
+          {/* GALERIA PÚBLICA (álbuns publicados) */}
+          <Reveal>
+            <PublicGallerySection />
+          </Reveal>
 
-      {/* PHOTOS (shared album) */}
-      <Reveal><MemoriesSection /></Reveal>
+          <DecorativeDivider />
 
-      {/* GALERIA PÚBLICA (álbuns publicados) */}
-      <Reveal><PublicGallerySection /></Reveal>
+          {/* MESSAGES */}
+          <Reveal>
+            <MessagesSection />
+          </Reveal>
 
-      <DecorativeDivider />
+          <DecorativeDivider />
 
-      {/* MESSAGES */}
-      <Reveal><MessagesSection /></Reveal>
+          {/* GIFTS */}
+          <Reveal>
+            <GiftsSection />
+          </Reveal>
 
-      <DecorativeDivider />
+          <DecorativeDivider />
 
-      {/* GIFTS */}
-      <Reveal><GiftsSection /></Reveal>
-
-      <DecorativeDivider />
-
-      {/* RSVP — no fim: todos confirmados, fica para alterações de última hora */}
-      <section id="rsvp" className="section section-ivory">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-5 sm:mb-10">
-            <h2 className="font-display text-3xl sm:text-5xl md:text-6xl text-primary">{t("rsvp.title")}</h2>
-            <div className="divider-ornament mt-3 sm:mt-6 max-w-xs mx-auto">
-              <Heart className="w-3 h-3" strokeWidth={1} />
+          {/* RSVP — no fim: todos confirmados, fica para alterações de última hora */}
+          <section id="rsvp" className="section section-ivory">
+            <div className="max-w-3xl mx-auto">
+              <div className="text-center mb-5 sm:mb-10">
+                <h2 className="font-display text-3xl sm:text-5xl md:text-6xl text-primary">
+                  {t("rsvp.title")}
+                </h2>
+                <div className="divider-ornament mt-3 sm:mt-6 max-w-xs mx-auto">
+                  <Heart className="w-3 h-3" strokeWidth={1} />
+                </div>
+              </div>
+              <RsvpForm />
             </div>
-          </div>
-          <RsvpForm />
-        </div>
-      </section>
+          </section>
+        </main>
 
-      </main>
-
-      {/* FOOTER */}
-      <SiteFooter />
+        {/* FOOTER */}
+        <SiteFooter />
       </div>
 
       {/* FLOATING ACTIONS */}
@@ -420,4 +525,3 @@ function Index() {
     </>
   );
 }
-
