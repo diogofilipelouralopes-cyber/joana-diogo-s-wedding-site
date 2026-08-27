@@ -102,7 +102,20 @@ export const Route = createFileRoute("/")({
       { rel: "canonical", href: SITE_URL + "/" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "preload", as: "image", href: "/hero-desktop.jpg", fetchPriority: "high" },
+      {
+        rel: "preload",
+        as: "image",
+        href: "/hero-mobile.jpg",
+        media: "(max-width: 768px)",
+        fetchPriority: "high",
+      },
+      {
+        rel: "preload",
+        as: "image",
+        href: "/hero-desktop.jpg",
+        media: "(min-width: 769px)",
+        fetchPriority: "high",
+      },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Lato:wght@300;400;700&family=Allura&family=Great+Vibes&display=swap",
@@ -168,7 +181,7 @@ function Index() {
                 alt="Joana e Diogo ao pôr do sol"
                 className="hero-image"
                 width={1920}
-                height={1280}
+                height={1200}
                 fetchPriority="high"
                 decoding="async"
               />
