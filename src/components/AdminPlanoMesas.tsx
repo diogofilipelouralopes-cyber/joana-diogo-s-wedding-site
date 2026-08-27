@@ -10,10 +10,14 @@ import {
   Link2,
   Link2Off,
   Plus,
+  Minus,
   X,
   LayoutGrid,
   Map,
   UserMinus,
+  Trash2,
+  Check,
+  UserPlus,
 } from "lucide-react";
 import { NomeArrastavel } from "@/components/NomeArrastavel";
 import {
@@ -29,7 +33,28 @@ import {
   type Mesa,
 } from "@/lib/mesas";
 
-const RAIO = 74; // raio visual de uma mesa no mapa
+/** Raio de referência para posicionar mesas novas no mapa. */
+const RAIO_BASE = 74;
+
+/** No telemóvel as mesas do mapa são mais pequenas para caberem. */
+function useRaio() {
+  const [raio, setRaio] = useState(RAIO_BASE);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 640px)");
+    const ajusta = () => setRaio(mq.matches ? 54 : RAIO_BASE);
+    ajusta();
+    mq.addEventListener("change", ajusta);
+    return () => mq.removeEventListener("change", ajusta);
+  }, []);
+  return raio;
+}
+
+/** Cor conforme o estado de ocupação, usada no mapa e nos cartões. */
+function corDaOcupacao(ocupacao: number, lugares: number) {
+  if (ocupacao > lugares) return "#B85C5C";
+  if (lugares > 0 && ocupacao === lugares) return "#7A8C5C";
+  return "var(--gold)";
+}
 
 export function AdminPlanoMesas({
   mesasParaTeste,
@@ -42,8 +67,17 @@ export function AdminPlanoMesas({
   const [vista, setVista] = useState<"lista" | "mapa">("lista");
   const [busca, setBusca] = useState("");
   const [soConfirmados, setSoConfirmados] = useState(true);
+  const [folhaAberta, setFolhaAberta] = useState(false);
   const arrastando = useRef<{ id: string; dx: number; dy: number } | null>(null);
+  // Lugares que o dedo já pediu mas que o ecrã ainda não mostrou.
+  const lugaresPendentes = useRef<Record<string, number>>({});
+  const gravarLugares = useRef<Record<string, number>>({});
   const tela = useRef<HTMLDivElement>(null);
+  const envolvente = useRef<HTMLDivElement>(null);
+  // No telemóvel o mapa inteiro encolhe para caber sem se arrastar para o lado.
+  const [escala, setEscala] = useState(1);
+  const raio = useRaio();
+  const soLocal = Boolean(mesasParaTeste || convidadosParaTeste);
 
   useEffect(() => {
     if (mesasParaTeste) return;
@@ -60,6 +94,19 @@ export function AdminPlanoMesas({
       setLoading(false);
     })();
   }, [mesasParaTeste]);
+
+  const largura = Math.max(...mesas.map((m) => m.pos_x), 0) + raio * 2 + 40;
+  const altura = Math.max(...mesas.map((m) => m.pos_y), 0) + raio * 2 + 40;
+
+  useEffect(() => {
+    const el = envolvente.current;
+    if (!el || vista !== "mapa") return;
+    const medir = () => setEscala(Math.min(1, el.clientWidth / largura));
+    medir();
+    const ro = new ResizeObserver(medir);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [vista, largura]);
 
   const stats = useMemo(() => contagens(convidados), [convidados]);
   const avisos = useMemo(() => calcAvisos(mesas, convidados), [mesas, convidados]);
@@ -84,9 +131,12 @@ export function AdminPlanoMesas({
   }, [convidados, busca, soConfirmados]);
 
   async function guardarConvidado(id: string, mesa_id: string | null) {
-    setConvidados((prev) => prev.map((c) => (c.id === id ? { ...c, mesa_id } : c)));
-    if (convidadosParaTeste) return;
-    const { error } = await supabase.from("convidados").update({ mesa_id }).eq("id", id);
+    const lugar = mesa_id
+      ? Math.max(0, ...convidados.filter((c) => c.mesa_id === mesa_id).map((c) => c.lugar ?? 0)) + 1
+      : null;
+    setConvidados((prev) => prev.map((c) => (c.id === id ? { ...c, mesa_id, lugar } : c)));
+    if (soLocal) return;
+    const { error } = await supabase.from("convidados").update({ mesa_id, lugar }).eq("id", id);
     if (error) toast.error("Não foi possível guardar.");
   }
 
@@ -114,7 +164,7 @@ export function AdminPlanoMesas({
       nova.splice(para, 0, ...nova.splice(de, 1));
       const comLugar = nova.map((c, i) => ({ ...c, lugar: i + 1 }));
       setConvidados((prev) => prev.map((c) => comLugar.find((x) => x.id === c.id) ?? c));
-      if (convidadosParaTeste) return;
+      if (soLocal) return;
       await Promise.all(
         comLugar.map((c) => supabase.from("convidados").update({ lugar: c.lugar }).eq("id", c.id)),
       );
@@ -122,19 +172,7 @@ export function AdminPlanoMesas({
     }
 
     if ((eu.mesa_id ?? null) === mesaDestino) return;
-
-    // Mudar de mesa: entra no fim da mesa de destino
-    const ultimos = convidados.filter((c) => c.mesa_id === mesaDestino);
-    const lugar = mesaDestino ? Math.max(0, ...ultimos.map((c) => c.lugar ?? 0)) + 1 : null;
-    setConvidados((prev) =>
-      prev.map((c) => (c.id === convidadoId ? { ...c, mesa_id: mesaDestino, lugar } : c)),
-    );
-    if (convidadosParaTeste) return;
-    const { error } = await supabase
-      .from("convidados")
-      .update({ mesa_id: mesaDestino, lugar })
-      .eq("id", convidadoId);
-    if (error) toast.error("Não foi possível guardar.");
+    await guardarConvidado(convidadoId, mesaDestino);
   }
 
   async function tirarQuemNaoVai() {
@@ -149,12 +187,12 @@ export function AdminPlanoMesas({
     )
       return;
     setConvidados((prev) =>
-      prev.map((c) => (naoVai(c) && c.mesa_id ? { ...c, mesa_id: null } : c)),
+      prev.map((c) => (naoVai(c) && c.mesa_id ? { ...c, mesa_id: null, lugar: null } : c)),
     );
-    if (convidadosParaTeste) return;
+    if (soLocal) return;
     const { error } = await supabase
       .from("convidados")
-      .update({ mesa_id: null })
+      .update({ mesa_id: null, lugar: null })
       .in(
         "id",
         alvos.map((c) => c.id),
@@ -167,18 +205,99 @@ export function AdminPlanoMesas({
   }
 
   async function guardarMesa(id: string, campos: Partial<Mesa>) {
+    if (campos.lugares !== undefined) lugaresPendentes.current[id] = campos.lugares;
     setMesas((prev) => prev.map((m) => (m.id === id ? { ...m, ...campos } : m)));
-    if (mesasParaTeste) return;
+    if (soLocal) return;
     const { error } = await supabase.from("mesas").update(campos).eq("id", id);
     if (error) toast.error("Não foi possível guardar a mesa.");
+  }
+
+  /**
+   * Somar ou tirar lugares. Dois toques seguidos no + acontecem antes de o
+   * ecrã se voltar a desenhar, por isso o valor de partida vem de uma
+   * referência actualizada na hora — ler do estado perderia um dos toques.
+   * A gravação espera que os toques parem, para não escrever a cada um.
+   */
+  function ajustarLugares(id: string, delta: number) {
+    const partida = lugaresPendentes.current[id] ?? mesas.find((m) => m.id === id)?.lugares ?? 1;
+    const valor = Math.max(1, partida + delta);
+    lugaresPendentes.current[id] = valor;
+    setMesas((prev) => prev.map((m) => (m.id === id ? { ...m, lugares: valor } : m)));
+
+    if (soLocal) return;
+    window.clearTimeout(gravarLugares.current[id]);
+    gravarLugares.current[id] = window.setTimeout(async () => {
+      const { error } = await supabase.from("mesas").update({ lugares: valor }).eq("id", id);
+      if (error) toast.error("Não foi possível guardar a mesa.");
+    }, 500);
+  }
+
+  /** Mesa nova: número a seguir ao maior que existe, colocada em grelha no mapa. */
+  async function criarMesa() {
+    const usados = mesas.map((m) => Number(m.nome.match(/\d+/)?.[0] ?? 0));
+    const numero = Math.max(0, ...usados) + 1;
+    const i = mesas.length;
+    const nova = {
+      nome: `Mesa ${numero}`,
+      lugares: 10,
+      forma: "redonda",
+      pos_x: (i % 4) * (RAIO_BASE * 2 + 24),
+      pos_y: Math.floor(i / 4) * (RAIO_BASE * 2 + 24),
+      ordem: Math.max(0, ...mesas.map((m) => m.ordem ?? 0)) + 1,
+    };
+
+    if (soLocal) {
+      const local: Mesa = { ...nova, id: `local-${numero}`, juntada_com: null, notas: null };
+      setMesas((prev) => [...prev, local]);
+      setSelecionada(local.id);
+      return;
+    }
+
+    const { data, error } = await supabase.from("mesas").insert(nova).select().single();
+    if (error || !data) {
+      toast.error("Não foi possível criar a mesa.");
+      return;
+    }
+    setMesas((prev) => [...prev, data as unknown as Mesa]);
+    setSelecionada((data as unknown as Mesa).id);
+    toast.success(`${nova.nome} criada.`);
+  }
+
+  /** Apagar uma mesa devolve quem lá estava a «por sentar». */
+  async function apagarMesa(m: Mesa) {
+    const pessoas = convidados.filter((c) => c.mesa_id === m.id);
+    const aviso =
+      pessoas.length === 0
+        ? `Apagar a ${m.nome}?`
+        : `Apagar a ${m.nome}? ${pessoas.length === 1 ? "A pessoa que lá está volta" : `As ${pessoas.length} pessoas que lá estão voltam`} para «por sentar».`;
+    if (!confirm(aviso)) return;
+
+    setConvidados((prev) =>
+      prev.map((c) => (c.mesa_id === m.id ? { ...c, mesa_id: null, lugar: null } : c)),
+    );
+    setMesas((prev) =>
+      prev
+        .filter((x) => x.id !== m.id)
+        .map((x) => (x.juntada_com === m.id ? { ...x, juntada_com: null } : x)),
+    );
+    setSelecionada(null);
+    if (soLocal) return;
+
+    // A ordem importa: as chaves estrangeiras apontam para esta mesa.
+    await supabase.from("convidados").update({ mesa_id: null, lugar: null }).eq("mesa_id", m.id);
+    await supabase.from("mesas").update({ juntada_com: null }).eq("juntada_com", m.id);
+    const { error } = await supabase.from("mesas").delete().eq("id", m.id);
+    if (error) toast.error("Não foi possível apagar a mesa.");
+    else toast.success(`${m.nome} apagada.`);
   }
 
   function aoLargar(e: React.PointerEvent) {
     const a = arrastando.current;
     if (!a || !tela.current) return;
     const r = tela.current.getBoundingClientRect();
-    const x = Math.max(0, Math.round(e.clientX - r.left - a.dx));
-    const y = Math.max(0, Math.round(e.clientY - r.top - a.dy));
+    // O rectângulo já vem escalado; as posições guardadas são em tamanho real.
+    const x = Math.max(0, Math.round((e.clientX - r.left) / escala - a.dx));
+    const y = Math.max(0, Math.round((e.clientY - r.top) / escala - a.dy));
     guardarMesa(a.id, { pos_x: x, pos_y: y });
     arrastando.current = null;
   }
@@ -191,12 +310,22 @@ export function AdminPlanoMesas({
     );
   }
 
-  const largura = Math.max(...mesas.map((m) => m.pos_x), 0) + RAIO * 2 + 40;
-  const altura = Math.max(...mesas.map((m) => m.pos_y), 0) + RAIO * 2 + 40;
+  const painelPorSentar = (
+    <ListaPorSentar
+      pessoas={porSentar}
+      busca={busca}
+      setBusca={setBusca}
+      soConfirmados={soConfirmados}
+      setSoConfirmados={setSoConfirmados}
+      mesaSel={mesaSel}
+      onSentar={(id) => mesaSel && guardarConvidado(id, mesaSel.id)}
+      onLargar={moverPara}
+    />
+  );
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+      <div className="grid grid-cols-3 md:grid-cols-5 gap-2 md:gap-3">
         <Resumo rotulo="Pessoas" valor={stats.total} />
         <Resumo rotulo="Confirmadas" valor={stats.confirmados} />
         <Resumo rotulo="Sentadas" valor={stats.sentados} />
@@ -206,7 +335,7 @@ export function AdminPlanoMesas({
 
       {avisos.length > 0 && (
         <div
-          className="rounded-xl border p-4"
+          className="rounded-xl border p-4 space-y-1"
           style={{ background: "color-mix(in oklab, #C9A961 12%, transparent)" }}
         >
           {avisos.map((a) => (
@@ -218,7 +347,7 @@ export function AdminPlanoMesas({
         </div>
       )}
 
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <Button
           size="sm"
           variant={vista === "lista" ? "default" : "outline"}
@@ -233,18 +362,26 @@ export function AdminPlanoMesas({
         >
           <Map className="w-4 h-4 mr-2" /> Mapa
         </Button>
+        <Button size="sm" variant="outline" onClick={criarMesa}>
+          <Plus className="w-4 h-4 mr-2" /> Nova mesa
+        </Button>
         {convidados.some((c) => naoVai(c) && c.mesa_id) && (
-          <Button size="sm" variant="outline" className="ml-auto" onClick={tirarQuemNaoVai}>
+          <Button size="sm" variant="outline" className="sm:ml-auto" onClick={tirarQuemNaoVai}>
             <UserMinus className="w-4 h-4 mr-2" />
             Tirar quem não vem ({convidados.filter((c) => naoVai(c) && c.mesa_id).length})
           </Button>
         )}
       </div>
 
-      <div className="grid md:grid-cols-[1fr_17rem] lg:grid-cols-[1fr_20rem] gap-4 lg:gap-6 items-start">
+      <div className="grid lg:grid-cols-[1fr_20rem] gap-4 lg:gap-6 items-start">
         {/* ---- mapa ou lista ---- */}
         {vista === "lista" ? (
-          <div className="grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 lg:gap-4 content-start">
+          <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-3 lg:gap-4 content-start">
+            {mesas.length === 0 && (
+              <p className="rounded-xl border bg-card p-6 text-sm text-muted-foreground sm:col-span-2 xl:col-span-3">
+                Ainda não há mesas. Carrega em «Nova mesa» para criar a primeira.
+              </p>
+            )}
             {mesas.map((m) => {
               const pessoas = naMesa(m.id);
               const lugares = lugaresDoGrupo(m, mesas);
@@ -252,21 +389,22 @@ export function AdminPlanoMesas({
               const excede = ocupacao > lugares;
               const parceira = grupoDaMesa(m, mesas).find((x) => x.id !== m.id);
               const activa = selecionada === m.id;
+              const cor = corDaOcupacao(ocupacao, lugares);
               return (
                 <div
                   key={m.id}
                   data-mesa={m.id}
-                  className="rounded-xl border bg-card p-4"
+                  className="rounded-xl border bg-card p-4 flex flex-col"
                   style={{
                     borderColor: excede ? "#B85C5C" : activa ? "var(--primary)" : undefined,
                     boxShadow: activa ? "0 6px 18px -12px rgba(0,0,0,.3)" : undefined,
                   }}
                 >
-                  <div className="flex items-baseline justify-between gap-2 mb-2">
-                    <button
-                      className="font-medium text-left"
-                      onClick={() => setSelecionada(activa ? null : m.id)}
-                    >
+                  <button
+                    className="flex items-baseline justify-between gap-2 text-left w-full"
+                    onClick={() => setSelecionada(activa ? null : m.id)}
+                  >
+                    <span className="font-medium">
                       {m.nome}
                       {parceira && (
                         <span className="text-xs text-muted-foreground font-normal">
@@ -274,19 +412,18 @@ export function AdminPlanoMesas({
                           + {parceira.nome}
                         </span>
                       )}
-                    </button>
-                    <span
-                      className="text-xs whitespace-nowrap"
-                      style={{ color: excede ? "#B85C5C" : "var(--muted-foreground)" }}
-                    >
+                    </span>
+                    <span className="text-xs whitespace-nowrap tabular-nums" style={{ color: cor }}>
                       {ocupacao} / {lugares}
                     </span>
-                  </div>
+                  </button>
+
+                  <BarraOcupacao ocupacao={ocupacao} lugares={lugares} />
 
                   {pessoas.length === 0 ? (
                     <p className="text-xs text-muted-foreground py-2">Mesa vazia.</p>
                   ) : (
-                    <ol className="text-sm space-y-1">
+                    <ol className="text-sm space-y-1 mt-2">
                       {pessoas.map((c, i) => (
                         <li key={c.id} data-convidado={c.id} className="group">
                           <NomeArrastavel
@@ -309,10 +446,11 @@ export function AdminPlanoMesas({
                             </span>
                             <button
                               onClick={() => guardarConvidado(c.id, null)}
-                              className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+                              className="acao-da-linha shrink-0 p-1 -m-1"
                               title="Tirar da mesa"
+                              aria-label={`Tirar ${c.nome} da mesa`}
                             >
-                              <X className="w-3.5 h-3.5" style={{ color: "#B85C5C" }} />
+                              <X className="w-4 h-4" style={{ color: "#B85C5C" }} />
                             </button>
                           </NomeArrastavel>
                         </li>
@@ -335,12 +473,24 @@ export function AdminPlanoMesas({
         ) : (
           <div className="rounded-xl border bg-card p-4 overflow-auto">
             <p className="text-xs text-muted-foreground mb-3">
-              Arrasta as mesas para as posicionares. Clica numa mesa para veres quem lá está.
+              Arrasta as mesas para as posicionares. Cada ponto à volta é um lugar; os cheios são
+              quem já lá está. Toca numa mesa para a editares.
             </p>
+            {/* O transform não muda o espaço ocupado: sem overflow escondido, o
+                mapa em tamanho real alargaria a página toda. */}
+            <div
+              ref={envolvente}
+              style={{ height: altura * escala, width: "100%", overflow: "hidden" }}
+            >
             <div
               ref={tela}
               className="relative"
-              style={{ width: largura, height: altura, minWidth: "100%" }}
+              style={{
+                width: largura,
+                height: altura,
+                transform: `scale(${escala})`,
+                transformOrigin: "top left",
+              }}
               onPointerMove={(e) => {
                 if (arrastando.current) e.preventDefault();
               }}
@@ -353,124 +503,288 @@ export function AdminPlanoMesas({
                 const excede = ocupacao > lugares;
                 const juntada = grupoDaMesa(m, mesas).length > 1;
                 const activa = selecionada === m.id;
+                const cor = corDaOcupacao(ocupacao, lugares);
                 return (
-                  <button
+                  <div
                     key={m.id}
-                    onPointerDown={(e) => {
-                      const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
-                      arrastando.current = {
-                        id: m.id,
-                        dx: e.clientX - r.left,
-                        dy: e.clientY - r.top,
-                      };
-                    }}
-                    onClick={() => setSelecionada(activa ? null : m.id)}
-                    className="absolute flex flex-col items-center justify-center text-center transition-shadow"
-                    style={{
-                      left: m.pos_x,
-                      top: m.pos_y,
-                      width: RAIO * 2,
-                      height: RAIO * 2,
-                      borderRadius: m.forma === "comprida" ? 16 : "50%",
-                      border: `2px solid ${excede ? "#B85C5C" : activa ? "var(--primary)" : "color-mix(in oklab, var(--gold) 55%, transparent)"}`,
-                      background: activa
-                        ? "color-mix(in oklab, var(--primary) 10%, var(--card))"
-                        : "var(--card)",
-                      boxShadow: activa ? "0 8px 24px -12px rgba(0,0,0,.35)" : "none",
-                      cursor: "grab",
-                      touchAction: "none",
-                    }}
+                    data-mesa={m.id}
+                    className="absolute"
+                    style={{ left: m.pos_x, top: m.pos_y, width: raio * 2, height: raio * 2 }}
                   >
-                    <span className="text-sm font-medium">{m.nome}</span>
-                    <span
-                      className="text-xs"
-                      style={{ color: excede ? "#B85C5C" : "var(--muted-foreground)" }}
+                    <Lugares raio={raio} lugares={lugares} ocupacao={ocupacao} cor={cor} />
+                    <button
+                      onPointerDown={(e) => {
+                        // Medir a partir do invólucro, não do botão: o botão está
+                        // encolhido lá dentro e a posição guardada é a do invólucro.
+                        const alvo = (e.currentTarget as HTMLElement).closest("[data-mesa]");
+                        if (!alvo) return;
+                        const r = alvo.getBoundingClientRect();
+                        arrastando.current = {
+                          id: m.id,
+                          dx: (e.clientX - r.left) / escala,
+                          dy: (e.clientY - r.top) / escala,
+                        };
+                      }}
+                      onClick={() => setSelecionada(activa ? null : m.id)}
+                      className="absolute inset-[14px] flex flex-col items-center justify-center text-center transition-shadow"
+                      style={{
+                        borderRadius: m.forma === "comprida" ? 14 : "50%",
+                        border: `2px solid ${excede ? "#B85C5C" : activa ? "var(--primary)" : "color-mix(in oklab, var(--gold) 55%, transparent)"}`,
+                        background: activa
+                          ? "color-mix(in oklab, var(--primary) 10%, var(--card))"
+                          : "var(--card)",
+                        boxShadow: activa ? "0 8px 24px -12px rgba(0,0,0,.35)" : "none",
+                        cursor: "grab",
+                        touchAction: "none",
+                      }}
                     >
-                      {ocupacao} / {lugares}
-                    </span>
-                    {juntada && <Link2 className="w-3 h-3 mt-1 text-muted-foreground" />}
-                    <span className="text-[0.6rem] text-muted-foreground mt-1 px-2 leading-tight line-clamp-2">
-                      {pessoas
-                        .slice(0, 2)
-                        .map((p) => p.nome.split(" ")[0])
-                        .join(", ")}
-                      {pessoas.length > 2 ? "…" : ""}
-                    </span>
-                  </button>
+                      <span className="text-xs sm:text-sm font-medium leading-tight">{m.nome}</span>
+                      <span className="text-[0.7rem] tabular-nums" style={{ color: cor }}>
+                        {ocupacao} / {lugares}
+                      </span>
+                      {juntada && <Link2 className="w-3 h-3 mt-0.5 text-muted-foreground" />}
+                    </button>
+                  </div>
                 );
               })}
+            </div>
             </div>
           </div>
         )}
 
-        {/* ---- painel lateral ---- */}
-        <div className="space-y-4 md:sticky md:top-4">
+        {/* ---- painel lateral (ecrãs grandes) ---- */}
+        <div className="hidden lg:block space-y-4 lg:sticky lg:top-4">
           {mesaSel ? (
             <DetalheMesa
               mesa={mesaSel}
               mesas={mesas}
               pessoas={naMesa(mesaSel.id)}
               onGuardarMesa={guardarMesa}
+              onAjustarLugares={ajustarLugares}
+              onApagarMesa={apagarMesa}
               onRemover={(id) => guardarConvidado(id, null)}
               onFechar={() => setSelecionada(null)}
             />
           ) : (
             <p className="rounded-xl border bg-card p-4 text-sm text-muted-foreground">
-              Clica numa mesa para a editares.
+              Toca numa mesa para a editares.
             </p>
           )}
-
-          <div className="rounded-xl border bg-card p-4">
-            <h3 className="font-medium mb-3">Por sentar ({porSentar.length})</h3>
-            <div className="relative mb-2">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                className="pl-9"
-                placeholder="Nome ou grupo…"
-                value={busca}
-                onChange={(e) => setBusca(e.target.value)}
-              />
-            </div>
-            <label className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
-              <input
-                type="checkbox"
-                checked={soConfirmados}
-                onChange={(e) => setSoConfirmados(e.target.checked)}
-              />
-              Só quem confirmou
-            </label>
-            <ul className="max-h-72 overflow-auto divide-y">
-              {porSentar.map((c) => (
-                <li key={c.id} className="py-2">
-                  <NomeArrastavel
-                    onLargarEm={(destino, sobre) => destino && moverPara(c.id, destino, sobre)}
-                  >
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm truncate">{c.nome}</p>
-                      <p className="text-[0.7rem] text-muted-foreground truncate">
-                        {c.grupo}
-                        {porConfirmar(c) ? " · por confirmar" : ""}
-                      </p>
-                    </div>
-                    {mesaSel && (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => guardarConvidado(c.id, mesaSel.id)}
-                      >
-                        <Plus className="w-3 h-3" />
-                      </Button>
-                    )}
-                  </NomeArrastavel>
-                </li>
-              ))}
-              {porSentar.length === 0 && (
-                <li className="py-3 text-sm text-muted-foreground">Ninguém por sentar.</li>
-              )}
-            </ul>
-          </div>
+          {painelPorSentar}
         </div>
       </div>
+
+      {/* ---- telemóvel e iPad em vertical: barra fixa + folha ---- */}
+      {mesaSel && (
+        <>
+          <div className="h-20 lg:hidden" aria-hidden />
+          <div className="lg:hidden fixed inset-x-0 bottom-0 z-40 border-t bg-card px-4 py-3 flex items-center gap-3">
+            <div className="min-w-0 flex-1">
+              <p className="font-medium truncate">{mesaSel.nome}</p>
+              <p className="text-xs text-muted-foreground tabular-nums">
+                {ocupacaoDoGrupo(mesaSel, mesas, convidados)} de{" "}
+                {lugaresDoGrupo(mesaSel, mesas)} lugares
+              </p>
+            </div>
+            <Button size="sm" variant="outline" onClick={() => setSelecionada(null)}>
+              <X className="w-4 h-4" />
+            </Button>
+            <Button size="sm" onClick={() => setFolhaAberta(true)}>
+              <UserPlus className="w-4 h-4 mr-2" /> Sentar
+            </Button>
+          </div>
+        </>
+      )}
+
+      {folhaAberta && mesaSel && (
+        <Folha titulo={mesaSel.nome} onFechar={() => setFolhaAberta(false)}>
+          <DetalheMesa
+            mesa={mesaSel}
+            mesas={mesas}
+            pessoas={naMesa(mesaSel.id)}
+            onGuardarMesa={guardarMesa}
+            onAjustarLugares={ajustarLugares}
+            onApagarMesa={(m) => {
+              setFolhaAberta(false);
+              apagarMesa(m);
+            }}
+            onRemover={(id) => guardarConvidado(id, null)}
+          />
+          {painelPorSentar}
+        </Folha>
+      )}
+    </div>
+  );
+}
+
+/** Pontos à volta da mesa: um por lugar, cheios os que estão ocupados. */
+function Lugares({
+  raio,
+  lugares,
+  ocupacao,
+  cor,
+}: {
+  raio: number;
+  lugares: number;
+  ocupacao: number;
+  cor: string;
+}) {
+  if (lugares <= 0) return null;
+  const distancia = raio - 6;
+  const tamanho = raio < 60 ? 7 : 9;
+  return (
+    <>
+      {Array.from({ length: lugares }).map((_, i) => {
+        const angulo = (i / lugares) * 2 * Math.PI - Math.PI / 2;
+        const ocupado = i < ocupacao;
+        return (
+          <span
+            key={i}
+            aria-hidden
+            className="absolute pointer-events-none"
+            style={{
+              left: raio + distancia * Math.cos(angulo) - tamanho / 2,
+              top: raio + distancia * Math.sin(angulo) - tamanho / 2,
+              width: tamanho,
+              height: tamanho,
+              borderRadius: "50%",
+              background: ocupado ? cor : "var(--card)",
+              border: `1px solid ${ocupado ? cor : "color-mix(in oklab, var(--gold) 45%, transparent)"}`,
+            }}
+          />
+        );
+      })}
+    </>
+  );
+}
+
+function BarraOcupacao({ ocupacao, lugares }: { ocupacao: number; lugares: number }) {
+  const fracao = lugares > 0 ? Math.min(1, ocupacao / lugares) : 0;
+  return (
+    <div
+      className="h-1 rounded-full mt-2 overflow-hidden"
+      style={{ background: "color-mix(in oklab, var(--gold) 18%, transparent)" }}
+    >
+      <div
+        className="h-full rounded-full transition-[width]"
+        style={{ width: `${fracao * 100}%`, background: corDaOcupacao(ocupacao, lugares) }}
+      />
+    </div>
+  );
+}
+
+/** Painel que sobe de baixo no telemóvel. */
+function Folha({
+  titulo,
+  children,
+  onFechar,
+}: {
+  titulo: string;
+  children: React.ReactNode;
+  onFechar: () => void;
+}) {
+  useEffect(() => {
+    const aoTeclar = (e: KeyboardEvent) => e.key === "Escape" && onFechar();
+    document.addEventListener("keydown", aoTeclar);
+    return () => document.removeEventListener("keydown", aoTeclar);
+  }, [onFechar]);
+
+  return (
+    <div className="lg:hidden fixed inset-0 z-50 flex flex-col justify-end">
+      <button
+        className="absolute inset-0 bg-black/40"
+        onClick={onFechar}
+        aria-label="Fechar"
+        tabIndex={-1}
+      />
+      <div className="relative bg-background rounded-t-2xl max-h-[88vh] flex flex-col">
+        <div className="flex items-center justify-between px-4 py-3 border-b shrink-0">
+          <h3 className="font-medium truncate">{titulo}</h3>
+          <Button size="sm" onClick={onFechar}>
+            <Check className="w-4 h-4 mr-2" /> Concluído
+          </Button>
+        </div>
+        <div className="overflow-auto p-4 space-y-4">{children}</div>
+      </div>
+    </div>
+  );
+}
+
+function ListaPorSentar({
+  pessoas,
+  busca,
+  setBusca,
+  soConfirmados,
+  setSoConfirmados,
+  mesaSel,
+  onSentar,
+  onLargar,
+}: {
+  pessoas: Convidado[];
+  busca: string;
+  setBusca: (v: string) => void;
+  soConfirmados: boolean;
+  setSoConfirmados: (v: boolean) => void;
+  mesaSel: Mesa | null;
+  onSentar: (id: string) => void;
+  onLargar: (id: string, destino: string | null, sobre: string | null) => void;
+}) {
+  return (
+    <div className="rounded-xl border bg-card p-4">
+      <h3 className="font-medium mb-3">Por sentar ({pessoas.length})</h3>
+      <div className="relative mb-2">
+        <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+        <Input
+          className="pl-9"
+          placeholder="Nome ou grupo…"
+          value={busca}
+          onChange={(e) => setBusca(e.target.value)}
+        />
+      </div>
+      <label className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
+        <input
+          type="checkbox"
+          checked={soConfirmados}
+          onChange={(e) => setSoConfirmados(e.target.checked)}
+        />
+        Só quem confirmou
+      </label>
+      <ul className="max-h-72 overflow-auto divide-y">
+        {pessoas.map((c) => (
+          <li key={c.id}>
+            <NomeArrastavel
+              className="py-2"
+              onLargarEm={(destino, sobre) => destino && onLargar(c.id, destino, sobre)}
+            >
+              {/* A linha toda serve de alvo: no telemóvel um ícone pequeno é
+                  difícil de acertar. */}
+              <button
+                className="min-w-0 flex-1 text-left disabled:cursor-default"
+                onClick={() => mesaSel && onSentar(c.id)}
+                disabled={!mesaSel}
+                title={mesaSel ? `Sentar na ${mesaSel.nome}` : "Escolhe primeiro uma mesa"}
+              >
+                <span className="block text-sm truncate">{c.nome}</span>
+                <span className="block text-[0.7rem] text-muted-foreground truncate">
+                  {c.grupo}
+                  {porConfirmar(c) ? " · por confirmar" : ""}
+                </span>
+              </button>
+              {mesaSel && (
+                <span
+                  aria-hidden
+                  className="shrink-0 grid place-items-center rounded-md border w-8 h-8"
+                >
+                  <Plus className="w-4 h-4" />
+                </span>
+              )}
+            </NomeArrastavel>
+          </li>
+        ))}
+        {pessoas.length === 0 && (
+          <li className="py-3 text-sm text-muted-foreground">Ninguém por sentar.</li>
+        )}
+      </ul>
     </div>
   );
 }
@@ -480,6 +794,8 @@ function DetalheMesa({
   mesas,
   pessoas,
   onGuardarMesa,
+  onAjustarLugares,
+  onApagarMesa,
   onRemover,
   onFechar,
 }: {
@@ -487,22 +803,66 @@ function DetalheMesa({
   mesas: Mesa[];
   pessoas: Convidado[];
   onGuardarMesa: (id: string, campos: Partial<Mesa>) => void;
+  onAjustarLugares: (id: string, delta: number) => void;
+  onApagarMesa: (mesa: Mesa) => void;
   onRemover: (id: string) => void;
-  onFechar: () => void;
+  onFechar?: () => void;
 }) {
   const parceira = mesas.find((m) => m.id === mesa.juntada_com || m.juntada_com === mesa.id);
+  const [nome, setNome] = useState(mesa.nome);
+
+  // Trocar de mesa seleccionada tem de repor o campo do nome.
+  useEffect(() => setNome(mesa.nome), [mesa.id, mesa.nome]);
+
+  function guardarNome() {
+    const limpo = nome.trim();
+    if (!limpo || limpo === mesa.nome) {
+      setNome(mesa.nome);
+      return;
+    }
+    onGuardarMesa(mesa.id, { nome: limpo });
+  }
+
   return (
     <div className="rounded-xl border bg-card p-4">
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="font-medium">{mesa.nome}</h3>
-        <Button size="sm" variant="ghost" onClick={onFechar}>
-          <X className="w-4 h-4" />
-        </Button>
+      <div className="flex items-center gap-2 mb-3">
+        <Input
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+          onBlur={guardarNome}
+          onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
+          className="font-medium"
+          aria-label="Nome da mesa"
+        />
+        {onFechar && (
+          <Button size="sm" variant="ghost" onClick={onFechar} aria-label="Fechar">
+            <X className="w-4 h-4" />
+          </Button>
+        )}
       </div>
 
-      <div className="flex items-center gap-2 mb-3">
-        <label className="text-xs text-muted-foreground">Lugares</label>
-        {[10, 12, 18].map((n) => (
+      <div className="flex items-center gap-2 mb-3 flex-wrap">
+        <label className="text-xs text-muted-foreground w-full sm:w-auto">Lugares</label>
+        <div className="flex items-center gap-1">
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => onAjustarLugares(mesa.id, -1)}
+            aria-label="Menos um lugar"
+          >
+            <Minus className="w-4 h-4" />
+          </Button>
+          <span className="w-10 text-center tabular-nums font-medium">{mesa.lugares}</span>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => onAjustarLugares(mesa.id, 1)}
+            aria-label="Mais um lugar"
+          >
+            <Plus className="w-4 h-4" />
+          </Button>
+        </div>
+        {[10, 12].map((n) => (
           <Button
             key={n}
             size="sm"
@@ -510,6 +870,19 @@ function DetalheMesa({
             onClick={() => onGuardarMesa(mesa.id, { lugares: n })}
           >
             {n}
+          </Button>
+        ))}
+      </div>
+
+      <div className="flex gap-2 mb-3">
+        {["redonda", "comprida"].map((f) => (
+          <Button
+            key={f}
+            size="sm"
+            variant={mesa.forma === f ? "default" : "outline"}
+            onClick={() => onGuardarMesa(mesa.id, { forma: f })}
+          >
+            {f === "redonda" ? "Redonda" : "Comprida"}
           </Button>
         ))}
       </div>
@@ -557,8 +930,13 @@ function DetalheMesa({
                 {p.quarto ? ` · quarto ${p.quarto}` : ""}
               </p>
             </div>
-            <Button size="sm" variant="ghost" onClick={() => onRemover(p.id)}>
-              <X className="w-3 h-3" />
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => onRemover(p.id)}
+              aria-label={`Tirar ${p.nome} da mesa`}
+            >
+              <X className="w-4 h-4" />
             </Button>
           </li>
         ))}
@@ -566,6 +944,16 @@ function DetalheMesa({
           <li className="py-3 text-sm text-muted-foreground">Mesa vazia.</li>
         )}
       </ul>
+
+      <Button
+        size="sm"
+        variant="outline"
+        className="w-full mt-3"
+        style={{ color: "#B85C5C" }}
+        onClick={() => onApagarMesa(mesa)}
+      >
+        <Trash2 className="w-4 h-4 mr-2" /> Apagar esta mesa
+      </Button>
     </div>
   );
 }
@@ -573,8 +961,11 @@ function DetalheMesa({
 function Resumo({ rotulo, valor, alerta }: { rotulo: string; valor: number; alerta?: boolean }) {
   return (
     <div className="rounded-xl border bg-card p-3">
-      <p className="text-[0.7rem] text-muted-foreground">{rotulo}</p>
-      <p className="text-2xl font-medium mt-0.5" style={alerta ? { color: "#B85C5C" } : undefined}>
+      <p className="text-[0.7rem] text-muted-foreground leading-tight">{rotulo}</p>
+      <p
+        className="text-xl md:text-2xl font-medium mt-0.5 tabular-nums"
+        style={alerta ? { color: "#B85C5C" } : undefined}
+      >
         {valor}
       </p>
     </div>

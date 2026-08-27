@@ -1523,6 +1523,22 @@ body.has-announcement .hero-section {
   }
 }
 
+/* Acções que só aparecem ao passar o rato. Em ecrãs de toque não há rato,
+   por isso ficam sempre visíveis — senão são impossíveis de usar no iPad. */
+.acao-da-linha {
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.group:hover .acao-da-linha,
+.acao-da-linha:focus-visible {
+  opacity: 1;
+}
+@media (pointer: coarse) {
+  .acao-da-linha {
+    opacity: 1;
+  }
+}
+
 /* Enquanto se arrasta um nome, a página não rola nem selecciona texto */
 body.a-arrastar {
   overflow: hidden;
