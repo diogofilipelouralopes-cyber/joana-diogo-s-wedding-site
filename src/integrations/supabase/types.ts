@@ -10,34 +10,10 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.17"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
-      tarefas: {
-        Row: { comentario: string | null; created_at: string; feita: boolean; grupo: string | null; id: string; ordem: number | null; texto: string; updated_at: string }
-        Insert: { comentario?: string | null; created_at?: string; feita?: boolean; grupo?: string | null; id?: string; ordem?: number | null; texto: string; updated_at?: string }
-        Update: { comentario?: string | null; created_at?: string; feita?: boolean; grupo?: string | null; id?: string; ordem?: number | null; texto?: string; updated_at?: string }
-        Relationships: []
-      }
-      alojamentos: {
-        Row: { capacidade: number | null; created_at: string; genero: string; id: string; nome: string; notas: string | null; ordem: number | null; sabado: string[]; sexta: string[]; tipo: string | null }
-        Insert: { capacidade?: number | null; created_at?: string; genero?: string; id?: string; nome: string; notas?: string | null; ordem?: number | null; sabado?: string[]; sexta?: string[]; tipo?: string | null }
-        Update: { capacidade?: number | null; created_at?: string; genero?: string; id?: string; nome?: string; notas?: string | null; ordem?: number | null; sabado?: string[]; sexta?: string[]; tipo?: string | null }
-        Relationships: []
-      }
-      menu: {
-        Row: { categoria: string; created_at: string; descricao: string | null; id: string; notas: string | null; ordem: number | null }
-        Insert: { categoria: string; created_at?: string; descricao?: string | null; id?: string; notas?: string | null; ordem?: number | null }
-        Update: { categoria?: string; created_at?: string; descricao?: string | null; id?: string; notas?: string | null; ordem?: number | null }
-        Relationships: []
-      }
-      fornecedores: {
-        Row: { categoria: string | null; created_at: string; id: string; nome: string; notas: string | null; ordem: number | null; telefone: string | null }
-        Insert: { categoria?: string | null; created_at?: string; id?: string; nome: string; notas?: string | null; ordem?: number | null; telefone?: string | null }
-        Update: { categoria?: string | null; created_at?: string; id?: string; nome?: string; notas?: string | null; ordem?: number | null; telefone?: string | null }
-        Relationships: []
-      }
       admin_emails: {
         Row: {
           created_at: string
@@ -74,6 +50,45 @@ export type Database = {
           first_attempt_at?: string
           ip_hash?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      alojamentos: {
+        Row: {
+          capacidade: number | null
+          created_at: string
+          genero: string
+          id: string
+          nome: string
+          notas: string | null
+          ordem: number | null
+          sabado: string[]
+          sexta: string[]
+          tipo: string | null
+        }
+        Insert: {
+          capacidade?: number | null
+          created_at?: string
+          genero?: string
+          id?: string
+          nome: string
+          notas?: string | null
+          ordem?: number | null
+          sabado?: string[]
+          sexta?: string[]
+          tipo?: string | null
+        }
+        Update: {
+          capacidade?: number | null
+          created_at?: string
+          genero?: string
+          id?: string
+          nome?: string
+          notas?: string | null
+          ordem?: number | null
+          sabado?: string[]
+          sexta?: string[]
+          tipo?: string | null
         }
         Relationships: []
       }
@@ -363,6 +378,36 @@ export type Database = {
         }
         Relationships: []
       }
+      fornecedores: {
+        Row: {
+          categoria: string | null
+          created_at: string
+          id: string
+          nome: string
+          notas: string | null
+          ordem: number | null
+          telefone: string | null
+        }
+        Insert: {
+          categoria?: string | null
+          created_at?: string
+          id?: string
+          nome: string
+          notas?: string | null
+          ordem?: number | null
+          telefone?: string | null
+        }
+        Update: {
+          categoria?: string | null
+          created_at?: string
+          id?: string
+          nome?: string
+          notas?: string | null
+          ordem?: number | null
+          telefone?: string | null
+        }
+        Relationships: []
+      }
       guest_communications: {
         Row: {
           created_at: string
@@ -435,6 +480,33 @@ export type Database = {
         }
         Relationships: []
       }
+      menu: {
+        Row: {
+          categoria: string
+          created_at: string
+          descricao: string | null
+          id: string
+          notas: string | null
+          ordem: number | null
+        }
+        Insert: {
+          categoria: string
+          created_at?: string
+          descricao?: string | null
+          id?: string
+          notas?: string | null
+          ordem?: number | null
+        }
+        Update: {
+          categoria?: string
+          created_at?: string
+          descricao?: string | null
+          id?: string
+          notas?: string | null
+          ordem?: number | null
+        }
+        Relationships: []
+      }
       mesas: {
         Row: {
           created_at: string
@@ -484,8 +556,8 @@ export type Database = {
       }
       prendas: {
         Row: {
-          convidado_id: string | null
           agradecido: boolean
+          convidado_id: string | null
           created_at: string
           data: string | null
           de_quem: string
@@ -496,8 +568,8 @@ export type Database = {
           valor: number
         }
         Insert: {
-          convidado_id?: string | null
           agradecido?: boolean
+          convidado_id?: string | null
           created_at?: string
           data?: string | null
           de_quem: string
@@ -508,8 +580,8 @@ export type Database = {
           valor?: number
         }
         Update: {
-          convidado_id?: string | null
           agradecido?: boolean
+          convidado_id?: string | null
           created_at?: string
           data?: string | null
           de_quem?: string
@@ -519,7 +591,15 @@ export type Database = {
           tipo?: string
           valor?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "prendas_convidado_id_fkey"
+            columns: ["convidado_id"]
+            isOneToOne: false
+            referencedRelation: "convidados"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       rsvps: {
         Row: {
@@ -614,6 +694,39 @@ export type Database = {
           id?: string
           metadata?: Json | null
           reason?: string
+        }
+        Relationships: []
+      }
+      tarefas: {
+        Row: {
+          comentario: string | null
+          created_at: string
+          feita: boolean
+          grupo: string | null
+          id: string
+          ordem: number | null
+          texto: string
+          updated_at: string
+        }
+        Insert: {
+          comentario?: string | null
+          created_at?: string
+          feita?: boolean
+          grupo?: string | null
+          id?: string
+          ordem?: number | null
+          texto: string
+          updated_at?: string
+        }
+        Update: {
+          comentario?: string | null
+          created_at?: string
+          feita?: boolean
+          grupo?: string | null
+          id?: string
+          ordem?: number | null
+          texto?: string
+          updated_at?: string
         }
         Relationships: []
       }
