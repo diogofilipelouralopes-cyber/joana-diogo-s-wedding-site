@@ -1,7 +1,8 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { X, Camera, MessageCircleHeart, Gift, Home, BookHeart, MapPin, HelpCircle, Share2, Bot, Phone } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
+import { useDepoisDoCasamento } from "@/lib/fase-do-site";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { toast } from "sonner";
 import { Monogram } from "@/components/Monogram";
@@ -61,8 +62,23 @@ const mobileGroups: {
   },
 ];
 
+/** Secções que só existem antes do casamento (ver index.tsx). */
+const SO_ANTES = new Set(["event", "faq"]);
+
 export function Header() {
   const { t, lang, setLang } = useI18n();
+  const depois = useDepoisDoCasamento();
+  const visiveis = useMemo(
+    () => links.filter((l) => !depois || !SO_ANTES.has(l.id)),
+    [depois],
+  );
+  const grupos = useMemo(
+    () =>
+      mobileGroups
+        .map((g) => ({ ...g, items: g.items.filter((i) => !depois || !SO_ANTES.has(i.id)) }))
+        .filter((g) => g.items.length > 0),
+    [depois],
+  );
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>("top");
   const [contactsOpen, setContactsOpen] = useState(false);
@@ -89,7 +105,7 @@ export function Header() {
     const onScroll = () => {
       const y = window.scrollY + 120;
       let current = "top";
-      for (const l of links) {
+      for (const l of visiveis) {
         const el = document.getElementById(l.id);
         if (el && el.offsetTop <= y) current = l.id;
       }
@@ -98,7 +114,7 @@ export function Header() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [visiveis]);
 
   // Lock body scroll when mobile drawer is open
   useEffect(() => {
@@ -193,7 +209,7 @@ export function Header() {
 
         {/* CENTER: Nav (desktop only) */}
         <nav className="header-nav-desktop items-center gap-3 lg:gap-5 xl:gap-7">
-          {links.map((l) => (
+          {visiveis.map((l) => (
             <a
               key={l.id}
               href={`#${l.id}`}
@@ -268,7 +284,7 @@ export function Header() {
         </div>
 
         <nav className="drawer-nav">
-          {mobileGroups.map((g) => (
+          {grupos.map((g) => (
             <div key={g.labelPt} className="drawer-group">
               <p className="drawer-group-label">{lang === "en" ? g.labelEn : g.labelPt}</p>
               {g.items.map((l) => (

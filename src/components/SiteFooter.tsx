@@ -1,7 +1,9 @@
 import { useI18n } from "@/lib/i18n";
+import { useDepoisDoCasamento } from "@/lib/fase-do-site";
 
 export function SiteFooter() {
   const { lang } = useI18n();
+  const depois = useDepoisDoCasamento();
   return (
     <footer
       className="text-center px-5 sm:px-6"
@@ -44,9 +46,15 @@ export function SiteFooter() {
             opacity: 0.85,
           }}
         >
-          {lang === "en"
-            ? "Thank you for being part of our day."
-            : "Obrigado por fazerem parte do nosso dia."}
+          {/* Depois do casamento a mesma frase abre a página em grande; aqui
+              em baixo passaria a soar a repetição. */}
+          {depois
+            ? lang === "en"
+              ? "With all our love."
+              : "Com todo o nosso carinho."
+            : lang === "en"
+              ? "Thank you for being part of our day."
+              : "Obrigado por fazerem parte do nosso dia."}
         </p>
       </div>
     </footer>

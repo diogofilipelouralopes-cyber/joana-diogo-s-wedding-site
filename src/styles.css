@@ -1539,6 +1539,15 @@ body.has-announcement .hero-section {
   }
 }
 
+/* Enfeite que acompanha o rato e que no toque não deve ficar preso a aparecer. */
+.acao-so-com-rato {
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.group:hover .acao-so-com-rato {
+  opacity: 1;
+}
+
 /* Enquanto se arrasta um nome, a página não rola nem selecciona texto */
 body.a-arrastar {
   overflow: hidden;

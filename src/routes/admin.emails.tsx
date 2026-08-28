@@ -117,7 +117,7 @@ function AdminEmailsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background px-4 py-8 md:px-8">
+    <div className="painel min-h-screen bg-background px-4 py-8 md:px-8">
       <Toaster />
       <div className="mx-auto max-w-6xl">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">

@@ -404,7 +404,7 @@ function AdminGaleriaPage() {
   if (!isAdmin) return null;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="painel min-h-screen bg-background">
       <Toaster position="top-center" />
 
       {/* Header */}
@@ -623,34 +623,44 @@ function AdminGaleriaPage() {
                           </div>
                         )}
 
-                        {/* Hover overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-2">
+                        {/* O escurecido é só enfeite do rato: no toque ficaria
+                            permanente e escurecia todas as fotos. */}
+                        <div
+                          aria-hidden
+                          className="acao-so-com-rato absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/30"
+                        />
+
+                        {/* Os controlos, esses, têm de existir no toque. */}
+                        <div className="acao-da-linha absolute inset-0 flex flex-col justify-between p-2 pointer-events-none [&_button]:pointer-events-auto">
                           <div className="flex justify-end gap-1">
                             <button
                               onClick={() => togglePhotoPreview(p)}
                               title={p.is_preview ? "Remover do preview" : "Usar como preview"}
-                              className="p-1.5 rounded bg-white/90 hover:bg-white text-foreground"
+                              className="grid place-items-center w-10 h-10 rounded bg-white/90 hover:bg-white text-foreground"
                             >
                               {p.is_preview ? (
-                                <Eye className="w-3.5 h-3.5" />
+                                <Eye className="w-4 h-4" />
                               ) : (
-                                <EyeOff className="w-3.5 h-3.5" />
+                                <EyeOff className="w-4 h-4" />
                               )}
                             </button>
                             <button
                               onClick={() => setPhotoToDelete(p)}
                               title="Eliminar"
-                              className="p-1.5 rounded bg-white/90 hover:bg-destructive hover:text-white text-foreground transition-colors"
+                              className="grid place-items-center w-10 h-10 rounded bg-white/90 hover:bg-destructive hover:text-white text-foreground transition-colors"
                             >
-                              <Trash2 className="w-3.5 h-3.5" />
+                              <Trash2 className="w-4 h-4" />
                             </button>
                           </div>
-                          {p.is_preview && (
-                            <span className="self-start text-[10px] uppercase tracking-[0.2em] bg-white/95 text-foreground px-2 py-0.5 rounded">
-                              Preview
-                            </span>
-                          )}
                         </div>
+
+                        {/* Estado, não acção: tem de se ver sem passar o rato,
+                            senão não se sabe quais estão escolhidas. */}
+                        {p.is_preview && (
+                          <span className="absolute left-2 bottom-2 text-[10px] uppercase tracking-[0.2em] bg-white/95 text-foreground px-2 py-0.5 rounded">
+                            Preview
+                          </span>
+                        )}
                       </figure>
                     ))}
                   </div>

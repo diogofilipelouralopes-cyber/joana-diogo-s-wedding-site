@@ -9,6 +9,7 @@ import { GiftsSection } from "@/components/GiftsSection";
 import { MemoriesSection, ALBUM_URL } from "@/components/MemoriesSection";
 import { PublicGallerySection } from "@/components/PublicGallerySection";
 import { FaqSection } from "@/components/FaqSection";
+import { ThankYouSection } from "@/components/ThankYouSection";
 import { MessagesSection } from "@/components/MessagesSection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { LiveAnnouncementBanner } from "@/components/LiveAnnouncementBanner";
@@ -38,6 +39,7 @@ function ChatSobPedido() {
 import { Reveal } from "@/components/Reveal";
 import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider, useI18n } from "@/lib/i18n";
+import { useDepoisDoCasamento, casamentoJaFoi } from "@/lib/fase-do-site";
 import { Camera, MapPin, Clock, Heart, ParkingCircle, ExternalLink } from "lucide-react";
 
 const SITE_URL = "https://joanaediogo.com";
@@ -102,18 +104,23 @@ const EVENT_JSONLD = {
 };
 
 export const Route = createFileRoute("/")({
-  head: () => ({
+  head: () => {
+    // Corre no servidor a cada pedido, por isso a descrição que o Google e o
+    // WhatsApp mostram muda sozinha no dia seguinte ao casamento.
+    const depois = casamentoJaFoi();
+    const descricao = depois
+      ? "Joana & Diogo casaram-se a 19 de setembro de 2026 na Glicínia Wedding House. Obrigado a todos. Vejam e partilhem as fotografias do nosso dia."
+      : "Joana & Diogo casam-se a 19 de setembro de 2026 na Glicínia Wedding House. Confirma a tua presença, vê fotos e deixa uma mensagem.";
+    return {
     meta: [
       { title: "Joana & Diogo · Casamento 19.09.2026" },
-      {
-        name: "description",
-        content:
-          "Joana & Diogo casam-se a 19 de setembro de 2026 na Glicínia Wedding House. Confirma a tua presença, vê fotos e deixa uma mensagem.",
-      },
+      { name: "description", content: descricao },
       { property: "og:title", content: "Joana & Diogo · Casamento 19.09.2026" },
       {
         property: "og:description",
-        content: "Junta-te a nós na Glicínia Wedding House para celebrar o nosso dia.",
+        content: depois
+          ? "Obrigado por fazerem parte do nosso dia."
+          : "Junta-te a nós na Glicínia Wedding House para celebrar o nosso dia.",
       },
       { property: "og:url", content: SITE_URL + "/" },
       { property: "og:type", content: "website" },
@@ -143,9 +150,14 @@ export const Route = createFileRoute("/")({
     ],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(EVENT_JSONLD) },
-      { type: "application/ld+json", children: JSON.stringify(FAQ_JSONLD) },
+      // O FAQ deixa de estar na página depois do casamento; anunciá-lo ao
+      // Google seria prometer conteúdo que já lá não está.
+      ...(depois
+        ? []
+        : [{ type: "application/ld+json", children: JSON.stringify(FAQ_JSONLD) }]),
     ],
-  }),
+    };
+  },
   component: () => (
     <I18nProvider>
       <Index />
@@ -169,6 +181,8 @@ const HORARIO: [string, string][] = [
 
 function Index() {
   const { t, lang } = useI18n();
+  // A partir da meia-noite do dia 20 o site deixa de convidar e passa a agradecer.
+  const depois = useDepoisDoCasamento();
 
   // Always start at the top on load/reload
   useEffect(() => {
@@ -257,15 +271,19 @@ function Index() {
 
               {/* Empilhados no telemóvel ficam com a mesma largura; lado a lado no desktop. */}
               <div className="grid w-full max-w-xs mx-auto gap-2 sm:flex sm:w-auto sm:max-w-none sm:items-center sm:justify-center sm:gap-3">
-                <a
-                  href="https://www.google.com/maps/search/?api=1&query=Glic%C3%ADnia+Wedding+House+Freamunde"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-secondary hero-text-anim-3"
-                >
-                  <MapPin size={16} strokeWidth={1.5} />
-                  <span>{lang === "en" ? "How to get there" : "Como chegar"}</span>
-                </a>
+                {/* Indicações para a quinta: depois do casamento não há lá
+                    nada para onde ir. */}
+                {!depois && (
+                  <a
+                    href="https://www.google.com/maps/search/?api=1&query=Glic%C3%ADnia+Wedding+House+Freamunde"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-secondary hero-text-anim-3"
+                  >
+                    <MapPin size={16} strokeWidth={1.5} />
+                    <span>{lang === "en" ? "How to get there" : "Como chegar"}</span>
+                  </a>
+                )}
 
                 <a
                   href={ALBUM_URL}
@@ -280,9 +298,15 @@ function Index() {
             </div>
           </section>
 
+          {/* O divisor que separa daqui para a História já existe mais abaixo. */}
+          {depois && <ThankYouSection />}
+
+          {/* EVENT — como lá chegar, estacionamento e programa: só faz sentido
+              antes. Depois do dia, sai da página. */}
+          {!depois && (
+          <>
           <DecorativeDivider />
 
-          {/* EVENT */}
           <section id="event" className="section section-cream">
             <div className="max-w-5xl mx-auto">
               <div className="text-center mb-5 sm:mb-12">
@@ -490,10 +514,13 @@ function Index() {
 
           <DecorativeDivider />
 
-          {/* FAQ */}
+          {/* FAQ — as perguntas são todas sobre o dia (horas, dress code,
+              estacionamento); depois do casamento não têm quem as faça. */}
           <Reveal>
             <FaqSection />
           </Reveal>
+          </>
+          )}
 
           <DecorativeDivider />
 
@@ -528,9 +555,11 @@ function Index() {
             <GiftsSection />
           </Reveal>
 
-          <DecorativeDivider />
+          {!depois && <DecorativeDivider />}
 
-          {/* RSVP — no fim: todos confirmados, fica para alterações de última hora */}
+          {/* RSVP — no fim: todos confirmados, fica para alterações de última
+              hora. Passado o casamento não há nada para confirmar. */}
+          {!depois && (
           <section id="rsvp" className="section section-ivory">
             <div className="max-w-3xl mx-auto">
               <div className="text-center mb-5 sm:mb-10">
@@ -544,6 +573,7 @@ function Index() {
               <RsvpForm />
             </div>
           </section>
+          )}
         </main>
 
         {/* FOOTER */}
