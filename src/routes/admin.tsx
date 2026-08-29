@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Toaster } from "@/components/ui/sonner";
+import { AvisoSemRede } from "@/components/AvisoSemRede";
 import { toast } from "sonner";
 import {
   Download,
@@ -425,6 +426,7 @@ function AdminPage() {
 
   return (
     <div className="painel min-h-screen bg-background">
+      <AvisoSemRede />
       <Toaster position="top-center" />
       <header className="border-b border-border bg-card">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-3 justify-between">

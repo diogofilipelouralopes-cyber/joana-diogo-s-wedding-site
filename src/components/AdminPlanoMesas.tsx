@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,6 +18,7 @@ import {
   Trash2,
   Check,
   UserPlus,
+  Save,
 } from "lucide-react";
 import { NomeArrastavel } from "@/components/NomeArrastavel";
 import {
@@ -32,6 +33,9 @@ import {
   type Convidado,
   type Mesa,
 } from "@/lib/mesas";
+
+/** Uma escrita que não passou e que se pode repetir. */
+type Falha = { tabela: "convidados" | "mesas"; id: string; campos: Record<string, unknown> };
 
 /** Raio de referência para posicionar mesas novas no mapa. */
 const RAIO_BASE = 74;
@@ -78,6 +82,47 @@ export function AdminPlanoMesas({
   const [escala, setEscala] = useState(1);
   const raio = useRaio();
   const soLocal = Boolean(mesasParaTeste || convidadosParaTeste);
+  // Aqui grava-se logo, sem botão Guardar: arrastar um nome e depois ter de
+  // confirmar seria estranho. Mas o que falhar não pode ficar só num toast que
+  // passa — fica registado e a barra do fundo insiste até se resolver.
+  const [falhas, setFalhas] = useState<Falha[]>([]);
+  const [aRepetir, setARepetir] = useState(false);
+
+  /** Escreve e, se falhar, guarda a operação para se poder repetir. */
+  const escrever = useCallback(
+    async (ops: Falha[]) => {
+      if (soLocal) return;
+      const falhou: Falha[] = [];
+      for (const op of ops) {
+        const { error } = await supabase
+          .from(op.tabela)
+          .update(op.campos as never)
+          .eq("id", op.id);
+        if (error) falhou.push(op);
+      }
+      if (falhou.length) {
+        // Sem Map: neste ficheiro `Map` é o ícone do lucide, não o do JavaScript.
+        setFalhas((prev) => {
+          const juntas: Record<string, Falha> = {};
+          [...prev, ...falhou].forEach((f) => {
+            const k = `${f.tabela}:${f.id}`;
+            juntas[k] = { ...f, campos: { ...(juntas[k]?.campos ?? {}), ...f.campos } };
+          });
+          return Object.values(juntas);
+        });
+      }
+    },
+    [soLocal],
+  );
+
+  const repetirFalhas = useCallback(async () => {
+    if (falhas.length === 0) return;
+    setARepetir(true);
+    const paraTentar = falhas;
+    setFalhas([]);
+    await escrever(paraTentar);
+    setARepetir(false);
+  }, [falhas, escrever]);
 
   useEffect(() => {
     if (mesasParaTeste) return;
@@ -108,6 +153,14 @@ export function AdminPlanoMesas({
     return () => ro.disconnect();
   }, [vista, largura]);
 
+  // Quando a rede volta, repetir o que falhou sem esperar por um toque.
+  useEffect(() => {
+    if (falhas.length === 0) return;
+    const aoVoltarARede = () => void repetirFalhas();
+    window.addEventListener("online", aoVoltarARede);
+    return () => window.removeEventListener("online", aoVoltarARede);
+  }, [falhas.length, repetirFalhas]);
+
   const stats = useMemo(() => contagens(convidados), [convidados]);
   const avisos = useMemo(() => calcAvisos(mesas, convidados), [mesas, convidados]);
   const mesaSel = mesas.find((m) => m.id === selecionada) ?? null;
@@ -135,9 +188,7 @@ export function AdminPlanoMesas({
       ? Math.max(0, ...convidados.filter((c) => c.mesa_id === mesa_id).map((c) => c.lugar ?? 0)) + 1
       : null;
     setConvidados((prev) => prev.map((c) => (c.id === id ? { ...c, mesa_id, lugar } : c)));
-    if (soLocal) return;
-    const { error } = await supabase.from("convidados").update({ mesa_id, lugar }).eq("id", id);
-    if (error) toast.error("Não foi possível guardar.");
+    await escrever([{ tabela: "convidados", id, campos: { mesa_id, lugar } }]);
   }
 
   /**
@@ -164,9 +215,12 @@ export function AdminPlanoMesas({
       nova.splice(para, 0, ...nova.splice(de, 1));
       const comLugar = nova.map((c, i) => ({ ...c, lugar: i + 1 }));
       setConvidados((prev) => prev.map((c) => comLugar.find((x) => x.id === c.id) ?? c));
-      if (soLocal) return;
-      await Promise.all(
-        comLugar.map((c) => supabase.from("convidados").update({ lugar: c.lugar }).eq("id", c.id)),
+      await escrever(
+        comLugar.map((c) => ({
+          tabela: "convidados" as const,
+          id: c.id,
+          campos: { lugar: c.lugar },
+        })),
       );
       return;
     }
@@ -189,27 +243,19 @@ export function AdminPlanoMesas({
     setConvidados((prev) =>
       prev.map((c) => (naoVai(c) && c.mesa_id ? { ...c, mesa_id: null, lugar: null } : c)),
     );
-    if (soLocal) return;
-    const { error } = await supabase
-      .from("convidados")
-      .update({ mesa_id: null, lugar: null })
-      .in(
-        "id",
-        alvos.map((c) => c.id),
-      );
-    if (error) toast.error("Não foi possível tirar das mesas.");
-    else
-      toast.success(
-        `${alvos.length} ${alvos.length === 1 ? "pessoa retirada" : "pessoas retiradas"} das mesas.`,
-      );
+    await escrever(
+      alvos.map((c) => ({
+        tabela: "convidados" as const,
+        id: c.id,
+        campos: { mesa_id: null, lugar: null },
+      })),
+    );
   }
 
   async function guardarMesa(id: string, campos: Partial<Mesa>) {
     if (campos.lugares !== undefined) lugaresPendentes.current[id] = campos.lugares;
     setMesas((prev) => prev.map((m) => (m.id === id ? { ...m, ...campos } : m)));
-    if (soLocal) return;
-    const { error } = await supabase.from("mesas").update(campos).eq("id", id);
-    if (error) toast.error("Não foi possível guardar a mesa.");
+    await escrever([{ tabela: "mesas", id, campos }]);
   }
 
   /**
@@ -226,9 +272,8 @@ export function AdminPlanoMesas({
 
     if (soLocal) return;
     window.clearTimeout(gravarLugares.current[id]);
-    gravarLugares.current[id] = window.setTimeout(async () => {
-      const { error } = await supabase.from("mesas").update({ lugares: valor }).eq("id", id);
-      if (error) toast.error("Não foi possível guardar a mesa.");
+    gravarLugares.current[id] = window.setTimeout(() => {
+      void escrever([{ tabela: "mesas", id, campos: { lugares: valor } }]);
     }, 500);
   }
 
@@ -574,24 +619,62 @@ export function AdminPlanoMesas({
         </div>
       </div>
 
-      {/* ---- telemóvel e iPad em vertical: barra fixa + folha ---- */}
-      {mesaSel && (
+      {/* As duas barras do fundo empilham num só contentor: fixas as duas em
+          bottom-0, a de cima tapava a de baixo. */}
+      {(mesaSel || falhas.length > 0) && (
         <>
-          <div className="h-20 lg:hidden" aria-hidden />
-          <div className="lg:hidden fixed inset-x-0 bottom-0 z-40 border-t bg-card px-4 py-3 flex items-center gap-3">
-            <div className="min-w-0 flex-1">
-              <p className="font-medium truncate">{mesaSel.nome}</p>
-              <p className="text-xs text-muted-foreground tabular-nums">
-                {ocupacaoDoGrupo(mesaSel, mesas, convidados)} de{" "}
-                {lugaresDoGrupo(mesaSel, mesas)} lugares
-              </p>
-            </div>
-            <Button size="sm" variant="outline" onClick={() => setSelecionada(null)}>
-              <X className="w-4 h-4" />
-            </Button>
-            <Button size="sm" onClick={() => setFolhaAberta(true)}>
-              <UserPlus className="w-4 h-4 mr-2" /> Sentar
-            </Button>
+          <div aria-hidden style={{ height: (mesaSel ? 76 : 0) + (falhas.length ? 64 : 0) }} />
+          <div
+            className="fixed inset-x-0 bottom-0 z-50 flex flex-col"
+            style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+          >
+            {/* O que não gravou fica à vista até se resolver, em vez de passar
+                num toast que se perde enquanto se fala com outra pessoa. */}
+            {falhas.length > 0 && (
+              <div
+                className="border-t px-4 py-3 flex items-center gap-3 justify-center sm:justify-end sm:px-8"
+                style={{
+                  background: "var(--card)",
+                  borderColor: "color-mix(in oklab, #B85C5C 45%, transparent)",
+                  boxShadow: "0 -8px 24px -16px rgba(0,0,0,.35)",
+                }}
+                role="status"
+                aria-live="polite"
+              >
+                <p className="flex items-center gap-2 text-sm" style={{ color: "#B85C5C" }}>
+                  <AlertTriangle className="w-4 h-4 shrink-0" />
+                  {falhas.length === 1
+                    ? "1 alteração não ficou guardada."
+                    : `${falhas.length} alterações não ficaram guardadas.`}
+                </p>
+                <Button size="sm" onClick={repetirFalhas} disabled={aRepetir}>
+                  {aRepetir ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <Save className="w-4 h-4 mr-2" />
+                  )}
+                  Tentar de novo
+                </Button>
+              </div>
+            )}
+
+            {mesaSel && (
+              <div className="lg:hidden border-t bg-card px-4 py-3 flex items-center gap-3">
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium truncate">{mesaSel.nome}</p>
+                  <p className="text-xs text-muted-foreground tabular-nums">
+                    {ocupacaoDoGrupo(mesaSel, mesas, convidados)} de{" "}
+                    {lugaresDoGrupo(mesaSel, mesas)} lugares
+                  </p>
+                </div>
+                <Button size="sm" variant="outline" onClick={() => setSelecionada(null)}>
+                  <X className="w-4 h-4" />
+                </Button>
+                <Button size="sm" onClick={() => setFolhaAberta(true)}>
+                  <UserPlus className="w-4 h-4 mr-2" /> Sentar
+                </Button>
+              </div>
+            )}
           </div>
         </>
       )}

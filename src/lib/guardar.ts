@@ -12,17 +12,66 @@ import { supabase } from "@/integrations/supabase/client";
 
 export type Estado = "limpo" | "pendente" | "a-guardar" | "guardado" | "erro";
 
-type Pendentes = Map<string, { tabela: string; id: string; campos: Record<string, unknown> }>;
+type Pendente = { tabela: string; id: string; campos: Record<string, unknown> };
+type Pendentes = Map<string, Pendente>;
+
+/**
+ * A fila também fica no armazenamento do browser.
+ *
+ * O Safari do iPad descarta páginas em segundo plano com facilidade: bastava
+ * mudar de aplicação um bocado para as alterações por guardar, que só viviam
+ * em memória, desaparecerem sem deixar rasto. Assim sobrevivem a fechar o
+ * Safari e a reiniciar o iPad.
+ */
+const CHAVE = "painel-por-guardar";
+/** Passado um dia, é mais provável estar velho do que ser útil. */
+const VALIDADE = 24 * 60 * 60 * 1000;
+
+function ler(): Pendentes {
+  if (typeof window === "undefined") return new Map();
+  try {
+    const cru = window.localStorage.getItem(CHAVE);
+    if (!cru) return new Map();
+    const { ts, itens } = JSON.parse(cru) as { ts: number; itens: [string, Pendente][] };
+    if (!Array.isArray(itens) || Date.now() - ts > VALIDADE) {
+      window.localStorage.removeItem(CHAVE);
+      return new Map();
+    }
+    return new Map(itens);
+  } catch {
+    return new Map();
+  }
+}
+
+function escrever(p: Pendentes) {
+  if (typeof window === "undefined") return;
+  try {
+    if (p.size === 0) window.localStorage.removeItem(CHAVE);
+    else window.localStorage.setItem(CHAVE, JSON.stringify({ ts: Date.now(), itens: [...p] }));
+  } catch {
+    // Sem espaço ou em navegação privada: a fila em memória continua a valer.
+  }
+}
 
 export function useGuardar(aoGuardar?: () => void) {
   const [estado, setEstado] = useState<Estado>("limpo");
   const [quantas, setQuantas] = useState(0);
   const pendentes = useRef<Pendentes>(new Map());
 
+  // Recuperar o que ficou por guardar de uma sessão anterior.
+  useEffect(() => {
+    const guardadas = ler();
+    if (guardadas.size === 0) return;
+    guardadas.forEach((v, k) => pendentes.current.set(k, v));
+    setQuantas(pendentes.current.size);
+    setEstado("pendente");
+  }, []);
+
   const marcar = useCallback((tabela: string, id: string, campos: Record<string, unknown>) => {
     const chave = `${tabela}:${id}`;
     const ja = pendentes.current.get(chave);
     pendentes.current.set(chave, { tabela, id, campos: { ...(ja?.campos ?? {}), ...campos } });
+    escrever(pendentes.current);
     setQuantas(pendentes.current.size);
     setEstado("pendente");
   }, []);
@@ -40,6 +89,7 @@ export function useGuardar(aoGuardar?: () => void) {
       if (error) falhas.push(p.id);
       else pendentes.current.delete(`${p.tabela}:${p.id}`);
     }
+    escrever(pendentes.current);
     setQuantas(pendentes.current.size);
     if (falhas.length) {
       setEstado("erro");
@@ -63,13 +113,19 @@ export function useGuardar(aoGuardar?: () => void) {
         e.returnValue = "";
       }
     };
+    // Quando a rede volta, tentar sozinho — é o que o aviso promete.
+    const aoVoltarARede = () => {
+      if (pendentes.current.size > 0) void guardar();
+    };
     document.addEventListener("visibilitychange", aoEsconder);
     window.addEventListener("pagehide", aoEsconder);
     window.addEventListener("beforeunload", aoSair);
+    window.addEventListener("online", aoVoltarARede);
     return () => {
       document.removeEventListener("visibilitychange", aoEsconder);
       window.removeEventListener("pagehide", aoEsconder);
       window.removeEventListener("beforeunload", aoSair);
+      window.removeEventListener("online", aoVoltarARede);
     };
   }, [guardar]);
 
