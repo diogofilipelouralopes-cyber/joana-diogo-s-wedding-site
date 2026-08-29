@@ -32,6 +32,11 @@ export const Route = createRootRoute({
       { title: "Casamento Joana&Diogo" },
       { name: "description", content: "Bem-vindos ao site do nosso Casamento 😘 Welcome to our wedding website 😘" },
       { name: "author", content: "Joana & Diogo" },
+      // Nome por baixo do ícone quando o site é guardado no ecrã principal.
+      // Sem isto o iOS usa o <title> e corta-o a meio.
+      { name: "apple-mobile-web-app-title", content: "Joana & Diogo" },
+      { name: "application-name", content: "Joana & Diogo" },
+      { name: "theme-color", content: "#F5EFE4" },
       { name: "google-site-verification", content: "g4kD7YZS7_VFe2sZ4vexnJZGI2ORqdJDN4O5oRRybhc" },
 
       { property: "og:title", content: "Casamento Joana&Diogo" },
@@ -49,6 +54,11 @@ export const Route = createRootRoute({
         rel: "stylesheet",
         href: appCss,
       },
+      // Sem apple-touch-icon o iOS não tem ícone nenhum e desenha a inicial
+      // do título num quadrado cinzento.
+      { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
+      { rel: "icon", type: "image/png", sizes: "180x180", href: "/apple-touch-icon.png" },
+      { rel: "manifest", href: "/site.webmanifest" },
     ],
   }),
   shellComponent: RootShell,
