@@ -4,6 +4,8 @@ export interface Mesa {
   id: string;
   nome: string;
   lugares: number;
+  /** Lugares reais do par quando as mesas estão juntas. Nulo = usa a soma. */
+  lugares_juntos: number | null;
   forma: string;
   pos_x: number;
   pos_y: number;
@@ -46,8 +48,19 @@ export function grupoDaMesa(mesa: Mesa, todas: Mesa[]): Mesa[] {
   return parceira ? [mesa, parceira] : [mesa];
 }
 
+/**
+ * Lugares de uma mesa, ou do par quando está junta.
+ *
+ * Encostar duas mesas não soma os lugares: perdem-se os do sítio onde elas se
+ * tocam — duas de 12 dão 18, não 24. Como isso depende das mesas da quinta, o
+ * número do par escreve-se à mão em `lugares_juntos`; a soma fica só como
+ * palpite enquanto ninguém o corrigir.
+ */
 export function lugaresDoGrupo(mesa: Mesa, todas: Mesa[]): number {
-  return grupoDaMesa(mesa, todas).reduce((s, m) => s + m.lugares, 0);
+  const grupo = grupoDaMesa(mesa, todas);
+  if (grupo.length === 1) return mesa.lugares;
+  const escrito = grupo.map((m) => m.lugares_juntos).find((n) => n != null);
+  return escrito ?? grupo.reduce((s, m) => s + m.lugares, 0);
 }
 
 export function ocupacaoDoGrupo(mesa: Mesa, todas: Mesa[], convidados: Convidado[]): number {

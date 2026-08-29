@@ -292,6 +292,33 @@ export function AdminPlanoMesas({
     }, 500);
   }
 
+  /**
+   * Lugares do par de mesas juntas. Escreve-se na mesa em si; a outra do par
+   * herda-o por `lugaresDoGrupo`, para não haver dois números a discordar.
+   */
+  function ajustarJuntos(id: string, delta: number) {
+    const mesa = mesas.find((m) => m.id === id);
+    if (!mesa) return;
+    const atual = lugaresDoGrupo(mesa, mesas);
+    const valor = Math.max(1, atual + delta);
+    const parceira = grupoDaMesa(mesa, mesas).find((x) => x.id !== id);
+    setMesas((prev) =>
+      prev.map((m) =>
+        m.id === id
+          ? { ...m, lugares_juntos: valor }
+          : parceira && m.id === parceira.id
+            ? { ...m, lugares_juntos: null }
+            : m,
+      ),
+    );
+    void escrever([
+      { tabela: "mesas", id, campos: { lugares_juntos: valor } },
+      ...(parceira
+        ? [{ tabela: "mesas" as const, id: parceira.id, campos: { lugares_juntos: null } }]
+        : []),
+    ]);
+  }
+
   /** Mesa nova: número a seguir ao maior que existe, colocada em grelha no mapa. */
   async function criarMesa() {
     const usados = mesas.map((m) => Number(m.nome.match(/\d+/)?.[0] ?? 0));
@@ -307,7 +334,13 @@ export function AdminPlanoMesas({
     };
 
     if (soLocal) {
-      const local: Mesa = { ...nova, id: `local-${numero}`, juntada_com: null, notas: null };
+      const local: Mesa = {
+        ...nova,
+        id: `local-${numero}`,
+        juntada_com: null,
+        lugares_juntos: null,
+        notas: null,
+      };
       setMesas((prev) => [...prev, local]);
       setSelecionada(local.id);
       return;
@@ -639,6 +672,7 @@ export function AdminPlanoMesas({
               pessoas={naMesa(mesaSel.id)}
               onGuardarMesa={guardarMesa}
               onAjustarLugares={ajustarLugares}
+              onAjustarJuntos={ajustarJuntos}
               onApagarMesa={apagarMesa}
               onRemover={(id) => guardarConvidado(id, null)}
               onFechar={() => setSelecionada(null)}
@@ -775,6 +809,7 @@ export function AdminPlanoMesas({
             pessoas={naMesa(mesaSel.id)}
             onGuardarMesa={guardarMesa}
             onAjustarLugares={ajustarLugares}
+            onAjustarJuntos={ajustarJuntos}
             onApagarMesa={(m) => {
               setFolhaAberta(false);
               apagarMesa(m);
@@ -974,6 +1009,7 @@ function DetalheMesa({
   pessoas,
   onGuardarMesa,
   onAjustarLugares,
+  onAjustarJuntos,
   onApagarMesa,
   onRemover,
   onFechar,
@@ -983,6 +1019,7 @@ function DetalheMesa({
   pessoas: Convidado[];
   onGuardarMesa: (id: string, campos: Partial<Mesa>) => void;
   onAjustarLugares: (id: string, delta: number) => void;
+  onAjustarJuntos: (id: string, delta: number) => void;
   onApagarMesa: (mesa: Mesa) => void;
   onRemover: (id: string) => void;
   onFechar?: () => void;
@@ -1065,6 +1102,38 @@ function DetalheMesa({
           </Button>
         ))}
       </div>
+
+      {parceira && (
+        <div className="mb-3">
+          <label className="text-xs text-muted-foreground block mb-1">
+            Lugares com as duas juntas
+          </label>
+          <div className="flex items-center gap-1">
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => onAjustarJuntos(mesa.id, -1)}
+              aria-label="Menos um lugar na junção"
+            >
+              <Minus className="w-4 h-4" />
+            </Button>
+            <span className="w-10 text-center tabular-nums font-medium">
+              {lugaresDoGrupo(mesa, mesas)}
+            </span>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => onAjustarJuntos(mesa.id, 1)}
+              aria-label="Mais um lugar na junção"
+            >
+              <Plus className="w-4 h-4" />
+            </Button>
+          </div>
+          <p className="text-[0.7rem] text-muted-foreground mt-1">
+            Encostar duas mesas perde os lugares da junção: duas de 12 dão 18, não 24.
+          </p>
+        </div>
+      )}
 
       <div className="mb-3">
         {parceira ? (

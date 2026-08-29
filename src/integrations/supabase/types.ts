@@ -513,6 +513,7 @@ export type Database = {
           forma: string
           id: string
           juntada_com: string | null
+          lugares_juntos: number | null
           lugares: number
           nome: string
           notas: string | null
@@ -525,6 +526,7 @@ export type Database = {
           forma?: string
           id?: string
           juntada_com?: string | null
+          lugares_juntos?: number | null
           lugares?: number
           nome: string
           notas?: string | null
@@ -537,6 +539,7 @@ export type Database = {
           forma?: string
           id?: string
           juntada_com?: string | null
+          lugares_juntos?: number | null
           lugares?: number
           nome?: string
           notas?: string | null
