@@ -1549,6 +1549,16 @@ body.has-announcement .hero-section {
   opacity: 1;
 }
 
+/* Pega de arrastar: no dedo precisa de área, o ícone sozinho é pequeno. */
+.pega-arrastar {
+  width: 24px;
+}
+@media (pointer: coarse) {
+  .pega-arrastar {
+    width: 40px;
+  }
+}
+
 /* Enquanto se arrasta um nome, a página não rola nem selecciona texto */
 body.a-arrastar {
   overflow: hidden;

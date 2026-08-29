@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { motion } from "motion/react";
+import { motion, useDragControls } from "motion/react";
 import { GripVertical } from "lucide-react";
 
 /**
@@ -7,8 +7,12 @@ import { GripVertical } from "lucide-react";
  *
  * Não usa o arrasto nativo do browser, que não funciona em iOS. Ao largar,
  * procura-se o elemento por baixo do dedo com data-mesa e entrega-se o nome
- * a essa mesa. O `touchAction: none` é o que permite arrastar sem a página
- * rolar por baixo.
+ * a essa mesa.
+ *
+ * O arrasto começa só na pega da esquerda. Antes começava em qualquer ponto
+ * da linha, com touchAction: none na linha inteira — e como quase todo o ecrã
+ * do telemóvel é nomes, tocar para rolar a página arrastava a pessoa. Agora a
+ * linha rola normalmente e só a pega agarra.
  */
 export function NomeArrastavel({
   children,
@@ -20,20 +24,22 @@ export function NomeArrastavel({
   onLargarEm: (mesaId: string | null, sobreConvidadoId: string | null) => void;
   className?: string;
 }) {
-  const arrastou = useRef(false);
   const eu = useRef<HTMLDivElement>(null);
+  const controlo = useDragControls();
 
   return (
     <motion.div
       ref={eu}
       drag
+      dragListener={false}
+      dragControls={controlo}
       dragSnapToOrigin
       dragElastic={0.2}
       dragMomentum={false}
       whileDrag={{ scale: 1.04, zIndex: 50, cursor: "grabbing" }}
-      style={{ touchAction: "none" }}
+      // pan-y: a página continua a rolar por cima desta linha.
+      style={{ touchAction: "pan-y" }}
       onDragStart={() => {
-        arrastou.current = true;
         document.body.classList.add("a-arrastar");
       }}
       onDragEnd={(e) => {
@@ -53,11 +59,18 @@ export function NomeArrastavel({
           mesa?.getAttribute("data-mesa") ?? null,
           sobre?.getAttribute("data-convidado") ?? null,
         );
-        setTimeout(() => (arrastou.current = false), 0);
       }}
       className={`relative flex items-start gap-2 ${className}`}
     >
-      <GripVertical className="w-4 h-4 shrink-0 mt-0.5 text-muted-foreground/60" aria-hidden />
+      <button
+        type="button"
+        aria-label="Arrastar para mudar de mesa"
+        onPointerDown={(e) => controlo.start(e)}
+        className="pega-arrastar shrink-0 grid place-items-center self-stretch -my-1 py-1"
+        style={{ touchAction: "none", cursor: "grab" }}
+      >
+        <GripVertical className="w-4 h-4 text-muted-foreground/60" aria-hidden />
+      </button>
       {children}
     </motion.div>
   );

@@ -19,6 +19,7 @@ import {
   Check,
   UserPlus,
   Save,
+  ArrowRightLeft,
 } from "lucide-react";
 import { NomeArrastavel } from "@/components/NomeArrastavel";
 import {
@@ -53,6 +54,13 @@ function useRaio() {
   return raio;
 }
 
+/** Medidas de cada forma no mapa. A oval é mais larga do que alta. */
+function medidas(forma: string, raio: number) {
+  if (forma === "oval") return { largura: raio * 2.7, altura: raio * 1.7, cantos: "50%" };
+  if (forma === "comprida") return { largura: raio * 2.7, altura: raio * 1.4, cantos: 14 };
+  return { largura: raio * 2, altura: raio * 2, cantos: "50%" };
+}
+
 /** Cor conforme o estado de ocupação, usada no mapa e nos cartões. */
 function corDaOcupacao(ocupacao: number, lugares: number) {
   if (ocupacao > lugares) return "#B85C5C";
@@ -72,6 +80,9 @@ export function AdminPlanoMesas({
   const [busca, setBusca] = useState("");
   const [soConfirmados, setSoConfirmados] = useState(true);
   const [folhaAberta, setFolhaAberta] = useState(false);
+  // No telemóvel duas mesas nunca cabem no ecrã ao mesmo tempo, por isso
+  // arrastar de uma para a outra é impossível. Esta é a alternativa por toque.
+  const [aMover, setAMover] = useState<Convidado | null>(null);
   const arrastando = useRef<{ id: string; dx: number; dy: number } | null>(null);
   // Lugares que o dedo já pediu mas que o ecrã ainda não mostrou.
   const lugaresPendentes = useRef<Record<string, number>>({});
@@ -140,8 +151,12 @@ export function AdminPlanoMesas({
     })();
   }, [mesasParaTeste]);
 
-  const largura = Math.max(...mesas.map((m) => m.pos_x), 0) + raio * 2 + 40;
-  const altura = Math.max(...mesas.map((m) => m.pos_y), 0) + raio * 2 + 40;
+  // A oval e a comprida são mais largas do que a redonda; a tela tem de contar
+  // com a maior, senão a última mesa da direita fica cortada.
+  const maisLarga = Math.max(...mesas.map((m) => medidas(m.forma, raio).largura), raio * 2);
+  const maisAlta = Math.max(...mesas.map((m) => medidas(m.forma, raio).altura), raio * 2);
+  const largura = Math.max(...mesas.map((m) => m.pos_x), 0) + maisLarga + 40;
+  const altura = Math.max(...mesas.map((m) => m.pos_y), 0) + maisAlta + 40;
 
   useEffect(() => {
     const el = envolvente.current;
@@ -490,8 +505,19 @@ export function AdminPlanoMesas({
                               </span>
                             </span>
                             <button
+                              onClick={() => setAMover(c)}
+                              className="acao-da-linha shrink-0 p-1"
+                              title="Mudar de mesa"
+                              aria-label={`Mudar ${c.nome} de mesa`}
+                            >
+                              <ArrowRightLeft
+                                className="w-4 h-4"
+                                style={{ color: "var(--muted-foreground)" }}
+                              />
+                            </button>
+                            <button
                               onClick={() => guardarConvidado(c.id, null)}
-                              className="acao-da-linha shrink-0 p-1 -m-1"
+                              className="acao-da-linha shrink-0 p-1 -mr-1"
                               title="Tirar da mesa"
                               aria-label={`Tirar ${c.nome} da mesa`}
                             >
@@ -549,14 +575,21 @@ export function AdminPlanoMesas({
                 const juntada = grupoDaMesa(m, mesas).length > 1;
                 const activa = selecionada === m.id;
                 const cor = corDaOcupacao(ocupacao, lugares);
+                const med = medidas(m.forma, raio);
                 return (
                   <div
                     key={m.id}
                     data-mesa={m.id}
                     className="absolute"
-                    style={{ left: m.pos_x, top: m.pos_y, width: raio * 2, height: raio * 2 }}
+                    style={{ left: m.pos_x, top: m.pos_y, width: med.largura, height: med.altura }}
                   >
-                    <Lugares raio={raio} lugares={lugares} ocupacao={ocupacao} cor={cor} />
+                    <Lugares
+                      largura={med.largura}
+                      altura={med.altura}
+                      lugares={lugares}
+                      ocupacao={ocupacao}
+                      cor={cor}
+                    />
                     <button
                       onPointerDown={(e) => {
                         // Medir a partir do invólucro, não do botão: o botão está
@@ -573,7 +606,7 @@ export function AdminPlanoMesas({
                       onClick={() => setSelecionada(activa ? null : m.id)}
                       className="absolute inset-[14px] flex flex-col items-center justify-center text-center transition-shadow"
                       style={{
-                        borderRadius: m.forma === "comprida" ? 14 : "50%",
+                        borderRadius: med.cantos,
                         border: `2px solid ${excede ? "#B85C5C" : activa ? "var(--primary)" : "color-mix(in oklab, var(--gold) 55%, transparent)"}`,
                         background: activa
                           ? "color-mix(in oklab, var(--primary) 10%, var(--card))"
@@ -679,6 +712,61 @@ export function AdminPlanoMesas({
         </>
       )}
 
+      {aMover && (
+        <Folha sempre titulo="Mudar de mesa" onFechar={() => setAMover(null)}>
+          <p className="text-sm text-muted-foreground -mb-1">
+            {aMover.nome} — escolhe a mesa de destino.
+          </p>
+          <ul className="rounded-xl border bg-card divide-y overflow-hidden">
+            {mesas
+              .filter((m) => m.id !== aMover.mesa_id)
+              .map((m) => {
+                const lug = lugaresDoGrupo(m, mesas);
+                const oc = ocupacaoDoGrupo(m, mesas, convidados);
+                const parceira = grupoDaMesa(m, mesas).find((x) => x.id !== m.id);
+                return (
+                  <li key={m.id}>
+                    <button
+                      className="w-full text-left px-4 py-3 flex items-center justify-between gap-3"
+                      onClick={() => {
+                        guardarConvidado(aMover.id, m.id);
+                        setAMover(null);
+                      }}
+                    >
+                      <span className="min-w-0">
+                        <span className="block truncate">{m.nome}</span>
+                        {parceira && (
+                          <span className="block text-[0.7rem] text-muted-foreground truncate">
+                            junta com {parceira.nome}
+                          </span>
+                        )}
+                      </span>
+                      <span
+                        className="text-xs tabular-nums shrink-0"
+                        style={{ color: corDaOcupacao(oc, lug) }}
+                      >
+                        {oc} / {lug}
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            <li>
+              <button
+                className="w-full text-left px-4 py-3"
+                style={{ color: "#B85C5C" }}
+                onClick={() => {
+                  guardarConvidado(aMover.id, null);
+                  setAMover(null);
+                }}
+              >
+                Tirar das mesas
+              </button>
+            </li>
+          </ul>
+        </Folha>
+      )}
+
       {folhaAberta && mesaSel && (
         <Folha titulo={mesaSel.nome} onFechar={() => setFolhaAberta(false)}>
           <DetalheMesa
@@ -702,19 +790,22 @@ export function AdminPlanoMesas({
 
 /** Pontos à volta da mesa: um por lugar, cheios os que estão ocupados. */
 function Lugares({
-  raio,
+  largura,
+  altura,
   lugares,
   ocupacao,
   cor,
 }: {
-  raio: number;
+  largura: number;
+  altura: number;
   lugares: number;
   ocupacao: number;
   cor: string;
 }) {
   if (lugares <= 0) return null;
-  const distancia = raio - 6;
-  const tamanho = raio < 60 ? 7 : 9;
+  const tamanho = Math.min(largura, altura) < 120 ? 7 : 9;
+  const rx = largura / 2 - 6;
+  const ry = altura / 2 - 6;
   return (
     <>
       {Array.from({ length: lugares }).map((_, i) => {
@@ -726,8 +817,8 @@ function Lugares({
             aria-hidden
             className="absolute pointer-events-none"
             style={{
-              left: raio + distancia * Math.cos(angulo) - tamanho / 2,
-              top: raio + distancia * Math.sin(angulo) - tamanho / 2,
+              left: largura / 2 + rx * Math.cos(angulo) - tamanho / 2,
+              top: altura / 2 + ry * Math.sin(angulo) - tamanho / 2,
               width: tamanho,
               height: tamanho,
               borderRadius: "50%",
@@ -761,10 +852,13 @@ function Folha({
   titulo,
   children,
   onFechar,
+  sempre = false,
 }: {
   titulo: string;
   children: React.ReactNode;
   onFechar: () => void;
+  /** A folha de sentar é só para ecrãs pequenos; a de mudar de mesa serve todos. */
+  sempre?: boolean;
 }) {
   useEffect(() => {
     const aoTeclar = (e: KeyboardEvent) => e.key === "Escape" && onFechar();
@@ -773,7 +867,9 @@ function Folha({
   }, [onFechar]);
 
   return (
-    <div className="lg:hidden fixed inset-0 z-50 flex flex-col justify-end">
+    <div
+      className={`fixed inset-0 z-50 flex flex-col justify-end ${sempre ? "" : "lg:hidden"}`}
+    >
       <button
         className="absolute inset-0 bg-black/40"
         onClick={onFechar}
@@ -958,14 +1054,14 @@ function DetalheMesa({
       </div>
 
       <div className="flex gap-2 mb-3">
-        {["redonda", "comprida"].map((f) => (
+        {["redonda", "oval", "comprida"].map((f) => (
           <Button
             key={f}
             size="sm"
             variant={mesa.forma === f ? "default" : "outline"}
             onClick={() => onGuardarMesa(mesa.id, { forma: f })}
           >
-            {f === "redonda" ? "Redonda" : "Comprida"}
+            {f === "redonda" ? "Redonda" : f === "oval" ? "Oval" : "Comprida"}
           </Button>
         ))}
       </div>
