@@ -5,7 +5,7 @@ import { useI18n } from "@/lib/i18n";
 import { useDepoisDoCasamento } from "@/lib/fase-do-site";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { toast } from "sonner";
-import { Monogram } from "@/components/Monogram";
+import { Marca } from "@/components/Marca";
 import { WeddingCountdown } from "@/components/WeddingCountdown";
 
 const SITE_URL = "https://joanaediogo-com.lovable.app";
@@ -199,11 +199,15 @@ export function Header() {
           className="header-logo shrink-0 inline-flex"
           onClick={handleLogoTap}
         >
+          {/* A marca completa é larga; no telemóvel, entre o PT/EN e o menu,
+              não há espaço para ela e fica só o monograma.
+              Sem a data porque a faixa logo abaixo já a mostra — apareciam as
+              duas juntas, e em formatos diferentes. */}
           <span aria-hidden="true" className="header-logo-desktop">
-            <Monogram size={75} />
+            <Marca base={16} semData />
           </span>
           <span aria-hidden="true" className="header-logo-mobile">
-            <Monogram size={52} />
+            <Marca base={17} soMonograma />
           </span>
         </a>
 

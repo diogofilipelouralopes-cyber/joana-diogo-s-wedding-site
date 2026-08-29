@@ -1,6 +1,6 @@
 import { Heart } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
-import { Monogram } from "@/components/Monogram";
+import { Marca } from "@/components/Marca";
 
 export function ThankYouSection() {
   const { lang } = useI18n();
@@ -47,8 +47,13 @@ export function ThankYouSection() {
           <span style={{ flex: 1, borderTop: "1px solid color-mix(in oklab, var(--gold) 35%, transparent)" }} />
         </div>
 
-        <div className="flex justify-center" style={{ opacity: 0.75 }}>
-          <Monogram size={48} />
+        <div className="flex justify-center">
+          <span className="sm:hidden">
+            <Marca base={15} />
+          </span>
+          <span className="hidden sm:inline-flex">
+            <Marca base={19} />
+          </span>
         </div>
       </div>
     </section>

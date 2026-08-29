@@ -1,5 +1,6 @@
 import { useI18n } from "@/lib/i18n";
 import { useDepoisDoCasamento } from "@/lib/fase-do-site";
+import { Marca } from "@/components/Marca";
 
 export function SiteFooter() {
   const { lang } = useI18n();
@@ -15,28 +16,13 @@ export function SiteFooter() {
       }}
     >
       <div className="max-w-2xl mx-auto flex flex-col items-center gap-2">
-        <p
-          className="uppercase text-base sm:text-xl"
-          style={{
-            fontFamily: "Cinzel, serif",
-            color: "#F5EFE4",
-            letterSpacing: "0.3em",
-            fontWeight: 500,
-          }}
-        >
-          Joana &amp; Diogo
-        </p>
-
-        <p
-          className="text-sm sm:text-lg"
-          style={{
-            fontFamily: "Cinzel, serif",
-            color: "var(--gold)",
-            letterSpacing: "0.3em",
-          }}
-        >
-          19 · 09 · 2026
-        </p>
+        {/* A marca substitui o nome e a data soltos que aqui estavam. */}
+        <span className="sm:hidden">
+          <Marca base={13} cor="escura" />
+        </span>
+        <span className="hidden sm:inline-flex">
+          <Marca base={17} cor="escura" />
+        </span>
 
         <p
           className="italic text-xs sm:text-sm"

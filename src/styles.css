@@ -650,10 +650,11 @@ body.drawer-open .install-btn {
 }
 
 .header-logo {
-  transition: transform 0.35s ease;
+  transition: opacity 0.25s ease;
 }
 .header-logo:hover {
-  transform: rotate(5deg) scale(1.05);
+  /* O selo redondo rodava; uma marca com texto a rodar lê-se mal. */
+  opacity: 0.82;
 }
 
 .header-link {
