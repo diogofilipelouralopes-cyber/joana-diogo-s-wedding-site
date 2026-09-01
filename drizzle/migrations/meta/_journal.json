@@ -8,6 +8,13 @@
       "when": 1788255430953,
       "tag": "0000_allow_email_1_week_communication_type",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1788256422020,
+      "tag": "0001_secure_backup_tables_rls",
+      "breakpoints": true
     }
   ]
 }
