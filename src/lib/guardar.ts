@@ -129,5 +129,25 @@ export function useGuardar(aoGuardar?: () => void) {
     };
   }, [guardar]);
 
+  // Trocar de separador no painel desmonta a secção: enviar o que está em
+  // espera antes de desaparecer, sem depender do estado do componente.
+  useEffect(() => {
+    const fila = pendentes.current;
+    return () => {
+      if (fila.size === 0) return;
+      void (async () => {
+        for (const p of [...fila.values()]) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const { error } = await (supabase.from(p.tabela as any) as any)
+            .update(p.campos)
+            .eq("id", p.id);
+          if (!error) fila.delete(`${p.tabela}:${p.id}`);
+        }
+        escrever(fila);
+      })();
+    };
+  }, []);
+
   return { estado, quantas, marcar, guardar, temPendentes: quantas > 0 };
 }
+
