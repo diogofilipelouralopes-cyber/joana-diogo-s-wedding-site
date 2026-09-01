@@ -116,6 +116,75 @@ export type Database = {
         }
         Relationships: []
       }
+      backup_mesas_antes_excel: {
+        Row: {
+          created_at: string | null
+          forma: string | null
+          id: string | null
+          juntada_com: string | null
+          lugares: number | null
+          lugares_juntos: number | null
+          nome: string | null
+          notas: string | null
+          ordem: number | null
+          pos_x: number | null
+          pos_y: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          forma?: string | null
+          id?: string | null
+          juntada_com?: string | null
+          lugares?: number | null
+          lugares_juntos?: number | null
+          nome?: string | null
+          notas?: string | null
+          ordem?: number | null
+          pos_x?: number | null
+          pos_y?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          forma?: string | null
+          id?: string | null
+          juntada_com?: string | null
+          lugares?: number | null
+          lugares_juntos?: number | null
+          nome?: string | null
+          notas?: string | null
+          ordem?: number | null
+          pos_x?: number | null
+          pos_y?: number | null
+        }
+        Relationships: []
+      }
+      backup_plano_antes_excel: {
+        Row: {
+          convidado_id: string | null
+          guardado_em: string | null
+          lugar: number | null
+          mesa_id: string | null
+          mesa_nome: string | null
+          nome: string | null
+        }
+        Insert: {
+          convidado_id?: string | null
+          guardado_em?: string | null
+          lugar?: number | null
+          mesa_id?: string | null
+          mesa_nome?: string | null
+          nome?: string | null
+        }
+        Update: {
+          convidado_id?: string | null
+          guardado_em?: string | null
+          lugar?: number | null
+          mesa_id?: string | null
+          mesa_nome?: string | null
+          nome?: string | null
+        }
+        Relationships: []
+      }
       convidados: {
         Row: {
           cidade: string | null
@@ -513,8 +582,8 @@ export type Database = {
           forma: string
           id: string
           juntada_com: string | null
-          lugares_juntos: number | null
           lugares: number
+          lugares_juntos: number | null
           nome: string
           notas: string | null
           ordem: number | null
@@ -526,8 +595,8 @@ export type Database = {
           forma?: string
           id?: string
           juntada_com?: string | null
-          lugares_juntos?: number | null
           lugares?: number
+          lugares_juntos?: number | null
           nome: string
           notas?: string | null
           ordem?: number | null
@@ -539,8 +608,8 @@ export type Database = {
           forma?: string
           id?: string
           juntada_com?: string | null
-          lugares_juntos?: number | null
           lugares?: number
+          lugares_juntos?: number | null
           nome?: string
           notas?: string | null
           ordem?: number | null

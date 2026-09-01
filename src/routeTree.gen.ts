@@ -28,6 +28,7 @@ import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as LovableEmailSuppressionRouteImport } from './routes/lovable/email/suppression'
 import { Route as ApiPublicHooksOneMonthEmailsRouteImport } from './routes/api/public/hooks/one-month-emails'
+import { Route as ApiPublicHooksOneWeekEmailsRouteImport } from './routes/api/public/hooks/one-week-emails'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
@@ -133,6 +134,12 @@ const ApiPublicHooksOneMonthEmailsRoute =
     path: '/api/public/hooks/one-month-emails',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicHooksOneWeekEmailsRoute =
+  ApiPublicHooksOneWeekEmailsRouteImport.update({
+    id: '/api/public/hooks/one-week-emails',
+    path: '/api/public/hooks/one-week-emails',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
   id: '/lovable/email/auth/preview',
   path: '/lovable/email/auth/preview',
@@ -182,6 +189,7 @@ export interface FileRoutesByFullPath {
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/api/public/hooks/one-month-emails': typeof ApiPublicHooksOneMonthEmailsRoute
+  '/api/public/hooks/one-week-emails': typeof ApiPublicHooksOneWeekEmailsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -208,6 +216,7 @@ export interface FileRoutesByTo {
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/api/public/hooks/one-month-emails': typeof ApiPublicHooksOneMonthEmailsRoute
+  '/api/public/hooks/one-week-emails': typeof ApiPublicHooksOneWeekEmailsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -235,6 +244,7 @@ export interface FileRoutesById {
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/lovable/email/suppression': typeof LovableEmailSuppressionRoute
   '/api/public/hooks/one-month-emails': typeof ApiPublicHooksOneMonthEmailsRoute
+  '/api/public/hooks/one-week-emails': typeof ApiPublicHooksOneWeekEmailsRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -263,6 +273,7 @@ export interface FileRouteTypes {
     | '/.mcp/invoke-tool/$tool'
     | '/lovable/email/suppression'
     | '/api/public/hooks/one-month-emails'
+    | '/api/public/hooks/one-week-emails'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/queue/process'
@@ -289,6 +300,7 @@ export interface FileRouteTypes {
     | '/.mcp/invoke-tool/$tool'
     | '/lovable/email/suppression'
     | '/api/public/hooks/one-month-emails'
+    | '/api/public/hooks/one-week-emails'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/queue/process'
@@ -315,6 +327,7 @@ export interface FileRouteTypes {
     | '/.mcp/invoke-tool/$tool'
     | '/lovable/email/suppression'
     | '/api/public/hooks/one-month-emails'
+    | '/api/public/hooks/one-week-emails'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
     | '/lovable/email/queue/process'
@@ -338,6 +351,7 @@ export interface RootRouteChildren {
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   LovableEmailSuppressionRoute: typeof LovableEmailSuppressionRoute
   ApiPublicHooksOneMonthEmailsRoute: typeof ApiPublicHooksOneMonthEmailsRoute
+  ApiPublicHooksOneWeekEmailsRoute: typeof ApiPublicHooksOneWeekEmailsRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
   LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
@@ -480,6 +494,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicHooksOneMonthEmailsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/one-week-emails': {
+      id: '/api/public/hooks/one-week-emails'
+      path: '/api/public/hooks/one-week-emails'
+      fullPath: '/api/public/hooks/one-week-emails'
+      preLoaderRoute: typeof ApiPublicHooksOneWeekEmailsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lovable/email/auth/preview': {
       id: '/lovable/email/auth/preview'
       path: '/lovable/email/auth/preview'
@@ -551,6 +572,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   LovableEmailSuppressionRoute: LovableEmailSuppressionRoute,
   ApiPublicHooksOneMonthEmailsRoute: ApiPublicHooksOneMonthEmailsRoute,
+  ApiPublicHooksOneWeekEmailsRoute: ApiPublicHooksOneWeekEmailsRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
   LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
