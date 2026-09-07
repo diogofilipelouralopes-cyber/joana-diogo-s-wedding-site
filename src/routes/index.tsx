@@ -13,6 +13,7 @@ import { ThankYouSection } from "@/components/ThankYouSection";
 import { MessagesSection } from "@/components/MessagesSection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { LiveAnnouncementBanner } from "@/components/LiveAnnouncementBanner";
+import { WeatherCard } from "@/components/WeatherCard";
 // Chat widget pulls in shiki/oniguruma (WASM) through streamdown — must never
 // enter the SSR/Worker import graph.
 const ChatWidget = lazy(() => import("@/components/ChatWidget"));
