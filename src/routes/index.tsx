@@ -435,6 +435,9 @@ function Index() {
                 </div>
               </div>
 
+              {/* Previsão do tempo para o dia */}
+              <WeatherCard />
+
               {/* Programa do dia */}
               <div
                 className="mx-auto mt-4 sm:mt-6 px-5 py-6 sm:py-8"
