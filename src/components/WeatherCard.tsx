@@ -80,13 +80,22 @@ export function WeatherCard() {
 
   const dentroDaJanela = TARGET - Date.now() <= JANELA;
 
-  const { data } = useQuery({
-    queryKey: ["previsao-casamento"],
-    queryFn: fetchPrevisao,
-    enabled: dentroDaJanela,
-    staleTime: 60 * 60 * 1000,
-    retry: 1,
-  });
+  const [data, setData] = useState<Previsao | null>(null);
+
+  useEffect(() => {
+    if (!dentroDaJanela) return;
+    let vivo = true;
+    fetchPrevisao()
+      .then((p) => {
+        if (vivo) setData(p);
+      })
+      .catch(() => {
+        /* sem previsão: o cartão simplesmente não aparece */
+      });
+    return () => {
+      vivo = false;
+    };
+  }, [dentroDaJanela]);
 
   const titulo = en ? "Weather on the day" : "O tempo no dia";
 
