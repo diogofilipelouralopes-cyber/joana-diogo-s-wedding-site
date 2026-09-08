@@ -29,18 +29,17 @@ export const Route = createFileRoute('/api/public/hooks/one-week-emails')({
 
           // Modo de teste: envia apenas a um endereço, sem gravar logs.
           if (body.testEmail && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(body.testEmail)) {
-            const { EMAIL_1_WEEK_SUBJECT, buildOneWeekEmail } = await import(
+            const { buildOneWeekEmail, getOneWeekSubject } = await import(
               '@/lib/one-week-campaign.server'
             );
             const { sendResendEmail } = await import('@/lib/communications.server');
-            const { renderStoredEmail } = await import('@/lib/email-content.server');
             const replyTo = process.env['WEDDING_CONTACT_EMAIL'];
             const name = body.testName ?? 'Convidado';
-            const stored = await renderStoredEmail('one-week-reminder', { nome: name });
-            const { html, text } = stored ?? buildOneWeekEmail(name);
+            const { html, text } = buildOneWeekEmail(name);
+            const subject = await getOneWeekSubject(name);
             const outcome = await sendResendEmail({
               to: body.testEmail,
-              subject: `[TESTE] ${stored?.subject ?? EMAIL_1_WEEK_SUBJECT}`,
+              subject: `[TESTE] ${subject}`,
               html,
               text,
               ...(replyTo ? { replyTo } : {}),
