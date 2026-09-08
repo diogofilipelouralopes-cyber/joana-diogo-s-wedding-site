@@ -15,6 +15,13 @@
       "when": 1788256422020,
       "tag": "0001_secure_backup_tables_rls",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1788887347161,
+      "tag": "0002_scope_admin_policies_to_authenticated",
+      "breakpoints": true
     }
   ]
 }
