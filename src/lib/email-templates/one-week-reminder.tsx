@@ -15,9 +15,9 @@ import {
 import type { TemplateEntry } from './registry'
 
 const OLIVE = '#6B7A4F'
-const GOLD = '#C9A961'
-const CREAM = '#FAF7F0'
-const INK = '#3F4436'
+const GOLD = '#B8935A'
+const CREAM = '#FBF8F1'
+const INK = '#3F4736'
 
 interface Props {
   name?: string
@@ -26,59 +26,56 @@ interface Props {
 const Email = ({ name }: Props) => (
   <Html lang="pt" dir="ltr">
     <Head />
-    <Preview>Falta 1 semana — informações importantes para o nosso dia</Preview>
+    <Preview>
+      19 de setembro · Glicínia Wedding House · Cerimónia às 14h00. Vê tudo no nosso site.
+    </Preview>
     <Body style={main}>
       <Container style={container}>
-        <Section style={header}>
-          <Text style={kicker}>Falta 1 semana</Text>
+        <Section style={{ textAlign: 'center' as const }}>
+          <Text style={monogram}>J &amp; D</Text>
+          <Text style={kicker}>Falta uma semana</Text>
           <Heading style={names}>Joana &amp; Diogo</Heading>
-          <Text style={dateLine}>19 Setembro 2026</Text>
+          <Text style={script}>a nossa maior viagem</Text>
+          <Text style={dateLine}>19 · 09 · 2026</Text>
         </Section>
 
-        <Section style={content}>
-          <Text style={greeting}>Olá {name || 'amigo(a)'},</Text>
+        <Hr style={hr} />
+
+        <Section style={{ textAlign: 'center' as const }}>
+          {name ? <Text style={greeting}>Olá {name},</Text> : null}
+          <Text style={paragraph}>Está tudo no nosso site — horários, morada e álbum.</Text>
+          <Button href="https://joanaediogo.com" style={primaryButton}>
+            Ver tudo no site
+          </Button>
+        </Section>
+
+        <Section style={{ textAlign: 'center' as const, marginTop: '32px' }}>
+          <Text style={label}>Local</Text>
+          <Text style={venue}>Glicínia Wedding House, Freamunde</Text>
+          <Text style={paragraph}>Cerimónia às 14h00 · Estacionamento no local</Text>
+          <Button href="https://maps.app.goo.gl/PqSYW3fkz5wGmmrj9" style={ghostButton}>
+            Abrir no Google Maps
+          </Button>
+          <Button href="https://photos.app.goo.gl/ZfRKu3pg8oHait6eA" style={ghostButton}>
+            Álbum partilhado de fotografias
+          </Button>
+        </Section>
+
+        <Hr style={hr} />
+
+        <Section style={{ textAlign: 'center' as const }}>
           <Text style={paragraph}>
-            Falta apenas uma semana para o nosso casamento e estamos muito felizes por te
-            ter connosco. Aqui ficam as informações mais importantes para que o dia corra
-            sem preocupações.
-          </Text>
-
-          <Hr style={hr} />
-
-          <Text style={detailLabel}>Data</Text>
-          <Text style={detailValue}>19 de Setembro de 2026</Text>
-
-          <Text style={detailLabel}>Cerimónia</Text>
-          <Text style={detailValue}>14:00 — recomendamos chegar 20 minutos antes</Text>
-
-          <Text style={detailLabel}>Local</Text>
-          <Text style={detailValue}>Quinta Glicínia</Text>
-
-          <Text style={detailLabel}>Check-in do alojamento</Text>
-          <Text style={detailValue}>Logo após a cerimónia</Text>
-
-          <Text style={detailLabel}>Dress code</Text>
-          <Text style={detailValue}>Formal / elegante (evitar branco)</Text>
-
-          <Text style={detailLabel}>Estacionamento</Text>
-          <Text style={detailValue}>Gratuito no local</Text>
-
-          <Hr style={hr} />
-
-          <Section style={{ textAlign: 'center' as const }}>
-            <Button href="https://joanaediogo.com" style={button}>
-              Ver todos os detalhes
-            </Button>
-          </Section>
-
-          <Text style={paragraph}>
-            Qualquer dúvida, responde a este email ou visita{' '}
-            <Link href="https://joanaediogo.com" style={link}>
-              joanaediogo.com
+            Dúvidas? WhatsApp{' '}
+            <Link href="https://wa.me/351912633104" style={link}>
+              Joana
+            </Link>{' '}
+            ou{' '}
+            <Link href="https://wa.me/32493945581" style={link}>
+              Diogo
             </Link>
             .
           </Text>
-          <Text style={signature}>Até já, Joana &amp; Diogo</Text>
+          <Text style={script}>Até sábado!</Text>
         </Section>
       </Container>
     </Body>
@@ -87,57 +84,89 @@ const Email = ({ name }: Props) => (
 
 export const template = {
   component: Email,
-  subject: 'Falta 1 semana! Informações importantes 💚',
+  subject: 'Falta uma semana — Joana & Diogo',
   displayName: 'Lembrete — 1 semana antes',
   previewData: { name: 'Maria' },
 } satisfies TemplateEntry
 
 const main = { backgroundColor: '#ffffff', fontFamily: 'Georgia, serif' }
-const container = { maxWidth: '600px', margin: '0 auto', padding: '0 0 32px' }
-const header = {
-  backgroundColor: OLIVE,
-  padding: '36px 24px',
+const container = {
+  maxWidth: '600px',
+  margin: '0 auto',
+  padding: '40px 32px',
+  backgroundColor: CREAM,
+  border: `1px solid #DCC9A6`,
+  borderRadius: '12px',
+}
+const monogram = {
+  margin: '0 auto',
+  width: '72px',
+  lineHeight: '70px',
+  border: `1px dashed ${GOLD}`,
+  borderRadius: '36px',
+  fontSize: '18px',
+  letterSpacing: '2px',
+  color: OLIVE,
   textAlign: 'center' as const,
-  borderRadius: '6px 6px 0 0',
 }
 const kicker = {
-  margin: '0 0 10px',
-  fontFamily: 'Arial, sans-serif',
+  margin: '28px 0 0',
   fontSize: '11px',
   letterSpacing: '4px',
   textTransform: 'uppercase' as const,
   color: GOLD,
 }
-const names = { margin: '0', fontSize: '34px', fontWeight: 400, color: '#ffffff' }
-const dateLine = {
-  margin: '12px 0 0',
-  fontFamily: 'Arial, sans-serif',
-  fontSize: '12px',
-  letterSpacing: '3px',
+const names = {
+  margin: '14px 0 0',
+  fontSize: '28px',
+  fontWeight: 400,
+  letterSpacing: '8px',
   textTransform: 'uppercase' as const,
-  color: '#ffffff',
+  color: OLIVE,
 }
-const content = { backgroundColor: CREAM, padding: '32px 28px', borderRadius: '0 0 6px 6px' }
-const greeting = { margin: '0 0 18px', fontSize: '20px', color: OLIVE }
-const paragraph = { margin: '0 0 14px', fontSize: '16px', lineHeight: '1.7', color: INK }
-const detailLabel = {
-  margin: '0 0 2px',
+const script = { margin: '8px 0 0', fontStyle: 'italic', fontSize: '26px', color: GOLD }
+const dateLine = { margin: '20px 0 0', fontSize: '17px', letterSpacing: '6px', color: OLIVE }
+const greeting = { margin: '0 0 14px', fontSize: '19px', color: OLIVE }
+const paragraph = {
+  margin: '0 0 18px',
   fontFamily: 'Arial, sans-serif',
+  fontSize: '16px',
+  lineHeight: '26px',
+  color: '#4A5240',
+}
+const label = {
+  margin: '0',
   fontSize: '11px',
-  letterSpacing: '2px',
+  letterSpacing: '3px',
   textTransform: 'uppercase' as const,
   color: GOLD,
 }
-const detailValue = { margin: '0 0 16px', fontSize: '17px', color: INK }
-const hr = { borderColor: `${GOLD}55`, margin: '24px 0' }
-const button = {
+const venue = { margin: '12px 0 8px', fontSize: '19px', color: INK }
+const hr = { borderColor: '#DCC9A6', margin: '28px 0' }
+const primaryButton = {
   backgroundColor: OLIVE,
-  color: '#ffffff',
-  padding: '14px 28px',
-  borderRadius: '4px',
-  fontSize: '15px',
+  color: CREAM,
+  padding: '18px 28px',
+  borderRadius: '10px',
+  fontSize: '14px',
+  letterSpacing: '3px',
+  textTransform: 'uppercase' as const,
   textDecoration: 'none',
-  display: 'inline-block',
+  display: 'block',
+  textAlign: 'center' as const,
 }
-const signature = { margin: '24px 0 0', fontSize: '22px', color: OLIVE }
-const link = { color: GOLD }
+const ghostButton = {
+  backgroundColor: CREAM,
+  border: `1px solid ${GOLD}`,
+  color: OLIVE,
+  padding: '16px 24px',
+  borderRadius: '10px',
+  fontSize: '13px',
+  letterSpacing: '2.5px',
+  textTransform: 'uppercase' as const,
+  textDecoration: 'none',
+  display: 'block',
+  textAlign: 'center' as const,
+  marginTop: '12px',
+}
+const link = { color: OLIVE }
