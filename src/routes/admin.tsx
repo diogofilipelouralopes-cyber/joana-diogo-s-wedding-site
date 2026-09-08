@@ -237,12 +237,20 @@ function AdminPage() {
         navigate({ to: "/admin/login" });
         return;
       }
-      const { data: roleRow } = await supabase
+      const { data: roleRow, error: roleError } = await supabase
         .from("user_roles")
         .select("role")
         .eq("user_id", data.session.user.id)
         .eq("role", "admin")
         .maybeSingle();
+      if (roleError) {
+        // Falha técnica na verificação: manter a sessão e avisar.
+        console.error("Falha ao verificar permissões:", roleError.message);
+        toast.error("Não foi possível verificar as permissões. Tenta novamente.");
+        setSession(data.session);
+        setAuthChecked(true);
+        return;
+      }
       const isAllowed = !!roleRow;
       if (!isAllowed) {
         await supabase.auth.signOut();
