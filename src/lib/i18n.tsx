@@ -167,6 +167,7 @@ const dict = {
     "gifts.copy.number": "Copiar Número",
     "gifts.copied.iban": "IBAN copiado!",
     "gifts.copied.number": "Número copiado!",
+    "gifts.transferNote": "Se fizeres uma transferência, avisa-nos por WhatsApp — assim sabemos de quem veio e podemos agradecer como merece.",
 
     "footer.tagline": "Com amor,",
     "footer.made": "Feito com ♡ para a nossa maior viagem",
@@ -337,6 +338,7 @@ const dict = {
     "gifts.copy.number": "Copy Number",
     "gifts.copied.iban": "IBAN copied!",
     "gifts.copied.number": "Number copied!",
+    "gifts.transferNote": "If you make a transfer, let us know on WhatsApp — that way we know who it's from and can thank you properly.",
 
     "footer.tagline": "With love,",
     "footer.made": "Made with ♡ for our greatest journey",
