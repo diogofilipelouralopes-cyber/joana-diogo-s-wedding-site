@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Copy, Check, ChevronDown, Landmark, Smartphone, CreditCard } from "lucide-react";
+import { Copy, Check, ChevronDown, Landmark, Smartphone, CreditCard, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 
@@ -82,6 +82,20 @@ export function GiftsSection() {
             {t("gifts.desc")}
           </p>
         </div>
+
+        <p className="mb-3 flex items-start gap-2 text-[0.72rem] sm:text-xs leading-snug text-muted-foreground">
+          <MessageCircle className="w-3.5 h-3.5 mt-[2px] shrink-0 text-primary" strokeWidth={1.5} />
+          <span>
+            {t("gifts.transferNote")}{" "}
+            <a href="https://wa.me/351912633104" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2">
+              Joana
+            </a>{" "}
+            ·{" "}
+            <a href="https://wa.me/32493945581" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2">
+              Diogo
+            </a>
+          </span>
+        </p>
 
         <div className="card-gold overflow-hidden divide-y divide-primary/15">
           {entries.map((entry) => {
