@@ -1,18 +1,18 @@
-# Plano: Mensagem na secção Presentes
+# Plano: Aviso de transferência na secção Presentes
 
 ## O que vamos fazer
-Adicionar uma pequena nota na secção **Presentes** a pedir aos convidados que deixem uma mensagem no Livro de Mensagens quando fizerem uma transferência, para que os noivos saibam de quem veio o contributo.
+Adicionar uma pequena nota na secção **Presentes** a pedir que, quem fizer uma transferência, avise a Joana ou o Diogo por WhatsApp — assim sabem de quem veio o contributo e podem agradecer.
 
 ## Alterações
-1. **Traduções** — adicionar duas novas chaves em `src/lib/i18n.tsx`:
-   - `pt`: `"gifts.transferNote"`
-   - `en`: `"gifts.transferNote"`
-   Texto sugerido (confirmar com o utilizador se quiser outro):
-   - PT: "Se enviares uma transferência, deixa-nos uma mensagem no Livro de Mensagens. Assim sabemos de quem é o teu contributo e podemos agradecer-te de coração."
-   - EN: "If you send a bank transfer, please leave us a message in the Message Book. That way we'll know who the gift is from and can thank you from the heart."
+1. **Traduções** — novas chaves em `src/lib/i18n.tsx` (pt e en), por exemplo `gifts.transferNote`:
+   - PT: "Se fizeres uma transferência, avisa-nos por WhatsApp — assim sabemos de quem veio e podemos agradecer como merece."
+   - EN: "If you make a transfer, let us know on WhatsApp — that way we know who it's from and can thank you properly."
 
-2. **UI** — em `src/components/GiftsSection.tsx`, renderizar a nota entre a descrição da secção e o acordeão dos métodos de pagamento, usando o estilo tipográfico existente (texto pequeno, cor suave, possível ícone de nota/informação).
+2. **UI** — em `src/components/GiftsSection.tsx`, mostrar essa nota entre a descrição da secção e a lista de métodos de pagamento, com dois links de WhatsApp (Joana e Diogo) que já são usados noutras partes do site:
+   - Joana: https://wa.me/351912633104
+   - Diogo: https://wa.me/32493945581
+   Estilo discreto, coerente com a secção (texto pequeno, tom suave, pequeno ícone de mensagem).
 
 ## Não inclui
-- Nenhuma alteração aos métodos de pagamento, IBANs, MB WAY ou lógica de cópia.
-- Nenhuma alteração ao esquema da base de dados.
+- Nenhuma alteração aos IBANs, MB WAY ou à lógica de copiar.
+- Nenhuma alteração à base de dados.
