@@ -287,7 +287,10 @@ function AdminEmailsPage() {
                   onChange={(e) => update({ signature: e.target.value })}
                 />
               </div>
+              </>
+              )}
             </div>
+
 
             <div className="rounded-lg border">
               <div className="flex items-center justify-between border-b px-4 py-2">
