@@ -179,6 +179,13 @@ function AdminEmailsPage() {
                   onChange={(e) => update({ subject: e.target.value })}
                 />
               </div>
+              {draft.key === "one-week-reminder" ? (
+                <p className="rounded-md border border-dashed p-3 text-sm text-muted-foreground">
+                  Este email tem um desenho fixo (convite “Falta uma semana”). Aqui só podes
+                  alterar o assunto — o resto do conteúdo é sempre o que vês na pré-visualização.
+                </p>
+              ) : (
+              <>
               <div className="space-y-2">
                 <Label htmlFor="preheader">Pré-visualização (texto curto no topo)</Label>
                 <Input
@@ -280,7 +287,10 @@ function AdminEmailsPage() {
                   onChange={(e) => update({ signature: e.target.value })}
                 />
               </div>
+              </>
+              )}
             </div>
+
 
             <div className="rounded-lg border">
               <div className="flex items-center justify-between border-b px-4 py-2">

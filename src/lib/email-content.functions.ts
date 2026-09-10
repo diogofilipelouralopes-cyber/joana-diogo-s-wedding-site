@@ -74,7 +74,13 @@ export const previewEmail = createServerFn({ method: 'POST' })
   .handler(async ({ data }) => {
     const { requireAdminSession } = await import('./admin-auth.server');
     await requireAdminSession();
-    const { renderEmail } = await import('./email-content.server');
+    const { renderEmail, applyVars } = await import('./email-content.server');
+    // O email de 1 semana usa um desenho fixo: só o assunto é editável.
+    if (data.key === 'one-week-reminder') {
+      const { buildOneWeekEmail } = await import('./one-week-campaign.server');
+      const { html, text } = buildOneWeekEmail('Maria');
+      return { subject: applyVars(data.subject, { nome: 'Maria' }), html, text };
+    }
     const extraRows: Array<[string, string]> =
       data.key === 'rsvp-notification'
         ? [
