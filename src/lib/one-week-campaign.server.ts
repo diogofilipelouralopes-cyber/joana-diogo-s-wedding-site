@@ -28,16 +28,21 @@ export function buildOneWeekEmail(name: string): { html: string; text: string } 
 
 Falta uma semana para a nossa maior viagem.
 
-19 · 09 · 2026 — está tudo no nosso site: horários, morada e álbum.
-${SITE_URL}
+19 · 09 · 2026 — está tudo no nosso site: ${SITE_URL}
+
+No site podes ver:
+· Horários e programa do dia
+· Morada e como chegar
+· Alojamento e perguntas frequentes
+· Lista de presentes
+· Livro de mensagens para os noivos
 
 Local: Glicínia Wedding House, Freamunde
 Cerimónia às 14h00 · Estacionamento no local
 Google Maps: ${MAPS_URL}
 
-Álbum partilhado de fotografias: ${ALBUM_URL}
-
 Dúvidas? WhatsApp Joana (${WA_JOANA}) ou Diogo (${WA_DIOGO}).
+Álbum partilhado de fotografias: ${ALBUM_URL}
 
 Até sábado!
 Joana & Diogo`;
