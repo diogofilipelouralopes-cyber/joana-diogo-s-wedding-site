@@ -9,6 +9,7 @@ import {
   Html,
   Link,
   Preview,
+  Row,
   Section,
   Text,
 } from '@react-email/components'
@@ -54,13 +55,28 @@ const Email = ({ name }: Props) => (
 
         <Section style={siteList}>
           <Text style={label}>No site podes ver</Text>
-          <Text style={{ ...paragraph, margin: '12px 0 0', lineHeight: '28px' }}>
-            · Horários e programa do dia
-            <br />· Morada e como chegar
-            <br />· Alojamento e perguntas frequentes
-            <br />· Lista de presentes
-            <br />· Livro de mensagens para os noivos
-          </Text>
+          <Section style={list}>
+            <Row style={listItem}>
+              <Text style={bullet}>·</Text>
+              <Text style={listText}>Horários e programa do dia</Text>
+            </Row>
+            <Row style={listItem}>
+              <Text style={bullet}>·</Text>
+              <Text style={listText}>Morada e como chegar</Text>
+            </Row>
+            <Row style={listItem}>
+              <Text style={bullet}>·</Text>
+              <Text style={listText}>Alojamento e perguntas frequentes</Text>
+            </Row>
+            <Row style={listItem}>
+              <Text style={bullet}>·</Text>
+              <Text style={listText}>Lista de presentes</Text>
+            </Row>
+            <Row style={listItem}>
+              <Text style={bullet}>·</Text>
+              <Text style={listText}>Livro de mensagens para os noivos</Text>
+            </Row>
+          </Section>
         </Section>
 
         <Section style={{ textAlign: 'center' as const, marginTop: '32px' }}>
@@ -171,13 +187,13 @@ const hr = { borderColor: '#DCC9A6', margin: '28px 0' }
 const primaryButton = {
   backgroundColor: OLIVE,
   color: CREAM,
-  padding: '18px 28px',
+  padding: '14px 22px',
   borderRadius: '10px',
-  fontSize: '14px',
-  letterSpacing: '3px',
+  fontSize: '13px',
+  letterSpacing: '2.5px',
   textTransform: 'uppercase' as const,
   textDecoration: 'none',
-  display: 'block',
+  display: 'inline-block',
   textAlign: 'center' as const,
 }
 const ghostButton = {
@@ -195,3 +211,25 @@ const ghostButton = {
   marginTop: '12px',
 }
 const link = { color: OLIVE }
+const list = { marginTop: '16px' }
+const listItem = {
+  padding: '10px 0',
+  borderBottom: '1px dashed #E3D6BE',
+}
+const bullet = {
+  width: '24px',
+  fontFamily: 'Georgia, serif',
+  fontSize: '18px',
+  color: GOLD,
+  lineHeight: '24px',
+  margin: '0',
+  verticalAlign: 'top',
+}
+const listText = {
+  fontFamily: 'Arial, sans-serif',
+  fontSize: '15px',
+  lineHeight: '24px',
+  color: '#4A5240',
+  margin: '0',
+  paddingLeft: '8px',
+}
