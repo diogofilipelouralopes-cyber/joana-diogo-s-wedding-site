@@ -43,10 +43,24 @@ const Email = ({ name }: Props) => (
 
         <Section style={{ textAlign: 'center' as const }}>
           {name ? <Text style={greeting}>Olá {name},</Text> : null}
-          <Text style={paragraph}>Está tudo no nosso site — horários, morada e álbum.</Text>
+          <Text style={paragraph}>
+            Está tudo preparado no nosso site — é lá que encontras tudo o que precisas de saber
+            para o dia.
+          </Text>
           <Button href="https://joanaediogo.com" style={primaryButton}>
             Ver tudo no site
           </Button>
+        </Section>
+
+        <Section style={siteList}>
+          <Text style={label}>No site podes ver</Text>
+          <Text style={{ ...paragraph, margin: '12px 0 0', lineHeight: '28px' }}>
+            · Horários e programa do dia
+            <br />· Morada e como chegar
+            <br />· Alojamento e perguntas frequentes
+            <br />· Lista de presentes
+            <br />· Livro de mensagens para os noivos
+          </Text>
         </Section>
 
         <Section style={{ textAlign: 'center' as const, marginTop: '32px' }}>
@@ -55,9 +69,6 @@ const Email = ({ name }: Props) => (
           <Text style={paragraph}>Cerimónia às 14h00 · Estacionamento no local</Text>
           <Button href="https://maps.app.goo.gl/PqSYW3fkz5wGmmrj9" style={ghostButton}>
             Abrir no Google Maps
-          </Button>
-          <Button href="https://photos.app.goo.gl/ZfRKu3pg8oHait6eA" style={ghostButton}>
-            Álbum partilhado de fotografias
           </Button>
         </Section>
 
