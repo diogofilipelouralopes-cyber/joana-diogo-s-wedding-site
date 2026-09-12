@@ -160,6 +160,13 @@ const label = {
   color: GOLD,
 }
 const venue = { margin: '12px 0 8px', fontSize: '19px', color: INK }
+const siteList = {
+  marginTop: '22px',
+  padding: '22px 24px',
+  backgroundColor: '#F7F1E6',
+  border: `1px dashed #DCC9A6`,
+  borderRadius: '10px',
+}
 const hr = { borderColor: '#DCC9A6', margin: '28px 0' }
 const primaryButton = {
   backgroundColor: OLIVE,
