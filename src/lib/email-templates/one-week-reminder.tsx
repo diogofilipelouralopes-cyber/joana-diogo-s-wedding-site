@@ -211,3 +211,25 @@ const ghostButton = {
   marginTop: '12px',
 }
 const link = { color: OLIVE }
+const list = { marginTop: '16px' }
+const listItem = {
+  padding: '10px 0',
+  borderBottom: '1px dashed #E3D6BE',
+}
+const bullet = {
+  width: '24px',
+  fontFamily: 'Georgia, serif',
+  fontSize: '18px',
+  color: GOLD,
+  lineHeight: '24px',
+  margin: '0',
+  verticalAlign: 'top',
+}
+const listText = {
+  fontFamily: 'Arial, sans-serif',
+  fontSize: '15px',
+  lineHeight: '24px',
+  color: '#4A5240',
+  margin: '0',
+  paddingLeft: '8px',
+}
