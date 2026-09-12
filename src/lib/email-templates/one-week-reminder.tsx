@@ -43,10 +43,24 @@ const Email = ({ name }: Props) => (
 
         <Section style={{ textAlign: 'center' as const }}>
           {name ? <Text style={greeting}>Olá {name},</Text> : null}
-          <Text style={paragraph}>Está tudo no nosso site — horários, morada e álbum.</Text>
+          <Text style={paragraph}>
+            Está tudo preparado no nosso site — é lá que encontras tudo o que precisas de saber
+            para o dia.
+          </Text>
           <Button href="https://joanaediogo.com" style={primaryButton}>
             Ver tudo no site
           </Button>
+        </Section>
+
+        <Section style={siteList}>
+          <Text style={label}>No site podes ver</Text>
+          <Text style={{ ...paragraph, margin: '12px 0 0', lineHeight: '28px' }}>
+            · Horários e programa do dia
+            <br />· Morada e como chegar
+            <br />· Alojamento e perguntas frequentes
+            <br />· Lista de presentes
+            <br />· Livro de mensagens para os noivos
+          </Text>
         </Section>
 
         <Section style={{ textAlign: 'center' as const, marginTop: '32px' }}>
@@ -55,9 +69,6 @@ const Email = ({ name }: Props) => (
           <Text style={paragraph}>Cerimónia às 14h00 · Estacionamento no local</Text>
           <Button href="https://maps.app.goo.gl/PqSYW3fkz5wGmmrj9" style={ghostButton}>
             Abrir no Google Maps
-          </Button>
-          <Button href="https://photos.app.goo.gl/ZfRKu3pg8oHait6eA" style={ghostButton}>
-            Álbum partilhado de fotografias
           </Button>
         </Section>
 
@@ -72,6 +83,13 @@ const Email = ({ name }: Props) => (
             ou{' '}
             <Link href="https://wa.me/32493945581" style={link}>
               Diogo
+            </Link>
+            .
+          </Text>
+          <Text style={{ ...paragraph, fontSize: '13px', color: '#8A8F7E' }}>
+            No dia, as fotografias podem ser partilhadas no{' '}
+            <Link href="https://photos.app.goo.gl/ZfRKu3pg8oHait6eA" style={link}>
+              álbum partilhado
             </Link>
             .
           </Text>
@@ -142,6 +160,13 @@ const label = {
   color: GOLD,
 }
 const venue = { margin: '12px 0 8px', fontSize: '19px', color: INK }
+const siteList = {
+  marginTop: '22px',
+  padding: '22px 24px',
+  backgroundColor: '#F7F1E6',
+  border: `1px dashed #DCC9A6`,
+  borderRadius: '10px',
+}
 const hr = { borderColor: '#DCC9A6', margin: '28px 0' }
 const primaryButton = {
   backgroundColor: OLIVE,

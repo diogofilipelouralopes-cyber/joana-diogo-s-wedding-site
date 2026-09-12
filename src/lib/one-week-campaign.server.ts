@@ -28,16 +28,21 @@ export function buildOneWeekEmail(name: string): { html: string; text: string } 
 
 Falta uma semana para a nossa maior viagem.
 
-19 · 09 · 2026 — está tudo no nosso site: horários, morada e álbum.
-${SITE_URL}
+19 · 09 · 2026 — está tudo no nosso site: ${SITE_URL}
+
+No site podes ver:
+· Horários e programa do dia
+· Morada e como chegar
+· Alojamento e perguntas frequentes
+· Lista de presentes
+· Livro de mensagens para os noivos
 
 Local: Glicínia Wedding House, Freamunde
 Cerimónia às 14h00 · Estacionamento no local
 Google Maps: ${MAPS_URL}
 
-Álbum partilhado de fotografias: ${ALBUM_URL}
-
 Dúvidas? WhatsApp Joana (${WA_JOANA}) ou Diogo (${WA_DIOGO}).
+Álbum partilhado de fotografias: ${ALBUM_URL}
 
 Até sábado!
 Joana & Diogo`;
@@ -110,11 +115,25 @@ ${
     ? `<p style="margin:0 0 14px 0; font-family:Georgia,'Times New Roman',serif; font-size:19px; color:#6B7A4F; mso-line-height-rule:exactly; line-height:28px;">Olá ${safeFirst},</p>`
     : ''
 }
-<p style="margin:0 0 22px 0; font-family:Arial,Helvetica,sans-serif; font-size:16px; color:#4A5240; mso-line-height-rule:exactly; line-height:26px;">Está tudo no nosso site — horários, morada e álbum.</p>
+<p style="margin:0 0 22px 0; font-family:Arial,Helvetica,sans-serif; font-size:16px; color:#4A5240; mso-line-height-rule:exactly; line-height:26px;">Está tudo preparado no nosso site — é lá que encontras tudo o que precisas de saber para o dia.</p>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 <td align="center" bgcolor="#6B7A4F" style="background-color:#6B7A4F; border-radius:10px;">
 <a href="${SITE_URL}" style="display:block; padding:19px 24px; font-family:Georgia,'Times New Roman',serif; font-size:14px; letter-spacing:3px; text-transform:uppercase; color:#FBF8F1; text-decoration:none; mso-line-height-rule:exactly; line-height:20px;">Ver tudo no site</a>
+</td>
+</tr>
+</table>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:22px;">
+<tr>
+<td style="padding:22px 24px; background-color:#F7F1E6; border:1px dashed #DCC9A6; border-radius:10px;">
+<p style="margin:0 0 14px 0; font-family:Georgia,'Times New Roman',serif; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:#B8935A; mso-line-height-rule:exactly; line-height:18px;">No site podes ver</p>
+<p style="margin:0; font-family:Arial,Helvetica,sans-serif; font-size:15px; color:#4A5240; mso-line-height-rule:exactly; line-height:28px;">
+· Horários e programa do dia<br>
+· Morada e como chegar<br>
+· Alojamento e perguntas frequentes<br>
+· Lista de presentes<br>
+· Livro de mensagens para os noivos
+</p>
 </td>
 </tr>
 </table>
@@ -136,17 +155,6 @@ ${
 </td>
 </tr>
 
-<tr>
-<td class="px" align="center" style="padding:14px 44px 0 44px;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr>
-<td align="center" bgcolor="#FBF8F1" style="background-color:#FBF8F1; border:1px solid #B8935A; border-radius:10px;">
-<a href="${ALBUM_URL}" style="display:block; padding:17px 24px; font-family:Georgia,'Times New Roman',serif; font-size:13px; letter-spacing:2.5px; text-transform:uppercase; color:#6B7A4F; text-decoration:none; mso-line-height-rule:exactly; line-height:18px;">Álbum partilhado de fotografias</a>
-</td>
-</tr>
-</table>
-</td>
-</tr>
 
 <tr>
 <td class="px" style="padding:34px 44px 0 44px;">
@@ -163,6 +171,7 @@ ${
 <tr>
 <td class="px" align="center" style="padding:26px 44px 48px 44px;">
 <p style="margin:0; font-family:Arial,Helvetica,sans-serif; font-size:15px; color:#6E7563; mso-line-height-rule:exactly; line-height:25px;">Dúvidas? WhatsApp <a href="${WA_JOANA}" style="color:#6B7A4F; text-decoration:none; border-bottom:1px solid #C9AE81;">Joana</a> ou <a href="${WA_DIOGO}" style="color:#6B7A4F; text-decoration:none; border-bottom:1px solid #C9AE81;">Diogo</a>.</p>
+<p style="margin:10px 0 0 0; font-family:Arial,Helvetica,sans-serif; font-size:13px; color:#8A8F7E; mso-line-height-rule:exactly; line-height:22px;">No dia, as fotografias podem ser partilhadas no <a href="${ALBUM_URL}" style="color:#8A8F7E; text-decoration:underline;">álbum partilhado</a>.</p>
 <p style="margin:24px 0 0 0; font-family:Georgia,'Times New Roman',serif; font-style:italic; font-size:26px; color:#B8935A; mso-line-height-rule:exactly; line-height:32px;">Até sábado!</p>
 </td>
 </tr>
