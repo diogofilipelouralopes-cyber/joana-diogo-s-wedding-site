@@ -168,6 +168,7 @@ ${
 <tr>
 <td class="px" align="center" style="padding:26px 44px 48px 44px;">
 <p style="margin:0; font-family:Arial,Helvetica,sans-serif; font-size:15px; color:#6E7563; mso-line-height-rule:exactly; line-height:25px;">Dúvidas? WhatsApp <a href="${WA_JOANA}" style="color:#6B7A4F; text-decoration:none; border-bottom:1px solid #C9AE81;">Joana</a> ou <a href="${WA_DIOGO}" style="color:#6B7A4F; text-decoration:none; border-bottom:1px solid #C9AE81;">Diogo</a>.</p>
+<p style="margin:10px 0 0 0; font-family:Arial,Helvetica,sans-serif; font-size:13px; color:#8A8F7E; mso-line-height-rule:exactly; line-height:22px;">No dia, as fotografias podem ser partilhadas no <a href="${ALBUM_URL}" style="color:#8A8F7E; text-decoration:underline;">álbum partilhado</a>.</p>
 <p style="margin:24px 0 0 0; font-family:Georgia,'Times New Roman',serif; font-style:italic; font-size:26px; color:#B8935A; mso-line-height-rule:exactly; line-height:32px;">Até sábado!</p>
 </td>
 </tr>
