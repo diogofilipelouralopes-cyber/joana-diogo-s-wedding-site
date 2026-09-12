@@ -86,6 +86,13 @@ const Email = ({ name }: Props) => (
             </Link>
             .
           </Text>
+          <Text style={{ ...paragraph, fontSize: '13px', color: '#8A8F7E' }}>
+            No dia, as fotografias podem ser partilhadas no{' '}
+            <Link href="https://photos.app.goo.gl/ZfRKu3pg8oHait6eA" style={link}>
+              álbum partilhado
+            </Link>
+            .
+          </Text>
           <Text style={script}>Até sábado!</Text>
         </Section>
       </Container>
