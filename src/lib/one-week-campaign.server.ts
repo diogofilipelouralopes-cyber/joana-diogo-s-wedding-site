@@ -115,11 +115,25 @@ ${
     ? `<p style="margin:0 0 14px 0; font-family:Georgia,'Times New Roman',serif; font-size:19px; color:#6B7A4F; mso-line-height-rule:exactly; line-height:28px;">Olá ${safeFirst},</p>`
     : ''
 }
-<p style="margin:0 0 22px 0; font-family:Arial,Helvetica,sans-serif; font-size:16px; color:#4A5240; mso-line-height-rule:exactly; line-height:26px;">Está tudo no nosso site — horários, morada e álbum.</p>
+<p style="margin:0 0 22px 0; font-family:Arial,Helvetica,sans-serif; font-size:16px; color:#4A5240; mso-line-height-rule:exactly; line-height:26px;">Está tudo preparado no nosso site — é lá que encontras tudo o que precisas de saber para o dia.</p>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
 <td align="center" bgcolor="#6B7A4F" style="background-color:#6B7A4F; border-radius:10px;">
 <a href="${SITE_URL}" style="display:block; padding:19px 24px; font-family:Georgia,'Times New Roman',serif; font-size:14px; letter-spacing:3px; text-transform:uppercase; color:#FBF8F1; text-decoration:none; mso-line-height-rule:exactly; line-height:20px;">Ver tudo no site</a>
+</td>
+</tr>
+</table>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:22px;">
+<tr>
+<td style="padding:22px 24px; background-color:#F7F1E6; border:1px dashed #DCC9A6; border-radius:10px;">
+<p style="margin:0 0 14px 0; font-family:Georgia,'Times New Roman',serif; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:#B8935A; mso-line-height-rule:exactly; line-height:18px;">No site podes ver</p>
+<p style="margin:0; font-family:Arial,Helvetica,sans-serif; font-size:15px; color:#4A5240; mso-line-height-rule:exactly; line-height:28px;">
+· Horários e programa do dia<br>
+· Morada e como chegar<br>
+· Alojamento e perguntas frequentes<br>
+· Lista de presentes<br>
+· Livro de mensagens para os noivos
+</p>
 </td>
 </tr>
 </table>
