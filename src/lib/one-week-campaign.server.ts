@@ -141,17 +141,6 @@ ${
 </td>
 </tr>
 
-<tr>
-<td class="px" align="center" style="padding:14px 44px 0 44px;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr>
-<td align="center" bgcolor="#FBF8F1" style="background-color:#FBF8F1; border:1px solid #B8935A; border-radius:10px;">
-<a href="${ALBUM_URL}" style="display:block; padding:17px 24px; font-family:Georgia,'Times New Roman',serif; font-size:13px; letter-spacing:2.5px; text-transform:uppercase; color:#6B7A4F; text-decoration:none; mso-line-height-rule:exactly; line-height:18px;">Álbum partilhado de fotografias</a>
-</td>
-</tr>
-</table>
-</td>
-</tr>
 
 <tr>
 <td class="px" style="padding:34px 44px 0 44px;">
