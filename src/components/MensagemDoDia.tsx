@@ -56,8 +56,8 @@ export function MensagemDoDia() {
           {en ? (
             <>
               <p>
-                Chegou o dia que imaginámos durante tanto tempo — e a melhor parte é
-                que o vamos viver convosco.
+                The day we imagined for so long is finally here — and the best part
+                is getting to live it with you.
               </p>
               <p>
                 Thank you for travelling, for rearranging your day and for being here.
