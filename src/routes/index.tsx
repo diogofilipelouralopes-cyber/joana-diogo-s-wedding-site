@@ -14,6 +14,7 @@ import { MessagesSection } from "@/components/MessagesSection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { LiveAnnouncementBanner } from "@/components/LiveAnnouncementBanner";
 import { WeatherCard } from "@/components/WeatherCard";
+import { MensagemDoDia } from "@/components/MensagemDoDia";
 // Chat widget pulls in shiki/oniguruma (WASM) through streamdown — must never
 // enter the SSR/Worker import graph.
 const ChatWidget = lazy(() => import("@/components/ChatWidget"));
@@ -298,6 +299,9 @@ function Index() {
               </div>
             </div>
           </section>
+
+          {/* Mensagem pessoal dos noivos: só no próprio dia do casamento. */}
+          <MensagemDoDia />
 
           {/* O divisor que separa daqui para a História já existe mais abaixo. */}
           {depois && <ThankYouSection />}
