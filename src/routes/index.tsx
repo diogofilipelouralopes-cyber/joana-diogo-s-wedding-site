@@ -306,6 +306,14 @@ function Index() {
           {/* O divisor que separa daqui para a História já existe mais abaixo. */}
           {depois && <ThankYouSection />}
 
+          {/* Depois do casamento, as fotografias oficiais são o primeiro
+              destaque de quem abre o site. */}
+          {depois && (
+            <Reveal>
+              <PublicGallerySection />
+            </Reveal>
+          )}
+
           {/* EVENT — como lá chegar, estacionamento e programa: só faz sentido
               antes. Depois do dia, sai da página. */}
           {!depois && (
