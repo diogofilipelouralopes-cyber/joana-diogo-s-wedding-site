@@ -1,6 +1,6 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
-import { Camera, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Camera, X, ChevronLeft, ChevronRight, Download } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
 import { casamentoJaFoi } from "@/lib/fase-do-site";
