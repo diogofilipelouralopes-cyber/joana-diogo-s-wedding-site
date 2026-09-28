@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { Camera, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
+import { casamentoJaFoi } from "@/lib/fase-do-site";
 
 const BUCKET = "wedding-photos";
 
