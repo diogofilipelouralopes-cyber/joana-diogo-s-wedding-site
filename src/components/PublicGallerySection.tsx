@@ -93,6 +93,25 @@ export function PublicGallerySection() {
     [photos.length],
   );
 
+  // Deslizar (swipe) no telemóvel
+  const touchX = useRef<number | null>(null);
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    touchX.current = e.touches[0]?.clientX ?? null;
+  }, []);
+  const onTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      const start = touchX.current;
+      touchX.current = null;
+      if (start === null) return;
+      const delta = (e.changedTouches[0]?.clientX ?? start) - start;
+      if (Math.abs(delta) < 45) return;
+      if (delta < 0) next();
+      else prev();
+    },
+    [next, prev],
+  );
+
+
   // Teclado no lightbox
   useEffect(() => {
     if (lightbox === null) return;
