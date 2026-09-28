@@ -287,10 +287,11 @@ function Index() {
                   </a>
                 )}
 
+                {/* Antes do casamento aponta para o álbum partilhado; depois,
+                    leva à galeria oficial que está na própria página. */}
                 <a
-                  href={ALBUM_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={depois ? "#galeria" : ALBUM_URL}
+                  {...(depois ? {} : { target: "_blank", rel: "noopener noreferrer" })}
                   className="btn btn-secondary hero-text-anim-3"
                 >
                   <Camera size={16} strokeWidth={1.5} />
