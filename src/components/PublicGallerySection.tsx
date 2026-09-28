@@ -192,6 +192,14 @@ export function PublicGallerySection() {
           <div className="divider-ornament mt-6 max-w-xs mx-auto">
             <Camera className="w-4 h-4" strokeWidth={1.25} />
           </div>
+          {!loading && photos.length > 0 && (
+            <p
+              className="mt-4 text-[11px] sm:text-xs uppercase"
+              style={{ fontFamily: "Cinzel, serif", color: "var(--olive)", opacity: 0.65, letterSpacing: "0.22em" }}
+            >
+              {photos.length} {lang === "en" ? "photos" : "fotografias"}
+            </p>
+          )}
         </div>
 
         {loading ? (
@@ -205,14 +213,17 @@ export function PublicGallerySection() {
             return (
               <div key={album.id} className="mb-12">
                 {albums.length > 1 && (
-                  <h3
-                    className="text-center uppercase text-sm sm:text-base mb-6"
-                    style={{ fontFamily: "Cinzel, serif", color: "var(--olive)", letterSpacing: "0.2em" }}
-                  >
-                    {album.title}
-                  </h3>
+                  <div className="text-center mb-6">
+                    <h3
+                      className="uppercase text-sm sm:text-base"
+                      style={{ fontFamily: "Cinzel, serif", color: "var(--olive)", letterSpacing: "0.2em" }}
+                    >
+                      {album.title}
+                    </h3>
+                    <span className="album-rule" />
+                  </div>
                 )}
-                <div className="gallery-grid">
+                <div className="gallery-masonry">
                   {albumPhotos.map((photo) => {
                     const globalIndex = photos.findIndex((p) => p.id === photo.id);
                     const url = urls[photo.id];
@@ -229,6 +240,7 @@ export function PublicGallerySection() {
                         ) : (
                           <div className="gallery-placeholder" />
                         )}
+                        <span className="gallery-veil" />
                       </button>
                     );
                   })}
@@ -241,7 +253,14 @@ export function PublicGallerySection() {
 
       {/* Lightbox (via Portal, fica acima de tudo) */}
       {lightbox !== null && photos[lightbox] && createPortal(
-        <div className="lightbox" onClick={closeLightbox} role="dialog" aria-modal="true">
+        <div
+          className="lightbox"
+          onClick={closeLightbox}
+          role="dialog"
+          aria-modal="true"
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+        >
           <button className="lightbox-close" onClick={closeLightbox} aria-label="Fechar">
             <X size={26} />
           </button>
@@ -252,12 +271,29 @@ export function PublicGallerySection() {
           >
             <ChevronLeft size={28} />
           </button>
-          <img
-            src={urls[photos[lightbox].id]}
-            alt={photos[lightbox].caption ?? ""}
-            className="lightbox-img"
-            onClick={(e) => e.stopPropagation()}
-          />
+          <figure className="lightbox-figure" onClick={(e) => e.stopPropagation()}>
+            <img
+              key={photos[lightbox].id}
+              src={urls[photos[lightbox].id]}
+              alt={photos[lightbox].caption ?? ""}
+              className="lightbox-img"
+            />
+            <figcaption className="lightbox-caption">
+              <span>{photos[lightbox].caption ?? ""}</span>
+              <span className="lightbox-meta">
+                <a
+                  href={urls[photos[lightbox].id]}
+                  download
+                  className="lightbox-download"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Download size={14} />
+                  {lang === "en" ? "Download" : "Descarregar"}
+                </a>
+                <span className="lightbox-count">{lightbox + 1} / {photos.length}</span>
+              </span>
+            </figcaption>
+          </figure>
           <button
             className="lightbox-nav lightbox-next"
             onClick={(e) => { e.stopPropagation(); next(); }}
@@ -270,55 +306,142 @@ export function PublicGallerySection() {
       )}
 
       <style>{`
-        .gallery-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 8px;
+        #galeria { scroll-margin-top: 84px; }
+        .album-rule {
+          display: block;
+          width: 52px;
+          height: 1px;
+          margin: 10px auto 0;
+          background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        .gallery-masonry {
+          column-count: 2;
+          column-gap: 10px;
         }
         @media (min-width: 640px) {
-          .gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+          .gallery-masonry { column-count: 3; column-gap: 14px; }
         }
         @media (min-width: 1024px) {
-          .gallery-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; }
+          .gallery-masonry { column-count: 4; column-gap: 16px; }
         }
         .gallery-item {
           position: relative;
-          aspect-ratio: 1 / 1;
+          display: block;
+          width: 100%;
+          break-inside: avoid;
+          margin-bottom: 10px;
           overflow: hidden;
-          border-radius: 8px;
-          border: 1px solid color-mix(in oklab, var(--gold) 30%, transparent);
+          border-radius: 10px;
+          border: 1px solid color-mix(in oklab, var(--gold) 35%, transparent);
           cursor: pointer;
           background: var(--ivory);
+          box-shadow: 0 6px 18px -12px rgba(78, 62, 34, 0.55);
+          transition: box-shadow 0.35s ease, transform 0.35s ease, border-color 0.35s ease;
+        }
+        @media (min-width: 640px) {
+          .gallery-item { margin-bottom: 14px; }
+        }
+        @media (min-width: 1024px) {
+          .gallery-item { margin-bottom: 16px; }
         }
         .gallery-item img {
+          display: block;
           width: 100%;
-          height: 100%;
-          object-fit: cover;
-          transition: transform 0.4s ease;
+          height: auto;
+          transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .gallery-item:hover img { transform: scale(1.06); }
+        .gallery-veil {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to top, rgba(50, 40, 22, 0.28), transparent 45%);
+          opacity: 0;
+          transition: opacity 0.35s ease;
+          pointer-events: none;
+        }
+        .gallery-item:hover {
+          box-shadow: 0 16px 34px -18px rgba(78, 62, 34, 0.75);
+          border-color: color-mix(in oklab, var(--gold) 70%, transparent);
+          transform: translateY(-2px);
+        }
+        .gallery-item:hover img { transform: scale(1.05); }
+        .gallery-item:hover .gallery-veil { opacity: 1; }
         .gallery-placeholder {
-          width: 100%; height: 100%;
+          width: 100%;
+          aspect-ratio: 3 / 4;
           background: color-mix(in oklab, var(--gold) 8%, var(--ivory));
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .gallery-item, .gallery-item img { transition: none; }
+          .gallery-item:hover { transform: none; }
+          .gallery-item:hover img { transform: none; }
         }
         .lightbox {
           position: fixed;
           inset: 0;
           z-index: 9999;
-          background: rgba(20, 16, 10, 0.94);
+          background: rgba(20, 16, 10, 0.95);
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 16px;
-          backdrop-filter: blur(6px);
-          -webkit-backdrop-filter: blur(6px);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          animation: lightboxIn 0.22s ease-out;
+        }
+        @keyframes lightboxIn { from { opacity: 0; } to { opacity: 1; } }
+        .lightbox-figure {
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+          max-width: 94vw;
         }
         .lightbox-img {
           max-width: 94vw;
-          max-height: 86vh;
+          max-height: 80vh;
           object-fit: contain;
           border-radius: 8px;
           box-shadow: 0 8px 50px rgba(0,0,0,0.6);
+          animation: imgIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        @keyframes imgIn { from { opacity: 0; transform: scale(0.985); } to { opacity: 1; transform: none; } }
+        .lightbox-caption {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+          width: 100%;
+          color: #F3EADA;
+          font-family: Georgia, serif;
+          font-size: 13px;
+          font-style: italic;
+        }
+        .lightbox-meta {
+          display: inline-flex;
+          align-items: center;
+          gap: 14px;
+          flex-shrink: 0;
+        }
+        .lightbox-download {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-family: Cinzel, serif;
+          font-style: normal;
+          font-size: 11px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: var(--gold);
+          opacity: 0.9;
+        }
+        .lightbox-download:hover { opacity: 1; }
+        .lightbox-count {
+          font-family: Cinzel, serif;
+          font-style: normal;
+          font-size: 11px;
+          letter-spacing: 0.16em;
+          opacity: 0.65;
         }
         .lightbox-close {
           position: absolute;
@@ -354,6 +477,10 @@ export function PublicGallerySection() {
         .lightbox-nav:hover { background: rgba(0, 0, 0, 0.65); }
         .lightbox-prev { left: 12px; }
         .lightbox-next { right: 12px; }
+        @media (max-width: 640px) {
+          .lightbox-nav { display: none; }
+          .lightbox-caption { font-size: 12px; }
+        }
       `}</style>
     </section>
   );
