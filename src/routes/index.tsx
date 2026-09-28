@@ -287,10 +287,11 @@ function Index() {
                   </a>
                 )}
 
+                {/* Antes do casamento aponta para o álbum partilhado; depois,
+                    leva à galeria oficial que está na própria página. */}
                 <a
-                  href={ALBUM_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={depois ? "#galeria" : ALBUM_URL}
+                  {...(depois ? {} : { target: "_blank", rel: "noopener noreferrer" })}
                   className="btn btn-secondary hero-text-anim-3"
                 >
                   <Camera size={16} strokeWidth={1.5} />
@@ -305,6 +306,14 @@ function Index() {
 
           {/* O divisor que separa daqui para a História já existe mais abaixo. */}
           {depois && <ThankYouSection />}
+
+          {/* Depois do casamento, as fotografias oficiais são o primeiro
+              destaque de quem abre o site. */}
+          {depois && (
+            <Reveal>
+              <PublicGallerySection />
+            </Reveal>
+          )}
 
           {/* EVENT — como lá chegar, estacionamento e programa: só faz sentido
               antes. Depois do dia, sai da página. */}
@@ -544,10 +553,13 @@ function Index() {
             <MemoriesSection />
           </Reveal>
 
-          {/* GALERIA PÚBLICA (álbuns publicados) */}
-          <Reveal>
-            <PublicGallerySection />
-          </Reveal>
+          {/* GALERIA PÚBLICA (álbuns publicados) — depois do casamento sobe
+              para o topo da página, logo a seguir ao agradecimento. */}
+          {!depois && (
+            <Reveal>
+              <PublicGallerySection />
+            </Reveal>
+          )}
 
           <DecorativeDivider />
 
