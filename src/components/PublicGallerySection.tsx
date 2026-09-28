@@ -155,9 +155,13 @@ export function PublicGallerySection() {
               {lang === "en" ? "coming soon" : "em breve"}
             </p>
             <p className="mt-2 text-xs sm:text-sm" style={{ color: "var(--olive)", opacity: 0.8 }}>
-              {lang === "en"
-                ? "After the wedding, our favourite photos will be here."
-                : "Depois do casamento, as nossas fotografias preferidas ficam aqui."}
+              {casamentoJaFoi()
+                ? lang === "en"
+                  ? "We are choosing our favourite photos of the day. They will be here very soon."
+                  : "Estamos a escolher as nossas fotografias preferidas do dia. Ficam aqui muito em breve."
+                : lang === "en"
+                  ? "After the wedding, our favourite photos will be here."
+                  : "Depois do casamento, as nossas fotografias preferidas ficam aqui."}
             </p>
           </div>
         </div>
