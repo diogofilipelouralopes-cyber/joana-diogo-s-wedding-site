@@ -544,10 +544,13 @@ function Index() {
             <MemoriesSection />
           </Reveal>
 
-          {/* GALERIA PÚBLICA (álbuns publicados) */}
-          <Reveal>
-            <PublicGallerySection />
-          </Reveal>
+          {/* GALERIA PÚBLICA (álbuns publicados) — depois do casamento sobe
+              para o topo da página, logo a seguir ao agradecimento. */}
+          {!depois && (
+            <Reveal>
+              <PublicGallerySection />
+            </Reveal>
+          )}
 
           <DecorativeDivider />
 
