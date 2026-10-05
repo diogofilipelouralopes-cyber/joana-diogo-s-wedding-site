@@ -823,6 +823,42 @@ export type Database = {
         }
         Relationships: []
       }
+      votos_discursos: {
+        Row: {
+          autor: string
+          categoria: string
+          created_at: string
+          id: string
+          ordem: number
+          papel: string | null
+          publicado: boolean
+          texto: string
+          updated_at: string
+        }
+        Insert: {
+          autor?: string
+          categoria?: string
+          created_at?: string
+          id?: string
+          ordem?: number
+          papel?: string | null
+          publicado?: boolean
+          texto?: string
+          updated_at?: string
+        }
+        Update: {
+          autor?: string
+          categoria?: string
+          created_at?: string
+          id?: string
+          ordem?: number
+          papel?: string | null
+          publicado?: boolean
+          texto?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       wedding_albums: {
         Row: {
           cover_photo_id: string | null

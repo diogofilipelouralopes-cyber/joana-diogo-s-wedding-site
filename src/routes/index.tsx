@@ -8,6 +8,7 @@ import { StorySection } from "@/components/StorySection";
 import { GiftsSection } from "@/components/GiftsSection";
 import { MemoriesSection, ALBUM_URL } from "@/components/MemoriesSection";
 import { PublicGallerySection } from "@/components/PublicGallerySection";
+import { VotosSection } from "@/components/VotosSection";
 import { FaqSection } from "@/components/FaqSection";
 import { ThankYouSection } from "@/components/ThankYouSection";
 import { MessagesSection } from "@/components/MessagesSection";
@@ -314,6 +315,9 @@ function Index() {
               <PublicGallerySection />
             </Reveal>
           )}
+
+          {/* Votos dos noivos e discursos dos amigos — só depois do dia. */}
+          {depois && <VotosSection />}
 
           {/* EVENT — como lá chegar, estacionamento e programa: só faz sentido
               antes. Depois do dia, sai da página. */}
