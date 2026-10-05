@@ -39,15 +39,16 @@ export function AdminVotos() {
 
   const add = async (categoria: Item["categoria"]) => {
     const ordem = items.filter((i) => i.categoria === categoria).length;
-    const { error } = await supabase.from("votos_discursos").insert({
+    const { data, error } = await supabase.from("votos_discursos").insert({
       categoria,
       autor: categoria === "voto" ? "" : "",
       papel: categoria === "voto" ? null : "",
       texto: "",
       ordem,
-    });
+    }).select("id").single();
     if (error) return toast.error("Erro ao adicionar.");
-    load();
+    await load();
+    setEditingId(data.id);
   };
 
   const patch = (id: string, p: Partial<Item>) =>
