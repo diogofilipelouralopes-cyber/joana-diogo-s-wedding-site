@@ -22,6 +22,13 @@
       "when": 1788887347161,
       "tag": "0002_scope_admin_policies_to_authenticated",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791195887380,
+      "tag": "0003_create_votos_discursos",
+      "breakpoints": true
     }
   ]
 }
