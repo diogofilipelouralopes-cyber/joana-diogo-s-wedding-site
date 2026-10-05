@@ -8,7 +8,6 @@ import { StorySection } from "@/components/StorySection";
 import { GiftsSection } from "@/components/GiftsSection";
 import { MemoriesSection, ALBUM_URL } from "@/components/MemoriesSection";
 import { PublicGallerySection } from "@/components/PublicGallerySection";
-import { VotosSection } from "@/components/VotosSection";
 import { FaqSection } from "@/components/FaqSection";
 import { ThankYouSection } from "@/components/ThankYouSection";
 import { MessagesSection } from "@/components/MessagesSection";
