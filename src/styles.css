@@ -1141,22 +1141,23 @@ body.has-announcement #top {
   }
 }
 
-/* Hero: dar mais espaço no topo para não colar ao header (que agora tem 2 linhas) */
+/* Hero: o texto sobe o suficiente para libertar as cabeças do casal,
+   mas continua longe do header (que agora tem 2 linhas). */
 .hero-section {
-  padding-top: 150px;
+  padding-top: 140px;
 }
 @media (min-width: 768px) {
   .hero-section {
-    padding-top: 190px;
+    padding-top: 150px;
   }
 }
 /* Quando o ticker de avisos está ativo, empurrar ainda mais */
 body.has-announcement .hero-section {
-  padding-top: 184px;
+  padding-top: 174px;
 }
 @media (min-width: 768px) {
   body.has-announcement .hero-section {
-    padding-top: 224px;
+    padding-top: 184px;
   }
 }
 
