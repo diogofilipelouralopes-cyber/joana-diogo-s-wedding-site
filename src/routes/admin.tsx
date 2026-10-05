@@ -32,6 +32,7 @@ import {
   BedDouble,
   UtensilsCrossed,
   ListTodo,
+  Heart,
 } from "lucide-react";
 import { adminLogout } from "@/lib/admin-auth.functions";
 import { AdminMensagens } from "@/components/AdminMensagens";
@@ -138,7 +139,7 @@ function AdminPage() {
     | "mensagens"
     | "avisos"
     | "votos"
-  >("rsvps");
+  >("votos");
   const [unreadCount, setUnreadCount] = useState<number>(0);
   const [commStats, setCommStats] = useState({ emails: 0, whatsapps: 0 });
 
@@ -439,14 +440,13 @@ function AdminPage() {
       <AvisoSemRede />
       <Toaster position="top-center" />
       <header className="border-b border-border bg-card">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3 sm:py-4 flex items-center gap-3 justify-between">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-6 pb-3 flex items-start gap-3 justify-between">
           <div className="min-w-0">
-            <p className="text-[10px] sm:text-[10px] uppercase tracking-[0.3em] text-muted-foreground whitespace-nowrap">
-              <span className="sm:hidden">Painel de gestão</span>
-              <span className="hidden sm:inline">Painel</span>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+              Só para nós · 19.09.2026
             </p>
-            <h1 className="hidden sm:block font-display text-2xl text-primary leading-tight truncate">
-              {TITULOS[tab]}
+            <h1 className="font-display text-3xl sm:text-4xl text-primary leading-tight">
+              Memórias do nosso dia
             </h1>
           </div>
           <div className="flex gap-1.5 sm:gap-2 items-center shrink-0">
@@ -461,18 +461,10 @@ function AdminPage() {
             <Link
               to="/admin/galeria"
               className="inline-flex shrink-0 items-center gap-1.5 px-3 py-2.5 text-xs uppercase tracking-[0.15em] whitespace-nowrap rounded-md border border-border hover:border-primary hover:text-primary transition-colors"
-              title="Galeria privada"
+              title="Fotografias"
             >
               <ImageIcon className="w-3.5 h-3.5 shrink-0" />{" "}
-              <span className="hidden sm:inline">Galeria</span>
-            </Link>
-            <Link
-              to="/admin/emails"
-              className="inline-flex shrink-0 items-center gap-1.5 px-3 py-2.5 text-xs uppercase tracking-[0.15em] whitespace-nowrap rounded-md border border-border hover:border-primary hover:text-primary transition-colors"
-              title="Editar emails"
-            >
-              <Mail className="w-3.5 h-3.5 shrink-0" />{" "}
-              <span className="hidden sm:inline">Emails</span>
+              <span className="hidden sm:inline">Fotografias</span>
             </Link>
             <Button variant="ghost" size="sm" onClick={logout} className="shrink-0">
               <LogOut className="w-4 h-4 sm:mr-2 shrink-0" />{" "}
@@ -480,88 +472,14 @@ function AdminPage() {
             </Button>
           </div>
         </div>
-        {/* Tabs */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <select
-            className="sm:hidden w-full rounded-md border border-border bg-background px-3 py-3 text-sm mb-2"
-            value={tab}
-            onChange={(e) => setTab(e.target.value as typeof tab)}
-            aria-label="Secção do painel"
-          >
-            {Object.entries(TITULOS).map(([k, v]) => (
-              <option key={k} value={k}>
-                {v}
-              </option>
-            ))}
-          </select>
-          <div className="hidden sm:flex flex-wrap gap-x-1 gap-y-0 -mb-px">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <div className="flex gap-x-1 overflow-x-auto -mb-px">
             <TabButton
-              active={tab === "rsvps"}
-              onClick={() => setTab("rsvps")}
-              icon={<Users className="w-4 h-4" />}
-              label="RSVPs"
+              active={tab === "votos"}
+              onClick={() => setTab("votos")}
+              icon={<Heart className="w-4 h-4" />}
+              label="Votos e discursos"
             />
-            <TabButton
-              active={tab === "tarefas"}
-              onClick={() => setTab("tarefas")}
-              icon={<ListTodo className="w-4 h-4" />}
-              label="A fazer"
-            />
-            <TabButton
-              active={tab === "convidados"}
-              onClick={() => setTab("convidados")}
-              icon={<Users className="w-4 h-4" />}
-              label="Convidados"
-            />
-            <TabButton
-              active={tab === "mesas"}
-              onClick={() => setTab("mesas")}
-              icon={<Armchair className="w-4 h-4" />}
-              label="Mesas"
-            />
-            <TabButton
-              active={tab === "contas"}
-              onClick={() => setTab("contas")}
-              icon={<Wallet className="w-4 h-4" />}
-              label="Contas"
-            />
-            <TabButton
-              active={tab === "dormidas"}
-              onClick={() => setTab("dormidas")}
-              icon={<BedDouble className="w-4 h-4" />}
-              label="Dormidas"
-            />
-            <TabButton
-              active={tab === "diad"}
-              onClick={() => setTab("diad")}
-              icon={<UtensilsCrossed className="w-4 h-4" />}
-              label="Ementa e contactos"
-            />
-            <TabButton
-              active={tab === "folha"}
-              onClick={() => setTab("folha")}
-              icon={<Printer className="w-4 h-4" />}
-              label="Folha"
-            />
-            <TabButton
-              active={tab === "prendas"}
-              onClick={() => setTab("prendas")}
-              icon={<Gift className="w-4 h-4" />}
-              label="Prendas"
-            />
-            <TabButton
-              active={tab === "listas"}
-              onClick={() => setTab("listas")}
-              icon={<ClipboardList className="w-4 h-4" />}
-              label="Listas"
-            />
-            <TabButton
-              active={tab === "comunicacoes"}
-              onClick={() => setTab("comunicacoes")}
-              icon={<Mail className="w-4 h-4" />}
-              label="Comunicações"
-            />
-
             <TabButton
               active={tab === "mensagens"}
               onClick={() => setTab("mensagens")}
@@ -570,16 +488,10 @@ function AdminPage() {
               badge={unreadCount > 0 ? unreadCount : undefined}
             />
             <TabButton
-              active={tab === "avisos"}
-              onClick={() => setTab("avisos")}
-              icon={<Megaphone className="w-4 h-4" />}
-              label="Avisos"
-            />
-            <TabButton
-              active={tab === "votos"}
-              onClick={() => setTab("votos")}
-              icon={<MessageCircleHeart className="w-4 h-4" />}
-              label="Votos"
+              active={tab === "prendas"}
+              onClick={() => setTab("prendas")}
+              icon={<Gift className="w-4 h-4" />}
+              label="Prendas"
             />
           </div>
         </div>
@@ -588,30 +500,10 @@ function AdminPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
         {tab === "mensagens" ? (
           <AdminMensagens />
-        ) : tab === "avisos" ? (
-          <AdminAvisos />
-        ) : tab === "votos" ? (
-          <AdminVotos />
-        ) : tab === "tarefas" ? (
-          <AdminTarefas />
-        ) : tab === "convidados" ? (
-          <AdminListaConvidados />
-        ) : tab === "mesas" ? (
-          <AdminPlanoMesas />
-        ) : tab === "dormidas" ? (
-          <AdminDormidas />
-        ) : tab === "diad" ? (
-          <AdminDiaD />
-        ) : tab === "folha" ? (
-          <AdminFolhaQuinta />
-        ) : tab === "listas" ? (
-          <AdminListas />
-        ) : tab === "contas" ? (
-          <AdminContas />
         ) : tab === "prendas" ? (
           <AdminPrendas />
-        ) : tab === "comunicacoes" ? (
-          <AdminComunicacoes />
+        ) : tab === "votos" ? (
+          <AdminVotos />
         ) : (
           <div>
             {/* Stats */}
@@ -1047,20 +939,9 @@ function StatCard({
 }
 
 const TITULOS: Record<string, string> = {
-  rsvps: "Respostas RSVP",
-  tarefas: "A fazer",
-  convidados: "Convidados",
-  mesas: "Plano de mesas",
-  dormidas: "Dormidas",
-  diad: "Ementa e contactos",
-  folha: "Folha para a quinta",
-  listas: "Listas",
-  contas: "Contas",
-  prendas: "Prendas",
-  comunicacoes: "Comunicações",
-  mensagens: "Mensagens",
-  avisos: "Avisos",
   votos: "Votos e discursos",
+  mensagens: "Mensagens dos convidados",
+  prendas: "Prendas",
 };
 
 function TabButton({

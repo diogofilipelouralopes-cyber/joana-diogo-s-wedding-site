@@ -316,8 +316,6 @@ function Index() {
             </Reveal>
           )}
 
-          {/* Votos dos noivos e discursos dos amigos — só depois do dia. */}
-          {depois && <VotosSection />}
 
           {/* EVENT — como lá chegar, estacionamento e programa: só faz sentido
               antes. Depois do dia, sai da página. */}
