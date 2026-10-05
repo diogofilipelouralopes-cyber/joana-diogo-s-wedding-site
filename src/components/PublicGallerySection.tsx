@@ -302,9 +302,25 @@ export function PublicGallerySection() {
               <span className="lightbox-meta">
                 <a
                   href={urls[photos[lightbox].id]}
-                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="lightbox-download"
-                  onClick={(e) => e.stopPropagation()}
+                  onClick={async (e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    const url = urls[photos[lightbox].id];
+                    try {
+                      const blob = await (await fetch(url)).blob();
+                      const obj = URL.createObjectURL(blob);
+                      const a = document.createElement("a");
+                      a.href = obj;
+                      a.download = photos[lightbox].storage_path.split("/").pop() || "foto.jpg";
+                      a.click();
+                      setTimeout(() => URL.revokeObjectURL(obj), 1000);
+                    } catch {
+                      window.open(url, "_blank", "noopener");
+                    }
+                  }}
                 >
                   <Download size={14} />
                   {lang === "en" ? "Download" : "Descarregar"}
