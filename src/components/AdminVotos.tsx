@@ -3,7 +3,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
 import { Loader2, Plus, Trash2, ArrowUp, ArrowDown, Save } from "lucide-react";
 import { toast } from "sonner";
 
@@ -126,13 +125,7 @@ export function AdminVotos() {
               onChange={(e) => patch(it.id, { texto: e.target.value })}
             />
             <div className="flex flex-wrap items-center gap-2 justify-between">
-              <label className="flex items-center gap-2 text-sm">
-                <Switch
-                  checked={it.publicado}
-                  onCheckedChange={(v) => patch(it.id, { publicado: v })}
-                />
-                {it.publicado ? "Visível no site" : "Escondido"}
-              </label>
+              <span className="text-xs text-muted-foreground">Privado · só para nós</span>
               <div className="flex gap-1">
                 <Button size="icon" variant="ghost" disabled={i === 0} onClick={() => move(it, -1)} aria-label="Subir">
                   <ArrowUp className="w-4 h-4" />

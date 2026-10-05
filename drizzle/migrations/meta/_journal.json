@@ -29,6 +29,13 @@
       "when": 1791195887380,
       "tag": "0003_create_votos_discursos",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1791198498963,
+      "tag": "0004_votos_privados",
+      "breakpoints": true
     }
   ]
 }
