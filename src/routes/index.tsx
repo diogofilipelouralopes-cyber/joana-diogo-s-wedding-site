@@ -243,12 +243,11 @@ function Index() {
               </p>
 
               <p
-                className="hero-text-anim-2 hero-text-shadow italic text-[2.5rem] sm:text-6xl"
+                className="hero-script-title hero-text-anim-2 hero-text-shadow italic text-[2.5rem] sm:text-6xl"
                 style={{
                   color: "var(--gold)",
                   fontFamily: "Allura, 'Great Vibes', cursive",
                   lineHeight: 1.1,
-                  marginTop: 20,
                 }}
               >
                 {t("hero.tagline.script")}
