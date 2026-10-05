@@ -214,7 +214,7 @@ function Index() {
               <source media="(max-width: 768px)" srcSet="/hero-mobile.jpg" />
               <img
                 src="/hero-desktop.jpg"
-                alt="Joana e Diogo ao pôr do sol"
+                alt="Joana e Diogo abraçados no dia do casamento"
                 className="hero-image"
                 width={1920}
                 height={1200}
