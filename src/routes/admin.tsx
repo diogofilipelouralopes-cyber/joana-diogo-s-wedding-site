@@ -36,6 +36,7 @@ import {
 import { adminLogout } from "@/lib/admin-auth.functions";
 import { AdminMensagens } from "@/components/AdminMensagens";
 import { AdminAvisos } from "@/components/AdminAvisos";
+import { AdminVotos } from "@/components/AdminVotos";
 import { AdminListaConvidados } from "@/components/AdminListaConvidados";
 import { AdminTarefas } from "@/components/AdminTarefas";
 import { AdminListas } from "@/components/AdminListas";
@@ -136,6 +137,7 @@ function AdminPage() {
     | "comunicacoes"
     | "mensagens"
     | "avisos"
+    | "votos"
   >("rsvps");
   const [unreadCount, setUnreadCount] = useState<number>(0);
   const [commStats, setCommStats] = useState({ emails: 0, whatsapps: 0 });
@@ -573,6 +575,12 @@ function AdminPage() {
               icon={<Megaphone className="w-4 h-4" />}
               label="Avisos"
             />
+            <TabButton
+              active={tab === "votos"}
+              onClick={() => setTab("votos")}
+              icon={<MessageCircleHeart className="w-4 h-4" />}
+              label="Votos"
+            />
           </div>
         </div>
       </header>
@@ -582,6 +590,8 @@ function AdminPage() {
           <AdminMensagens />
         ) : tab === "avisos" ? (
           <AdminAvisos />
+        ) : tab === "votos" ? (
+          <AdminVotos />
         ) : tab === "tarefas" ? (
           <AdminTarefas />
         ) : tab === "convidados" ? (
@@ -1050,6 +1060,7 @@ const TITULOS: Record<string, string> = {
   comunicacoes: "Comunicações",
   mensagens: "Mensagens",
   avisos: "Avisos",
+  votos: "Votos e discursos",
 };
 
 function TabButton({
